@@ -86,7 +86,7 @@
             class="nav-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wide transition-all bg-yellow-500/80 hover:bg-yellow-400 text-white">
             <i class="fa-solid fa-people-group"></i> Dirigentes
         </a>
-        <a href="login.html"
+        <a href="#" onclick="cerrarSesion()"
             class="nav-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wide transition-all bg-white/10 hover:bg-white/20 text-white">
             <i class="fa-solid fa-right-from-bracket"></i> Salir
         </a>
@@ -735,6 +735,27 @@
 // Conecta con Supabase | Estatutos PRM Arts. 89,96,117,154,155
 // ============================================================
 
+// ── VERIFICAR SESIÓN: Si no hay sesión, redirigir al login ──
+(function() {
+    const sesionRaw = localStorage.getItem('prm_sesion');
+    if (!sesionRaw) {
+        window.location.href = 'login.html';
+        return;
+    }
+    try {
+        const sesion = JSON.parse(sesionRaw);
+        if (!sesion.expires || sesion.expires < Date.now()) {
+            localStorage.removeItem('prm_sesion');
+            window.location.href = 'login.html';
+            return;
+        }
+    } catch(e) {
+        localStorage.removeItem('prm_sesion');
+        window.location.href = 'login.html';
+        return;
+    }
+})();
+
 // ─────────────────────────────────────────────
 // CONFIGURACIÓN SUPABASE
 // Reemplaza estos valores con los tuyos de:
@@ -925,6 +946,13 @@ window.abrirRegistroVotante   = abrirRegistroVotante;
 window.autoValidarCargo       = autoValidarCargo;
 window.validarCargo           = validarCargo;
 window.renderReportes         = renderReportes;
+window.cerrarSesion           = cerrarSesion;
+
+function cerrarSesion() {
+    if (!confirm('¿Cerrar sesión?')) return;
+    localStorage.removeItem('prm_sesion');
+    window.location.href = 'login.html';
+}
 
 function tabZona(tabId) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));

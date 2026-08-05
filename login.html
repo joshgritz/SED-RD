@@ -420,10 +420,9 @@ body {
 
   <!-- Footer -->
   <div class="footer">
-    Sistema Electoral PRM · Provincia Valverde · 2025<br>
+    Sistema Electoral PRM · Provincia Valverde · 2026<br>
     <a href="index.html">Sistema Principal</a> ·
-    <a href="dirigentes.html">Portal Dirigentes</a> ·
-    <a href="home.html">Inicio</a>
+    <a href="home.html">Portal Dirigentes</a>
   </div>
 
 <div id="toast" class="toast"></div>
@@ -509,39 +508,45 @@ async function buscarCedula() {
   let nombre = null, foto = null, esDirigente = false, rolSistema = null;
 
   if (sb) {
-    // 1. Buscar en padrón
-    const { data: pad } = await sb.from('padron_maestro')
-      .select('nombre_completo, foto_base64')
-      .eq('cedula', cedFmt).maybeSingle();
+    try {
+      // 1. Buscar en padrón
+      const { data: pad, error: errPad } = await sb.from('padron_maestro')
+        .select('nombre_completo, foto_base64')
+        .eq('cedula', cedFmt).maybeSingle();
 
-    if (pad) {
-      nombre = pad.nombre_completo;
-      foto   = pad.foto_base64;
-      estado.enPadron = true;
-    }
+      if (pad) {
+        nombre = pad.nombre_completo;
+        foto   = pad.foto_base64;
+        estado.enPadron = true;
+      }
 
-    // 2. Buscar si ya es dirigente
-    const { data: dir } = await sb.from('dirigentes')
-      .select('nombre, zona, municipio')
-      .eq('cedula', cedFmt).eq('activo', true).maybeSingle();
+      // 2. Buscar si ya es dirigente
+      const { data: dir } = await sb.from('dirigentes')
+        .select('nombre, zona, municipio')
+        .eq('cedula', cedFmt).eq('activo', true).maybeSingle();
 
-    if (dir) {
-      esDirigente    = true;
-      nombre         = nombre || dir.nombre;
-      estado.zona    = dir.zona;
-      estado.municipio = dir.municipio;
-    }
+      if (dir) {
+        esDirigente    = true;
+        nombre         = nombre || dir.nombre;
+        estado.zona    = dir.zona;
+        estado.municipio = dir.municipio;
+      }
 
-    // 3. Buscar rol en el sistema
-    const { data: usr } = await sb.from('usuarios_sistema')
-      .select('rol, zona, municipio, pin_cambiado')
-      .eq('cedula', cedFmt).eq('activo', true).maybeSingle();
+      // 3. Buscar rol en el sistema
+      const { data: usr } = await sb.from('usuarios_sistema')
+        .select('rol, zona, municipio, pin_cambiado')
+        .eq('cedula', cedFmt).eq('activo', true).maybeSingle();
 
-    if (usr) {
-      rolSistema        = usr.rol;
-      estado.zona       = usr.zona;
-      estado.municipio  = usr.municipio;
-      estado.pinInicial = !usr.pin_cambiado;
+      if (usr) {
+        rolSistema        = usr.rol;
+        estado.zona       = usr.zona;
+        estado.municipio  = usr.municipio;
+        estado.pinInicial = !usr.pin_cambiado;
+      }
+    } catch(e) {
+      console.error('Error consultando Supabase:', e);
+      // Si hay error de conexión, permitir entrada en modo demo
+      estado.enPadron = false;
     }
   }
 
@@ -624,27 +629,30 @@ function mostrarOpciones() {
       titulo: 'Mi Comité de Base',
       sub: 'Gestionar mi comité · ' + (estado.zona || ''),
       accion: 'dirigente',
-      destino: 'dirigentes.html'
+      destino: 'index.html'
     });
   }
 
-  // Si no es dirigente y está en el padrón → registrarse
-  if (!estado.esDirigente && estado.enPadron) {
+  // Si no es dirigente pero tiene sesión → entrar al sistema
+  if (!estado.esDirigente && !estado.rolSistema) {
     opciones.push({
-      icon: '📝',
-      titulo: 'Registrarme como Dirigente',
-      sub: 'Formar mi comité de base · Art. 89',
-      accion: 'registrar'
+      icon: '🗳️',
+      titulo: 'Entrar al Sistema Electoral',
+      sub: 'Acceso al sistema de planchas y búsqueda',
+      accion: 'entrar_sistema',
+      destino: 'index.html',
+      destacada: true
     });
   }
 
-  // Si no está en el padrón
-  if (!estado.enPadron && !estado.esDirigente) {
+  // Si no está en el padrón → opción de demo
+  if (!estado.enPadron && !estado.esDirigente && !estado.rolSistema) {
     opciones.push({
       icon: '⚠️',
       titulo: 'No estás en el padrón de Valverde',
-      sub: 'Verifica tu cédula o contacta al administrador',
-      accion: 'no_padron'
+      sub: 'Puedes entrar en modo demo o contacta al administrador',
+      accion: 'demo',
+      destino: 'index.html'
     });
   }
 
@@ -656,17 +664,17 @@ function mostrarOpciones() {
         <span class="title">${op.titulo}</span>
         <br><span class="sub">${op.sub}</span>
       </span>
-      <span class="arrow">${op.accion === 'no_padron' ? '' : '›'}</span>
+      <span class="arrow">›</span>
     </button>
   `).join('');
 }
 
 function getDestino(rol) {
-  if (rol === 'SUPER_ADMIN') return 'panel_admin.html';
+  if (rol === 'SUPER_ADMIN') return 'index.html';
   if (['PRESIDENTE_ZONAL','SECRETARIO_GENERAL','VICEPRESIDENTE','SUBSECRETARIO_GENERAL'].includes(rol))
-    return 'panel_zona.html';
-  if (rol === 'SEC_TRANSFORMACION_DIGITAL') return 'panel_digital.html';
-  return 'dirigentes.html';
+    return 'index.html';
+  if (rol === 'SEC_TRANSFORMACION_DIGITAL') return 'index.html';
+  return 'index.html';
 }
 
 function getRolIcon(rol) {
@@ -688,8 +696,25 @@ function seleccionarOpcion(accion, destino) {
   estado.accionPendiente = accion;
   estado.destinoPendiente = destino;
 
+  // Acciones que no requieren PIN
   if (accion === 'registrar') {
     irStep('step-registro');
+    return;
+  }
+
+  if (accion === 'entrar_sistema' || accion === 'demo' || accion === 'dirigente') {
+    // Guardar sesión y entrar directo
+    guardarSesion({
+      cedula: estado.cedFmt,
+      nombre: estado.nombre,
+      zona: estado.zona || 'Zona D - Mao',
+      municipio: estado.municipio || 'Mao',
+      rol: estado.rolSistema || 'DIRIGENTE_BASE',
+      token: 'direct-' + Date.now(),
+      opciones: {}
+    });
+    toast('Entrando al sistema...', 'info');
+    setTimeout(() => { window.location.href = destino || 'index.html'; }, 800);
     return;
   }
 
@@ -742,6 +767,15 @@ async function verificarPin() {
   }
 
   // Sin Supabase — redirigir directo (demo)
+  guardarSesion({
+    cedula: estado.cedFmt,
+    nombre: estado.nombre,
+    zona: estado.zona,
+    municipio: estado.municipio,
+    rol: estado.rolSistema || 'DIRIGENTE_BASE',
+    token: 'demo-' + Date.now(),
+    opciones: {}
+  });
   redirigir({ rol: estado.rolSistema || 'DIRIGENTE_BASE', destino: estado.destinoPendiente });
 }
 
@@ -970,11 +1004,7 @@ async function confirmarRecuperacion() {
 }
 
 function getDestinoRol(rol) {
-  if (!rol) return 'dirigentes.html';
-  if (rol === 'SUPER_ADMIN') return 'panel_admin.html';
-  if (['PRESIDENTE_ZONAL','SECRETARIO_GENERAL','VICEPRESIDENTE'].includes(rol)) return 'panel_zona.html';
-  if (rol === 'SEC_TRANSFORMACION_DIGITAL') return 'panel_digital.html';
-  return 'dirigentes.html';
+  return 'index.html';
 }
 
 // Exponer globalmente
