@@ -640,7 +640,7 @@ function mostrarOpciones() {
       titulo: 'Entrar al Sistema Electoral',
       sub: 'Acceso al sistema de planchas y búsqueda',
       accion: 'entrar_sistema',
-      destino: 'index.html',
+      destino: 'dirigentes.html',
       destacada: true
     });
   }
@@ -652,7 +652,7 @@ function mostrarOpciones() {
       titulo: 'No estás en el padrón de Valverde',
       sub: 'Puedes entrar en modo demo o contacta al administrador',
       accion: 'demo',
-      destino: 'index.html'
+      destino: 'dirigentes.html'
     });
   }
 
@@ -670,11 +670,7 @@ function mostrarOpciones() {
 }
 
 function getDestino(rol) {
-  if (rol === 'SUPER_ADMIN') return 'index.html';
-  if (['PRESIDENTE_ZONAL','SECRETARIO_GENERAL','VICEPRESIDENTE','SUBSECRETARIO_GENERAL'].includes(rol))
-    return 'index.html';
-  if (rol === 'SEC_TRANSFORMACION_DIGITAL') return 'index.html';
-  return 'index.html';
+  return 'dirigentes.html';
 }
 
 function getRolIcon(rol) {
@@ -714,7 +710,7 @@ function seleccionarOpcion(accion, destino) {
       opciones: {}
     });
     toast('Entrando al sistema...', 'info');
-    setTimeout(() => { window.location.href = destino || 'index.html'; }, 800);
+    setTimeout(() => { window.location.href = destino || 'dirigentes.html'; }, 800);
     return;
   }
 
@@ -1004,7 +1000,7 @@ async function confirmarRecuperacion() {
 }
 
 function getDestinoRol(rol) {
-  return 'index.html';
+  return 'dirigentes.html';
 }
 
 // Exponer globalmente
