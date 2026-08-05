@@ -647,13 +647,13 @@
         <div class="bg-white rounded-3xl p-9 border-2 border-slate-100 flex flex-col justify-center items-center text-center">
             <p class="text-[9px] font-black text-blue-600 uppercase mb-3 tracking-widest">Progreso Estructura Zonal</p>
             <div class="flex items-baseline gap-2 mb-4">
-                <span class="font-display font-black text-6xl text-slate-900">0%</span>
-                <span class="text-slate-400 font-bold uppercase text-xs">Completado</span>
+                <span id="progreso-estructura" class="font-display font-black text-6xl text-slate-900">0</span>
+                <span class="text-slate-400 font-bold uppercase text-xs">Planchas</span>
             </div>
             <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
-                <div class="bg-blue-600 h-full w-0 rounded-full transition-all duration-700"></div>
+                <div id="barra-progreso-estructura" class="bg-blue-600 h-full rounded-full transition-all duration-700" style="width: 0%"></div>
             </div>
-            <p class="text-[9px] text-slate-400 font-bold mt-3">Registra planchas para ver el progreso</p>
+            <p class="text-[9px] text-slate-400 font-bold mt-3" id="texto-progreso">Registra planchas para ver el progreso</p>
         </div>
     </div>
 </div>
@@ -1462,7 +1462,11 @@ function renderTablaPlanchas() {
     const planchas = estado.planchas;
 
     if (planchas.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-400 text-sm">No hay planchas registradas aún.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-400 text-sm">
+            <i class="fa-solid fa-folder-open text-3xl mb-3 block text-slate-200"></i>
+            <p class="font-bold">No hay planchas registradas aún.</p>
+            <p class="text-xs mt-1 text-slate-300">Crea una nueva plancha en el módulo "Planchas"</p>
+        </td></tr>`;
         return;
     }
 
@@ -1476,30 +1480,40 @@ function renderTablaPlanchas() {
             PROCLAMADA:  'bg-blue-100 text-blue-700',
         }[p.estatus] || 'bg-slate-100 text-slate-600';
 
+        const total = p.total_miembros || 0;
+        const mujeres = p.total_mujeres || 0;
+        const hombres = p.total_hombres || 0;
+        const jovenes = p.total_jovenes || 0;
+
         return `<tr class="hover:bg-blue-50/30 transition-colors border-b border-slate-100">
             <td class="p-4">
                 <div class="font-black text-slate-800 text-sm uppercase">${p.nombre_plancha || 'Sin nombre'}</div>
                 <div class="text-[9px] text-blue-600 font-bold font-mono">${p.codigo || p.id}</div>
-                <div class="text-[9px] text-slate-400">${p.zona || p.zona_nombre || '—'}</div>
+                <div class="text-[9px] text-slate-400 mt-0.5">${p.zona_nombre || p.zona || '—'} · ${p.municipio || 'Mao'}</div>
             </td>
             <td class="p-4">
                 <span class="px-3 py-1 rounded-full text-[9px] font-black uppercase ${estatusBadge}">${p.estatus}</span>
+                <div class="text-[8px] text-slate-400 mt-1">${p.creado_en ? new Date(p.creado_en).toLocaleDateString('es-DO') : '—'}</div>
             </td>
             <td class="p-4">
-                <div class="text-sm font-black text-slate-800">${p.total_miembros || Object.keys(p.miembros||{}).length}</div>
-                <div class="text-[9px] text-slate-400">${p.total_mujeres || 0}M / ${p.total_hombres || 0}H · ${p.total_jovenes || 0} jóvenes</div>
+                <div class="text-sm font-black text-slate-800">${total}</div>
+                <div class="text-[9px] text-slate-400">${mujeres}M / ${hombres}H · ${jovenes} jóvenes</div>
+                <div class="flex gap-1 mt-1">
+                    <span class="text-[8px] px-1.5 py-0.5 rounded bg-pink-100 text-pink-600 font-bold">${total > 0 ? Math.round(mujeres/total*100) : 0}% ♀</span>
+                    <span class="text-[8px] px-1.5 py-0.5 rounded bg-yellow-100 text-yellow-600 font-bold">${total > 0 ? Math.round(jovenes/total*100) : 0}% 🧑</span>
+                </div>
             </td>
             <td class="p-4">
                 ${estatutosOK
-                    ? '<span class="text-green-600 font-black text-[10px]"><i class="fa-solid fa-check mr-1"></i>CUMPLE</span>'
-                    : '<span class="text-red-500 font-black text-[10px]"><i class="fa-solid fa-xmark mr-1"></i>INCUMPLE</span>'}
+                    ? '<span class="text-green-600 font-black text-[10px]"><i class="fa-solid fa-check-circle mr-1"></i>CUMPLE</span>'
+                    : '<span class="text-red-500 font-black text-[10px]"><i class="fa-solid fa-xmark-circle mr-1"></i>INCUMPLE</span>'}
             </td>
             <td class="p-4">
                 <div class="flex gap-1 justify-center">
-                    <button onclick="editarPlancha('${p.id}')" class="w-9 h-9 flex items-center justify-center text-blue-600 hover:bg-blue-100 rounded-xl transition-all" title="Editar">
+                    <button onclick="editarPlancha('${p.id}')" class="w-9 h-9 flex items-center justify-center text-blue-600 hover:bg-blue-100 rounded-xl transition-all" title="Editar plancha">
                         <i class="fa-solid fa-pen-to-square text-sm"></i>
                     </button>
-                    <button onclick="eliminarPlancha('${p.id}')" class="w-9 h-9 flex items-center justify-center text-red-500 hover:bg-red-100 rounded-xl transition-all" title="Eliminar">
+                    <button onclick="eliminarPlancha('${p.id}')" class="w-9 h-9 flex items-center justify-center text-red-500 hover:bg-red-100 rounded-xl transition-all" title="Eliminar plancha">
                         <i class="fa-solid fa-trash-can text-sm"></i>
                     </button>
                 </div>
@@ -1508,26 +1522,68 @@ function renderTablaPlanchas() {
     }).join('');
 }
 
-function editarPlancha(id) {
+async function editarPlancha(id) {
     const plancha = estado.planchas.find(p => p.id === id);
-    if (plancha) {
-        estado.planchaActiva = {
-            id: plancha.id,
-            codigo: plancha.codigo,
-            nombre_plancha: plancha.nombre_plancha,
-            miembros: plancha.miembros || {},
-        };
+    if (!plancha) {
+        mostrarAlerta('Plancha no encontrada', 'error');
+        return;
+    }
+
+    let miembros = {};
+
+    // Si hay Supabase, cargar miembros desde la tabla plancha_miembros
+    if (supabaseClient) {
+        try {
+            const { data: miembrosData, error } = await supabaseClient
+                .from('plancha_miembros')
+                .select('*')
+                .eq('plancha_id', id);
+            if (!error && miembrosData) {
+                miembrosData.forEach(m => {
+                    miembros[m.cargo_id] = {
+                        cedula: m.cedula_titular,
+                        cedula_limpia: (m.cedula_titular || '').replace(/\D/g, ''),
+                        nombre: m.nombre_titular,
+                        sexo: m.sexo_titular,
+                        edad: m.edad_titular,
+                        foto: null,
+                        foto_b64: null,
+                        validado: m.validado,
+                    };
+                });
+            }
+        } catch(e) {
+            console.error('Error cargando miembros:', e);
+        }
+    } else {
+        miembros = plancha.miembros || {};
+    }
+
+    estado.planchaActiva = {
+        id: plancha.id,
+        codigo: plancha.codigo,
+        nombre_plancha: plancha.nombre_plancha,
+        zona_id: plancha.zona_id,
+        zona_nombre: plancha.zona_nombre || plancha.zona,
+        miembros: miembros,
+    };
+
+    mostrarModulo('organismos');
+    setTimeout(() => {
         tabZona('inscripcion');
         renderFormularioPlancha();
-        mostrarAlerta('Plancha cargada para edición.', 'info');
-    }
+        mostrarAlerta(`Plancha "${plancha.nombre_plancha || plancha.codigo}" cargada para edición.`, 'info');
+    }, 100);
 }
 
 function abrirInscripcionPlancha() {
     // Limpiar plancha activa y abrir en el tab de inscripcion
     estado.planchaActiva = { id: null, codigo: null, nombre_plancha: '', miembros: {} };
-    tabZona('inscripcion');
-    renderFormularioPlancha();
+    mostrarModulo('organismos');
+    setTimeout(() => {
+        tabZona('inscripcion');
+        renderFormularioPlancha();
+    }, 100);
 }
 
 function abrirRegistroVotante() {
@@ -1703,49 +1759,92 @@ async function guardarPlancha() {
     if (miembros.length === 0) { mostrarAlerta('Debes registrar al menos un miembro.', 'error'); return; }
     estado.guardandoPlancha = true;
     const btn = document.getElementById('btn-guardar-plancha');
-    if (btn) { btn.disabled = true; btn.textContent = 'Guardando...'; }
+    const btnMobile = document.getElementById('btn-guardar-plancha-mobile');
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Guardando...'; }
+    if (btnMobile) { btnMobile.disabled = true; btnMobile.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Guardando...'; }
+
     const total = miembros.length;
     const mujeres = miembros.filter(m => m.sexo === 'F').length;
-    const jovenes = miembros.filter(m => m.edad && m.edad <= 35).length;
+    const jovenes = miembros.filter(m => m.edad && m.edad >= 18 && m.edad <= 35).length;
     const pctM = total > 0 ? (mujeres/total*100) : 0;
     const pctJ = total > 0 ? (jovenes/total*100) : 0;
-    const data = {
+
+    const zonaId = estado.usuario.zona_id || 4;
+    const municipioId = estado.usuario.municipio_id || 1;
+    const codigo = `VAL-MAO-Z${zonaId}-${new Date().getFullYear()}-${String(Date.now()).slice(-4)}`;
+
+    const planchaData = {
+        codigo,
         nombre_plancha: estado.planchaActiva.nombre_plancha || 'Plancha ' + estado.usuario.zona_nombre,
+        nivel: 'ZONA',
+        zona_id: zonaId,
+        municipio_id: municipioId,
+        provincia_id: 1,
         zona_nombre: estado.usuario.zona_nombre,
         municipio: estado.usuario.municipio_nombre || 'MAO',
         estatus: 'BORRADOR',
-        total_miembros: total, total_mujeres: mujeres, total_hombres: total-mujeres, total_jovenes: jovenes,
-        pct_mujeres: pctM.toFixed(2), pct_hombres: (100-pctM).toFixed(2), pct_jovenes: pctJ.toFixed(2),
-        cuota_genero_ok: pctM >= 40 && pctM <= 60, cuota_juventud_ok: pctJ >= 10,
-        miembros: estado.planchaActiva.miembros, actualizado_en: new Date().toISOString()
+        total_miembros: total,
+        total_mujeres: mujeres,
+        total_hombres: total - mujeres,
+        total_jovenes: jovenes,
+        porcentaje_mujeres: pctM,
+        porcentaje_jovenes: pctJ,
+        cuota_genero_ok: pctM >= 40 && pctM <= 60,
+        cuota_juventud_ok: pctJ >= 10,
+        miembros: estado.planchaActiva.miembros,
+        actualizado_en: new Date().toISOString(),
     };
+
     try {
+        let planchaId = estado.planchaActiva.id;
+
         if (supabaseClient) {
             let res;
-            if (estado.planchaActiva.id) {
-                res = await supabaseClient.from('planchas').update(data).eq('id', estado.planchaActiva.id).select().single();
+            if (planchaId) {
+                res = await supabaseClient.from('planchas').update(planchaData).eq('id', planchaId).select().single();
             } else {
-                res = await supabaseClient.from('planchas').insert(data).select().single();
+                res = await supabaseClient.from('planchas').insert(planchaData).select().single();
             }
             if (res.error) throw res.error;
-            estado.planchaActiva.id = res.data.id;
-            mostrarAlerta('✅ Plancha guardada', 'exito');
+            planchaId = res.data.id;
+            estado.planchaActiva.id = planchaId;
+
+            // Guardar miembros en plancha_miembros
+            for (const [cargoId, miembro] of Object.entries(estado.planchaActiva.miembros)) {
+                if (!miembro.validado) continue;
+                await supabaseClient.from('plancha_miembros').upsert({
+                    plancha_id: planchaId,
+                    cargo_id: parseInt(cargoId),
+                    cedula_titular: miembro.cedula,
+                    nombre_titular: miembro.nombre,
+                    sexo_titular: miembro.sexo,
+                    edad_titular: miembro.edad,
+                    validado: true,
+                    posicion: parseInt(cargoId),
+                }, { onConflict: 'plancha_id,cargo_id' });
+            }
+
+            mostrarAlerta(`Plancha "${planchaData.nombre_plancha}" guardada correctamente`, 'exito');
         } else {
-            const id = estado.planchaActiva.id || 'PL-'+Date.now();
-            const saved = JSON.parse(localStorage.getItem('prm_planchas')||'[]');
-            const idx = saved.findIndex(p => p.id === id);
-            const entry = {...data, id};
+            if (!planchaId) planchaId = 'PL-' + Date.now();
+            const saved = JSON.parse(localStorage.getItem('prm_planchas') || '[]');
+            const idx = saved.findIndex(p => p.id === planchaId);
+            const entry = { ...planchaData, id: planchaId };
             if (idx > -1) saved[idx] = entry; else saved.push(entry);
             localStorage.setItem('prm_planchas', JSON.stringify(saved));
-            estado.planchaActiva.id = id;
+            estado.planchaActiva.id = planchaId;
             mostrarAlerta('Plancha guardada localmente', 'info');
         }
+
         await cargarListaPlanchas();
+        renderTablaPlanchas();
     } catch(e) {
-        mostrarAlerta('Error al guardar: ' + e.message, 'error');
+        console.error('Error guardando plancha:', e);
+        mostrarAlerta('Error al guardar: ' + (e.message || e), 'error');
     } finally {
         estado.guardandoPlancha = false;
-        if (btn) { btn.disabled = false; btn.textContent = 'Guardar Plancha'; }
+        if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-save mr-1"></i> Registrar Plancha'; }
+        if (btnMobile) { btnMobile.disabled = false; btnMobile.innerHTML = '<i class="fa-solid fa-save mr-2"></i> Guardar Plancha'; }
     }
 }
 
@@ -1754,25 +1853,49 @@ async function cargarListaPlanchas() {
     try {
         if (supabaseClient) {
             const { data } = await supabaseClient.from('planchas').select('*').order('actualizado_en', {ascending:false});
-            if (data) { estado.planchas = data; return; }
+            if (data) { estado.planchas = data; actualizarProgresoEstructura(); return; }
         }
         estado.planchas = JSON.parse(localStorage.getItem('prm_planchas')||'[]');
+        actualizarProgresoEstructura();
     } catch(e) {
         estado.planchas = JSON.parse(localStorage.getItem('prm_planchas')||'[]');
+        actualizarProgresoEstructura();
     }
+}
+
+function actualizarProgresoEstructura() {
+    const total = estado.planchas.length;
+    const validadas = estado.planchas.filter(p => p.estatus === 'VALIDADA' || p.estatus === 'PROCLAMADA').length;
+    const meta = 10; // Meta: 10 planchas zonales en Mao
+
+    const el = document.getElementById('progreso-estructura');
+    const barra = document.getElementById('barra-progreso-estructura');
+    const texto = document.getElementById('texto-progreso');
+
+    if (el) el.textContent = total;
+    if (barra) barra.style.width = `${Math.min((total / meta) * 100, 100)}%`;
+    if (texto) texto.textContent = total === 0
+        ? 'Registra planchas para ver el progreso'
+        : `${total} de ${meta} zonas · ${validadas} validadas`;
 }
 
 // ── ELIMINAR PLANCHA ──────────────────────────────────
 async function eliminarPlancha(id) {
-    if (!confirm('¿Eliminar esta plancha?')) return;
-    if (supabaseClient) { await supabaseClient.from('planchas').delete().eq('id', id); }
-    else {
-        const p = JSON.parse(localStorage.getItem('prm_planchas')||'[]').filter(x => x.id !== id);
-        localStorage.setItem('prm_planchas', JSON.stringify(p));
+    if (!confirm('¿Eliminar esta plancha? Esta acción no se puede deshacer.')) return;
+    try {
+        if (supabaseClient) {
+            const { error } = await supabaseClient.from('planchas').delete().eq('id', id);
+            if (error) throw error;
+        } else {
+            const p = JSON.parse(localStorage.getItem('prm_planchas')||'[]').filter(x => x.id !== id);
+            localStorage.setItem('prm_planchas', JSON.stringify(p));
+        }
+        mostrarAlerta('Plancha eliminada correctamente', 'exito');
+        await cargarListaPlanchas();
+        renderTablaPlanchas();
+    } catch(e) {
+        mostrarAlerta('Error al eliminar: ' + e.message, 'error');
     }
-    mostrarAlerta('Plancha eliminada', 'info');
-    await cargarListaPlanchas();
-    renderTablaPlanchas();
 }
 
 // ── STATUS SUPABASE ───────────────────────────────────
@@ -1791,18 +1914,18 @@ async function actualizarStatusPadron() {
 document.addEventListener('DOMContentLoaded', () => {
     inicializarInterfaz();
     mostrarModulo('buscador');
-    setTimeout(() => tabZona('inscripcion'), 150);
     
     // Intentar conectar Supabase cada 500ms hasta lograrlo
     let intentos = 0;
-    const conectarSB = setInterval(() => {
+    const conectarSB = setInterval(async () => {
         intentos++;
         if (window.supabase && !supabaseClient) {
             inicializarSupabase();
         }
         if (supabaseClient || intentos > 20) {
             clearInterval(conectarSB);
-            actualizarStatusPadron();
+            await actualizarStatusPadron();
+            await cargarListaPlanchas();
         }
     }, 500);
 });
