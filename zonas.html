@@ -10,11 +10,14 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script>
 var _sb = null;
-if (window.supabase) {
-  _sb = window.supabase.createClient(
-    'https://ilivjaiexfqpioqrozlf.supabase.co',
-    'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
-  );
+function initSb() {
+  if (!_sb && window.supabase) {
+    _sb = window.supabase.createClient(
+      'https://ilivjaiexfqpioqrozlf.supabase.co',
+      'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
+    );
+  }
+  return _sb;
 }
 </script>
 <style>
@@ -138,10 +141,10 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
   </div>
 
   <div class="tabs">
-    <button class="tab activo" onclick="cambiarTab('comite')"><i class="fa-solid fa-sitemap"></i> Comité Zonal</button>
-    <button class="tab" onclick="cambiarTab('dirigentes')"><i class="fa-solid fa-users"></i> Dirigentes</button>
-    <button class="tab" onclick="cambiarTab('mapa')"><i class="fa-solid fa-map"></i> Mapa</button>
-    <button class="tab" onclick="cambiarTab('delegados')"><i class="fa-solid fa-check-to-slot"></i> Delegados</button>
+    <button class="tab activo" onclick="cambiarTab('comite', event)"><i class="fa-solid fa-sitemap"></i> Comité Zonal</button>
+    <button class="tab" onclick="cambiarTab('dirigentes', event)"><i class="fa-solid fa-users"></i> Dirigentes</button>
+    <button class="tab" onclick="cambiarTab('mapa', event)"><i class="fa-solid fa-map"></i> Mapa</button>
+    <button class="tab" onclick="cambiarTab('delegados', event)"><i class="fa-solid fa-check-to-slot"></i> Delegados</button>
   </div>
 
   <!-- TAB COMITÉ ZONAL -->
@@ -179,7 +182,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 <div id="toast" class="toast"></div>
 
 <script>
-let sb = _sb;
+let sb = initSb();
 if (!sb && window.supabase) {
   sb = window.supabase.createClient('https://ilivjaiexfqpioqrozlf.supabase.co','sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW');
 }
@@ -256,17 +259,21 @@ window.addEventListener('DOMContentLoaded', async () => {
   sesion = getSesion();
   if (!sesion) return;
   document.getElementById('zona-sub').textContent = (sesion.nombre || 'PRM') + ' · Valverde 2026';
+  console.log('Sesión:', sesion.rol, sesion.nombre, sesion.municipio, sesion.zona);
+  console.log('SB disponible:', !!sb);
   await cargarConteos();
+  console.log('Conteos cargados');
   renderMunicipios();
 });
 
 // ═══════════ CARGAR CONTEOS DE DIRIGENTES ═══════════
 async function cargarConteos() {
-  if (!sb) return;
+  if (!sb) { console.error('Supabase client no disponible'); return; }
   try {
-    const { data } = await sb.from('dirigentes')
+    const { data, error } = await sb.from('dirigentes')
       .select('zona, municipio').eq('activo', true);
-    if (!data) return;
+    if (error) { console.error('Error query dirigentes:', error); return; }
+    if (!data) { console.warn('Sin datos de dirigentes'); return; }
     const countMap = {};
     data.forEach(d => {
       const key = (d.zona || '') + '|' + (d.municipio || '');
@@ -277,7 +284,7 @@ async function cargarConteos() {
         z.dirigentes = countMap[z.nombre + '|' + m.nombre] || 0;
       });
     });
-  } catch(e) { console.error(e); }
+  } catch(e) { console.error('Excepción cargando conteos:', e); }
 }
 
 // ═══════════ RENDER MUNICIPIOS (ACCORDION) ═══════════
@@ -476,10 +483,10 @@ function renderDelegados() {
 }
 
 // ═══════════ TABS ═══════════
-function cambiarTab(tab) {
+function cambiarTab(tab, evt) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('activo'));
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('activo'));
-  event.target.closest('.tab').classList.add('activo');
+  if (evt && evt.target) evt.target.closest('.tab').classList.add('activo');
   document.getElementById('tab-' + tab).classList.add('activo');
 }
 
