@@ -77,6 +77,28 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 .del-estado{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:700}
 .del-estado.pend{background:#fef3c7;color:#92400e}
 
+/* ── COMITÉ ZONAL ── */
+.cargo-card{display:flex;align-items:center;gap:12px;padding:12px;border:2px solid #e2e8f0;border-radius:12px;margin-bottom:8px;transition:all .15s}
+.cargo-card.vacío{border-style:dashed;opacity:0.6}
+.cargo-card.presidente{border-color:#C8102E;background:#fef2f2}
+.cargo-card.vice{border-color:#003087;background:#eff6ff}
+.cargo-card.secre{border-color:#16a34a;background:#f0fdf4}
+.cargo-card.frente{border-color:#7c3aed;background:#faf5ff}
+.cargo-num{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0}
+.cargo-info{flex:1}.cargo-nombre{font-size:12px;font-weight:800}.cargo-categoria{font-size:9px;color:#64748b;text-transform:uppercase}
+.cargo-persona{font-size:11px;color:#1e293b;font-weight:600;margin-top:2px}
+.cargo-persona.vacio{color:#94a3b8;font-style:italic}
+.cargo-actions{display:flex;gap:4px;flex-shrink:0}
+.cargo-btn{width:28px;height:28px;border-radius:8px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .15s}
+.cargo-btn:active{transform:scale(0.9)}
+.cargo-btn-edit{background:#dbeafe;color:#003087}.cargo-btn-del{background:#fee2e2;color:#dc2626}
+
+.cuota-bar{height:8px;border-radius:4px;background:#e2e8f0;overflow:hidden;margin:6px 0}
+.cuota-fill{height:100%;border-radius:4px;transition:width .3s}
+.cuota-ok{background:#16a34a}.cuota-warn{background:#f59e0b}.cuota-bad{background:#dc2626}
+.cuota-label{font-size:10px;color:#64748b;font-weight:700}
+.cuota-val{font-size:10px;font-weight:900}
+
 /* ── BOTONES ── */
 .btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;touch-action:manipulation;font-family:inherit;margin-bottom:8px;transition:all .15s}
 .btn:active{transform:scale(0.97)}
@@ -116,12 +138,18 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
   </div>
 
   <div class="tabs">
-    <button class="tab activo" onclick="cambiarTab('dirigentes')"><i class="fa-solid fa-users"></i> Dirigentes</button>
+    <button class="tab activo" onclick="cambiarTab('comite')"><i class="fa-solid fa-sitemap"></i> Comité Zonal</button>
+    <button class="tab" onclick="cambiarTab('dirigentes')"><i class="fa-solid fa-users"></i> Dirigentes</button>
     <button class="tab" onclick="cambiarTab('mapa')"><i class="fa-solid fa-map"></i> Mapa</button>
     <button class="tab" onclick="cambiarTab('delegados')"><i class="fa-solid fa-check-to-slot"></i> Delegados</button>
   </div>
 
-  <div class="tab-content activo" id="tab-dirigentes">
+  <!-- TAB COMITÉ ZONAL -->
+  <div class="tab-content activo" id="tab-comite">
+    <div id="comite-cargos"><div style="text-align:center;padding:24px;color:#94a3b8">Cargando comité zonal...</div></div>
+  </div>
+
+  <div class="tab-content" id="tab-dirigentes">
     <div id="dir-lista"><div style="text-align:center;padding:24px;color:#94a3b8">Cargando...</div></div>
   </div>
 
@@ -308,7 +336,7 @@ async function seleccionarZona(municipio, zonaNombre) {
   document.getElementById('view-zona').style.display = 'block';
   document.getElementById('zona-titulo').textContent = '🏛️ ' + zonaNombre + ' — ' + municipio;
 
-  await cargarDirigentes();
+  await Promise.all([cargarDirigentes(), cargarComiteZonal()]);
 }
 
 function volverSelector() {
@@ -459,11 +487,256 @@ function cerrarSesion() { localStorage.removeItem('prm_sesion'); window.location
 let _tt;
 function toast(msg, tipo) { const el=document.getElementById('toast'); clearTimeout(_tt); el.textContent=msg; el.className='toast toast-'+(tipo||'ok'); el.style.display='block'; _tt=setTimeout(()=>el.style.display='none',3000); }
 
+// ═══════════ COMITÉ ZONAL ═══════════
+let comiteCargos = [];
+
+const CARGOS_ZONA = [
+  { id: 1, nombre: 'Presidente(a) de Zona', cat: 'ALTA_DIRECCION', color: '#C8102E' },
+  { id: 2, nombre: '1er Vicepresidente(a)', cat: 'ALTA_DIRECCION', color: '#003087' },
+  { id: 3, nombre: '2do Vicepresidente(a)', cat: 'ALTA_DIRECCION', color: '#003087' },
+  { id: 4, nombre: '3er Vicepresidente(a)', cat: 'ALTA_DIRECCION', color: '#003087' },
+  { id: 5, nombre: 'Secretario(a) General', cat: 'ALTA_DIRECCION', color: '#16a34a' },
+  { id: 6, nombre: '1er Subsecretario(a) General', cat: 'ALTA_DIRECCION', color: '#16a34a' },
+  { id: 7, nombre: '2do Subsecretario(a) General', cat: 'ALTA_DIRECCION', color: '#16a34a' },
+  { id: 8, nombre: '3er Subsecretario(a) General', cat: 'ALTA_DIRECCION', color: '#16a34a' },
+  { id: 9, nombre: 'Secretario(a) de Organización', cat: 'SECRETARIA', color: '#0ea5e9' },
+  { id: 10, nombre: 'Secretario(a) Electoral', cat: 'SECRETARIA', color: '#0ea5e9' },
+  { id: 11, nombre: 'Secretario(a) de Educación', cat: 'SECRETARIA', color: '#0ea5e9' },
+  { id: 12, nombre: 'Secretario(a) de Finanzas', cat: 'SECRETARIA', color: '#0ea5e9' },
+  { id: 13, nombre: 'Secretario(a) de Comunicación', cat: 'SECRETARIA', color: '#0ea5e9' },
+  { id: 14, nombre: 'Secretario(a) de Tecnología', cat: 'SECRETARIA', color: '#0ea5e9' },
+  { id: 15, nombre: 'Sec. Asuntos Municipales', cat: 'SECRETARIA', color: '#0ea5e9' },
+  { id: 16, nombre: 'Secretario(a) de Actas', cat: 'SECRETARIA', color: '#0ea5e9' },
+  { id: 17, nombre: 'Presidenta - Frente de Mujeres', cat: 'FRENTE_SECTORIAL', color: '#7c3aed' },
+  { id: 18, nombre: 'Presidente - Frente de Juventud', cat: 'FRENTE_SECTORIAL', color: '#7c3aed' },
+  { id: 19, nombre: 'Pdte. Frente Magisterial', cat: 'FRENTE_SECTORIAL', color: '#7c3aed' },
+  { id: 20, nombre: 'Pdte. Frente Agropecuario', cat: 'FRENTE_SECTORIAL', color: '#7c3aed' },
+  { id: 21, nombre: 'Pdte. Frente de Salud', cat: 'FRENTE_SECTORIAL', color: '#7c3aed' }
+];
+
+async function cargarComiteZonal() {
+  if (!sb || !zonaActual) return;
+  try {
+    const { data, error } = await sb.rpc('fn_obtener_comite_zonal', {
+      p_municipio: zonaActual.municipio,
+      p_zona: zonaActual.zona
+    });
+    if (error) throw error;
+    comiteCargos = data || [];
+    renderComiteZonal();
+  } catch(e) {
+    console.error('Error cargando comité zonal:', e);
+    renderComiteZonalLocal();
+  }
+}
+
+function renderComiteZonalLocal() {
+  renderComiteZonal();
+}
+
+function renderComiteZonal() {
+  const el = document.getElementById('comite-cargos');
+  if (!el) return;
+
+  const filled = comiteCargos.filter(c => c.cedula || c.miembro_nombre);
+  const total = CARGOS_ZONA.length;
+  const mujeres = filled.filter(c => c.sexo === 'F').length;
+  const jovenes = filled.filter(c => {
+    if (!c.cedula) return false;
+    const d = comiteCargos.find(x => x.cedula === c.cedula);
+    return d && d.fecha_nacimiento && new Date(d.fecha_nacimiento) >= new Date(Date.now() - 25*365*24*60*60*1000);
+  }).length;
+  const porcMujeres = filled.length > 0 ? Math.round(mujeres * 100 / filled.length) : 0;
+  const porcJovenes = filled.length > 0 ? Math.round(jovenes * 100 / filled.length) : 0;
+
+  let html = `
+    <div class="card" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7)">
+      <div class="card-title">📊 Estructura del Comité Zonal</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+        <div style="text-align:center">
+          <div style="font-size:22px;font-weight:900;color:#003087">${filled.length}/${total}</div>
+          <div style="font-size:9px;color:#64748b;text-transform:uppercase;font-weight:700">Ocupados</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:22px;font-weight:900;color:#7c3aed">${mujeres}</div>
+          <div style="font-size:9px;color:#64748b;text-transform:uppercase;font-weight:700">Mujeres</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:22px;font-weight:900;color:#16a34a">${jovenes}</div>
+          <div style="font-size:9px;color:#64748b;text-transform:uppercase;font-weight:700">Jóvenes</div>
+        </div>
+      </div>
+      <div style="margin-bottom:6px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span class="cuota-label">Cuota Mujeres (33% mín)</span>
+          <span class="cuota-val" style="color:${porcMujeres >= 33 ? '#16a34a' : '#dc2626'}">${porcMujeres}%</span>
+        </div>
+        <div class="cuota-bar"><div class="cuota-fill ${porcMujeres >= 33 ? 'cuota-ok' : 'cuota-warn'}" style="width:${Math.min(porcMujeres, 100)}%"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span class="cuota-label">Cuota Juventud</span>
+          <span class="cuota-val" style="color:#16a34a">${porcJovenes}%</span>
+        </div>
+        <div class="cuota-bar"><div class="cuota-fill cuota-ok" style="width:${Math.min(porcJovenes, 100)}%"></div></div>
+      </div>
+    </div>`;
+
+  // Agrupar por categoría
+  const cats = [
+    { key: 'ALTA_DIRECCION', label: 'Alta Dirección', icon: '🏛️' },
+    { key: 'SECRETARIA', label: 'Secretarías', icon: '📋' },
+    { key: 'FRENTE_SECTORIAL', label: 'Frentes Sectoriales', icon: '👥' }
+  ];
+
+  cats.forEach(cat => {
+    const cargos = CARGOS_ZONA.filter(c => c.cat === cat.key);
+    const ocupados = cargos.filter(c => {
+      const gc = comiteCargos.find(x => x.cargo_nombre && x.cargo_nombre.includes(c.nombre.split(' ')[0]));
+      return gc && gc.cedula;
+    }).length;
+
+    html += `<div class="card">
+      <div class="card-title">${cat.icon} ${cat.label} <span style="float:right;color:#16a34a">${ocupados}/${cargos.length}</span></div>`;
+
+    cargos.forEach(c => {
+      const gc = comiteCargos.find(x => {
+        if (!x.cargo_nombre) return false;
+        const clean = x.cargo_nombre.replace(/[()]/g, '').trim();
+        return clean === c.nombre || clean.includes(c.nombre.split(' ')[0]);
+      });
+      const nombre = gc ? (gc.miembro_nombre || gc.cargo_nombre) : null;
+      const sexo = gc ? gc.sexo : null;
+      const esVacío = !nombre;
+      const clase = esVacío ? 'vacío' : (c.id === 1 ? 'presidente' : c.id <= 4 ? 'vice' : c.cat === 'FRENTE_SECTORIAL' ? 'frente' : 'secre');
+      const ini = nombre ? nombre.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase() : '?';
+      const generoIcon = sexo === 'F' ? '♀' : sexo === 'M' ? '♂' : '';
+
+      html += `
+        <div class="cargo-card ${clase}">
+          <div class="cargo-num" style="background:${c.color}20;color:${c.color}">${c.id}</div>
+          <div class="cargo-info">
+            <div class="cargo-nombre">${c.nombre}</div>
+            <div class="cargo-persona ${esVacío ? 'vacio' : ''}">${nombre || 'Sin asignar'}</div>
+          </div>
+          ${generoIcon ? `<span style="font-size:14px;color:${sexo === 'F' ? '#7c3aed' : '#003087'}">${generoIcon}</span>` : ''}
+          <div class="cargo-actions">
+            <button class="cargo-btn cargo-btn-edit" onclick="editarCargo(${c.id}, '${c.nombre}', '${zonaActual.municipio}', '${zonaActual.zona}')"><i class="fa-solid fa-pen"></i></button>
+            ${nombre ? `<button class="cargo-btn cargo-btn-del" onclick="eliminarCargo(${c.id}, '${zonaActual.municipio}', '${zonaActual.zona}')"><i class="fa-solid fa-trash"></i></button>` : ''}
+          </div>
+        </div>`;
+    });
+
+    html += `</div>`;
+  });
+
+  el.innerHTML = html;
+}
+
+function editarCargo(cargoId, cargoNombre, municipio, zona) {
+  const gc = comiteCargos.find(x => {
+    if (!x.cargo_nombre) return false;
+    const clean = x.cargo_nombre.replace(/[()]/g, '').trim();
+    return clean === cargoNombre || clean.includes(cargoNombre.split(' ')[0]);
+  });
+  const actual = gc ? (gc.miembro_nombre || '') : '';
+  const actualCedula = gc ? (gc.cedula || '') : '';
+  const actualSexo = gc ? (gc.sexo || '') : '';
+
+  const modal = document.createElement('div');
+  modal.id = 'modal-cargo';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:flex-end;justify-content:center';
+  modal.innerHTML = `
+    <div style="background:white;border-radius:20px 20px 0 0;width:100%;max-width:500px;padding:20px;max-height:80vh;overflow-y:auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div>
+          <div style="font-size:14px;font-weight:800">${cargoNombre}</div>
+          <div style="font-size:11px;color:#64748b">${municipio} · ${zona}</div>
+        </div>
+        <button onclick="document.getElementById('modal-cargo').remove()" style="background:#f1f5f9;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:14px">✕</button>
+      </div>
+      <div style="margin-bottom:12px">
+        <label style="font-size:11px;font-weight:700;color:#64748b;display:block;margin-bottom:4px">Cédula</label>
+        <input id="cargo-cedula" type="text" value="${actualCedula}" style="width:100%;padding:10px;border:2px solid #e2e8f0;border-radius:10px;font-size:13px" placeholder="Opcional">
+      </div>
+      <div style="margin-bottom:12px">
+        <label style="font-size:11px;font-weight:700;color:#64748b;display:block;margin-bottom:4px">Nombre completo *</label>
+        <input id="cargo-nombre" type="text" value="${actual}" style="width:100%;padding:10px;border:2px solid #e2e8f0;border-radius:10px;font-size:13px" placeholder="Nombre del titular">
+      </div>
+      <div style="margin-bottom:16px">
+        <label style="font-size:11px;font-weight:700;color:#64748b;display:block;margin-bottom:4px">Sexo</label>
+        <div style="display:flex;gap:8px">
+          <button id="sexo-m" onclick="selectSexo('M')" style="flex:1;padding:10px;border:2px solid ${actualSexo === 'M' ? '#003087' : '#e2e8f0'};border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;background:${actualSexo === 'M' ? '#eff6ff' : 'white'}">♂ Masculino</button>
+          <button id="sexo-f" onclick="selectSexo('F')" style="flex:1;padding:10px;border:2px solid ${actualSexo === 'F' ? '#7c3aed' : '#e2e8f0'};border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;background:${actualSexo === 'F' ? '#faf5ff' : 'white'}">♀ Femenino</button>
+        </div>
+      </div>
+      <button onclick="guardarCargo(${cargoId}, '${municipio}', '${zona}')" style="width:100%;padding:13px;background:#003087;color:white;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer">Guardar</button>
+    </div>`;
+  document.body.appendChild(modal);
+  window._cargo SexoSel = actualSexo;
+}
+
+function selectSexo(s) {
+  window._cargoSexoSel = s;
+  document.getElementById('sexo-m').style.borderColor = s === 'M' ? '#003087' : '#e2e8f0';
+  document.getElementById('sexo-m').style.background = s === 'M' ? '#eff6ff' : 'white';
+  document.getElementById('sexo-f').style.borderColor = s === 'F' ? '#7c3aed' : '#e2e8f0';
+  document.getElementById('sexo-f').style.background = s === 'F' ? '#faf5ff' : 'white';
+}
+
+async function guardarCargo(cargoId, municipio, zona) {
+  const cedula = document.getElementById('cargo-cedula').value.trim();
+  const nombre = document.getElementById('cargo-nombre').value.trim();
+  const sexo = window._cargoSexoSel || null;
+
+  if (!nombre) { toast('Ingresa el nombre', 'error'); return; }
+
+  try {
+    const { data, error } = await sb.rpc('fn_guardar_comite_zonal', {
+      p_municipio: municipio,
+      p_zona: zona,
+      p_cargo_id: cargoId,
+      p_cedula: cedula || null,
+      p_nombre: nombre,
+      p_sexo: sexo
+    });
+    if (error) throw error;
+    document.getElementById('modal-cargo').remove();
+    toast('Guardado exitosamente', 'ok');
+    await cargarComiteZonal();
+  } catch(e) {
+    console.error(e);
+    toast('Error al guardar', 'error');
+  }
+}
+
+async function eliminarCargo(cargoId, municipio, zona) {
+  if (!confirm('¿Eliminar esta persona del cargo?')) return;
+  try {
+    const { data, error } = await sb.rpc('fn_eliminar_comite_zonal', {
+      p_municipio: municipio,
+      p_zona: zona,
+      p_cargo_id: cargoId
+    });
+    if (error) throw error;
+    toast('Eliminado', 'ok');
+    await cargarComiteZonal();
+  } catch(e) {
+    console.error(e);
+    toast('Error al eliminar', 'error');
+  }
+}
+
+// ═══════════ EXPORTAR FUNCIONES ═══════════
 window.toggleMuni = toggleMuni;
 window.seleccionarZona = seleccionarZona;
 window.volverSelector = volverSelector;
 window.cambiarTab = cambiarTab;
 window.cerrarSesion = cerrarSesion;
+window.editarCargo = editarCargo;
+window.selectSexo = selectSexo;
+window.guardarCargo = guardarCargo;
+window.eliminarCargo = eliminarCargo;
 </script>
 </body>
 </html>
