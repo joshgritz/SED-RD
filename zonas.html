@@ -28,15 +28,25 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 .card{background:white;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);padding:16px;margin-bottom:12px}
 .card-title{font-size:12px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
 
-/* ── ZONA SELECTOR ── */
-.zona-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-.zona-card{padding:14px;border:2px solid #e2e8f0;border-radius:14px;cursor:pointer;transition:all .15s;text-align:center}
-.zona-card:active{transform:scale(0.97)}
-.zona-card:hover{border-color:#003087;background:#f8faff}
-.zona-card.activa{border-color:#003087;background:#eff6ff}
-.zona-nombre{font-size:14px;font-weight:800;color:#1e293b}
-.zona-muni{font-size:10px;color:#64748b}
-.zona-stat{font-size:20px;font-weight:900;color:#003087;margin-top:6px}
+/* ── MUNICIPIO ACCORDION ── */
+.muni-accordion{margin-bottom:8px}
+.muni-header{display:flex;align-items:center;gap:10px;padding:14px;border:2px solid #e2e8f0;border-radius:14px;cursor:pointer;transition:all .15s;background:white}
+.muni-header:active{transform:scale(0.98)}
+.muni-header:hover{border-color:#003087}
+.muni-header.abierto{border-color:#003087;background:#f8faff;border-bottom-left-radius:0;border-bottom-right-radius:0}
+.muni-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.muni-nombre{font-size:15px;font-weight:800;flex:1}
+.muni-count{font-size:11px;color:#64748b;font-weight:700}
+.muni-arrow{font-size:14px;color:#94a3b8;transition:transform .2s}
+.muni-arrow.abierto{transform:rotate(180deg)}
+.muni-zonas{display:none;padding:8px 0 0 0}
+.muni-zonas.abierta{display:block}
+.zona-item{display:flex;align-items:center;gap:10px;padding:10px 14px;margin:4px 0;border:2px solid #f1f5f9;border-radius:10px;cursor:pointer;transition:all .15s}
+.zona-item:active{transform:scale(0.98)}
+.zona-item:hover{border-color:#003087;background:#f8faff}
+.zona-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.zona-nombre{font-size:13px;font-weight:700;flex:1}
+.zona-dir-count{font-size:11px;color:#64748b;font-weight:700}
 
 /* ── TABS ── */
 .tabs{display:flex;gap:4px;background:white;border-radius:14px;padding:4px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
@@ -51,52 +61,26 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 
 /* ── DIRIGENTE CARD ── */
 .dir-card{display:flex;align-items:center;gap:10px;padding:12px;border:2px solid #e2e8f0;border-radius:12px;margin-bottom:8px;transition:all .15s}
-.dir-card:active{transform:scale(0.98)}
 .dir-foto{width:40px;height:40px;border-radius:50%;background:#dcfce7;color:#166534;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;overflow:hidden}
 .dir-foto img{width:100%;height:100%;object-fit:cover}
 .dir-info{flex:1}.dir-nombre{font-size:13px;font-weight:700}.dir-rol{font-size:10px;color:#64748b}
 .dir-comite{font-size:10px;font-weight:800;padding:2px 8px;border-radius:8px;flex-shrink:0}
 
-/* ── PLACHA CARD ── */
-.plancha-card{padding:14px;border:2px solid #e2e8f0;border-radius:14px;margin-bottom:8px}
-.plancha-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.plancha-cargo{font-size:13px;font-weight:800}
-.plancha-tipo{font-size:10px;font-weight:700;padding:3px 8px;border-radius:8px}
-.plancha-nombre{font-size:15px;font-weight:900;color:#003087}
-.plancha-muni{font-size:11px;color:#64748b;margin-top:2px}
-
 /* ── MAPA ── */
 .mapa-box{width:100%;height:300px;border-radius:14px;background:#e2e8f0;position:relative;overflow:hidden;margin-bottom:12px}
 .mapa-box iframe{width:100%;height:100%;border:0}
 
-/* ── DELEGADO CARD ── */
+/* ── DELEGADO ── */
 .del-card{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid #e2e8f0;border-radius:10px;margin-bottom:6px;font-size:12px}
 .del-mesa{font-weight:800;color:#C8102E;min-width:50px}
 .del-nombre{font-weight:600;flex:1}
 .del-estado{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:700}
-.del-estado.activo{background:#dcfce7;color:#166534}
 .del-estado.pend{background:#fef3c7;color:#92400e}
 
 /* ── BOTONES ── */
 .btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;touch-action:manipulation;font-family:inherit;margin-bottom:8px;transition:all .15s}
 .btn:active{transform:scale(0.97)}
-.btn-azul{background:#003087;color:white}.btn-verde{background:#16a34a;color:white}.btn-gris{background:#f1f5f9;color:#64748b}.btn-rojo{background:#dc2626;color:white}
-
-/* ── MODAL ── */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:flex-end;justify-content:center}
-.modal-bg.activo{display:flex}
-.modal{background:white;border-radius:20px 20px 0 0;width:100%;max-width:500px;max-height:85vh;overflow-y:auto;padding:20px}
-.modal-handle{width:40px;height:4px;border-radius:4px;background:#e2e8f0;margin:0 auto 16px}
-.modal h3{font-size:16px;font-weight:900;margin-bottom:12px}
-.campo{margin-bottom:10px}
-.campo label{display:block;font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
-.campo input,.campo select{width:100%;padding:10px 12px;border:2px solid #e2e8f0;border-radius:10px;font-size:14px;outline:none;font-family:inherit;background:white}
-
-/* ── SEARCH ── */
-.search-box{position:relative;margin-bottom:12px}
-.search-box input{width:100%;padding:12px 16px 12px 40px;border:2px solid #e2e8f0;border-radius:12px;font-size:14px;outline:none;font-family:inherit;background:white}
-.search-box input:focus{border-color:#003087}
-.search-box i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#94a3b8}
+.btn-gris{background:#f1f5f9;color:#64748b}
 
 .toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:400px;margin:0 auto;padding:13px 18px;border-radius:14px;font-size:14px;font-weight:700;z-index:9999;text-align:center;display:none}
 .toast-ok{background:#16a34a;color:white}.toast-error{background:#dc2626;color:white}.toast-info{background:#003087;color:white}
@@ -115,48 +99,32 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 
 <div class="wrap">
 
-<!-- SELECCIÓN DE ZONA -->
+<!-- SELECCIÓN: MUNICIPIOS → ZONAS -->
 <div id="view-selector">
   <div class="card">
     <div class="card-title">🗺️ Selecciona tu Zona</div>
-    <div class="search-box">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" id="buscador-zona" placeholder="Buscar zona..." oninput="filtrarZonas()">
-    </div>
-    <div class="zona-grid" id="zona-grid"></div>
+    <div id="muni-lista"></div>
   </div>
 </div>
 
 <!-- DASHBOARD ZONA -->
 <div id="view-zona" style="display:none">
-
-  <!-- KPIs -->
   <div class="kpi-grid">
     <div class="kpi"><div class="kpi-num" id="kpi-dirigentes">0</div><div class="kpi-label">Dirigentes</div></div>
     <div class="kpi"><div class="kpi-num" id="kpi-comites">0</div><div class="kpi-label">Comité Total</div></div>
-    <div class="kpi"><div class="kpi-num" id="kpi-planchas">0</div><div class="kpi-label">Planchas</div></div>
+    <div class="kpi"><div class="kpi-num" id="kpi-ubicados">0</div><div class="kpi-label">Ubicados</div></div>
   </div>
 
-  <!-- TABS -->
   <div class="tabs">
     <button class="tab activo" onclick="cambiarTab('dirigentes')"><i class="fa-solid fa-users"></i> Dirigentes</button>
-    <button class="tab" onclick="cambiarTab('planchas')"><i class="fa-solid fa-landmark"></i> Planchas</button>
     <button class="tab" onclick="cambiarTab('mapa')"><i class="fa-solid fa-map"></i> Mapa</button>
     <button class="tab" onclick="cambiarTab('delegados')"><i class="fa-solid fa-check-to-slot"></i> Delegados</button>
   </div>
 
-  <!-- TAB: DIRIGENTES -->
   <div class="tab-content activo" id="tab-dirigentes">
-    <div id="dir-lista"><div style="text-align:center;padding:24px;color:#94a3b8">Cargando dirigentes...</div></div>
+    <div id="dir-lista"><div style="text-align:center;padding:24px;color:#94a3b8">Cargando...</div></div>
   </div>
 
-  <!-- TAB: PLANCHAS -->
-  <div class="tab-content" id="tab-planchas">
-    <div id="plancha-lista"><div style="text-align:center;padding:24px;color:#94a3b8">Cargando planchas...</div></div>
-    <button class="btn btn-azul" id="btn-nueva-plancha" style="display:none" onclick="abrirModalPlancha()">+ Nueva Plancha</button>
-  </div>
-
-  <!-- TAB: MAPA -->
   <div class="tab-content" id="tab-mapa">
     <div class="mapa-box" id="mapa-container">
       <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#94a3b8;font-size:13px">Cargando mapa...</div>
@@ -167,109 +135,85 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
     </div>
   </div>
 
-  <!-- TAB: DELEGADOS -->
   <div class="tab-content" id="tab-delegados">
     <div class="card" style="background:#eff6ff;border:2px solid #bfdbfe;margin-bottom:12px">
       <div style="font-size:12px;color:#1e40af;font-weight:700">📋 Delegados asignados</div>
-      <div style="font-size:11px;color:#64748b;margin-top:4px">Los delegados se asignan después de ganar la plancha. Solo la estructura zonal puede ver esta información.</div>
+      <div style="font-size:11px;color:#64748b;margin-top:4px">Los delegados se asignan después de ganar la plancha.</div>
     </div>
     <div id="del-lista"><div style="text-align:center;padding:24px;color:#94a3b8;font-size:13px">Sin delegados asignados aún</div></div>
   </div>
 
-  <button class="btn btn-gris" onclick="volverSelector()">← Volver a zonas</button>
+  <button class="btn btn-gris" onclick="volverSelector()">← Volver a municipios</button>
 </div>
 
-</div>
-
-<!-- MODAL: NUEVA PLACHA -->
-<div class="modal-bg" id="modal-plancha" onclick="if(event.target===this)cerrarModal()">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <h3>🗳️ Registrar Plancha</h3>
-    <div id="modal-plancha-body">
-      <div class="campo">
-        <label>Cargo</label>
-        <select id="pl-cargo">
-          <option value="">Selecciona cargo...</option>
-          <option value="ALCALDE">Alcalde</option>
-          <option value="VICEALCALDE">Vicealcalde</option>
-          <option value="REGIDOR">Regidor</option>
-          <option value="CONCEJAL_MUNICIPAL">Concejal Municipal</option>
-          <option value="DIPUTADO">Diputado</option>
-          <option value="SENADOR">Senador</option>
-          <option value="DIRIGENTE_ZONAL">Dirigente Zonal</option>
-        </select>
-      </div>
-      <div class="campo">
-        <label>Tipo</label>
-        <select id="pl-tipo">
-          <option value="plancha">Plancha oficial</option>
-          <option value="precandidatura">Precandidatura</option>
-        </select>
-      </div>
-      <div class="campo">
-        <label>Nombre del candidato</label>
-        <input type="text" id="pl-nombre" placeholder="Nombre completo">
-      </div>
-      <div class="campo">
-        <label>Municipio</label>
-        <select id="pl-municipio">
-          <option value="MAO">Mao</option>
-          <option value="ESPERANZA">Esperanza</option>
-          <option value="LAGUNA_SALADA">Laguna Salada</option>
-          <option value="AMINA">Amina</option>
-          <option value="GUATAPANAL">Guatapanal</option>
-          <option value="JAIBON">Jaibón</option>
-          <option value="POTRERO">Potrero</option>
-        </select>
-      </div>
-      <button class="btn btn-verde" onclick="guardarPlancha()">✅ Registrar</button>
-      <button class="btn btn-gris" onclick="cerrarModal()">Cancelar</button>
-    </div>
-  </div>
 </div>
 
 <div id="toast" class="toast"></div>
 
 <script>
-// ═══════════ SUPABASE ═══════════
 let sb = _sb;
 if (!sb && window.supabase) {
-  sb = window.supabase.createClient(
-    'https://ilivjaiexfqpioqrozlf.supabase.co',
-    'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
-  );
+  sb = window.supabase.createClient('https://ilivjaiexfqpioqrozlf.supabase.co','sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW');
 }
 
-// ═══════════ ESTADO ═══════════
 let sesion = null;
-let zonas = [];
 let zonaActual = null;
 let dirigentesZona = [];
-let planchasZona = [];
 
-const ZONAS_MAO = [
-  { id: 'zona_a', nombre: 'Zona A', municipio: 'MAO', color: '#003087' },
-  { id: 'zona_b', nombre: 'Zona B', municipio: 'MAO', color: '#C8102E' },
-  { id: 'zona_c', nombre: 'Zona C', municipio: 'MAO', color: '#16a34a' },
-  { id: 'zona_d', nombre: 'Zona D', municipio: 'MAO', color: '#efbc00' },
-  { id: 'zona_e', nombre: 'Zona E', municipio: 'MAO', color: '#7c3aed' },
-  { id: 'zona_f', nombre: 'Zona F', municipio: 'MAO', color: '#0ea5e9' },
-  { id: 'zona_esp1', nombre: 'Zona 1', municipio: 'ESPERANZA', color: '#f97316' },
-  { id: 'zona_esp2', nombre: 'Zona 2', municipio: 'ESPERANZA', color: '#ec4899' },
-  { id: 'zona_esp3', nombre: 'Zona 3', municipio: 'ESPERANZA', color: '#14b8a6' },
-  { id: 'zona_ls', nombre: 'Zona Única', municipio: 'LAGUNA_SALADA', color: '#8b5cf6' },
-  { id: 'zona_am', nombre: 'Zona Única', municipio: 'AMINA', color: '#06b6d4' },
-  { id: 'zona_gu', nombre: 'Zona Única', municipio: 'GUATAPANAL', color: '#84cc16' },
-  { id: 'zona_ja', nombre: 'Zona Única', municipio: 'JAIBON', color: '#f43f5e' },
-  { id: 'zona_po', nombre: 'Zona Única', municipio: 'POTRERO', color: '#6366f1' }
+const MUNICIPIOS = [
+  {
+    nombre: 'Mao', tipo: 'Cabecera Provincial', icon: '🏙️', color: '#003087',
+    zonas: [
+      { id: 'zona_a', nombre: 'Zona A', color: '#003087' },
+      { id: 'zona_b', nombre: 'Zona B', color: '#C8102E' },
+      { id: 'zona_c', nombre: 'Zona C', color: '#16a34a' },
+      { id: 'zona_d', nombre: 'Zona D', color: '#efbc00' },
+      { id: 'zona_e', nombre: 'Zona E', color: '#7c3aed' },
+      { id: 'zona_f', nombre: 'Zona F', color: '#0ea5e9' }
+    ]
+  },
+  {
+    nombre: 'Esperanza', tipo: '2do Municipio', icon: '🌾', color: '#16a34a',
+    zonas: [
+      { id: 'zona_esp1', nombre: 'Zona 1', color: '#f97316' },
+      { id: 'zona_esp2', nombre: 'Zona 2', color: '#ec4899' },
+      { id: 'zona_esp3', nombre: 'Zona 3', color: '#14b8a6' }
+    ]
+  },
+  {
+    nombre: 'Laguna Salada', tipo: 'Municipio', icon: '💧', color: '#7c3aed',
+    zonas: [
+      { id: 'zona_ls', nombre: 'Zona Única', color: '#8b5cf6' }
+    ]
+  },
+  {
+    nombre: 'Amina', tipo: 'Distrito Municipal', icon: '🌿', color: '#0ea5e9',
+    zonas: [
+      { id: 'zona_am', nombre: 'Zona Única', color: '#06b6d4' }
+    ]
+  },
+  {
+    nombre: 'Guatapanal', tipo: 'Distrito Municipal', icon: '🐄', color: '#f97316',
+    zonas: [
+      { id: 'zona_gu', nombre: 'Zona Única', color: '#84cc16' }
+    ]
+  },
+  {
+    nombre: 'Jaibón', tipo: 'Distrito Municipal', icon: '🌻', color: '#ec4899',
+    zonas: [
+      { id: 'zona_ja', nombre: 'Zona Única', color: '#f43f5e' }
+    ]
+  },
+  {
+    nombre: 'Potrero', tipo: 'Distrito Municipal', icon: '⛰️', color: '#6366f1',
+    zonas: [
+      { id: 'zona_po', nombre: 'Zona Única', color: '#6366f1' }
+    ]
+  }
 ];
 
-const ROLES_ZONA = ['PRESIDENTE_ZONAL','SECRETARIO_GENERAL','VICEPRESIDENTE','SUBSECRETARIO_GENERAL','SEC_ORGANIZACION','COORDINADOR'];
-const ROL_TECH = 'SEC_TRANSFORMACION_DIGITAL';
 const ROL_VER_COMITE = ['PRESIDENTE_ZONAL','SECRETARIO_GENERAL','VICEPRESIDENTE','SUBSECRETARIO_GENERAL','SEC_ORGANIZACION','COORDINADOR'];
 
-// ═══════════ SESIÓN ═══════════
 function getSesion() {
   const raw = localStorage.getItem('prm_sesion');
   if (!raw) { window.location.href = 'login.html'; return null; }
@@ -280,69 +224,91 @@ function getSesion() {
   } catch(e) { localStorage.removeItem('prm_sesion'); window.location.href = 'login.html'; return null; }
 }
 
-// ═══════════ INIT ═══════════
 window.addEventListener('DOMContentLoaded', async () => {
   sesion = getSesion();
   if (!sesion) return;
   document.getElementById('zona-sub').textContent = (sesion.nombre || 'PRM') + ' · Valverde 2026';
-  await cargarZonas();
+  await cargarConteos();
+  renderMunicipios();
 });
 
-// ═══════════ CARGAR ZONAS ═══════════
-async function cargarZonas() {
-  zonas = ZONAS_MAO;
-  if (sb) {
-    try {
-      const { data } = await sb.from('dirigentes')
-        .select('zona, municipio').eq('activo', true);
-      if (data) {
-        const countMap = {};
-        data.forEach(d => {
-          const key = (d.zona || 'Sin zona') + '|' + (d.municipio || '');
-          countMap[key] = (countMap[key] || 0) + 1;
-        });
-        zonas = zonas.map(z => ({
-          ...z,
-          dirigentes: countMap[z.nombre + '|' + z.municipio] || 0
-        }));
-      }
-    } catch(e) { console.error(e); }
+// ═══════════ CARGAR CONTEOS DE DIRIGENTES ═══════════
+async function cargarConteos() {
+  if (!sb) return;
+  try {
+    const { data } = await sb.from('dirigentes')
+      .select('zona, municipio').eq('activo', true);
+    if (!data) return;
+    const countMap = {};
+    data.forEach(d => {
+      const key = (d.zona || '') + '|' + (d.municipio || '');
+      countMap[key] = (countMap[key] || 0) + 1;
+    });
+    MUNICIPIOS.forEach(m => {
+      m.zonas.forEach(z => {
+        z.dirigentes = countMap[z.nombre + '|' + m.nombre] || 0;
+      });
+    });
+  } catch(e) { console.error(e); }
+}
+
+// ═══════════ RENDER MUNICIPIOS (ACCORDION) ═══════════
+function renderMunicipios() {
+  const el = document.getElementById('muni-lista');
+  el.innerHTML = MUNICIPIOS.map((m, i) => {
+    const totalDir = m.zonas.reduce((s, z) => s + (z.dirigentes || 0), 0);
+    return `
+      <div class="muni-accordion">
+        <div class="muni-header" onclick="toggleMuni(${i})" id="muni-h-${i}">
+          <div class="muni-icon" style="background:${m.color}20;color:${m.color}">${m.icon}</div>
+          <div style="flex:1">
+            <div class="muni-nombre">${m.nombre}</div>
+            <div style="font-size:10px;color:#64748b">${m.tipo} · ${m.zonas.length} zona${m.zonas.length > 1 ? 's' : ''}</div>
+          </div>
+          <div class="muni-count">${totalDir} dirigente${totalDir !== 1 ? 's' : ''}</div>
+          <div class="muni-arrow" id="muni-a-${i}">▼</div>
+        </div>
+        <div class="muni-zonas" id="muni-z-${i}">
+          ${m.zonas.map(z => `
+            <div class="zona-item" onclick="seleccionarZona('${m.nombre}','${z.nombre}')">
+              <div class="zona-dot" style="background:${z.color}"></div>
+              <div class="zona-nombre">${z.nombre}</div>
+              <div class="zona-dir-count">${z.dirigentes || 0} dirigente${(z.dirigentes || 0) !== 1 ? 's' : ''}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function toggleMuni(i) {
+  const zonas = document.getElementById('muni-z-' + i);
+  const arrow = document.getElementById('muni-a-' + i);
+  const header = document.getElementById('muni-h-' + i);
+  const abierto = zonas.classList.contains('abierta');
+
+  // Cerrar todos
+  document.querySelectorAll('.muni-zonas').forEach(z => z.classList.remove('abierta'));
+  document.querySelectorAll('.muni-arrow').forEach(a => { a.classList.remove('abierto'); a.textContent = '▼'; });
+  document.querySelectorAll('.muni-header').forEach(h => h.classList.remove('abierto'));
+
+  if (!abierto) {
+    zonas.classList.add('abierta');
+    arrow.classList.add('abierto');
+    arrow.textContent = '▲';
+    header.classList.add('abierto');
   }
-  renderZonas();
 }
-
-function renderZonas() {
-  const el = document.getElementById('zona-grid');
-  const q = (document.getElementById('buscador-zona').value || '').toLowerCase();
-  const filtradas = zonas.filter(z => !q || z.nombre.toLowerCase().includes(q) || z.municipio.toLowerCase().includes(q));
-
-  el.innerHTML = filtradas.map(z => `
-    <div class="zona-card" onclick="seleccionarZona('${z.id}')">
-      <div style="font-size:24px;margin-bottom:4px">🏛️</div>
-      <div class="zona-nombre">${z.nombre}</div>
-      <div class="zona-muni">${z.municipio}</div>
-      <div class="zona-stat">${z.dirigentes || 0}</div>
-      <div style="font-size:9px;color:#94a3b8;text-transform:uppercase">Dirigentes</div>
-    </div>
-  `).join('');
-}
-
-function filtrarZonas() { renderZonas(); }
 
 // ═══════════ SELECCIONAR ZONA ═══════════
-async function seleccionarZona(zonaId) {
-  zonaActual = zonas.find(z => z.id === zonaId);
-  if (!zonaActual) return;
+async function seleccionarZona(municipio, zonaNombre) {
+  zonaActual = { municipio, zona: zonaNombre };
 
   document.getElementById('view-selector').style.display = 'none';
   document.getElementById('view-zona').style.display = 'block';
-  document.getElementById('zona-titulo').textContent = '🏛️ ' + zonaActual.nombre + ' — ' + zonaActual.municipio;
+  document.getElementById('zona-titulo').textContent = '🏛️ ' + zonaNombre + ' — ' + municipio;
 
-  const esTech = sesion.rol === ROL_TECH;
-  const esDirigenteZona = sesion.zona === zonaActual.nombre && sesion.municipio === zonaActual.municipio;
-  document.getElementById('btn-nueva-plancha').style.display = (esTech || esDirigenteZona) ? 'block' : 'none';
-
-  await cargarDirigentesZona();
+  await cargarDirigentes();
 }
 
 function volverSelector() {
@@ -352,42 +318,42 @@ function volverSelector() {
 }
 
 // ═══════════ CARGAR DIRIGENTES ═══════════
-async function cargarDirigentesZona() {
+async function cargarDirigentes() {
+  dirigentesZona = [];
   if (!sb || !zonaActual) return;
+
   try {
     const { data: dirs } = await sb.from('dirigentes')
       .select('cedula, nombre, zona, municipio, sector, latitud, longitud, activo')
-      .eq('zona', zonaActual.nombre)
+      .eq('zona', zonaActual.zona)
       .eq('municipio', zonaActual.municipio)
       .eq('activo', true);
 
     dirigentesZona = dirs || [];
-
-    // Cargar comité counts
     const cedulas = dirigentesZona.map(d => d.cedula);
+
+    // Comité counts
     let comiteMap = {};
     if (cedulas.length > 0) {
-      const { data: comite } = await sb.from('comite_miembros')
+      const { data: c } = await sb.from('comite_miembros')
         .select('dirigente_cedula').in('dirigente_cedula', cedulas);
-      if (comite) {
-        comite.forEach(c => { comiteMap[c.dirigente_cedula] = (comiteMap[c.dirigente_cedula] || 0) + 1; });
-      }
+      if (c) c.forEach(x => { comiteMap[x.dirigente_cedula] = (comiteMap[x.dirigente_cedula] || 0) + 1; });
     }
 
-    // Cargar fotos
+    // Fotos
     let fotosMap = {};
     if (cedulas.length > 0) {
-      const { data: fotos } = await sb.from('padron_maestro')
+      const { data: f } = await sb.from('padron_maestro')
         .select('cedula, foto_base64').in('cedula', cedulas);
-      if (fotos) fotos.forEach(f => { fotosMap[f.cedula] = f.foto_base64; });
+      if (f) f.forEach(x => { fotosMap[x.cedula] = x.foto_base64; });
     }
 
-    // Cargar roles
+    // Roles
     let rolesMap = {};
     if (cedulas.length > 0) {
-      const { data: roles } = await sb.from('usuarios_sistema')
+      const { data: r } = await sb.from('usuarios_sistema')
         .select('cedula, rol').in('cedula', cedulas);
-      if (roles) roles.forEach(r => { rolesMap[r.cedula] = r.rol; });
+      if (r) r.forEach(x => { rolesMap[x.cedula] = x.rol; });
     }
 
     dirigentesZona = dirigentesZona.map(d => ({
@@ -397,31 +363,15 @@ async function cargarDirigentesZona() {
       rol: rolesMap[d.cedula] || null
     }));
 
-    // Cargar planchas
-    await cargarPlanchasZona();
-
     // KPIs
     document.getElementById('kpi-dirigentes').textContent = dirigentesZona.length;
     document.getElementById('kpi-comites').textContent = dirigentesZona.reduce((t, d) => t + d.comite, 0);
-    document.getElementById('kpi-planchas').textContent = planchasZona.length;
+    document.getElementById('kpi-ubicados').textContent = dirigentesZona.filter(d => d.latitud && d.longitud).length;
 
     renderDirigentes();
-    renderPlanchas();
     renderMapa();
     renderDelegados();
   } catch(e) { console.error(e); }
-}
-
-// ═══════════ CARGAR PLANCHAS ═══════════
-async function cargarPlanchasZona() {
-  if (!sb || !zonaActual) return;
-  try {
-    const { data } = await sb.from('planchas')
-      .select('*')
-      .eq('zona', zonaActual.nombre)
-      .order('creado_en', { ascending: false });
-    planchasZona = data || [];
-  } catch(e) { planchasZona = []; }
 }
 
 // ═══════════ RENDER DIRIGENTES ═══════════
@@ -439,7 +389,7 @@ function renderDirigentes() {
     const fotoHtml = d.foto
       ? '<img src="data:image/jpeg;base64,' + d.foto + '">'
       : ini;
-    const rolLabel = d.rol ? (d.rol.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase())) : 'Dirigente';
+    const rolLabel = d.rol ? d.rol.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase()) : 'Dirigente';
     const comiteBadge = verComite
       ? '<span class="dir-comite" style="background:#dcfce7;color:#166534">' + d.comite + '/10+</span>'
       : '<span class="dir-comite" style="background:#f1f5f9;color:#94a3b8">' + d.comite + '</span>';
@@ -456,26 +406,6 @@ function renderDirigentes() {
   }).join('');
 }
 
-// ═══════════ RENDER PLANCHAS ═══════════
-function renderPlanchas() {
-  const el = document.getElementById('plancha-lista');
-  if (planchasZona.length === 0) {
-    el.innerHTML = '<div style="text-align:center;padding:24px;color:#94a3b8">Sin planchas registradas</div>';
-    return;
-  }
-
-  el.innerHTML = planchasZona.map(p => `
-    <div class="plancha-card">
-      <div class="plancha-header">
-        <span class="plancha-cargo">${p.cargo || '—'}</span>
-        <span class="plancha-tipo" style="background:${p.tipo === 'plancha' ? '#dcfce7' : '#fef3c7'};color:${p.tipo === 'plancha' ? '#166534' : '#92400e'}">${p.tipo || '—'}</span>
-      </div>
-      <div class="plancha-nombre">${p.nombre_candidato || p.nombre || '—'}</div>
-      <div class="plancha-muni">${p.municipio || '—'} · ${p.zona || '—'}</div>
-    </div>
-  `).join('');
-}
-
 // ═══════════ RENDER MAPA ═══════════
 function renderMapa() {
   const el = document.getElementById('mapa-container');
@@ -483,23 +413,16 @@ function renderMapa() {
 
   if (ubicaciones.length === 0) {
     el.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#94a3b8;font-size:13px">Sin ubicaciones registradas</div>';
+    document.getElementById('ubicaciones-lista').innerHTML = '';
     return;
   }
 
-  // Calcular centro
   const lat = ubicaciones.reduce((s, d) => s + parseFloat(d.latitud), 0) / ubicaciones.length;
   const lng = ubicaciones.reduce((s, d) => s + parseFloat(d.longitud), 0) / ubicaciones.length;
+  const markers = ubicaciones.map(d => '&markers=color:red%7C' + d.latitud + ',' + d.longitud).join('');
+  el.innerHTML = '<iframe src="https://maps.google.com/maps?q=' + lat + ',' + lng + '&z=14&output=embed' + markers + '" allowfullscreen></iframe>';
 
-  // Generar marcadores
-  const markers = ubicaciones.map(d =>
-    '&markers=color:red%7C' + d.latitud + ',' + d.longitud
-  ).join('');
-
-  el.innerHTML = '<iframe src="https://maps.google.com/maps?q=' + lat + ',' + lng + '&z=13&output=embed' + markers + '" allowfullscreen></iframe>';
-
-  // Lista de ubicaciones
-  const listaEl = document.getElementById('ubicaciones-lista');
-  listaEl.innerHTML = ubicaciones.map(d => `
+  document.getElementById('ubicaciones-lista').innerHTML = ubicaciones.map(d => `
     <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f1f5f9">
       <span style="font-size:14px">📍</span>
       <div style="flex:1"><div style="font-size:12px;font-weight:700">${d.nombre}</div><div style="font-size:10px;color:#64748b">${d.sector || '—'}</div></div>
@@ -511,13 +434,10 @@ function renderMapa() {
 // ═══════════ RENDER DELEGADOS ═══════════
 function renderDelegados() {
   const el = document.getElementById('del-lista');
-  // Los delegados se asignan después de ganar plancha
-  // Por ahora mostrar estructura como posibles delegados
   if (dirigentesZona.length === 0) {
     el.innerHTML = '<div style="text-align:center;padding:16px;color:#94a3b8;font-size:13px">Sin dirigentes para delegar</div>';
     return;
   }
-
   el.innerHTML = dirigentesZona.slice(0, 10).map(d => `
     <div class="del-card">
       <div class="del-mesa">Mesa —</div>
@@ -525,37 +445,6 @@ function renderDelegados() {
       <div class="del-estado pend">Pendiente</div>
     </div>
   `).join('');
-}
-
-// ═══════════ PLANCHAS ═══════════
-function abrirModalPlancha() {
-  document.getElementById('modal-plancha').classList.add('activo');
-}
-
-async function guardarPlancha() {
-  const cargo = document.getElementById('pl-cargo').value;
-  const tipo = document.getElementById('pl-tipo').value;
-  const nombre = document.getElementById('pl-nombre').value.trim();
-  const municipio = document.getElementById('pl-municipio').value;
-
-  if (!cargo) { toast('Selecciona un cargo', 'error'); return; }
-  if (!nombre) { toast('Ingresa el nombre del candidato', 'error'); return; }
-
-  if (sb) {
-    const { error } = await sb.from('planchas').insert({
-      cargo, nombre_candidato: nombre, tipo, municipio,
-      zona: zonaActual.nombre,
-      creado_por: sesion.cedula,
-      activo: true
-    });
-    if (error) { toast('Error: ' + error.message, 'error'); return; }
-  }
-
-  toast('✅ Plancha registrada', 'ok');
-  cerrarModal();
-  await cargarPlanchasZona();
-  document.getElementById('kpi-planchas').textContent = planchasZona.length;
-  renderPlanchas();
 }
 
 // ═══════════ TABS ═══════════
@@ -566,26 +455,14 @@ function cambiarTab(tab) {
   document.getElementById('tab-' + tab).classList.add('activo');
 }
 
-function cerrarModal() { document.getElementById('modal-plancha').classList.remove('activo'); }
 function cerrarSesion() { localStorage.removeItem('prm_sesion'); window.location.href = 'login.html'; }
-
 let _tt;
-function toast(msg, tipo) {
-  const el = document.getElementById('toast');
-  clearTimeout(_tt);
-  el.textContent = msg;
-  el.className = 'toast toast-' + (tipo || 'ok');
-  el.style.display = 'block';
-  _tt = setTimeout(() => el.style.display = 'none', 3000);
-}
+function toast(msg, tipo) { const el=document.getElementById('toast'); clearTimeout(_tt); el.textContent=msg; el.className='toast toast-'+(tipo||'ok'); el.style.display='block'; _tt=setTimeout(()=>el.style.display='none',3000); }
 
-window.cambiarTab = cambiarTab;
+window.toggleMuni = toggleMuni;
 window.seleccionarZona = seleccionarZona;
 window.volverSelector = volverSelector;
-window.filtrarZonas = filtrarZonas;
-window.abrirModalPlancha = abrirModalPlancha;
-window.guardarPlancha = guardarPlancha;
-window.cerrarModal = cerrarModal;
+window.cambiarTab = cambiarTab;
 window.cerrarSesion = cerrarSesion;
 </script>
 </body>
