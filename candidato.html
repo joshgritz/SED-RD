@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#C8102E">
+<title>Portal Candidato — PRM Valverde</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script>
+var _sb = null;
+if (window.supabase) {
+  _sb = window.supabase.createClient(
+    'https://ilivjaiexfqpioqrozlf.supabase.co',
+    'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
+  );
+}
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293b;min-height:100vh}
+.header{background:linear-gradient(135deg,#C8102E,#9b1b30);color:white;padding:20px 16px 16px;position:sticky;top:0;z-index:100}
+.header-top{display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:18px;font-weight:900;margin:8px 0 2px}
+.header p{font-size:12px;opacity:0.7}
+.wrap{padding:16px;max-width:600px;margin:0 auto}
+.card{background:white;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);padding:16px;margin-bottom:12px}
+.card-title{font-size:13px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.stat-box{background:#f8faff;border:2px solid #e2e8f0;border-radius:14px;padding:14px;text-align:center}
+.stat-num{font-size:28px;font-weight:900;color:#003087}.stat-label{font-size:10px;color:#94a3b8;font-weight:700;text-transform:uppercase}
+.perfil-card{display:flex;align-items:center;gap:12px;background:white;border-radius:16px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:12px}
+.perfil-foto{width:56px;height:56px;border-radius:50%;background:#C8102E;color:white;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;flex-shrink:0;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+.perfil-foto img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.perfil-nombre{font-size:16px;font-weight:900;color:#1e293b}
+.perfil-sub{font-size:11px;color:#64748b;margin-top:2px}
+.badge{display:inline-block;font-size:9px;font-weight:800;padding:3px 8px;border-radius:20px;text-transform:uppercase}
+.badge-candidato{background:#dbeafe;color:#1e40af}.badge-precandidato{background:#fef3c7;color:#92400e}
+.dir-item{display:flex;align-items:center;gap:10px;padding:12px;border:2px solid #e2e8f0;border-radius:12px;margin-bottom:8px;transition:all .15s;cursor:pointer}
+.dir-item:active{transform:scale(0.98)}
+.dir-foto{width:40px;height:40px;border-radius:50%;background:#dcfce7;color:#166534;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0}
+.dir-foto img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.dir-nombre{font-size:13px;font-weight:800;color:#1e293b}
+.dir-zona{font-size:11px;color:#64748b}
+.dir-badge{margin-left:auto;font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px;flex-shrink:0}
+.btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;touch-action:manipulation;font-family:inherit;margin-bottom:8px;transition:all .15s}
+.btn:active{transform:scale(0.97)}
+.btn-azul{background:#003087;color:white}.btn-rojo{background:#C8102E;color:white}.btn-gris{background:#f1f5f9;color:#64748b}
+.chart-wrap{height:200px;margin-bottom:8px}
+.empty{text-align:center;padding:24px;color:#94a3b8;font-size:13px}
+.toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:400px;margin:0 auto;padding:13px 18px;border-radius:14px;font-size:14px;font-weight:700;z-index:9999;text-align:center;display:none}
+.toast-ok{background:#16a34a;color:white}
+@media(min-width:480px){.stat-grid{grid-template-columns:1fr 1fr 1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <span style="font-size:11px;opacity:0.6">Portal Candidato</span>
+    <button style="background:rgba(255,255,255,0.2);color:white;border:none;padding:6px 12px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer" onclick="cerrarSesion()">Salir 🔒</button>
+  </div>
+  <h1 id="cand-titulo">Portal de Candidato</h1>
+  <p id="cand-sub">Valverde · PRM 2026</p>
+</div>
+
+<div class="wrap">
+
+  <!-- PERFIL -->
+  <div class="perfil-card">
+    <div class="perfil-foto" id="cand-foto">👤</div>
+    <div style="flex:1">
+      <div class="perfil-nombre" id="cand-nombre">—</div>
+      <div class="perfil-sub" id="cand-cedula">—</div>
+      <span class="badge badge-candidato" id="cand-badge">—</span>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="stat-grid">
+    <div class="stat-box">
+      <div class="stat-num" id="kpi-dirigentes">0</div>
+      <div class="stat-label">Dirigentes</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="kpi-comites">0</div>
+      <div class="stat-label">Comité Total</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="kpi-zonas">0</div>
+      <div class="stat-label">Zonas</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="kpi-apoyos">0</div>
+      <div class="stat-label">Apoyos</div>
+    </div>
+  </div>
+
+  <!-- CHART -->
+  <div class="card">
+    <div class="card-title">📊 Estructura por Zona</div>
+    <div class="chart-wrap"><canvas id="chart-zonas"></canvas></div>
+  </div>
+
+  <!-- DIRIGENTES -->
+  <div class="card">
+    <div class="card-title">🤝 Mis Dirigentes</div>
+    <div id="dir-lista">
+      <div class="empty">Cargando dirigentes...</div>
+    </div>
+  </div>
+
+  <!-- MAPA RESUMEN -->
+  <div class="card">
+    <div class="card-title">🗺️ Cobertura</div>
+    <div id="mapa-resumen" class="empty">Sin ubicaciones registradas</div>
+  </div>
+
+  <!-- PERFIL -->
+  <div class="card">
+    <div class="card-title">⚙️ Mi Perfil</div>
+    <div class="campo">
+      <label style="display:block;font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:5px">Cambiar PIN</label>
+      <div style="display:flex;gap:8px">
+        <input type="tel" maxlength="1" id="cp0" style="width:44px;height:48px;text-align:center;font-size:18px;font-weight:900;border-radius:10px;border:2px solid #e2e8f0;outline:none" oninput="if(this.value)document.getElementById('cp1').focus()">
+        <input type="tel" maxlength="1" id="cp1" style="width:44px;height:48px;text-align:center;font-size:18px;font-weight:900;border-radius:10px;border:2px solid #e2e8f0;outline:none" oninput="if(this.value)document.getElementById('cp2').focus()">
+        <input type="tel" maxlength="1" id="cp2" style="width:44px;height:48px;text-align:center;font-size:18px;font-weight:900;border-radius:10px;border:2px solid #e2e8f0;outline:none" oninput="if(this.value)document.getElementById('cp3').focus()">
+        <input type="tel" maxlength="1" id="cp3" style="width:44px;height:48px;text-align:center;font-size:18px;font-weight:900;border-radius:10px;border:2px solid #e2e8f0;outline:none">
+      </div>
+    </div>
+    <button class="btn btn-azul" onclick="cambiarPin()" style="margin-top:8px">Actualizar PIN</button>
+    <button class="btn btn-rojo" onclick="cerrarSesion()" style="margin-top:4px">🔒 Cerrar Sesión</button>
+  </div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// ═══════════ SUPABASE ═══════════
+let sb = _sb;
+if (!sb && window.supabase) {
+  sb = window.supabase.createClient(
+    'https://ilivjaiexfqpioqrozlf.supabase.co',
+    'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
+  );
+}
+
+// ═══════════ SESIÓN ═══════════
+let sesion = null;
+let chartZonas = null;
+
+function getSesion() {
+  const raw = localStorage.getItem('prm_sesion');
+  if (!raw) { window.location.href = 'login.html'; return null; }
+  try {
+    const s = JSON.parse(raw);
+    if (s.expires <= Date.now()) { localStorage.removeItem('prm_sesion'); window.location.href = 'login.html'; return null; }
+    return s;
+  } catch(e) { localStorage.removeItem('prm_sesion'); window.location.href = 'login.html'; return null; }
+}
+
+// ═══════════ INICIALIZAR ═══════════
+window.addEventListener('DOMContentLoaded', async () => {
+  sesion = getSesion();
+  if (!sesion) return;
+
+  document.getElementById('cand-nombre').textContent = sesion.nombre || '—';
+  document.getElementById('cand-cedula').textContent = sesion.cedula || '—';
+
+  // Iniciales
+  const nc = sesion.nombre || '';
+  const iniciales = nc.length > 2 ? nc.slice(0,2).toUpperCase() : '??';
+  document.getElementById('cand-foto').textContent = iniciales;
+
+  await cargarDatos();
+});
+
+// ═══════════ CARGAR DATOS ═══════════
+async function cargarDatos() {
+  if (!sb || !sesion) return;
+
+  try {
+    // 1. Info del candidato
+    const { data: cand } = await sb.from('candidatos')
+      .select('nombre, cargo, tipo').eq('id', sesion.cedula).maybeSingle();
+
+    if (cand) {
+      document.getElementById('cand-titulo').textContent = cand.nombre;
+      document.getElementById('cand-sub').textContent = cand.cargo + ' · PRM Valverde';
+      const badge = document.getElementById('cand-badge');
+      badge.textContent = cand.tipo === 'candidato' ? 'Candidato' : 'Pre-candidato';
+      badge.className = 'badge ' + (cand.tipo === 'candidato' ? 'badge-candidato' : 'badge-precandidato');
+    }
+
+    // 2. Dirigentes que apoyan a este candidato
+    const { data: estruc } = await sb.from('estructuras_dirigente')
+      .select('dirigente_cedula, fecha_ingreso')
+      .eq('candidato_id', sesion.cedula).eq('activo', true);
+
+    const cedulas = (estruc || []).map(e => e.dirigente_cedula);
+    let dirigentes = [];
+
+    if (cedulas.length > 0) {
+      const { data: dirs } = await sb.from('dirigentes')
+        .select('cedula, nombre, zona, municipio, sector, latitud, longitud')
+        .in('cedula', cedulas).eq('activo', true);
+      dirigentes = dirs || [];
+    }
+
+    document.getElementById('kpi-dirigentes').textContent = dirigentes.length;
+
+    // 3. Comité total
+    let totalComite = 0;
+    if (cedulas.length > 0) {
+      const { count } = await sb.from('comite_miembros')
+        .select('*', { count: 'exact', head: true })
+        .in('dirigente_cedula', cedulas);
+      totalComite = count || 0;
+    }
+    document.getElementById('kpi-comites').textContent = totalComite;
+
+    // 4. Zonas únicas
+    const zonasUnicas = [...new Set(dirigentes.map(d => d.zona).filter(Boolean))];
+    document.getElementById('kpi-zonas').textContent = zonasUnicas.length;
+
+    // 5. Apoyos
+    const { count: apoyos } = await sb.from('apoyos')
+      .select('*', { count: 'exact', head: true })
+      .eq('candidato_id', sesion.cedula);
+    document.getElementById('kpi-apoyos').textContent = apoyos || 0;
+
+    // 6. Chart zonas
+    const zonaMap = {};
+    dirigentes.forEach(d => {
+      const z = d.zona || 'Sin zona';
+      zonaMap[z] = (zonaMap[z] || 0) + 1;
+    });
+    renderChartZonas(zonaMap);
+
+    // 7. Lista dirigentes
+    renderDirigentes(dirigentes);
+
+    // 8. Mapa resumen
+    const conUbicacion = dirigentes.filter(d => d.latitud && d.longitud);
+    if (conUbicacion.length > 0) {
+      document.getElementById('mapa-resumen').innerHTML = conUbicacion.map(d => `
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f1f5f9">
+          <span style="font-size:14px">📍</span>
+          <div><div style="font-size:12px;font-weight:700">${d.nombre}</div><div style="font-size:10px;color:#64748b">${d.zona || ''} · ${d.municipio || ''}</div></div>
+        </div>
+      `).join('');
+    }
+  } catch(e) {
+    console.error('Error cargando datos:', e);
+  }
+}
+
+// ═══════════ CHART ═══════════
+function renderChartZonas(data) {
+  const ctx = document.getElementById('chart-zonas');
+  if (!ctx) return;
+  const labels = Object.keys(data);
+  const values = Object.values(data);
+  const colores = ['#003087','#C8102E','#efbc00','#16a34a','#7c3aed','#0ea5e9','#f97316','#ec4899','#14b8a6','#6366f1'];
+
+  if (chartZonas) chartZonas.destroy();
+  chartZonas = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{ label: 'Dirigentes', data: values, backgroundColor: colores.slice(0, labels.length), borderRadius: 8, barThickness: 28 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } }, x: { ticks: { font: { size: 10 } } } }
+    }
+  });
+}
+
+// ═══════════ DIRIGENTES LISTA ═══════════
+function renderDirigentes(dirigentes) {
+  const el = document.getElementById('dir-lista');
+  if (dirigentes.length === 0) { el.innerHTML = '<div class="empty">Sin dirigentes en tu estructura aún</div>'; return; }
+
+  el.innerHTML = dirigentes.map(d => {
+    const ini = (d.nombre || '??').slice(0,2).toUpperCase();
+    return `
+      <div class="dir-item">
+        <div class="dir-foto">${ini}</div>
+        <div style="flex:1">
+          <div class="dir-nombre">${d.nombre || 'Sin nombre'}</div>
+          <div class="dir-zona">${d.zona || '—'} · ${d.municipio || '—'}</div>
+        </div>
+        <span class="dir-badge" style="background:#dcfce7;color:#166534">Activo</span>
+      </div>`;
+  }).join('');
+}
+
+// ═══════════ CAMBIAR PIN ═══════════
+async function cambiarPin() {
+  const pin = ['cp0','cp1','cp2','cp3'].map(id => document.getElementById(id).value).join('');
+  if (pin.length < 4) { toast('Ingresa los 4 dígitos', 'error'); return; }
+  if (!sb) return;
+
+  let h = 0; for (let i=0;i<pin.length;i++) h=Math.imul(31,h)+pin.charCodeAt(i)|0;
+  const pinHash = h.toString(36);
+
+  await sb.from('dirigentes').update({ pin_hash: pinHash }).eq('cedula', sesion.cedula);
+  await sb.from('usuarios_sistema').update({ pin_cambiado: true }).eq('cedula', sesion.cedula);
+  toast('✅ PIN actualizado', 'ok');
+  ['cp0','cp1','cp2','cp3'].forEach(id => document.getElementById(id).value = '');
+}
+
+// ═══════════ CERRAR SESIÓN ═══════════
+function cerrarSesion() {
+  localStorage.removeItem('prm_sesion');
+  window.location.href = 'login.html';
+}
+
+// ═══════════ UTILS ═══════════
+let _tt;
+function toast(msg, tipo) {
+  const el = document.getElementById('toast');
+  clearTimeout(_tt);
+  el.textContent = msg;
+  el.className = 'toast toast-' + (tipo || 'ok');
+  el.style.display = 'block';
+  _tt = setTimeout(() => el.style.display = 'none', 3000);
+}
+</script>
+</body>
+</html>
