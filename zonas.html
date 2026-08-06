@@ -259,8 +259,14 @@ window.addEventListener('DOMContentLoaded', async () => {
   sesion = getSesion();
   if (!sesion) return;
   document.getElementById('zona-sub').textContent = (sesion.nombre || 'PRM') + ' · Valverde 2026';
-  console.log('Sesión:', sesion.rol, sesion.nombre, sesion.municipio, sesion.zona);
+  console.log('Sesión:', JSON.stringify({ rol: sesion.rol, nombre: sesion.nombre, municipio: sesion.municipio, zona: sesion.zona }));
   console.log('SB disponible:', !!sb);
+  
+  if (sb && sesion.cedula) {
+    const { data: miRegistro } = await sb.from('dirigentes').select('cedula, nombre, zona, municipio, activo').eq('cedula', sesion.cedula).maybeSingle();
+    console.log('Mi registro en dirigentes:', miRegistro);
+  }
+  
   await cargarConteos();
   console.log('Conteos cargados');
   renderMunicipios();
@@ -358,11 +364,15 @@ async function cargarDirigentes() {
   if (!sb || !zonaActual) return;
 
   try {
-    const { data: dirs } = await sb.from('dirigentes')
+    console.log('Buscando dirigentes en:', zonaActual.municipio, '|', zonaActual.zona);
+    const { data: dirs, error } = await sb.from('dirigentes')
       .select('cedula, nombre, zona, municipio, sector, latitud, longitud, activo')
       .eq('zona', zonaActual.zona)
       .eq('municipio', zonaActual.municipio)
       .eq('activo', true);
+
+    if (error) { console.error('Error query dirigentes:', error); return; }
+    console.log('Dirigentes encontrados:', dirs ? dirs.length : 0, dirs);
 
     dirigentesZona = dirs || [];
     const cedulas = dirigentesZona.map(d => d.cedula);
