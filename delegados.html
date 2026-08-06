@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#C8102E">
+<title>Delegado — PRM Valverde</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script>
+var _sb = null;
+if (window.supabase) {
+  _sb = window.supabase.createClient(
+    'https://ilivjaiexfqpioqrozlf.supabase.co',
+    'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
+  );
+}
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293b;min-height:100vh}
+.header{background:linear-gradient(135deg,#C8102E,#9b1b30);color:white;padding:16px;position:sticky;top:0;z-index:100}
+.header-top{display:flex;justify-content:space-between;align-items:center}
+.header h1{font-size:16px;font-weight:900;margin:6px 0 2px}
+.header p{font-size:11px;opacity:0.7}
+.wrap{padding:12px;max-width:600px;margin:0 auto}
+.card{background:white;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);padding:16px;margin-bottom:12px}
+.card-title{font-size:12px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:4px;background:white;border-radius:14px;padding:4px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.tab{flex:1;padding:10px 8px;border:none;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;background:transparent;color:#64748b;transition:all .2s;font-family:inherit;text-align:center}
+.tab.activo{background:#C8102E;color:white}
+.tab-content{display:none}.tab-content.activo{display:block}
+
+/* ── MESA CARD ── */
+.mesa-card{display:flex;align-items:center;gap:12px;padding:14px;border:2px solid #e2e8f0;border-radius:14px;margin-bottom:8px;cursor:pointer;transition:all .15s}
+.mesa-card:active{transform:scale(0.98)}
+.mesa-card:hover{border-color:#C8102E;background:#fef2f2}
+.mesa-num{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#C8102E,#9b1b30);color:white;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;flex-shrink:0}
+.mesa-info{flex:1}.mesa-nombre{font-size:13px;font-weight:800}.mesa-colegio{font-size:11px;color:#64748b}
+.mesa-stats{display:flex;gap:6px;margin-top:4px}
+.mesa-stat{font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;background:#f1f5f9;color:#64748b}
+.mesa-stat.ok{background:#dcfce7;color:#166534}.mesa-stat.warn{background:#fef3c7;color:#92400e}
+
+/* ── KPI ── */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.kpi{background:white;border-radius:12px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.kpi-num{font-size:22px;font-weight:900;color:#C8102E}.kpi-label{font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:700}
+
+/* ── BUSCADOR ── */
+.search-box{position:relative;margin-bottom:12px}
+.search-box input{width:100%;padding:12px 16px 12px 40px;border:2px solid #e2e8f0;border-radius:12px;font-size:14px;outline:none;font-family:inherit;background:white}
+.search-box input:focus{border-color:#C8102E}
+.search-box i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#94a3b8}
+
+/* ── VOTANTE ── */
+.votante-card{display:flex;align-items:center;gap:10px;padding:12px;border:2px solid #e2e8f0;border-radius:12px;margin-bottom:8px;transition:all .15s}
+.votante-foto{width:40px;height:40px;border-radius:50%;background:#dbeafe;color:#1e40af;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;overflow:hidden}
+.votante-foto img{width:100%;height:100%;object-fit:cover}
+.votante-info{flex:1}.votante-nombre{font-size:13px;font-weight:700}.votante-ced{font-size:10px;color:#64748b;font-family:monospace}
+.votante-check{width:32px;height:32px;border-radius:8px;border:2px solid #e2e8f0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;font-size:14px;flex-shrink:0}
+.votante-check.marcado{background:#16a34a;border-color:#16a34a;color:white}
+
+/* ── ACTA ── */
+.acta-zone{border:3px dashed #e2e8f0;border-radius:16px;padding:32px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:12px}
+.acta-zone:hover{border-color:#C8102E;background:#fef2f2}
+.acta-zone i{font-size:36px;color:#C8102E;margin-bottom:8px}
+.acta-zone p{font-size:13px;color:#64748b}
+.acta-preview{width:100%;max-height:300px;object-fit:contain;border-radius:12px;margin-bottom:8px;display:none}
+.acta-thumb{display:inline-block;width:80px;height:80px;border-radius:8px;object-fit:cover;margin:4px;border:2px solid #e2e8f0}
+
+/* ── BOTONES ── */
+.btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;touch-action:manipulation;font-family:inherit;margin-bottom:8px;transition:all .15s}
+.btn:active{transform:scale(0.97)}
+.btn-rojo{background:#C8102E;color:white}.btn-verde{background:#16a34a;color:white}.btn-azul{background:#003087;color:white}.btn-gris{background:#f1f5f9;color:#64748b}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:400px;margin:0 auto;padding:13px 18px;border-radius:14px;font-size:14px;font-weight:700;z-index:9999;text-align:center;display:none}
+.toast-ok{background:#16a34a;color:white}.toast-error{background:#dc2626;color:white}.toast-info{background:#003087;color:white}
+
+/* ── MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.modal-bg.activo{display:flex}
+.modal{background:white;border-radius:20px 20px 0 0;width:100%;max-width:500px;max-height:80vh;overflow-y:auto;padding:20px}
+.modal-handle{width:40px;height:4px;border-radius:4px;background:#e2e8f0;margin:0 auto 16px}
+.modal h3{font-size:16px;font-weight:900;margin-bottom:12px}
+
+.campo{margin-bottom:10px}
+.campo label{display:block;font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.campo input,.campo select{width:100%;padding:10px 12px;border:2px solid #e2e8f0;border-radius:10px;font-size:14px;outline:none;font-family:inherit;background:white}
+
+@media(min-width:480px){.kpi-grid{grid-template-columns:1fr 1fr 1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <span style="font-size:11px;opacity:0.6">Portal Delegados</span>
+    <button style="background:rgba(255,255,255,0.2);color:white;border:none;padding:6px 12px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer" onclick="cerrarSesion()">Salir 🔒</button>
+  </div>
+  <h1>🗳️ Día de Elecciones</h1>
+  <p id="del-sub">Valverde · PRM 2026</p>
+</div>
+
+<div class="wrap">
+
+  <!-- KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-num" id="kpi-registrados">0</div><div class="kpi-label">Registrados</div></div>
+    <div class="kpi"><div class="kpi-num" id="kpi-pendientes">0</div><div class="kpi-label">Pendientes</div></div>
+    <div class="kpi"><div class="kpi-num" id="kpi-mujeres">0</div><div class="kpi-label">Mujeres</div></div>
+    <div class="kpi"><div class="kpi-num" id="kpi-hombres">0</div><div class="kpi-label">Hombres</div></div>
+  </div>
+
+  <!-- CHART -->
+  <div class="card" style="padding:12px">
+    <div style="height:160px"><canvas id="chart-edad"></canvas></div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab activo" onclick="cambiarTab('votantes')"><i class="fa-solid fa-users mr-1"></i> Votantes</button>
+    <button class="tab" onclick="cambiarTab('mesas')"><i class="fa-solid fa-table mr-1"></i> Mesas</button>
+    <button class="tab" onclick="cambiarTab('actas')"><i class="fa-solid fa-camera mr-1"></i> Actas</button>
+  </div>
+
+  <!-- TAB: VOTANTES -->
+  <div class="tab-content activo" id="tab-votantes">
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="buscador" placeholder="Buscar por nombre o cédula..." oninput="filtrarVotantes()">
+    </div>
+    <div id="votantes-lista">
+      <div style="text-align:center;padding:24px;color:#94a3b8;font-size:13px">Cargando votantes...</div>
+    </div>
+  </div>
+
+  <!-- TAB: MESAS -->
+  <div class="tab-content" id="tab-mesas">
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="buscador-mesa" placeholder="Buscar mesa o colegio..." oninput="filtrarMesas()">
+    </div>
+    <div id="mesas-lista">
+      <div style="text-align:center;padding:24px;color:#94a3b8;font-size:13px">Cargando mesas...</div>
+    </div>
+  </div>
+
+  <!-- TAB: ACTAS -->
+  <div class="tab-content" id="tab-actas">
+    <div class="card">
+      <div class="card-title">📸 Subir Acta</div>
+      <div class="acta-zone" id="acta-zone" onclick="document.getElementById('acta-input').click()">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        <p>Toca para tomar foto o subir imagen del acta</p>
+        <p style="font-size:10px;color:#94a3b8;margin-top:4px">Formatos: JPG, PNG · Máx 10MB</p>
+      </div>
+      <input type="file" id="acta-input" accept="image/*" capture="environment" style="display:none" onchange="cargarActa(this)">
+      <img id="acta-preview" class="acta-preview">
+      <div id="acta-mesa-info" style="display:none">
+        <div class="campo">
+          <label>Mesa #</label>
+          <select id="acta-mesa"><option value="">Selecciona mesa...</option></select>
+        </div>
+        <button class="btn btn-rojo" onclick="subirActa()">📤 Subir Acta</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">📋 Actas Subidas</div>
+      <div id="actas-subidas">
+        <div style="text-align:center;padding:16px;color:#94a3b8;font-size:13px">No hay actas subidas aún</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL: DETALLE VOTANTE -->
+<div class="modal-bg" id="modal-votante" onclick="if(event.target===this)cerrarModal()">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3 id="modal-nombre">—</h3>
+    <div id="modal-body"></div>
+    <button class="btn btn-gris" onclick="cerrarModal()" style="margin-top:8px">Cerrar</button>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// ═══════════ SUPABASE ═══════════
+let sb = _sb;
+if (!sb && window.supabase) {
+  sb = window.supabase.createClient(
+    'https://ilivjaiexfqpioqrozlf.supabase.co',
+    'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
+  );
+}
+
+// ═══════════ ESTADO ═══════════
+let sesion = null;
+let votantes = [];
+let mesas = [];
+let actas = [];
+let chartEdad = null;
+let actaFile = null;
+
+// ═══════════ SESIÓN ═══════════
+function getSesion() {
+  const raw = localStorage.getItem('prm_sesion');
+  if (!raw) { window.location.href = 'login.html'; return null; }
+  try {
+    const s = JSON.parse(raw);
+    if (s.expires <= Date.now()) { localStorage.removeItem('prm_sesion'); window.location.href = 'login.html'; return null; }
+    return s;
+  } catch(e) { localStorage.removeItem('prm_sesion'); window.location.href = 'login.html'; return null; }
+}
+
+// ═══════════ INIT ═══════════
+window.addEventListener('DOMContentLoaded', async () => {
+  sesion = getSesion();
+  if (!sesion) return;
+  document.getElementById('del-sub').textContent = (sesion.zona || 'Valverde') + ' · ' + (sesion.municipio || 'PRM 2026');
+  await cargarDatos();
+});
+
+// ═══════════ CARGAR DATOS ═══════════
+async function cargarDatos() {
+  if (!sb) return;
+  try {
+    // 1. Cargar padrón (votantes de la zona del delegado)
+    const { data: padron } = await sb.from('padron_maestro')
+      .select('cedula, nombre_completo, foto_base64, sexo, fecha_nacimiento, recinto_nombre, colegio_num, direccion')
+      .order('nombre_completo');
+    votantes = (padron || []).map(p => ({
+      cedula: p.cedula,
+      nombre: p.nombre_completo,
+      foto: p.foto_base64,
+      sexo: p.sexo,
+      fecha_nacimiento: p.fecha_nacimiento,
+      recinto: p.recinto_nombre || '',
+      colegio: p.colegio_num || '',
+      direccion: p.direccion || '',
+      registrado: false
+    }));
+
+    // 2. Cargar mesas
+    const { data: mesasData } = await sb.from('colegios_electorales')
+      .select('*').order('nombre');
+    mesas = mesasData || [];
+
+    // 3. Cargar actas subidas
+    const { data: actasData } = await sb.from('actas_electorales')
+      .select('*').order('fecha_subida', { ascending: false }).limit(20);
+    actas = actasData || [];
+
+    actualizarKPIs();
+    renderVotantes();
+    renderMesas();
+    renderActas();
+    renderChartEdad();
+  } catch(e) {
+    console.error(e);
+    // Modo demo con datos de ejemplo
+    votantes = generarDemo();
+    actualizarKPIs();
+    renderVotantes();
+    renderChartEdad();
+  }
+}
+
+function generarDemo() {
+  const nombres = ['María García','Juan Pérez','Ana Rodríguez','Carlos Martínez','Rosa López','Pedro Sánchez','Carmen Torres','Luis Ramírez','Isabel Cruz','Miguel Hernández','Teresa Morales','Francisco Díaz','Lucía Vargas','Roberto Castillo','Sofía Reyes'];
+  return nombres.map((n,i) => ({
+    cedula: '402-000000'+(i+1)+'-'+((i*7+3)%10),
+    nombre: n,
+    foto: null,
+    sexo: i % 3 === 0 ? 'F' : 'M',
+    fecha_nacimiento: '19'+(60+Math.floor(Math.random()*30))+'-01-01',
+    recinto: 'Colegio 0071',
+    colegio: '0071',
+    direccion: 'Barrio ' + ['Centro','Norte','Sur','Este','Oeste'][i%5],
+    registrado: Math.random() > 0.6
+  }));
+}
+
+// ═══════════ KPIs ═══════════
+function actualizarKPIs() {
+  const total = votantes.length;
+  const registrados = votantes.filter(v => v.registrado).length;
+  const mujeres = votantes.filter(v => v.sexo === 'F').length;
+  const hombres = votantes.filter(v => v.sexo === 'M').length;
+
+  document.getElementById('kpi-registrados').textContent = registrados;
+  document.getElementById('kpi-pendientes').textContent = total - registrados;
+  document.getElementById('kpi-mujeres').textContent = mujeres;
+  document.getElementById('kpi-hombres').textContent = hombres;
+}
+
+// ═══════════ RENDER VOTANTES ═══════════
+function renderVotantes(lista) {
+  const el = document.getElementById('votantes-lista');
+  const data = lista || votantes.slice(0, 100);
+  if (data.length === 0) { el.innerHTML = '<div style="text-align:center;padding:24px;color:#94a3b8">Sin resultados</div>'; return; }
+
+  el.innerHTML = data.map(v => {
+    const ini = (v.nombre || '??').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+    const fotoHtml = v.foto
+      ? '<img src="data:image/jpeg;base64,' + v.foto + '">'
+      : ini;
+    return `
+      <div class="votante-card" onclick="verVotante('${v.cedula}')">
+        <div class="votante-foto">${fotoHtml}</div>
+        <div class="votante-info">
+          <div class="votante-nombre">${v.nombre || '—'}</div>
+          <div class="votante-ced">${v.cedula} · ${v.sexo === 'F' ? '♀ Femenino' : '♂ Masculino'}</div>
+        </div>
+        <div class="votante-check ${v.registrado ? 'marcado' : ''}" onclick="event.stopPropagation();toggleVoto('${v.cedula}')">
+          ${v.registrado ? '✓' : ''}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function filtrarVotantes() {
+  const q = document.getElementById('buscador').value.toLowerCase();
+  if (!q) { renderVotantes(); return; }
+  const filtrados = votantes.filter(v =>
+    (v.nombre || '').toLowerCase().includes(q) ||
+    (v.cedula || '').includes(q)
+  ).slice(0, 50);
+  renderVotantes(filtrados);
+}
+
+function toggleVoto(cedula) {
+  const v = votantes.find(x => x.cedula === cedula);
+  if (v) {
+    v.registrado = !v.registrado;
+    actualizarKPIs();
+    renderVotantes();
+    toast(v.registrado ? '✅ Voto registrado' : '↩️ Voto desmarcado', v.registrado ? 'ok' : 'info');
+  }
+}
+
+function verVotante(cedula) {
+  const v = votantes.find(x => x.cedula === cedula);
+  if (!v) return;
+  document.getElementById('modal-nombre').textContent = v.nombre;
+  const edad = v.fecha_nacimiento ? Math.floor((Date.now() - new Date(v.fecha_nacimiento)) / (365.25*24*60*60*1000)) : '—';
+  document.getElementById('modal-body').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div style="background:#f1f5f9;padding:10px;border-radius:10px;text-align:center">
+        <div style="font-size:18px;font-weight:900;color:#003087">${v.cedula}</div>
+        <div style="font-size:9px;color:#94a3b8;text-transform:uppercase">Cédula</div>
+      </div>
+      <div style="background:#f1f5f9;padding:10px;border-radius:10px;text-align:center">
+        <div style="font-size:18px;font-weight:900;color:#C8102E">${edad}</div>
+        <div style="font-size:9px;color:#94a3b8;text-transform:uppercase">Edad</div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:#475569;line-height:1.8">
+      <div><strong>Sexo:</strong> ${v.sexo === 'F' ? 'Femenino' : 'Masculino'}</div>
+      <div><strong>Recinto:</strong> ${v.recinto || '—'}</div>
+      <div><strong>Colegio:</strong> ${v.colegio || '—'}</div>
+      <div><strong>Dirección:</strong> ${v.direccion || '—'}</div>
+      <div><strong>Estado:</strong> ${v.registrado ? '<span style="color:#16a34a;font-weight:800">✅ Votó</span>' : '<span style="color:#f59e0b;font-weight:800">⏳ Pendiente</span>'}</div>
+    </div>`;
+  document.getElementById('modal-votante').classList.add('activo');
+}
+
+// ═══════════ RENDER MESAS ═══════════
+function renderMesas(lista) {
+  const el = document.getElementById('mesas-lista');
+  const data = lista || mesas;
+  if (data.length === 0) { el.innerHTML = '<div style="text-align:center;padding:24px;color:#94a3b8">Sin mesas registradas</div>'; return; }
+
+  el.innerHTML = data.map((m, i) => `
+    <div class="mesa-card" onclick="toast('Mesa ${m.numero || i+1}','info')">
+      <div class="mesa-num">${m.numero || i+1}</div>
+      <div class="mesa-info">
+        <div class="mesa-nombre">Mesa ${m.numero || i+1}</div>
+        <div class="mesa-colegio">${m.nombre || 'Colegio ' + (m.colegio_num || '—')}</div>
+        <div class="mesa-stats">
+          <span class="mesa-stat ok">0 votos</span>
+          <span class="mesa-stat">${m.direccion || '—'}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filtrarMesas() {
+  const q = document.getElementById('buscador-mesa').value.toLowerCase();
+  if (!q) { renderMesas(); return; }
+  renderMesas(mesas.filter(m =>
+    (m.nombre || '').toLowerCase().includes(q) ||
+    (m.direccion || '').toLowerCase().includes(q)
+  ));
+}
+
+// ═══════════ ACTAS ═══════════
+function cargarActa(input) {
+  const file = input.files[0];
+  if (!file) return;
+  actaFile = file;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = document.getElementById('acta-preview');
+    img.src = e.target.result;
+    img.style.display = 'block';
+    document.getElementById('acta-zone').style.display = 'none';
+    document.getElementById('acta-mesa-info').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+async function subirActa() {
+  if (!actaFile) { toast('Selecciona una imagen', 'error'); return; }
+  const mesa = document.getElementById('acta-mesa').value;
+  toast('📤 Subiendo acta...', 'info');
+
+  // Convertir a base64
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const base64 = e.target.result.split(',')[1];
+    if (sb) {
+      await sb.from('actas_electorales').insert({
+        delegado_cedula: sesion.cedula,
+        mesa_numero: mesa,
+        imagen_base64: base64,
+        fecha_subida: new Date().toISOString()
+      });
+    }
+    toast('✅ Acta subida correctamente', 'ok');
+    actaFile = null;
+    document.getElementById('acta-preview').style.display = 'none';
+    document.getElementById('acta-zone').style.display = 'block';
+    document.getElementById('acta-mesa-info').style.display = 'none';
+  };
+  reader.readAsDataURL(actaFile);
+}
+
+function renderActas() {
+  const el = document.getElementById('actas-subidas');
+  if (actas.length === 0) { el.innerHTML = '<div style="text-align:center;padding:16px;color:#94a3b8">No hay actas subidas aún</div>'; return; }
+  el.innerHTML = actas.map(a => `
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f1f5f9">
+      <span style="font-size:18px">📋</span>
+      <div style="flex:1"><div style="font-size:12px;font-weight:700">Mesa ${a.mesa_numero || '—'}</div><div style="font-size:10px;color:#94a3b8">${new Date(a.fecha_subida).toLocaleString()}</div></div>
+    </div>
+  `).join('');
+}
+
+// ═══════════ CHART EDAD ═══════════
+function renderChartEdad() {
+  const ctx = document.getElementById('chart-edad');
+  if (!ctx) return;
+  const rangos = {'18-25':0,'26-35':0,'36-50':0,'51-65':0,'65+':0};
+  votantes.forEach(v => {
+    if (!v.fecha_nacimiento) return;
+    const edad = Math.floor((Date.now() - new Date(v.fecha_nacimiento)) / (365.25*24*60*60*1000));
+    if (edad < 26) rangos['18-25']++;
+    else if (edad < 36) rangos['26-35']++;
+    else if (edad < 51) rangos['36-50']++;
+    else if (edad < 66) rangos['51-65']++;
+    else rangos['65+']++;
+  });
+
+  if (chartEdad) chartEdad.destroy();
+  chartEdad = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: Object.keys(rangos),
+      datasets: [{ label: 'Votantes', data: Object.values(rangos), backgroundColor: ['#003087','#C8102E','#efbc00','#16a34a','#7c3aed'], borderRadius: 6, barThickness: 24 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } }, x: { ticks: { font: { size: 10 } } } }
+    }
+  });
+}
+
+// ═══════════ TABS ═══════════
+function cambiarTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('activo'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('activo'));
+  event.target.closest('.tab').classList.add('activo');
+  document.getElementById('tab-' + tab).classList.add('activo');
+}
+
+function cerrarModal() { document.getElementById('modal-votante').classList.remove('activo'); }
+function cerrarSesion() { localStorage.removeItem('prm_sesion'); window.location.href = 'login.html'; }
+
+let _tt;
+function toast(msg, tipo) {
+  const el = document.getElementById('toast');
+  clearTimeout(_tt);
+  el.textContent = msg;
+  el.className = 'toast toast-' + (tipo || 'ok');
+  el.style.display = 'block';
+  _tt = setTimeout(() => el.style.display = 'none', 3000);
+}
+
+// Expose
+window.cambiarTab = cambiarTab;
+window.filtrarVotantes = filtrarVotantes;
+window.filtrarMesas = filtrarMesas;
+window.toggleVoto = toggleVoto;
+window.verVotante = verVotante;
+window.cargarActa = cargarActa;
+window.subirActa = subirActa;
+window.cerrarModal = cerrarModal;
+window.cerrarSesion = cerrarSesion;
+</script>
+</body>
+</html>

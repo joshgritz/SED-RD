@@ -101,11 +101,19 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180d
       <div class="rc-text"><div class="rc-title">Administración</div><div class="rc-sub">Panel de administración</div></div>
       <div class="rc-arrow">›</div>
     </div>
+    <div class="role-card" onclick="entrarRol('delegado')">
+      <div class="rc-icon" style="background:#fce7f3">📋</div>
+      <div class="rc-text"><div class="rc-title">Delegado</div><div class="rc-sub">Mesas, actas y votantes del día</div></div>
+      <div class="rc-arrow">›</div>
+    </div>
   </div>
   <div style="display:flex;gap:8px;margin-bottom:8px">
     <button class="btn btn-verde" style="flex:1" onclick="irStep('step-registro-rol')">📝 Registrarme</button>
     <button class="btn btn-gris" style="flex:1" onclick="irStep('step-recuperar')">🔑 Recuperar PIN</button>
   </div>
+  <a href="publico.html" style="display:block;text-align:center;padding:12px;background:linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0.05));border:1px solid rgba(255,255,255,0.15);border-radius:14px;text-decoration:none;color:white;font-size:13px;font-weight:700;backdrop-filter:blur(8px);margin-bottom:8px">
+    🌐 Explorar Portal Público — Valverde
+  </a>
 </div>
 
 <!-- ═══════════ STEP 1: CÉDULA ═══════════ -->
@@ -400,6 +408,10 @@ function irStep(id) {
 function entrarRol(rol) {
   if (rol === 'admin') {
     window.location.href = 'admin.html';
+    return;
+  }
+  if (rol === 'delegado') {
+    window.location.href = 'delegados.html';
     return;
   }
   E.rolDeseado = rol;
