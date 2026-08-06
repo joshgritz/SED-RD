@@ -78,6 +78,18 @@
 </head>
 <body>
 
+<div id="adminGate" style="display:none;position:fixed;inset:0;background:#f4f6f9;z-index:9999;display:flex;align-items:center;justify-content:center;">
+  <div style="background:white;border-radius:16px;padding:32px;max-width:360px;width:90%;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,0.15);">
+    <div style="font-size:34px;margin-bottom:10px">🔒</div>
+    <h2 style="color:var(--blue);font-size:18px;margin-bottom:4px">Acceso restringido</h2>
+    <p style="color:#888;font-size:13px;margin-bottom:20px">Solo administración</p>
+    <input id="gatePin" type="password" placeholder="Clave de acceso"
+      style="width:100%;padding:12px;border:2px solid #ddd;border-radius:10px;font-size:15px;text-align:center;letter-spacing:0.3em;outline:none" />
+    <div id="gateError" style="color:#e00;font-size:12px;font-weight:600;margin-top:8px;display:none">Clave incorrecta</div>
+    <button id="gateBtn" style="width:100%;margin-top:14px;padding:12px;background:var(--blue);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer">Entrar</button>
+  </div>
+</div>
+
 <div class="header">
   <div class="logo">PRM</div>
   <div>
@@ -633,6 +645,33 @@ function log(msg) {
   a.innerHTML += `<div>${msg}</div>`;
   a.scrollTop  = a.scrollHeight;
 }
+
+// ── GATE ADMIN ──────────────────────────────────────────────────
+(async function initGate() {
+  const gate = document.getElementById('adminGate');
+  const input = document.getElementById('gatePin');
+  const err = document.getElementById('gateError');
+  // Si viene desde admin.html con sesión, pasa directo
+  if (localStorage.getItem('prm_admin') === '1') { gate.style.display = 'none'; return; }
+  gate.style.display = 'flex';
+  async function intentar() {
+    const pin = input.value.trim();
+    if (!pin) return;
+    const sb = initSB();
+    if (!sb) { err.style.display = 'block'; err.textContent = 'Error de conexión'; return; }
+    const { data } = await sb.rpc('fn_verificar_admin_pin', { p_pin: pin });
+    if (data === true) {
+      localStorage.setItem('prm_admin', '1');
+      localStorage.setItem('prm_admin_pin', pin);
+      gate.style.display = 'none';
+    } else {
+      err.style.display = 'block';
+      input.value = '';
+    }
+  }
+  document.getElementById('gateBtn').addEventListener('click', intentar);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') intentar(); });
+})();
 </script>
 </body>
 </html>

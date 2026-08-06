@@ -72,6 +72,8 @@
       <button class="nav-btn" data-tab="planchas" onclick="mostrarTab('planchas')"><i class="fa-solid fa-bullhorn mr-1"></i> Planchas</button>
       <button class="nav-btn" data-tab="padron" onclick="mostrarTab('padron')"><i class="fa-solid fa-book mr-1"></i> Padrón</button>
       <button class="nav-btn" data-tab="config" onclick="mostrarTab('config')"><i class="fa-solid fa-gear mr-1"></i> Config Web</button>
+      <a href="importador_padron.html" class="nav-btn bg-white text-slate-600 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-100"><i class="fa-solid fa-file-import mr-1"></i> Importar Padrón</a>
+      <a href="index.html" target="_blank" class="nav-btn bg-white text-slate-600 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-100"><i class="fa-solid fa-globe mr-1"></i> Ver Web</a>
     </div>
   </nav>
 
@@ -214,6 +216,66 @@
     </section>
 
   </main>
+</div>
+
+<!-- Modal Candidato -->
+<div id="modal-candidato" class="hidden fixed inset-0 z-[100] bg-black/60 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
+    <h3 id="modal-candidato-title" class="font-black text-slate-800 text-lg mb-4"><i class="fa-solid fa-user-tie mr-2 text-blue-700"></i> Candidato</h3>
+    <input id="candidato-id-original" type="hidden">
+    <div class="space-y-3">
+      <div>
+        <label class="text-xs font-bold text-slate-400 uppercase">Nombre completo</label>
+        <input id="cand-nombre" placeholder="Ej: María Santos Cruz">
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="text-xs font-bold text-slate-400 uppercase">Tipo</label>
+          <select id="cand-tipo">
+            <option value="precandidato">Pre-candidato</option>
+            <option value="candidato">Candidato</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-slate-400 uppercase">Cargo</label>
+          <select id="cand-cargo">
+            <option value="Senador">Senador</option>
+            <option value="Diputado">Diputado</option>
+            <option value="Alcalde">Alcalde</option>
+            <option value="Regidor">Regidor</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="text-xs font-bold text-slate-400 uppercase">Municipio</label>
+          <select id="cand-municipio">
+            <option value="MAO">Mao</option>
+            <option value="ESPERANZA">Esperanza</option>
+            <option value="LAGUNA SALADA">Laguna Salada</option>
+            <option value="AMINA">Amina</option>
+            <option value="GUATAPANAL">Guatapanal</option>
+            <option value="JAIBON">Jaibón</option>
+            <option value="POTRERO">Potrero</option>
+            <option value="">—</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-slate-400 uppercase">Zona</label>
+          <input id="cand-zona" placeholder="Ej: Zona A">
+        </div>
+      </div>
+      <div>
+        <label class="text-xs font-bold text-slate-400 uppercase">ID interno (ej: c4)</label>
+        <input id="cand-id" placeholder="c4">
+      </div>
+      <div class="flex gap-2 pt-2">
+        <button onclick="guardarCandidatoModal()" class="flex-1 bg-[#003087] hover:bg-[#002a70] text-white font-bold py-2.5 rounded-xl"><i class="fa-solid fa-floppy-disk mr-1"></i> Guardar</button>
+        <button onclick="cerrarModalCandidato()" class="px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 rounded-xl">Cancelar</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -411,28 +473,60 @@ async function cargarCandidatos() {
 }
 
 function nuevoCandidato() {
-  const id = prompt('ID (ej: c4, p3):');
-  if (id === null || !id.trim()) return;
-  const nombre = prompt('Nombre completo:');
-  if (nombre === null || !nombre.trim()) return;
-  const cargo = prompt('Cargo (ej: Candidato a Senador):');
-  const tipo = prompt('Tipo (candidato o precandidato):', 'precandidato');
-  const municipio = prompt('Municipio:', 'MAO');
-  sb.from('candidatos').insert({ id: id.trim(), nombre, cargo, tipo, municipio, activo: true }).then(res => {
-    if (res.error) { alert('Error: ' + res.error.message); return; }
-    cargarCandidatos();
-  });
+  document.getElementById('modal-candidato-title').innerHTML = '<i class="fa-solid fa-user-tie mr-2 text-blue-700"></i> Nuevo Candidato';
+  document.getElementById('candidato-id-original').value = '';
+  document.getElementById('cand-id').value = '';
+  document.getElementById('cand-nombre').value = '';
+  document.getElementById('cand-tipo').value = 'precandidato';
+  document.getElementById('cand-cargo').value = 'Senador';
+  document.getElementById('cand-municipio').value = 'MAO';
+  document.getElementById('cand-zona').value = '';
+  document.getElementById('cand-id').disabled = false;
+  document.getElementById('modal-candidato').classList.remove('hidden');
 }
 
 async function editarCandidato(id) {
   const { data } = await sb.from('candidatos').select('*').eq('id', id).single();
   if (!data) return;
-  const nombre = prompt('Nombre:', data.nombre);
-  if (nombre === null) return;
-  const cargo = prompt('Cargo:', data.cargo);
-  const municipio = prompt('Municipio:', data.municipio || '');
-  const zona = prompt('Zona:', data.zona || '');
-  await sb.from('candidatos').update({ nombre, cargo, municipio, zona }).eq('id', id);
+  document.getElementById('modal-candidato-title').innerHTML = '<i class="fa-solid fa-user-tie mr-2 text-blue-700"></i> Editar Candidato';
+  document.getElementById('candidato-id-original').value = data.id;
+  document.getElementById('cand-id').value = data.id;
+  document.getElementById('cand-nombre').value = data.nombre || '';
+  document.getElementById('cand-tipo').value = data.tipo === 'candidato' ? 'candidato' : 'precandidato';
+  const cargoBruto = (data.cargo || '').replace(/^candidato a /i, '').replace(/^pre[- ]?candidato a /i, '').trim();
+  document.getElementById('cand-cargo').value = ['Senador', 'Diputado', 'Alcalde', 'Regidor'].includes(cargoBruto) ? cargoBruto : 'Otro';
+  document.getElementById('cand-municipio').value = data.municipio || 'MAO';
+  document.getElementById('cand-zona').value = data.zona || '';
+  document.getElementById('cand-id').disabled = true;
+  document.getElementById('modal-candidato').classList.remove('hidden');
+}
+
+function cerrarModalCandidato() {
+  document.getElementById('modal-candidato').classList.add('hidden');
+}
+
+function cargoCompleto(tipo, cargo) {
+  return (tipo === 'candidato' ? 'Candidato a ' : 'Pre-candidato a ') + cargo;
+}
+
+async function guardarCandidatoModal() {
+  const idOriginal = document.getElementById('candidato-id-original').value;
+  const id = document.getElementById('cand-id').value.trim();
+  const nombre = document.getElementById('cand-nombre').value.trim();
+  const tipo = document.getElementById('cand-tipo').value;
+  const cargoSel = document.getElementById('cand-cargo').value;
+  const municipio = document.getElementById('cand-municipio').value;
+  const zona = document.getElementById('cand-zona').value.trim();
+  if (!id || !nombre) { alert('El ID y el nombre son obligatorios.'); return; }
+  const cargo = cargoCompleto(tipo, cargoSel);
+  if (idOriginal) {
+    const { error } = await sb.from('candidatos').update({ nombre, tipo, cargo, municipio, zona }).eq('id', idOriginal);
+    if (error) { alert('Error: ' + error.message); return; }
+  } else {
+    const { error } = await sb.from('candidatos').insert({ id, nombre, tipo, cargo, municipio, zona, activo: true });
+    if (error) { alert('Error: ' + error.message); return; }
+  }
+  cerrarModalCandidato();
   cargarCandidatos();
 }
 
