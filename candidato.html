@@ -168,10 +168,21 @@ window.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('cand-nombre').textContent = sesion.nombre || '—';
   document.getElementById('cand-cedula').textContent = sesion.cedula || '—';
 
-  // Iniciales
-  const nc = sesion.nombre || '';
-  const iniciales = nc.length > 2 ? nc.slice(0,2).toUpperCase() : '??';
-  document.getElementById('cand-foto').textContent = iniciales;
+  // Cargar foto del padrón
+  const fotoEl = document.getElementById('cand-foto');
+  if (sb && sesion.cedula) {
+    const { data: pad } = await sb.from('padron_maestro')
+      .select('foto_base64').eq('cedula', sesion.cedula).maybeSingle();
+    if (pad && pad.foto_base64) {
+      fotoEl.innerHTML = '<img src="data:image/jpeg;base64,' + pad.foto_base64 + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+    } else {
+      const nc = sesion.nombre || '??';
+      fotoEl.textContent = nc.slice(0,2).toUpperCase();
+    }
+  } else {
+    const nc = sesion.nombre || '??';
+    fotoEl.textContent = nc.slice(0,2).toUpperCase();
+  }
 
   await cargarDatos();
 });

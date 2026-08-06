@@ -474,12 +474,12 @@ async function verificarPin() {
       document.getElementById('p0').focus();
       return;
     }
-    guardarSesion(data);
+    guardarSesion({ ...data, foto_base64: E.foto });
     if (!data.pin_cambiado) { irStep('step-cambiar-pin'); return; }
     redirigir(data);
     return;
   }
-  guardarSesion({ cedula: E.cedFmt, nombre: E.nombre, zona: E.zona, municipio: E.municipio, rol: E.rolSistema || 'DIRIGENTE_BASE', token: 'demo-'+Date.now() });
+  guardarSesion({ cedula: E.cedFmt, nombre: E.nombre, zona: E.zona, municipio: E.municipio, rol: E.rolSistema || 'DIRIGENTE_BASE', token: 'demo-'+Date.now(), foto_base64: E.foto });
   redirigir({ rol: E.rolSistema || 'DIRIGENTE_BASE' });
 }
 
@@ -691,6 +691,7 @@ function guardarSesion(data) {
   localStorage.setItem('prm_sesion', JSON.stringify({
     cedula: data.cedula, nombre: data.nombre, zona: data.zona,
     municipio: data.municipio, rol: data.rol, token: data.token,
+    foto_base64: data.foto_base64 || null,
     expires: Date.now() + 86400000
   }));
 }

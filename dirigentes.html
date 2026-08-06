@@ -213,7 +213,7 @@ window.initGoogleMaps = function() {
 
     <!-- Tarjeta perfil -->
     <div class="perfil-card mt16">
-      <div class="perfil-foto">👤</div>
+      <div class="perfil-foto" id="dash-foto">👤</div>
       <div>
         <div class="perfil-nombre" id="dash-nombre">—</div>
         <div class="perfil-cedula" id="dash-cedula">—</div>
@@ -683,6 +683,7 @@ function guardarSesionLocal(datos) {
     municipio: datos.municipio,
     sector:  datos.sector,
     telefono: datos.telefono,
+    foto_base64: datos.foto_base64 || null,
     expires: Date.now() + (24 * 60 * 60 * 1000)
   }));
 }
@@ -961,6 +962,15 @@ function actualizarDashboard() {
   document.getElementById('dash-nombre').textContent = sesion.nombre;
   document.getElementById('dash-cedula').textContent = sesion.cedula;
   document.getElementById('dash-zona').textContent = sesion.zona + ' — ' + sesion.municipio;
+
+  // Renderizar foto
+  const fotoEl = document.getElementById('dash-foto');
+  if (sesion.foto_base64) {
+    fotoEl.innerHTML = '<img src="data:image/jpeg;base64,' + sesion.foto_base64 + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+  } else {
+    const nc = sesion.nombre || '??';
+    fotoEl.textContent = nc.slice(0,2).toUpperCase();
+  }
 
   const comiteCount = (sesion.comite || []).length;
   document.getElementById('dash-comite-count').textContent = comiteCount;
