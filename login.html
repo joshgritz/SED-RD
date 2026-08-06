@@ -106,6 +106,11 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180d
       <div class="rc-text"><div class="rc-title">Delegado</div><div class="rc-sub">Mesas, actas y votantes del día</div></div>
       <div class="rc-arrow">›</div>
     </div>
+    <div class="role-card" onclick="entrarRol('zona')">
+      <div class="rc-icon" style="background:#dbeafe">🏛️</div>
+      <div class="rc-text"><div class="rc-title">Portal Zonal</div><div class="rc-sub">Gestión de zona, dirigentes y planchas</div></div>
+      <div class="rc-arrow">›</div>
+    </div>
   </div>
   <div style="display:flex;gap:8px;margin-bottom:8px">
     <button class="btn btn-verde" style="flex:1" onclick="irStep('step-registro-rol')">📝 Registrarme</button>
@@ -411,6 +416,14 @@ function entrarRol(rol) {
     return;
   }
   E.rolDeseado = rol;
+  if (rol === 'zona') {
+    const titulos = { zona: '🏛️ Portal Zonal' };
+    document.getElementById('ced-titulo').textContent = titulos[rol] || '🔍 Identificación';
+    document.getElementById('ced-sub').textContent = 'Identifícate para acceder a tu zona';
+    irStep('step-cedula');
+    setTimeout(() => document.getElementById('inp-cedula').focus(), 300);
+    return;
+  }
   const titulos = {
     candidato: '🗳️ Portal de Candidato',
     dirigente: '🤝 Portal de Dirigente',
@@ -522,6 +535,7 @@ function getDestino(rol) {
   if (map[rol]) return map[rol];
   if (E.rolDeseado === 'candidato') return 'candidato.html';
   if (E.rolDeseado === 'delegado') return 'delegados.html';
+  if (E.rolDeseado === 'zona') return 'zonas.html';
   return 'dirigentes.html';
 }
 
