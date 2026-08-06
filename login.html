@@ -410,10 +410,6 @@ function entrarRol(rol) {
     window.location.href = 'admin.html';
     return;
   }
-  if (rol === 'delegado') {
-    window.location.href = 'delegados.html';
-    return;
-  }
   E.rolDeseado = rol;
   const titulos = {
     candidato: '🗳️ Portal de Candidato',
@@ -525,6 +521,7 @@ function getDestino(rol) {
   };
   if (map[rol]) return map[rol];
   if (E.rolDeseado === 'candidato') return 'candidato.html';
+  if (E.rolDeseado === 'delegado') return 'delegados.html';
   return 'dirigentes.html';
 }
 
@@ -704,6 +701,7 @@ function guardarSesion(data) {
     cedula: data.cedula, nombre: data.nombre, zona: data.zona,
     municipio: data.municipio, rol: data.rol, token: data.token,
     foto_base64: data.foto_base64 || null,
+    rolDeseado: E.rolDeseado || null,
     expires: Date.now() + 86400000
   }));
 }
@@ -738,7 +736,11 @@ window.addEventListener('DOMContentLoaded', function() {
   if (raw) {
     try {
       const s = JSON.parse(raw);
-      if (s.expires > Date.now()) { window.location.href = getDestino(s.rol); return; }
+      if (s.expires > Date.now()) {
+        E.rolDeseado = s.rolDeseado || null;
+        window.location.href = getDestino(s.rol);
+        return;
+      }
       localStorage.removeItem('prm_sesion');
     } catch(e) { localStorage.removeItem('prm_sesion'); }
   }
