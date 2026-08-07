@@ -1,8 +1,0 @@
-id,nombre,tipo,provincia_id,es_regionalizado
-1,Mao,MUNICIPIO,1,true
-2,Esperanza,MUNICIPIO,1,true
-3,Laguna Salada,MUNICIPIO,1,false
-4,Amina,DISTRITO_MUNICIPAL,1,false
-5,Guatapanal,DISTRITO_MUNICIPAL,1,false
-6,Jaibon,DISTRITO_MUNICIPAL,1,false
-7,Potrero,DISTRITO_MUNICIPAL,1,false

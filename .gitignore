@@ -1,0 +1,11 @@
+node_modules/
+package-lock.json
+powerbi_data/
+*.js
+!login.html
+!dirigentes.html
+!zonas.html
+!candidato.html
+!delegados.html
+!admin.html
+!index.html
