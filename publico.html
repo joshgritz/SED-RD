@@ -186,9 +186,9 @@ body{font-family:'Montserrat',sans-serif;background:#fff;color:#1e293b;min-heigh
       <a href="#valverde" class="activo">Inicio</a>
       <a href="#municipios">Municipios</a>
       <a href="#alcaldes">Alcaldes</a>
+      <a href="#representantes">Representantes</a>
       <a href="#partidos">Partidos</a>
       <a href="#historia">Historia</a>
-      <a href="#curiosidades">Curiosidades</a>
     </nav>
     <div class="header-actions">
       <a href="login.html" class="header-cta" style="background:transparent;border:2px solid #003087;color:#003087"><i class="fa-solid fa-right-to-bracket"></i> Iniciar</a>
@@ -203,9 +203,9 @@ body{font-family:'Montserrat',sans-serif;background:#fff;color:#1e293b;min-heigh
   <a href="#valverde" class="activo" onclick="scrollTo_('valverde',event)">Valverde</a>
   <a href="#municipios" onclick="scrollTo_('municipios',event)">Municipios</a>
   <a href="#alcaldes" onclick="scrollTo_('alcaldes',event)">Alcaldes</a>
+  <a href="#representantes" onclick="scrollTo_('representantes',event)">Representantes</a>
   <a href="#partidos" onclick="scrollTo_('partidos',event)">Partidos</a>
   <a href="#historia" onclick="scrollTo_('historia',event)">Historia</a>
-  <a href="#curiosidades" onclick="scrollTo_('curiosidades',event)">Curiosidades</a>
 </nav>
 
 <!-- HERO -->
@@ -380,6 +380,55 @@ body{font-family:'Montserrat',sans-serif;background:#fff;color:#1e293b;min-heigh
       </div>
       <div style="text-align:center;margin-top:24px;padding:14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;font-size:12px;color:#94a3b8">
       <i class="fa-solid fa-circle-info" style="margin-right:6px"></i> Datos de mandato 2024-2028. La provincia cuenta con 3 municipios y 10 distritos municipales.
+    </div>
+  </div>
+</section>
+
+<!-- REPRESENTANTES -->
+<section class="section section-dark" id="representantes">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag"><i class="fa-solid fa-landmark"></i> Congreso Nacional</div>
+      <h2 class="section-title">Representantes de <span>Valverde</span></h2>
+      <p class="section-subtitle">Senador y Diputados electos para el período 2024-2028. Todos del Partido Revolucionario Moderno (PRM).</p>
+    </div>
+    <div class="alcaldes-grid">
+      <div class="alcalde-card" style="border-left:4px solid #C5A864">
+        <div class="alcalde-foto" style="background:linear-gradient(135deg,#003087,#0a1f5c)">OR</div>
+        <div class="alcalde-info">
+          <div class="alcalde-nombre">Odalis Rodríguez</div>
+          <div class="alcalde-muni">Senador por Valverde</div>
+          <div class="alcalde-partido">PRM · Ex Alcalde de Mao (2006-2024)</div>
+        </div>
+        <div class="alcalde-badge" style="background:#fff7ed;color:#C5A864">Senador</div>
+      </div>
+      <div class="alcalde-card" style="border-left:4px solid #003087">
+        <div class="alcalde-foto" style="background:linear-gradient(135deg,#003087,#1a4fa8)">MR</div>
+        <div class="alcalde-info">
+          <div class="alcalde-nombre">María De Los Ángeles Rodríguez Bonseñor</div>
+          <div class="alcalde-muni">Diputada por Valverde</div>
+          <div class="alcalde-partido">PRM · 18,258 votos</div>
+        </div>
+        <div class="alcalde-badge" style="background:#eff6ff;color:#003087">Diputada</div>
+      </div>
+      <div class="alcalde-card" style="border-left:4px solid #003087">
+        <div class="alcalde-foto" style="background:linear-gradient(135deg,#003087,#1a4fa8)">JV</div>
+        <div class="alcalde-info">
+          <div class="alcalde-nombre">José Altagracia Valenzuela Arias</div>
+          <div class="alcalde-muni">Diputado por Valverde</div>
+          <div class="alcalde-partido">PRM · 15,033 votos</div>
+        </div>
+        <div class="alcalde-badge" style="background:#eff6ff;color:#003087">Diputado</div>
+      </div>
+      <div class="alcalde-card" style="border-left:4px solid #003087">
+        <div class="alcalde-foto" style="background:linear-gradient(135deg,#003087,#1a4fa8)">RP</div>
+        <div class="alcalde-info">
+          <div class="alcalde-nombre">Rubén Darío Peñalo Torres</div>
+          <div class="alcalde-muni">Diputado por Valverde</div>
+          <div class="alcalde-partido">PRM · 10,703 votos</div>
+        </div>
+        <div class="alcalde-badge" style="background:#eff6ff;color:#003087">Diputado</div>
+      </div>
     </div>
   </div>
 </section>
@@ -578,7 +627,7 @@ function toggleMobileNav() {
 }
 
 window.addEventListener('scroll', () => {
-  const sections = ['valverde','municipios','alcaldes','partidos','historia','curiosidades'];
+  const sections = ['valverde','municipios','alcaldes','representantes','partidos','historia','curiosidades'];
   const navLinks = document.querySelectorAll('.nav-flat a');
   const headerLinks = document.querySelectorAll('.header-nav a');
   let current = '';
