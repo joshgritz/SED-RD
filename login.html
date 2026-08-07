@@ -328,6 +328,23 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
       </div>
     </div>
 
+    <!-- STEP DESTINO DESPUÉS DE LOGIN -->
+    <div id="pe-step-destino" class="pe-step">
+      <div class="pe-card">
+        <div class="pe-card-header"><h2>👋 Bienvenido</h2><p id="pe-destino-nombre">¿A dónde quieres ir?</p></div>
+        <div class="pe-card-body">
+          <div class="pe-role-grid">
+            <div class="pe-role-card" onclick="peIrA('perfil')"><div class="rc-icon" style="background:#dbeafe">👤</div><div class="rc-text"><div class="rc-title">Mi Perfil</div><div class="rc-sub">Ver y editar mi información personal</div></div><div class="rc-arrow">›</div></div>
+            <div class="pe-role-card" onclick="peIrA('candidatos')"><div class="rc-icon" style="background:#fef3c7">🗳️</div><div class="rc-text"><div class="rc-title">Candidatos</div><div class="rc-sub">Portal de candidaturas y estructura</div></div><div class="rc-arrow">›</div></div>
+            <div class="pe-role-card" onclick="peIrA('zona')"><div class="rc-icon" style="background:#dcfce7">🏛️</div><div class="rc-text"><div class="rc-title">Mi Zona</div><div class="rc-sub">Gestión zonal, dirigentes y planchas</div></div><div class="rc-arrow">›</div></div>
+          </div>
+          <div style="text-align:center;margin-top:8px">
+            <button onclick="cerrarPortalElectoral()" style="background:none;border:none;color:#94a3b8;font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline">Cerrar y volver al portal</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- STEP CREAR PIN -->
     <div id="pe-step-cambiar-pin" class="pe-step">
       <div class="pe-card">
@@ -539,9 +556,18 @@ async function peGuardarNuevoPin() {
 
 // ═══════════ REDIRECCIÓN ═══════════
 function peRedirigir(data) {
-  const dest = peGetDestino(data.rol);
-  peToast('Entrando...', 'info');
-  setTimeout(() => { window.location.href = dest; }, 800);
+  document.getElementById('pe-destino-nombre').textContent = 'Hola ' + (E.nombre || '').split(',')[0] + ' — ¿A dónde quieres ir?';
+  peIrStep('pe-step-destino');
+}
+
+function peIrA(destino) {
+  if (destino === 'perfil') {
+    window.location.href = 'dirigentes.html';
+  } else if (destino === 'candidatos') {
+    window.location.href = 'candidato.html';
+  } else if (destino === 'zona') {
+    window.location.href = 'zonas.html';
+  }
 }
 function peGetDestino(rol) {
   const map = { SUPER_ADMIN: 'admin.html', PRESIDENTE_ZONAL: 'admin.html', SECRETARIO_GENERAL: 'admin.html' };
