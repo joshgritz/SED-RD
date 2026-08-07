@@ -91,17 +91,28 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
 .muni-dato .num{font-size:18px;font-weight:900;color:#C5A864}
 .muni-dato .lab{font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:700;letter-spacing:0.5px;margin-top:2px}
 
-/* ── ALCALDES ── */
-.alcaldes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
-.alcalde-card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:20px;display:flex;gap:16px;align-items:center;transition:all .3s}
-.alcalde-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.06);border-color:#C5A864}
-.alcalde-foto{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#003087,#0a1f5c);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:white;flex-shrink:0;border:3px solid rgba(197,168,100,0.3)}
-.alcalde-info{flex:1}
-.alcalde-nombre{font-size:15px;font-weight:900;color:#0f172a}
-.alcalde-muni{font-size:12px;color:#003087;font-weight:600;margin-top:2px}
-.alcalde-partido{font-size:11px;color:#94a3b8;margin-top:2px;display:flex;align-items:center;gap:4px}
-.party-logo{width:16px;height:16px;border-radius:3px;object-fit:contain;flex-shrink:0}
-.alcalde-badge{padding:6px 14px;border-radius:20px;font-size:10px;font-weight:800;flex-shrink:0;text-transform:uppercase;letter-spacing:0.5px}
+/* ── FICHAS DE PERSONAS ── */
+.person-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.person-card{background:white;border-top:4px solid #efbc00;border-radius:20px;padding:28px 20px;text-align:center;transition:all .3s;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.person-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.1)}
+.person-foto{width:120px;height:120px;border-radius:50%;margin:0 auto 16px;background:linear-gradient(135deg,#003087,#0a1f5c);background-size:cover;background-position:center;border:4px solid #efbc00;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:900;color:white;box-shadow:0 4px 16px rgba(0,0,0,0.12)}
+.person-nombre{font-size:18px;font-weight:900;color:#0f172a;line-height:1.2}
+.person-cargo{font-size:13px;color:#003087;font-weight:700;margin-top:6px}
+.person-partido{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;background:#f0f4ff;color:#003087}
+.person-partido img{width:16px;height:16px;border-radius:3px;object-fit:contain}
+.person-muni{font-size:11px;color:#94a3b8;margin-top:4px}
+.person-detail{font-size:12px;color:#64748b;margin-top:6px;font-style:italic}
+.person-demarcacion{position:absolute;top:12px;right:12px;padding:4px 12px;border-radius:12px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px}
+.badge-municipio{background:#eff6ff;color:#2563eb}
+.badge-distrito{background:#f0fdf4;color:#16a34a}
+.badge-senador{background:#fff7ed;color:#C5A864;font-size:11px;padding:5px 14px}
+.badge-diputado{background:#eff6ff;color:#003087;font-size:11px;padding:5px 14px}
+.person-card.featured{grid-column:span 2;border-top-width:6px;padding:36px 28px}
+.person-card.featured .person-foto{width:140px;height:140px;border-width:5px;font-size:42px}
+.person-card.featured .person-nombre{font-size:22px}
+.person-card.featured .person-cargo{font-size:15px}
+@media(max-width:900px){.person-grid{grid-template-columns:repeat(2,1fr)}.person-card.featured{grid-column:span 2}}
+@media(max-width:600px){.person-grid{grid-template-columns:1fr}.person-card.featured{grid-column:span 1}}
 
 /* ── FOOTER ── */
 .footer{background:#0f172a;color:white;padding:60px 24px 32px;border-top:3px solid #C5A864}
@@ -186,7 +197,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
   .hero-stats{grid-template-columns:1fr 1fr}
   .section{padding:48px 16px}
   .section-title{font-size:28px}
-  .muni-grid,.alcaldes-grid{grid-template-columns:1fr}
+  .muni-grid,.person-grid{grid-template-columns:1fr}
   .footer-top{flex-direction:column}
 }
 @media(min-width:480px){.pe-card{box-shadow:0 8px 40px rgba(0,0,0,0.1)}}
@@ -265,10 +276,28 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
       <h2 class="section-title">Alcaldes de <span>Valverde</span></h2>
       <p class="section-subtitle">Mandato 2024-2028. Los 3 alcaldes municipales electos.</p>
     </div>
-    <div class="alcaldes-grid">
-      <div class="alcalde-card" style="border-left:4px solid #C5A864"><div class="alcalde-foto" style="background:linear-gradient(135deg,#16a34a,#15803d);background-image:url('img/mao.png');background-size:cover;background-position:center"><span style="display:none">YJ</span></div><div class="alcalde-info"><div class="alcalde-nombre">Yohendy Jiménez Bonilla</div><div class="alcalde-muni">Alcalde de Mao</div><div class="alcalde-partido"><img src="img/logo-prm.png" class="party-logo" alt="PRM"> PRM</div></div><div class="alcalde-badge" style="background:#f0fdf4;color:#16a34a">Mao</div></div>
-      <div class="alcalde-card" style="border-left:4px solid #C5A864"><div class="alcalde-foto" style="background:linear-gradient(135deg,#003087,#1a4fa8);background-image:url('img/esperanza.jpg');background-size:cover;background-position:center"><span style="display:none">FR</span></div><div class="alcalde-info"><div class="alcalde-nombre">Freddy Rodríguez</div><div class="alcalde-muni">Alcalde de Esperanza</div><div class="alcalde-partido"><img src="img/logo-prm.png" class="party-logo" alt="PRM"> PRM</div></div><div class="alcalde-badge" style="background:#eff6ff;color:#003087">Esperanza</div></div>
-      <div class="alcalde-card" style="border-left:4px solid #C5A864"><div class="alcalde-foto" style="background:linear-gradient(135deg,#7c3aed,#6d28d9);background-image:url('img/laguna.jpg');background-size:cover;background-position:center"><span style="display:none">GR</span></div><div class="alcalde-info"><div class="alcalde-nombre">Germán D. Rodríguez Saldaña</div><div class="alcalde-muni">Alcalde de Laguna Salada</div><div class="alcalde-partido"><img src="img/logo-prm.png" class="party-logo" alt="PRM"> PRM</div></div><div class="alcalde-badge" style="background:#faf5ff;color:#7c3aed">L. Salada</div></div>
+    <div class="person-grid">
+      <div class="person-card">
+        <div class="person-demarcacion badge-municipio">Mao</div>
+        <div class="person-foto" style="background-image:url('img/mao.png')"><span>YJ</span></div>
+        <div class="person-nombre">Yohendy Jiménez Bonilla</div>
+        <div class="person-cargo">Alcalde de Mao</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-municipio">Esperanza</div>
+        <div class="person-foto" style="background-image:url('img/esperanza.jpg')"><span>FR</span></div>
+        <div class="person-nombre">Freddy Rodríguez</div>
+        <div class="person-cargo">Alcalde de Esperanza</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-municipio">L. Salada</div>
+        <div class="person-foto" style="background-image:url('img/laguna.jpg')"><span>GR</span></div>
+        <div class="person-nombre">Germán D. Rodríguez Saldaña</div>
+        <div class="person-cargo">Alcalde de Laguna Salada</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+      </div>
     </div>
   </div>
 </section>
@@ -281,34 +310,145 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
       <h2 class="section-title">10 Distritos de <span>Valverde</span></h2>
       <p class="section-subtitle">Presidentes de Juntas Distritales 2024-2028. Autoridades locales de cada distrito.</p>
     </div>
-    <div class="alcaldes-grid">
-      <div class="alcalde-card"><div class="alcalde-foto" style="background:linear-gradient(135deg,#059669,#047857);background-image:url('img/gabriel.jpg');background-size:cover;background-position:center"><span style="display:none">GS</span></div><div class="alcalde-info"><div class="alcalde-nombre">Gabriel Santana</div><div class="alcalde-muni">Pte. Junta Distrital de Amina</div><div class="alcalde-partido"><img src="img/logo-prm.png" class="party-logo" alt="PRM"> PRM · Municipio: Mao</div></div><div class="alcalde-badge" style="background:#f0fdf4;color:#059669">Amina</div></div>
-      <div class="alcalde-card"><div class="alcalde-foto" style="background:linear-gradient(135deg,#059669,#047857);background-image:url('img/trejo.jpg');background-size:cover;background-position:center"><span style="display:none">HC</span></div><div class="alcalde-info"><div class="alcalde-nombre">Dr. Herminio Chávez Trejo</div><div class="alcalde-muni">Pte. Junta Distrital de Guatapanal</div><div class="alcalde-partido"><img src="img/logo-prm.png" class="party-logo" alt="PRM"> PRM · Municipio: Mao</div></div><div class="alcalde-badge" style="background:#f0fdf4;color:#059669">Guatapanal</div></div>
-      <div class="alcalde-card"><div class="alcalde-foto" style="background:linear-gradient(135deg,#059669,#047857);background-image:url('img/fernando.jpg');background-size:cover;background-position:center"><span style="display:none">FR</span></div><div class="alcalde-info"><div class="alcalde-nombre">Fernando Alfonso Rodríguez</div><div class="alcalde-muni">Pte. Junta Distrital de Jaibón-Pueblo Nuevo</div><div class="alcalde-partido"><img src="img/logo-prm.png" class="party-logo" alt="PRM"> PRM · Municipio: Mao</div></div><div class="alcalde-badge" style="background:#f0fdf4;color:#059669">Jib-P.N.</div></div>
-      <div class="alcalde-card"><div class="alcalde-foto" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);background-image:url('img/felix.jpg');background-size:cover;background-position:center"><span style="display:none">FS</span></div><div class="alcalde-info"><div class="alcalde-nombre">Félix Santos Rodríguez</div><div class="alcalde-muni">Pte. Junta Distrital de Boca de Mao</div><div class="alcalde-partido"><img src="img/logo-prm.png" class="party-logo" alt="PRM"> PRM · Municipio: Esperanza</div></div><div class="alcalde-badge" style="background:#eff6ff;color:#2563eb">Boca Mao</div></div>
-      <div class="alcalde-card"><div class="alcalde-foto" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);background-image:url('img/jaime.jpg');background-size:cover;background-position:center"><span style="display:none">JS</span></div><div class="alcalde-info"><div class="alcalde-nombre">Jaime Sánchez</div><div class="alcalde-muni">Pte. Junta Distrital de Maizal</div><div class="alcalde-partido"><img src="img/logo-prm.png" class="party-logo" alt="PRM"> PRM · Municipio: Esperanza</div></div><div class="alcalde-badge" style="background:#eff6ff;color:#2563eb">Maizal</div></div>
-      <div class="alcalde-card"><div class="alcalde-foto" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);background-image:url('img/domingo.jpg');background-size:cover;background-position:center"><span style="display:none">DO</span></div><div class="alcalde-info"><div class="alcalde-nombre">Domingo Antonio Ortega</div><div class="alcalde-muni">Pte. Junta Distrital de Jicomé</div><div class="alcalde-partido"><img src="img/logo-prm.png" class="party-logo" alt="PRM"> PRM · Municipio: Esperanza</div></div><div class="alcalde-badge" style="background:#eff6ff;color:#2563eb">Jicomé</div></div>
-      <div class="alcalde-card"><div class="alcalde-foto" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);background-image:url('img/maximo.jpg');background-size:cover;background-position:center"><span style="display:none">MD</span></div><div class="alcalde-info"><div class="alcalde-nombre">Máximo Disla Polanco</div><div class="alcalde-muni">Pte. Junta Distrital de Paradero</div><div class="alcalde-partido"><img src="img/logo-prm.png" class="party-logo" alt="PRM"> PRM · Municipio: Esperanza</div></div><div class="alcalde-badge" style="background:#eff6ff;color:#2563eb">Paradero</div></div>
-      <div class="alcalde-card"><div class="alcalde-foto" style="background:linear-gradient(135deg,#7c3aed,#6d28d9);background-image:url('img/luis.jpg');background-size:cover;background-position:center"><span style="display:none">LV</span></div><div class="alcalde-info"><div class="alcalde-nombre">Luis Rafael Valdez Cabrera</div><div class="alcalde-muni">Pte. Junta Distrital de Cruce de Guayacanes</div><div class="alcalde-partido"><img src="img/logo-prm.png" class="party-logo" alt="PRM"> PRM · Municipio: Laguna Salada</div></div><div class="alcalde-badge" style="background:#faf5ff;color:#7c3aed">C. Guayacanes</div></div>
-      <div class="alcalde-card"><div class="alcalde-foto" style="background:linear-gradient(135deg,#7c3aed,#6d28d9);background-image:url('img/riki.jpg');background-size:cover;background-position:center"><span style="display:none">RT</span></div><div class="alcalde-info"><div class="alcalde-nombre">Ricki Ricardo Tejada Blanco</div><div class="alcalde-muni">Pte. Junta Distrital de Jaibón</div><div class="alcalde-partido"><img src="img/logo-prm.png" class="party-logo" alt="PRM"> PRM · Municipio: Laguna Salada</div></div><div class="alcalde-badge" style="background:#faf5ff;color:#7c3aed">Jaibón</div></div>
-      <div class="alcalde-card"><div class="alcalde-foto" style="background:linear-gradient(135deg,#7c3aed,#6d28d9);background-image:url('img/edward.jpg');background-size:cover;background-position:center"><span style="display:none">EB</span></div><div class="alcalde-info"><div class="alcalde-nombre">Edward Barrientos</div><div class="alcalde-muni">Pte. Junta Distrital de La Caya</div><div class="alcalde-partido"><img src="img/logo-pld.jpg" class="party-logo" alt="PLD"> PLD · Municipio: Laguna Salada</div></div><div class="alcalde-badge" style="background:#faf5ff;color:#7c3aed">La Caya</div></div>
+    <div class="person-grid">
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">Amina</div>
+        <div class="person-foto" style="background-image:url('img/gabriel.jpg')"><span>GS</span></div>
+        <div class="person-nombre">Gabriel Santana</div>
+        <div class="person-cargo">Pte. Junta Distrital de Amina</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Mao</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">Guatapanal</div>
+        <div class="person-foto" style="background-image:url('img/trejo.jpg')"><span>HC</span></div>
+        <div class="person-nombre">Dr. Herminio Chávez Trejo</div>
+        <div class="person-cargo">Pte. Junta Distrital de Guatapanal</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Mao</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">Jib-P.N.</div>
+        <div class="person-foto" style="background-image:url('img/fernando.jpg')"><span>FR</span></div>
+        <div class="person-nombre">Fernando Alfonso Rodríguez</div>
+        <div class="person-cargo">Pte. Junta Distrital de Jaibón-Pueblo Nuevo</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Mao</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">Boca Mao</div>
+        <div class="person-foto" style="background-image:url('img/felix.jpg')"><span>FS</span></div>
+        <div class="person-nombre">Félix Santos Rodríguez</div>
+        <div class="person-cargo">Pte. Junta Distrital de Boca de Mao</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Esperanza</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">Maizal</div>
+        <div class="person-foto" style="background-image:url('img/jaime.jpg')"><span>JS</span></div>
+        <div class="person-nombre">Jaime Sánchez</div>
+        <div class="person-cargo">Pte. Junta Distrital de Maizal</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Esperanza</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">Jicomé</div>
+        <div class="person-foto" style="background-image:url('img/domingo.jpg')"><span>DO</span></div>
+        <div class="person-nombre">Domingo Antonio Ortega</div>
+        <div class="person-cargo">Pte. Junta Distrital de Jicomé</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Esperanza</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">Paradero</div>
+        <div class="person-foto" style="background-image:url('img/maximo.jpg')"><span>MD</span></div>
+        <div class="person-nombre">Máximo Disla Polanco</div>
+        <div class="person-cargo">Pte. Junta Distrital de Paradero</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Esperanza</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">C. Guayacanes</div>
+        <div class="person-foto" style="background-image:url('img/luis.jpg')"><span>LV</span></div>
+        <div class="person-nombre">Luis Rafael Valdez Cabrera</div>
+        <div class="person-cargo">Pte. Junta Distrital de Cruce de Guayacanes</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Laguna Salada</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">Jaibón</div>
+        <div class="person-foto" style="background-image:url('img/riki.jpg')"><span>RT</span></div>
+        <div class="person-nombre">Ricki Ricardo Tejada Blanco</div>
+        <div class="person-cargo">Pte. Junta Distrital de Jaibón</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Laguna Salada</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">La Caya</div>
+        <div class="person-foto" style="background-image:url('img/edward.jpg')"><span>EB</span></div>
+        <div class="person-nombre">Edward Barrientos</div>
+        <div class="person-cargo">Pte. Junta Distrital de La Caya</div>
+        <div class="person-partido"><img src="img/logo-pld.jpg" alt="PLD"> PLD</div>
+        <div class="person-muni">Municipio: Laguna Salada</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════ REPRESENTANTES ═══════════ -->
-<section class="section" id="representantes">
+<!-- ═══════════ SENADOR ═══════════ -->
+<section class="section" id="senador">
   <div class="section-inner">
     <div class="section-header">
-      <div class="section-tag"><i class="fa-solid fa-landmark"></i> Congreso Nacional</div>
-      <h2 class="section-title">Representantes de <span>Valverde</span></h2>
-      <p class="section-subtitle">Senador y Diputados electos para el período 2024-2028. Todos del Partido Revolucionario Moderno (PRM).</p>
+      <div class="section-tag"><i class="fa-solid fa-landmark"></i> Senado de la República</div>
+      <h2 class="section-title">Senador de <span>Valverde</span></h2>
+      <p class="section-subtitle">Senador electo para el período 2024-2028. Máxima representación legislativa de la provincia.</p>
     </div>
-    <div class="alcaldes-grid">
-      <div class="alcalde-card" style="border-left:4px solid #C5A864"><div class="alcalde-foto" style="background:linear-gradient(135deg,#003087,#0a1f5c);background-image:url('img/odalis.jpg');background-size:cover;background-position:center"><span style="display:none">OR</span></div><div class="alcalde-info"><div class="alcalde-nombre">Odalis Rodríguez</div><div class="alcalde-muni">Senador por Valverde</div><div class="alcalde-partido"><img src="img/logo-prm.png" class="party-logo" alt="PRM"> PRM · Ex Alcalde de Mao (2006-2024)</div></div><div class="alcalde-badge" style="background:#fff7ed;color:#C5A864">Senador</div></div>
-      <div class="alcalde-card" style="border-left:4px solid #003087"><div class="alcalde-foto" style="background:linear-gradient(135deg,#003087,#1a4fa8);background-image:url('img/angela.jpg');background-size:cover;background-position:top"><span style="display:none">MR</span></div><div class="alcalde-info"><div class="alcalde-nombre">María De Los Ángeles Rodríguez Bonseñor</div><div class="alcalde-muni">Diputada por Valverde</div><div class="alcalde-partido"><img src="img/logo-prm.png" class="party-logo" alt="PRM"> PRM · 18,258 votos</div></div><div class="alcalde-badge" style="background:#eff6ff;color:#003087">Diputada</div></div>
-      <div class="alcalde-card" style="border-left:4px solid #003087"><div class="alcalde-foto" style="background:linear-gradient(135deg,#003087,#1a4fa8);background-image:url('img/valenzuela.jpg');background-size:cover;background-position:top"><span style="display:none">JV</span></div><div class="alcalde-info"><div class="alcalde-nombre">José Altagracia Valenzuela Arias</div><div class="alcalde-muni">Diputado por Valverde</div><div class="alcalde-partido"><img src="img/logo-prm.png" class="party-logo" alt="PRM"> PRM · 15,033 votos</div></div><div class="alcalde-badge" style="background:#eff6ff;color:#003087">Diputado</div></div>
-      <div class="alcalde-card" style="border-left:4px solid #003087"><div class="alcalde-foto" style="background:linear-gradient(135deg,#003087,#0a1f5c);background-image:url('img/ruben.jpg');background-size:cover;background-position:center"><span style="display:none">RP</span></div><div class="alcalde-info"><div class="alcalde-nombre">Rubén Darío Peñalo Torres</div><div class="alcalde-muni">Diputado por Valverde</div><div class="alcalde-partido"><img src="img/logo-prm.png" class="party-logo" alt="PRM"> PRM · 10,703 votos</div></div><div class="alcalde-badge" style="background:#eff6ff;color:#003087">Diputado</div></div>
+    <div class="person-grid">
+      <div class="person-card featured">
+        <div class="person-demarcacion badge-senador">Senador</div>
+        <div class="person-foto" style="background-image:url('img/odalis.jpg')"><span>OR</span></div>
+        <div class="person-nombre">Odalis Rodríguez</div>
+        <div class="person-cargo">Senador por Valverde</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-detail">Ex Alcalde de Mao (2006-2024)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ DIPUTADOS ═══════════ -->
+<section class="section section-dark" id="diputados">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag"><i class="fa-solid fa-users"></i> Cámara de Diputados</div>
+      <h2 class="section-title">Diputados de <span>Valverde</span></h2>
+      <p class="section-subtitle">Diputados electos para el período 2024-2028. Representación legislativa provincial.</p>
+    </div>
+    <div class="person-grid">
+      <div class="person-card">
+        <div class="person-demarcacion badge-diputado">Diputada</div>
+        <div class="person-foto" style="background-image:url('img/angela.jpg')"><span>AR</span></div>
+        <div class="person-nombre">María De Los Ángeles Rodríguez Bonseñor</div>
+        <div class="person-cargo">Diputada por Valverde</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-detail">18,258 votos</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-diputado">Diputado</div>
+        <div class="person-foto" style="background-image:url('img/valenzuela.jpg')"><span>JV</span></div>
+        <div class="person-nombre">José Altagracia Valenzuela Arias</div>
+        <div class="person-cargo">Diputado por Valverde</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-detail">15,033 votos</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-diputado">Diputado</div>
+        <div class="person-foto" style="background-image:url('img/ruben.jpg')"><span>RP</span></div>
+        <div class="person-nombre">Rubén Darío Peñalo Torres</div>
+        <div class="person-cargo">Diputado por Valverde</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-detail">10,703 votos</div>
+      </div>
     </div>
   </div>
 </section>
