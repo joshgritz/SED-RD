@@ -27,36 +27,43 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
 .header{background:#fff;position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,0.08)}
 .header-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:72px}
 .header-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
-.header-logo-icon{width:48px;height:48px;border-radius:50%;background:#003087;display:flex;align-items:center;justify-content:center}
-.header-logo-icon::after{content:'👍';font-size:20px;filter:brightness(10)}
+.header-logo-icon{width:48px;height:48px;border-radius:50%;border:2.5px solid #C5A864;background:white;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.header-logo-icon span{font-family:'Montserrat',sans-serif;font-weight:900;font-size:14px;color:#003087;letter-spacing:1px}
 .header-logo-text{display:flex;flex-direction:column}
-.header-logo-text .siglas{font-size:18px;font-weight:800;color:#003087;letter-spacing:2px;line-height:1}
-.header-logo-text .full{font-size:8px;font-weight:600;color:#64748b;letter-spacing:1px;text-transform:uppercase}
+.header-logo-text .siglas{font-size:18px;font-weight:900;color:#003087;letter-spacing:2px;line-height:1}
+.header-logo-text .full{font-size:11px;font-weight:600;color:#64748b;letter-spacing:0.5px;text-transform:uppercase}
 .header-actions{display:flex;gap:8px;align-items:center}
 .header-cta{padding:10px 20px;background:#003087;color:white;border:none;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;text-decoration:none;transition:all .2s;font-family:'Montserrat',sans-serif}
 .header-cta:hover{background:#1a4fa8;transform:translateY(-1px)}
 .header-cta-outline{background:transparent;border:2px solid #003087;color:#003087}
 
 /* ── HERO ── */
-.hero{position:relative;background:linear-gradient(135deg,#003087 0%,#0a1f5c 40%,#003087 100%);min-height:520px;display:flex;align-items:center;overflow:hidden}
-.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
-.hero-content{max-width:1200px;margin:0 auto;padding:60px 24px;display:flex;align-items:center;gap:60px;width:100%}
+.hero{position:relative;background:linear-gradient(160deg,#003087 0%,#0a1f5c 35%,#001a40 100%);min-height:580px;display:flex;align-items:center;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M40 40v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-36V0h-2v4h-4v2h4v4h2V6h4V4h-4zM4 40v-4H2v4H0v2h4v4h2v-4h4v-2H4zM4 4V0H2v4H0v2h4v4h2V6h4V4H4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero::after{content:'';position:absolute;top:-40%;right:-15%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(197,168,100,0.07) 0%,transparent 70%);pointer-events:none}
+.hero-content{max-width:1200px;margin:0 auto;padding:70px 24px;display:flex;align-items:center;gap:60px;width:100%;position:relative;z-index:1}
 .hero-left{flex:1}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(231,255,137,0.15);border:1px solid rgba(231,255,137,0.3);border-radius:24px;padding:8px 20px;font-size:11px;font-weight:700;color:#E7FF89;margin-bottom:24px}
-.hero h1{font-size:48px;font-weight:800;color:white;line-height:1.1;margin-bottom:16px}
-.hero h1 span{color:#E7FF89}
-.hero-sub{font-size:16px;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:32px;max-width:480px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.18);border-radius:24px;padding:8px 20px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.9);margin-bottom:28px}
+.hero-badge i{font-size:10px;color:#C5A864}
+.hero-shield{width:80px;height:80px;border-radius:50%;border:3px solid #C5A864;background:white;display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 0 40px rgba(197,168,100,0.25),0 8px 32px rgba(0,0,0,0.2)}
+.hero-shield span{font-family:'Montserrat',sans-serif;font-weight:900;font-size:24px;color:#003087;letter-spacing:1px}
+.hero h1{font-size:52px;font-weight:900;color:white;line-height:1.05;margin-bottom:4px;letter-spacing:-1px}
+.hero h1 span{display:block;font-size:14px;font-weight:700;color:#C5A864;letter-spacing:4px;text-transform:uppercase;margin-top:8px}
+.hero-gold-line{width:60px;height:3px;background:linear-gradient(90deg,#C5A864,#e8d5a0);border-radius:2px;margin:16px 0 20px}
+.hero-sub{font-size:15px;color:rgba(255,255,255,0.85);line-height:1.8;margin-bottom:36px;max-width:460px;font-weight:400}
 .hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
-.btn-hero{padding:14px 32px;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;text-decoration:none;transition:all .2s;border:none;font-family:'Montserrat',sans-serif}
-.btn-primary{background:#E7FF89;color:#003087}
-.btn-primary:hover{background:#d4f060;transform:translateY(-2px);box-shadow:0 8px 24px rgba(231,255,137,0.3)}
-.btn-secondary{background:rgba(255,255,255,0.1);color:white;border:2px solid rgba(255,255,255,0.3)}
-.btn-secondary:hover{background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.5)}
-.hero-right{flex:0 0 400px;display:flex;justify-content:center}
-.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.hero-stat{background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:24px;text-align:center}
-.hero-stat-num{font-size:36px;font-weight:800;color:#E7FF89}
-.hero-stat-label{font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:1px;margin-top:4px;font-weight:600}
+.btn-hero{padding:14px 32px;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;text-decoration:none;transition:all .25s;border:none;font-family:'Montserrat',sans-serif}
+.btn-primary{background:#C5A864;color:#001a40}
+.btn-primary:hover{background:#d4b978;transform:translateY(-2px);box-shadow:0 8px 24px rgba(197,168,100,0.35)}
+.btn-secondary{background:rgba(255,255,255,0.1);color:white;border:1.5px solid rgba(255,255,255,0.25);backdrop-filter:blur(4px)}
+.btn-secondary:hover{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.4)}
+.hero-right{flex:0 0 420px;display:flex;justify-content:center}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.hero-stat{background:rgba(255,255,255,0.95);border-radius:16px;padding:24px 20px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.12);border:1px solid rgba(197,168,100,0.2);transition:transform .3s}
+.hero-stat:hover{transform:translateY(-4px)}
+.hero-stat-num{font-size:32px;font-weight:900;color:#003087;line-height:1}
+.hero-stat-label{font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-top:6px;font-weight:700}
+.hero-stat-icon{font-size:18px;margin-bottom:8px;color:#C5A864}
 .hero-wave{position:absolute;bottom:0;left:0;right:0;height:80px;background:#fff;clip-path:ellipse(60% 100% at 50% 100%)}
 
 /* ── SECTIONS ── */
@@ -64,60 +71,72 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
 .section-dark{background:#f8fafc}
 .section-inner{max-width:1200px;margin:0 auto}
 .section-header{text-align:center;margin-bottom:48px}
-.section-tag{display:inline-flex;align-items:center;gap:8px;background:#eff6ff;color:#003087;padding:6px 16px;border-radius:20px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
-.section-title{font-size:36px;font-weight:800;color:#0f172a}
-.section-title span{color:#003087}
+.section-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(197,168,100,0.1);color:#C5A864;padding:6px 16px;border-radius:20px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.section-title{font-size:36px;font-weight:900;color:#0f172a}
+.section-title span{color:#C5A864}
 .section-subtitle{font-size:15px;color:#64748b;margin-top:8px;max-width:600px;margin-left:auto;margin-right:auto}
 
 /* ── MUNICIPIOS ── */
 .muni-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
 .muni-card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:24px;transition:all .3s;position:relative;overflow:hidden}
-.muni-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.08);border-color:#003087}
-.muni-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#003087,#C8102E);opacity:0;transition:opacity .3s}
+.muni-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.08);border-color:#C5A864}
+.muni-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#C5A864,#003087);opacity:0;transition:opacity .3s}
 .muni-card:hover::before{opacity:1}
 .muni-top{display:flex;align-items:center;gap:14px;margin-bottom:16px}
-.muni-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
-.muni-name{font-size:18px;font-weight:800;color:#0f172a}
+.muni-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.muni-name{font-size:18px;font-weight:900;color:#0f172a}
 .muni-type{font-size:12px;color:#64748b;font-weight:500}
 .muni-data{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .muni-dato{text-align:center;padding:12px 8px;background:#f8fafc;border-radius:10px}
-.muni-dato .num{font-size:18px;font-weight:800;color:#003087}
+.muni-dato .num{font-size:18px;font-weight:900;color:#C5A864}
 .muni-dato .lab{font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:700;letter-spacing:0.5px;margin-top:2px}
 
 /* ── ALCALDES ── */
 .alcaldes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
 .alcalde-card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:20px;display:flex;gap:16px;align-items:center;transition:all .3s}
-.alcalde-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.06)}
-.alcalde-foto{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#003087,#1a4fa8);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:white;flex-shrink:0;border:3px solid #eff6ff}
+.alcalde-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.06);border-color:#C5A864}
+.alcalde-foto{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#003087,#0a1f5c);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:white;flex-shrink:0;border:3px solid rgba(197,168,100,0.3)}
 .alcalde-info{flex:1}
-.alcalde-nombre{font-size:15px;font-weight:800;color:#0f172a}
+.alcalde-nombre{font-size:15px;font-weight:900;color:#0f172a}
 .alcalde-muni{font-size:12px;color:#003087;font-weight:600;margin-top:2px}
 .alcalde-partido{font-size:11px;color:#94a3b8;margin-top:2px}
 .alcalde-badge{padding:6px 14px;border-radius:20px;font-size:10px;font-weight:800;flex-shrink:0;text-transform:uppercase;letter-spacing:0.5px}
 
 /* ── FOOTER ── */
-.footer{background:#0f172a;color:white;padding:60px 24px 32px}
+.footer{background:#0f172a;color:white;padding:60px 24px 32px;border-top:3px solid #C5A864}
 .footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;margin-bottom:40px;flex-wrap:wrap}
+.footer-brand{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.footer-brand-icon{width:40px;height:40px;border-radius:50%;border:2px solid #C5A864;background:white;display:flex;align-items:center;justify-content:center}
+.footer-brand-icon span{font-family:'Montserrat',sans-serif;font-weight:900;font-size:11px;color:#003087;letter-spacing:0.5px}
+.footer-brand-text{font-size:16px;font-weight:800;color:white}
+.footer-desc{font-size:13px;color:#94a3b8;line-height:1.7;max-width:320px}
+.footer-links h4{font-size:12px;font-weight:800;color:white;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+.footer-links a{display:block;font-size:13px;color:#94a3b8;text-decoration:none;padding:4px 0;transition:color .2s}
+.footer-links a:hover{color:#C5A864}
 .footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
 .footer-copy{font-size:12px;color:#64748b}
+.footer-social{display:flex;gap:12px}
+.footer-social a{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;color:#94a3b8;text-decoration:none;transition:all .2s;font-size:14px}
+.footer-social a:hover{background:#003087;color:white}
 
 /* ── PORTAL ELECTORAL (oculto por defecto) ── */
-#portal-electoral{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;background:#003087;overflow-y:auto}
+#portal-electoral{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;background:linear-gradient(160deg,#003087 0%,#0a1f5c 35%,#001a40 100%);overflow-y:auto}
 #portal-electoral.active{display:flex;flex-direction:column;align-items:center}
 .portal-elec-hero{text-align:center;padding:32px 20px 24px;color:white;width:100%;max-width:480px}
-.portal-elec-hero .hero-circle{width:64px;height:64px;border-radius:50%;background:#C8102E;border:3px solid white;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
-.portal-elec-hero .hero-circle span{font-family:Arial Black,sans-serif;font-weight:900;font-size:18px;color:white;letter-spacing:1px}
+.portal-elec-hero .hero-circle{width:64px;height:64px;border-radius:50%;border:3px solid #C5A864;background:white;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;box-shadow:0 0 30px rgba(197,168,100,0.25),0 4px 20px rgba(0,0,0,0.3)}
+.portal-elec-hero .hero-circle span{font-family:'Montserrat',sans-serif;font-weight:900;font-size:18px;color:#003087;letter-spacing:1px}
 .portal-elec-hero h1{font-size:22px;font-weight:900;margin-bottom:2px}
 .portal-elec-hero p{font-size:12px;opacity:0.7}
 .portal-elec-wrap{width:100%;max-width:480px;padding:0 16px 24px}
-.close-portal{position:fixed;top:16px;right:16px;z-index:1001;background:rgba(255,255,255,0.2);border:none;color:white;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;display:none;backdrop-filter:blur(8px);transition:all .2s}
-.close-portal:hover{background:rgba(255,255,255,0.3)}
+.close-portal{position:fixed;top:16px;right:16px;z-index:1001;background:rgba(255,255,255,0.15);border:none;color:white;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;display:none;backdrop-filter:blur(8px);transition:all .2s;border:1px solid rgba(255,255,255,0.2)}
+.close-portal:hover{background:rgba(255,255,255,0.25)}
 #portal-electoral.active .close-portal{display:block}
 
 /* ── PORTAL ELECTORAL INTERNAL STYLES ── */
 .pe-step{display:none}.pe-step.active{display:block}
 .pe-card{background:white;border-radius:20px;box-shadow:0 4px 24px rgba(0,0,0,0.08);overflow:hidden;margin-bottom:16px}
-.pe-card-header{background:linear-gradient(135deg,#003087,#1a4fa8);padding:16px 20px;color:white}
+.pe-card-header{background:linear-gradient(135deg,#003087,#0a1f5c);padding:16px 20px;color:white}
 .pe-card-header h2{font-size:16px;font-weight:800}.pe-card-header p{font-size:12px;opacity:0.7;margin-top:2px}
 .pe-card-body{padding:20px}
 .pe-campo{margin-bottom:12px}
@@ -129,7 +148,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
 .pe-pin-row input:focus{border-color:#003087}
 .pe-btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;touch-action:manipulation;font-family:inherit;margin-bottom:8px;transition:all .15s}
 .pe-btn:active{transform:scale(0.97)}
-.pe-btn-azul{background:#003087;color:white}.pe-btn-verde{background:#16a34a;color:white}.pe-btn-gris{background:#f1f5f9;color:#64748b}.pe-btn-rojo{background:#dc2626;color:white}.pe-btn-oro{background:#efbc00;color:#1e293b}
+.pe-btn-azul{background:#003087;color:white}.pe-btn-verde{background:#16a34a;color:white}.pe-btn-gris{background:#f1f5f9;color:#64748b}.pe-btn-rojo{background:#dc2626;color:white}.pe-btn-oro{background:#C5A864;color:#001a40}
 .pe-error-box{background:#fef2f2;border:2px solid #fecaca;border-radius:10px;padding:10px 12px;font-size:13px;color:#dc2626;font-weight:600;margin-bottom:10px;display:none}
 .pe-info-box{background:#eff6ff;border:2px solid #bfdbfe;border-radius:10px;padding:10px 12px;font-size:12px;color:#1e40af;margin-bottom:12px}
 .pe-role-grid{display:grid;gap:10px;margin-bottom:16px}
@@ -156,8 +175,10 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
 .toast-ok{background:#16a34a;color:white}.toast-error{background:#dc2626;color:white}.toast-info{background:#003087;color:white}
 
 @media(max-width:768px){
-  .hero-content{flex-direction:column;text-align:center;padding:40px 20px}
+  .hero-content{flex-direction:column;text-align:center;padding:50px 20px 80px}
+  .hero-shield{margin:0 auto 16px}
   .hero h1{font-size:32px}
+  .hero-gold-line{margin:12px auto 16px}
   .hero-sub{margin-left:auto;margin-right:auto}
   .hero-buttons{justify-content:center}
   .hero-right{flex:none;width:100%}
@@ -176,7 +197,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
 <header class="header">
   <div class="header-inner">
     <a href="#" class="header-logo">
-      <div class="header-logo-icon"></div>
+      <div class="header-logo-icon"><span>PRM</span></div>
       <div class="header-logo-text">
         <span class="siglas">PRM</span>
         <span class="full">Partido Revolucionario Moderno</span>
@@ -194,19 +215,21 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
   <div class="hero-content">
     <div class="hero-left">
       <div class="hero-badge"><i class="fa-solid fa-check-to-slot"></i> Elecciones 2026 · Provincia Valverde</div>
-      <h1>República Dominicana<br><span>Provincia Valverde</span></h1>
+      <div class="hero-shield"><span>PRM</span></div>
+      <h1>PRM · VALVERDE<span>Partido Revolucionario Moderno</span></h1>
+      <div class="hero-gold-line"></div>
       <p class="hero-sub">Sistema Electoral del Partido Revolucionario Moderno. Gestión de candidatos, dirigentes, delegados y estructura política de la provincia.</p>
       <div class="hero-buttons">
-        <a href="#municipios" class="btn-hero btn-primary">Explorar Municipios</a>
-        <button class="btn-hero btn-secondary" onclick="abrirPortalElectoral()"><i class="fa-solid fa-right-to-bracket"></i> Acceder al Sistema</button>
+        <button class="btn-hero btn-primary" onclick="abrirPortalElectoral()"><i class="fa-solid fa-right-to-bracket"></i> Acceder al Sistema</button>
+        <a href="#municipios" class="btn-hero btn-secondary"><i class="fa-solid fa-map-location-dot"></i> Explorar Municipios</a>
       </div>
     </div>
     <div class="hero-right">
       <div class="hero-stats">
-        <div class="hero-stat"><div class="hero-stat-num">7</div><div class="hero-stat-label">Municipios</div></div>
-        <div class="hero-stat"><div class="hero-stat-num">~350K</div><div class="hero-stat-label">Habitantes</div></div>
-        <div class="hero-stat"><div class="hero-stat-num">1</div><div class="hero-stat-label">Senador</div></div>
-        <div class="hero-stat"><div class="hero-stat-num">3+</div><div class="hero-stat-label">Diputados</div></div>
+        <div class="hero-stat"><div class="hero-stat-icon"><i class="fa-solid fa-building-columns"></i></div><div class="hero-stat-num">7</div><div class="hero-stat-label">Municipios</div></div>
+        <div class="hero-stat"><div class="hero-stat-icon"><i class="fa-solid fa-users"></i></div><div class="hero-stat-num">~350K</div><div class="hero-stat-label">Habitantes</div></div>
+        <div class="hero-stat"><div class="hero-stat-icon"><i class="fa-solid fa-landmark"></i></div><div class="hero-stat-num">1</div><div class="hero-stat-label">Senador</div></div>
+        <div class="hero-stat"><div class="hero-stat-icon"><i class="fa-solid fa-people-group"></i></div><div class="hero-stat-num">3+</div><div class="hero-stat-label">Diputados</div></div>
       </div>
     </div>
   </div>
@@ -252,8 +275,42 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
 <!-- ═══════════ FOOTER ═══════════ -->
 <footer class="footer">
   <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <div class="footer-brand-icon"><span>PRM</span></div>
+          <span class="footer-brand-text">PRM Valverde</span>
+        </div>
+        <p class="footer-desc">Sistema Electoral del Partido Revolucionario Moderno en la Provincia Valverde. Desarrollo, Democracia e Igualdad.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navegación</h4>
+        <a href="#municipios">Municipios</a>
+        <a href="#alcaldes">Alcaldes</a>
+        <button onclick="abrirPortalElectoral()" style="background:none;border:none;color:#94a3b8;font-size:13px;padding:4px 0;cursor:pointer;font-family:inherit;text-align:left;width:100%">Acceder al Sistema</button>
+      </div>
+      <div class="footer-links">
+        <h4>Portales</h4>
+        <a href="dirigentes.html">Portal Dirigentes</a>
+        <a href="candidato.html">Portal Candidatos</a>
+        <a href="zonas.html">Portal Zonal</a>
+        <a href="delegados.html">Portal Delegados</a>
+      </div>
+      <div class="footer-links">
+        <h4>Contacto</h4>
+        <a href="#">Mao, Valverde</a>
+        <a href="#">República Dominicana</a>
+        <a href="#">info@prm-valverde.do</a>
+      </div>
+    </div>
     <div class="footer-bottom">
       <div class="footer-copy">&copy; 2026 PRM Valverde. Todos los derechos reservados.</div>
+      <div class="footer-social">
+        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+      </div>
     </div>
   </div>
 </footer>
