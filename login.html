@@ -27,11 +27,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
 .header{background:#fff;position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,0.08)}
 .header-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:72px}
 .header-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
-.header-logo-icon{width:48px;height:48px;border-radius:50%;border:2.5px solid #C5A864;background:white;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
-.header-logo-icon span{font-family:'Montserrat',sans-serif;font-weight:900;font-size:14px;color:#003087;letter-spacing:1px}
-.header-logo-text{display:flex;flex-direction:column}
-.header-logo-text .siglas{font-size:18px;font-weight:900;color:#003087;letter-spacing:2px;line-height:1}
-.header-logo-text .full{font-size:11px;font-weight:600;color:#64748b;letter-spacing:0.5px;text-transform:uppercase}
+.header-logo img{height:48px;width:auto}
 .header-actions{display:flex;gap:8px;align-items:center}
 .header-cta{padding:10px 20px;background:#003087;color:white;border:none;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;text-decoration:none;transition:all .2s;font-family:'Montserrat',sans-serif}
 .header-cta:hover{background:#1a4fa8;transform:translateY(-1px)}
@@ -210,11 +206,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
 <header class="header">
   <div class="header-inner">
     <a href="#" class="header-logo">
-      <div class="header-logo-icon"><span>PRM</span></div>
-      <div class="header-logo-text">
-        <span class="siglas">PRM</span>
-        <span class="full">Partido Revolucionario Moderno</span>
-      </div>
+      <img src="img/prm-logo.png" alt="PRM - Partido Revolucionario Moderno">
     </a>
     <div class="header-actions">
       <button class="header-cta header-cta-outline" onclick="abrirPortalElectoral()"><i class="fa-solid fa-right-to-bracket"></i> Iniciar</button>
@@ -460,7 +452,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
     <div class="footer-top">
       <div>
         <div class="footer-brand">
-          <div class="footer-brand-icon"><span>PRM</span></div>
+          <img src="img/prm-logo.png" alt="PRM" style="height:40px;width:auto">
           <span class="footer-brand-text">PRM Valverde</span>
         </div>
         <p class="footer-desc">Sistema Electoral del Partido Revolucionario Moderno en la Provincia Valverde. Desarrollo, Democracia e Igualdad.</p>
