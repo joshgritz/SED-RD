@@ -55,9 +55,13 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180d
 .reg-opt.selected{border-color:#003087;background:#eff6ff}
 .reg-opt .ro-icon{font-size:22px;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .reg-opt .ro-text{flex:1}.reg-opt .ro-title{font-size:13px;font-weight:800;color:#1e293b}.reg-opt .ro-desc{font-size:10px;color:#64748b;margin-top:1px}
-.footer-links{margin-top:20px;text-align:center;font-size:11px;color:#94a3b8;line-height:2}
-.footer-links a{color:#94a3b8;text-decoration:none;margin:0 8px;font-weight:700}
-.footer-links a:hover{color:#003087}
+/* ── PORTAL SECTIONS ── */
+.portal-top{display:flex;gap:8px;margin-bottom:16px}
+.portal-top .btn{flex:1}
+.portal-section{margin-bottom:14px}
+.portal-section-title{font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-left:4px;display:flex;align-items:center;gap:6px}
+.portal-section-title::after{content:'';flex:1;height:1px;background:#e2e8f0}
+
 .toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:400px;margin:0 auto;padding:13px 18px;border-radius:14px;font-size:14px;font-weight:700;z-index:9999;text-align:center;display:none}
 .toast-ok{background:#16a34a;color:white}.toast-error{background:#dc2626;color:white}.toast-info{background:#003087;color:white}
 @media(min-width:480px){.card{box-shadow:0 8px 40px rgba(0,0,0,0.1)}}
@@ -75,48 +79,70 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180d
 
 <!-- ═══════════ STEP 0: PORTAL PRINCIPAL ═══════════ -->
 <div id="step-portal" class="step active">
-  <div class="role-grid">
-    <div class="role-card" onclick="entrarRol('candidato')">
-      <div class="rc-icon" style="background:#dbeafe">🗳️</div>
-      <div class="rc-text"><div class="rc-title">Candidato</div><div class="rc-sub">Pre-candidato o candidato inscrito</div></div>
-      <div class="rc-arrow">›</div>
-    </div>
-    <div class="role-card" onclick="entrarRol('dirigente')">
-      <div class="rc-icon" style="background:#dcfce7">🤝</div>
-      <div class="rc-text"><div class="rc-title">Dirigente de Base</div><div class="rc-sub">Comité de base y estructura</div></div>
-      <div class="rc-arrow">›</div>
-    </div>
-    <div class="role-card" onclick="entrarRol('coordinador')">
-      <div class="rc-icon" style="background:#fef3c7">🔱</div>
-      <div class="rc-text"><div class="rc-title">Coordinador</div><div class="rc-sub">Coordinación de zona o candidatura</div></div>
-      <div class="rc-arrow">›</div>
-    </div>
-    <div class="role-card" onclick="entrarRol('miembro')">
-      <div class="rc-icon" style="background:#f3e8ff">👥</div>
-      <div class="rc-text"><div class="rc-title">Miembro de Estructura</div><div class="rc-sub">Parte de una estructura existente</div></div>
-      <div class="rc-arrow">›</div>
-    </div>
-    <div class="role-card" onclick="entrarRol('admin')">
-      <div class="rc-icon" style="background:#fef3c7">⚙️</div>
-      <div class="rc-text"><div class="rc-title">Administración</div><div class="rc-sub">Panel de administración</div></div>
-      <div class="rc-arrow">›</div>
-    </div>
-    <div class="role-card" onclick="entrarRol('delegado')">
-      <div class="rc-icon" style="background:#fce7f3">📋</div>
-      <div class="rc-text"><div class="rc-title">Delegado</div><div class="rc-sub">Mesas, actas y votantes del día</div></div>
-      <div class="rc-arrow">›</div>
-    </div>
-    <div class="role-card" onclick="entrarRol('zona')">
-      <div class="rc-icon" style="background:#dbeafe">🏛️</div>
-      <div class="rc-text"><div class="rc-title">Portal Zonal</div><div class="rc-sub">Gestión de zona, dirigentes y planchas</div></div>
-      <div class="rc-arrow">›</div>
+  <!-- BOTONES PRINCIPALES -->
+  <div class="portal-top">
+    <button class="btn btn-azul" onclick="irStep('step-cedula')">🔑 Entrar</button>
+    <button class="btn btn-verde" onclick="irStep('step-registro-rol')">📝 Registrarse</button>
+    <button class="btn btn-gris" onclick="entrarRol('admin')" style="flex:0 0 auto;padding:13px 16px"><i class="fa-solid fa-gear"></i></button>
+  </div>
+
+  <!-- SECCIÓN: ESTRUCTURA DEL PARTIDO -->
+  <div class="portal-section">
+    <div class="portal-section-title">Estructura del Partido</div>
+    <div class="role-grid">
+      <div class="role-card" onclick="entrarRol('dirigente')">
+        <div class="rc-icon" style="background:#dcfce7">🤝</div>
+        <div class="rc-text"><div class="rc-title">Dirigente de Base</div><div class="rc-sub">Comité de base y estructura zonal</div></div>
+        <div class="rc-arrow">›</div>
+      </div>
+      <div class="role-card" onclick="entrarRol('zona')">
+        <div class="rc-icon" style="background:#dbeafe">🏛️</div>
+        <div class="rc-text"><div class="rc-title">Portal Zonal</div><div class="rc-sub">Gestión de zona, dirigentes y planchas</div></div>
+        <div class="rc-arrow">›</div>
+      </div>
+      <div class="role-card" onclick="entrarRol('delegado')">
+        <div class="rc-icon" style="background:#fce7f3">📋</div>
+        <div class="rc-text"><div class="rc-title">Delegado</div><div class="rc-sub">Mesas, actas y votantes del día</div></div>
+        <div class="rc-arrow">›</div>
+      </div>
     </div>
   </div>
-  <div style="display:flex;gap:8px;margin-bottom:8px">
-    <button class="btn btn-verde" style="flex:1" onclick="irStep('step-registro-rol')">📝 Registrarme</button>
-    <button class="btn btn-gris" style="flex:1" onclick="irStep('step-recuperar')">🔑 Recuperar PIN</button>
+
+  <!-- SECCIÓN: CANDIDATURAS -->
+  <div class="portal-section">
+    <div class="portal-section-title">Candidaturas</div>
+    <div class="role-grid">
+      <div class="role-card" onclick="entrarRol('candidato')">
+        <div class="rc-icon" style="background:#dbeafe">🗳️</div>
+        <div class="rc-text"><div class="rc-title">Candidato / Pre-candidato</div><div class="rc-sub">Portal de candidatura y estructura</div></div>
+        <div class="rc-arrow">›</div>
+      </div>
+      <div class="role-card" onclick="entrarRol('miembro')">
+        <div class="rc-icon" style="background:#f3e8ff">👥</div>
+        <div class="rc-text"><div class="rc-title">Miembro de Estructura</div><div class="rc-sub">Parte de una estructura existente</div></div>
+        <div class="rc-arrow">›</div>
+      </div>
+    </div>
   </div>
-  <a href="publico.html" style="display:block;text-align:center;padding:12px;background:linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0.05));border:1px solid rgba(255,255,255,0.15);border-radius:14px;text-decoration:none;color:white;font-size:13px;font-weight:700;backdrop-filter:blur(8px);margin-bottom:8px">
+
+  <!-- SECCIÓN: COORDINACIÓN -->
+  <div class="portal-section">
+    <div class="portal-section-title">Coordinación</div>
+    <div class="role-grid">
+      <div class="role-card" onclick="entrarRol('coordinador')">
+        <div class="rc-icon" style="background:#fef3c7">🔱</div>
+        <div class="rc-text"><div class="rc-title">Coordinador</div><div class="rc-sub">Coordinación de zona o candidatura</div></div>
+        <div class="rc-arrow">›</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECUPERAR PIN -->
+  <div style="text-align:center;margin-bottom:12px">
+    <button onclick="irStep('step-recuperar')" style="background:none;border:none;color:#64748b;font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline;touch-action:manipulation">🔑 ¿Olvidaste tu PIN?</button>
+  </div>
+
+  <a href="publico.html" style="display:block;text-align:center;padding:12px;background:linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0.05));border:1px solid rgba(255,255,255,0.15);border-radius:14px;text-decoration:none;color:white;font-size:13px;font-weight:700;backdrop-filter:blur(8px)">
     🌐 Explorar Portal Público — Valverde
   </a>
 </div>
