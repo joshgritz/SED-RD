@@ -192,9 +192,15 @@ async function cargarDatos() {
   if (!sb || !sesion) return;
 
   try {
-    // 1. Info del candidato
     const { data: cand } = await sb.from('candidatos')
       .select('nombre, cargo, tipo').eq('id', sesion.cedula).maybeSingle();
+
+    if (!cand) {
+      alert('⚠️ No estás registrado como candidato. Serás redirigido al portal para que te registres.');
+      localStorage.removeItem('prm_sesion');
+      window.location.href = 'login.html';
+      return;
+    }
 
     if (cand) {
       document.getElementById('cand-titulo').textContent = cand.nombre;
