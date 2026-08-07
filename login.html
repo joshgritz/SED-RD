@@ -32,6 +32,38 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
 .header-cta{padding:10px 20px;background:#003087;color:white;border:none;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;text-decoration:none;transition:all .2s;font-family:'Montserrat',sans-serif}
 .header-cta:hover{background:#1a4fa8;transform:translateY(-1px)}
 .header-cta-outline{background:transparent;border:2px solid #003087;color:#003087}
+.header-icon-btn{width:40px;height:40px;border-radius:50%;background:#f1f5f9;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:#003087;font-size:15px}
+.header-icon-btn:hover{background:#e2e8f0;transform:translateY(-1px)}
+
+/* ── DARK MODE ── */
+body.dark{background:#0f172a;color:#e2e8f0}
+body.dark .section{background:#0f172a}
+body.dark .section-dark{background:#1e293b}
+body.dark .person-card{background:#1e293b;border-color:#334155;color:#e2e8f0}
+body.dark .person-nombre{color:#f1f5f9}
+body.dark .person-cargo{color:#93c5fd}
+body.dark .person-partido{background:#1e3a5f;color:#93c5fd}
+body.dark .person-muni{color:#94a3b8}
+body.dark .person-detail{color:#94a3b8}
+body.dark .muni-card{background:#1e293b;border-color:#334155}
+body.dark .muni-name{color:#f1f5f9}
+body.dark .muni-type{color:#93c5fd}
+body.dark .muni-dato{background:#0f172a}
+body.dark .muni-dato .num{color:#C5A864}
+body.dark .muni-dato .lab{color:#94a3b8}
+body.dark .footer{background:#020617}
+body.dark .section-title{color:#f1f5f9}
+body.dark .section-title span{color:#C5A864}
+body.dark .section-subtitle{color:#94a3b8}
+body.dark .section-tag{color:#C5A864}
+body.dark .hero-shield span{color:#C5A864}
+body.dark .hero-sub{color:#cbd5e1}
+body.dark .hero-stat{background:rgba(255,255,255,0.05)}
+body.dark .hero-stat-num{color:#f1f5f9}
+body.dark .hero-stat-label{color:#94a3b8}
+body.dark .header{background:rgba(15,23,42,0.95)}
+body.dark .header-icon-btn{background:#1e293b;color:#93c5fd}
+body.dark .header-icon-btn:hover{background:#334155}
 
 /* ── HERO ── */
 .hero{position:relative;background:linear-gradient(160deg,#003087 0%,#0a1f5c 35%,#001a40 100%);min-height:580px;display:flex;align-items:center;overflow:hidden}
@@ -211,6 +243,8 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
     <div class="header-actions">
       <button class="header-cta header-cta-outline" onclick="abrirPortalElectoral()"><i class="fa-solid fa-right-to-bracket"></i> Iniciar</button>
       <button class="header-cta" onclick="abrirPortalElectoral('registro')">Registrarse</button>
+      <button class="header-icon-btn" onclick="toggleTheme()" title="Cambiar tema"><i class="fa-solid fa-gear"></i></button>
+      <button class="header-icon-btn" onclick="peEntrarRol('admin')" title="Administrador"><i class="fa-solid fa-user-shield"></i></button>
     </div>
   </div>
 </header>
@@ -984,6 +1018,15 @@ window.peFmtCedula = peFmtCedula;
 window.peMover = peMover;
 window.peMoverN = peMoverN;
 window.peMoverR = peMoverR;
+
+// ── Dark Mode Toggle ──
+function toggleTheme(){
+  document.body.classList.toggle('dark');
+  localStorage.setItem('prm_theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+}
+(function(){
+  if(localStorage.getItem('prm_theme') === 'dark') document.body.classList.add('dark');
+})();
 </script>
 </body>
 </html>
