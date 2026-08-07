@@ -4,450 +4,620 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#003087">
-<title>Valverde — Portal Público PRM</title>
+<title>PRM Valverde — Portal Público</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f172a;color:white;min-height:100vh;overflow-x:hidden}
+body{font-family:'Montserrat',sans-serif;background:#fff;color:#1e293b;min-height:100vh;overflow-x:hidden}
+
+/* ── HEADER ── */
+.header{background:#fff;position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,0.08)}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:72px}
+.header-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.header-logo-icon{width:48px;height:48px;border-radius:50%;background:#003087;display:flex;align-items:center;justify-content:center;position:relative}
+.header-logo-icon::after{content:'👍';font-size:20px;filter:brightness(10)}
+.header-logo-text{display:flex;flex-direction:column}
+.header-logo-text .siglas{font-size:18px;font-weight:900;color:#003087;letter-spacing:2px;line-height:1}
+.header-logo-text .full{font-size:8px;font-weight:600;color:#64748b;letter-spacing:1px;text-transform:uppercase}
+.header-nav{display:flex;gap:4px}
+.header-nav a{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;color:#475569;transition:all .2s}
+.header-nav a:hover{background:#f1f5f9;color:#003087}
+.header-nav a.activo{background:#003087;color:white}
+.header-actions{display:flex;gap:8px;align-items:center}
+.header-cta{padding:10px 20px;background:#003087;color:white;border:none;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;text-decoration:none;transition:all .2s;font-family:inherit}
+.header-cta:hover{background:#1a4fa8;transform:translateY(-1px)}
+.header-hamburger{display:none;background:none;border:none;font-size:20px;color:#003087;cursor:pointer}
 
 /* ── HERO ── */
-.hero{position:relative;background:linear-gradient(135deg,#003087 0%,#1a4fa8 50%,#C8102E 100%);padding:60px 20px 40px;text-align:center;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,0.05) 1px,transparent 1px);background-size:30px 30px;animation:drift 20s linear infinite}
-@keyframes drift{from{transform:translate(0,0)}to{transform:translate(30px,30px)}}
-.hero-logo{width:80px;height:80px;border-radius:50%;background:white;border:4px solid #efbc00;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 8px 32px rgba(0,0,0,0.3);position:relative;z-index:1}
-.hero-logo span{font-family:Arial Black,sans-serif;font-weight:900;font-size:22px;color:#003087;letter-spacing:1px}
-.hero h1{font-size:28px;font-weight:900;position:relative;z-index:1}
-.hero p{font-size:14px;opacity:0.8;margin-top:6px;position:relative;z-index:1}
-.hero-badge{display:inline-block;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:6px 16px;font-size:11px;font-weight:700;margin-top:12px;backdrop-filter:blur(8px);position:relative;z-index:1}
-
-/* ── NAV ── */
-.nav{display:flex;gap:6px;padding:12px 16px;overflow-x:auto;background:#0f172a;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,0.1)}
-.nav a{flex-shrink:0;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;color:#94a3b8;background:rgba(255,255,255,0.05);transition:all .2s;white-space:nowrap}
-.nav a:hover,.nav a.activo{background:#003087;color:white}
+.hero{position:relative;background:linear-gradient(135deg,#003087 0%,#0a1f5c 40%,#003087 100%);min-height:520px;display:flex;align-items:center;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-content{max-width:1200px;margin:0 auto;padding:60px 24px;display:flex;align-items:center;gap:60px;width:100%}
+.hero-left{flex:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(231,255,137,0.15);border:1px solid rgba(231,255,137,0.3);border-radius:24px;padding:8px 20px;font-size:11px;font-weight:700;color:#E7FF89;margin-bottom:24px}
+.hero-badge i{font-size:10px}
+.hero h1{font-size:48px;font-weight:900;color:white;line-height:1.1;margin-bottom:16px}
+.hero h1 span{color:#E7FF89}
+.hero-sub{font-size:16px;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:32px;max-width:480px}
+.hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
+.btn-hero{padding:14px 32px;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;text-decoration:none;transition:all .2s;border:none;font-family:inherit}
+.btn-primary{background:#E7FF89;color:#003087}
+.btn-primary:hover{background:#d4f060;transform:translateY(-2px);box-shadow:0 8px 24px rgba(231,255,137,0.3)}
+.btn-secondary{background:rgba(255,255,255,0.1);color:white;border:2px solid rgba(255,255,255,0.3)}
+.btn-secondary:hover{background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.5)}
+.hero-right{flex:0 0 400px;display:flex;justify-content:center}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.hero-stat{background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:24px;text-align:center}
+.hero-stat-num{font-size:36px;font-weight:900;color:#E7FF89}
+.hero-stat-label{font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:1px;margin-top:4px;font-weight:600}
+.hero-wave{position:absolute;bottom:0;left:0;right:0;height:80px;background:#fff;clip-path:ellipse(60% 100% at 50% 100%)}
 
 /* ── SECCIONES ── */
-.seccion{padding:24px 16px;max-width:600px;margin:0 auto}
-.seccion-titulo{font-size:20px;font-weight:900;margin-bottom:4px}
-.seccion-sub{font-size:12px;color:#94a3b8;margin-bottom:16px}
-
-/* ── STATS ── */
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
-.stat-box{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:16px;text-align:center}
-.stat-num{font-size:28px;font-weight:900;color:#efbc00}.stat-label{font-size:10px;color:#94a3b8;text-transform:uppercase;font-weight:700;margin-top:2px}
+.section{padding:80px 24px}
+.section-dark{background:#f8fafc}
+.section-blue{background:#003087;color:white}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-header{text-align:center;margin-bottom:48px}
+.section-tag{display:inline-flex;align-items:center;gap:8px;background:#eff6ff;color:#003087;padding:6px 16px;border-radius:20px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.section-title{font-size:36px;font-weight:900;color:#0f172a}
+.section-title span{color:#003087}
+.section-subtitle{font-size:15px;color:#64748b;margin-top:8px;max-width:600px;margin-left:auto;margin-right:auto}
 
 /* ── MUNICIPIOS ── */
-.muni-card{background:linear-gradient(135deg,rgba(0,48,135,0.3),rgba(0,48,135,0.1));border:1px solid rgba(0,48,135,0.3);border-radius:16px;padding:16px;margin-bottom:10px;transition:all .2s}
-.muni-card:active{transform:scale(0.98)}
-.muni-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.muni-icon{width:40px;height:40px;border-radius:12px;background:rgba(0,48,135,0.4);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.muni-nombre{font-size:15px;font-weight:800}.muni-tipo{font-size:11px;color:#94a3b8}
-.muni-datos{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px}
-.muni-dato{text-align:center;padding:8px;background:rgba(255,255,255,0.05);border-radius:10px}
-.muni-dato .num{font-size:16px;font-weight:900;color:#efbc00}.muni-dato .lab{font-size:9px;color:#64748b;text-transform:uppercase}
+.muni-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+.muni-card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:24px;transition:all .3s;position:relative;overflow:hidden}
+.muni-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.08);border-color:#003087}
+.muni-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#003087,#C8102E);opacity:0;transition:opacity .3s}
+.muni-card:hover::before{opacity:1}
+.muni-top{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.muni-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.muni-name{font-size:18px;font-weight:800;color:#0f172a}
+.muni-type{font-size:12px;color:#64748b;font-weight:500}
+.muni-data{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.muni-dato{text-align:center;padding:12px 8px;background:#f8fafc;border-radius:10px}
+.muni-dato .num{font-size:18px;font-weight:900;color:#003087}
+.muni-dato .lab{font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:700;letter-spacing:0.5px;margin-top:2px}
 
 /* ── ALCALDES ── */
-.alcalde-card{display:flex;gap:12px;padding:14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;margin-bottom:10px;align-items:center}
-.alcalde-foto{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#003087,#1a4fa8);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;border:3px solid rgba(255,255,255,0.2)}
-.alcalde-foto img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.alcaldes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+.alcalde-card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:20px;display:flex;gap:16px;align-items:center;transition:all .3s}
+.alcalde-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.06)}
+.alcalde-foto{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#003087,#1a4fa8);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:white;flex-shrink:0;border:3px solid #eff6ff}
 .alcalde-info{flex:1}
-.alcalde-nombre{font-size:14px;font-weight:800}
-.alcalde-muni{font-size:11px;color:#efbc00;margin-top:1px}
-.alcalde-partido{font-size:10px;color:#94a3b8;margin-top:2px}
-.alcalde-badge{padding:4px 10px;border-radius:20px;font-size:10px;font-weight:800;flex-shrink:0}
+.alcalde-nombre{font-size:15px;font-weight:800;color:#0f172a}
+.alcalde-muni{font-size:12px;color:#003087;font-weight:600;margin-top:2px}
+.alcalde-partido{font-size:11px;color:#94a3b8;margin-top:2px}
+.alcalde-badge{padding:6px 14px;border-radius:20px;font-size:10px;font-weight:800;flex-shrink:0;text-transform:uppercase;letter-spacing:0.5px}
 
 /* ── PARTIDOS ── */
-.partido-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.partido-card{padding:16px;border-radius:16px;text-align:center;border:2px solid rgba(255,255,255,0.1);transition:all .2s;cursor:pointer}
-.partido-card:active{transform:scale(0.95)}
-.partido-logo{width:56px;height:56px;border-radius:50%;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:white;border:3px solid rgba(255,255,255,0.2)}
-.partido-nombre{font-size:13px;font-weight:800}
-.partido-full{font-size:10px;color:#94a3b8;margin-top:2px}
-.partido-anio{font-size:9px;color:#64748b;margin-top:4px}
+.partidos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}
+.partido-card{background:white;border:2px solid #e2e8f0;border-radius:16px;padding:24px;text-align:center;transition:all .3s;cursor:pointer}
+.partido-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.08)}
+.partido-logo{width:72px;height:72px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:white;border:4px solid #f1f5f9}
+.partido-nombre{font-size:14px;font-weight:800;color:#0f172a}
+.partido-full{font-size:11px;color:#64748b;margin-top:4px;line-height:1.4}
+.partido-anio{font-size:10px;color:#94a3b8;margin-top:8px;padding-top:8px;border-top:1px solid #f1f5f9}
 
 /* ── TIMELINE ── */
-.timeline{position:relative;padding-left:24px}
-.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:rgba(255,255,255,0.1)}
-.timeline-item{position:relative;margin-bottom:20px;padding-left:16px}
-.timeline-item::before{content:'';position:absolute;left:-20px;top:4px;width:12px;height:12px;border-radius:50%;background:#efbc00;border:2px solid #0f172a}
-.timeline-year{font-size:12px;font-weight:900;color:#efbc00}
-.timeline-text{font-size:13px;color:#cbd5e1;margin-top:2px}
+.timeline{position:relative;padding-left:40px;max-width:700px;margin:0 auto}
+.timeline::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#003087,#C8102E);border-radius:2px}
+.timeline-item{position:relative;margin-bottom:32px;padding:20px 24px;background:white;border:1px solid #e2e8f0;border-radius:12px;transition:all .3s}
+.timeline-item:hover{box-shadow:0 8px 24px rgba(0,0,0,0.06);border-color:#003087}
+.timeline-item::before{content:'';position:absolute;left:-33px;top:24px;width:16px;height:16px;border-radius:50%;background:#003087;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+.timeline-year{font-size:13px;font-weight:900;color:#003087;margin-bottom:4px}
+.timeline-text{font-size:13px;color:#475569;line-height:1.7}
 
 /* ── CURIOSIDADES ── */
-.curio-card{background:linear-gradient(135deg,rgba(239,188,0,0.1),rgba(239,188,0,0.05));border:1px solid rgba(239,188,0,0.2);border-radius:16px;padding:16px;margin-bottom:10px}
-.curio-icon{font-size:24px;margin-bottom:8px}
-.curio-titulo{font-size:14px;font-weight:800;color:#efbc00}
-.curio-text{font-size:12px;color:#cbd5e1;margin-top:4px;line-height:1.6}
+.curiosidades-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+.curio-card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:24px;transition:all .3s}
+.curio-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.06)}
+.curio-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px}
+.curio-titulo{font-size:15px;font-weight:800;color:#0f172a;margin-bottom:6px}
+.curio-text{font-size:13px;color:#64748b;line-height:1.7}
 
 /* ── FOOTER ── */
-.footer{text-align:center;padding:32px 16px;color:#475569;font-size:11px;border-top:1px solid rgba(255,255,255,0.05)}
-.footer a{color:#efbc00;text-decoration:none;font-weight:700}
+.footer{background:#0f172a;color:white;padding:60px 24px 32px}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;margin-bottom:40px;flex-wrap:wrap}
+.footer-brand{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.footer-brand-icon{width:40px;height:40px;border-radius:50%;background:#003087;display:flex;align-items:center;justify-content:center;font-size:16px}
+.footer-brand-icon::after{content:'👍';font-size:14px;filter:brightness(10)}
+.footer-brand-text{font-size:16px;font-weight:900;color:white}
+.footer-desc{font-size:13px;color:#94a3b8;line-height:1.7;max-width:320px}
+.footer-links h4{font-size:12px;font-weight:800;color:white;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+.footer-links a{display:block;font-size:13px;color:#94a3b8;text-decoration:none;padding:4px 0;transition:color .2s}
+.footer-links a:hover{color:#E7FF89}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-copy{font-size:12px;color:#64748b}
+.footer-social{display:flex;gap:12px}
+.footer-social a{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;color:#94a3b8;text-decoration:none;transition:all .2s;font-size:14px}
+.footer-social a:hover{background:#003087;color:white}
 
-/* ── FOTO PLACEHOLDER ── */
-.foto-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1e3a5f,#0f2744);font-size:22px;font-weight:900;color:rgba(255,255,255,0.3)}
+/* ── NAV FLAT ── */
+.nav-flat{display:flex;gap:6px;padding:16px 24px;overflow-x:auto;background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:72px;z-index:150;justify-content:center}
+.nav-flat a{flex-shrink:0;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;color:#64748b;transition:all .2s;white-space:nowrap}
+.nav-flat a:hover{background:#f1f5f9;color:#003087}
+.nav-flat a.activo{background:#003087;color:white}
 
-@media(min-width:480px){.stats-grid{grid-template-columns:1fr 1fr 1fr 1fr}.partido-grid{grid-template-columns:1fr 1fr 1fr}}
+@media(max-width:768px){
+  .header-nav{display:none}
+  .header-hamburger{display:block}
+  .hero-content{flex-direction:column;text-align:center;padding:40px 20px}
+  .hero h1{font-size:32px}
+  .hero-sub{margin-left:auto;margin-right:auto}
+  .hero-buttons{justify-content:center}
+  .hero-right{flex:none;width:100%}
+  .hero-stats{grid-template-columns:1fr 1fr}
+  .section{padding:48px 16px}
+  .section-title{font-size:28px}
+  .muni-grid,.alcaldes-grid,.curiosidades-grid{grid-template-columns:1fr}
+  .partidos-grid{grid-template-columns:1fr 1fr}
+  .footer-top{flex-direction:column}
+}
 </style>
 </head>
 <body>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-logo"><span>PRM</span></div>
-  <h1>Provincia Valverde</h1>
-  <p>República Dominicana — Historia Política Electoral</p>
-  <div class="hero-badge">🏛️ Portal Informativo · Elecciones 2026</div>
-</div>
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="#" class="header-logo">
+      <div class="header-logo-icon"></div>
+      <div class="header-logo-text">
+        <span class="siglas">PRM</span>
+        <span class="full">Partido Revolucionario Moderno</span>
+      </div>
+    </a>
+    <nav class="header-nav">
+      <a href="#valverde" class="activo">Inicio</a>
+      <a href="#municipios">Municipios</a>
+      <a href="#alcaldes">Alcaldes</a>
+      <a href="#partidos">Partidos</a>
+      <a href="#historia">Historia</a>
+      <a href="#curiosidades">Curiosidades</a>
+    </nav>
+    <div class="header-actions">
+      <a href="login.html" class="header-cta"><i class="fa-solid fa-right-to-bracket"></i> Acceder</a>
+      <button class="header-hamburger" onclick="toggleMobileNav()"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </div>
+</header>
 
-<!-- NAV -->
-<div class="nav">
-  <a href="#valverde" class="activo" onclick="scrollTo_('valverde')">Valverde</a>
-  <a href="#municipios" onclick="scrollTo_('municipios')">Municipios</a>
-  <a href="#alcaldes" onclick="scrollTo_('alcaldes')">Alcaldes</a>
-  <a href="#partidos" onclick="scrollTo_('partidos')">Partidos</a>
-  <a href="#historia" onclick="scrollTo_('historia')">Historia</a>
-  <a href="#curiosidades" onclick="scrollTo_('curiosidades')">Curiosidades</a>
-</div>
+<!-- NAV (mobile + scroll) -->
+<nav class="nav-flat" id="nav-flat">
+  <a href="#valverde" class="activo" onclick="scrollTo_('valverde',event)">Valverde</a>
+  <a href="#municipios" onclick="scrollTo_('municipios',event)">Municipios</a>
+  <a href="#alcaldes" onclick="scrollTo_('alcaldes',event)">Alcaldes</a>
+  <a href="#partidos" onclick="scrollTo_('partidos',event)">Partidos</a>
+  <a href="#historia" onclick="scrollTo_('historia',event)">Historia</a>
+  <a href="#curiosidades" onclick="scrollTo_('curiosidades',event)">Curiosidades</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-badge"><i class="fa-solid fa-check-to-slot"></i> Elecciones 2026 · Provincia Valverde</div>
+      <h1>República Dominicana<br><span>Provincia Valverde</span></h1>
+      <p class="hero-sub">Desarrollo, Democracia e Igualdad. Conoce la estructura política, los municipios y la historia electoral de una de las provincias más importantes del Cibao Norte.</p>
+      <div class="hero-buttons">
+        <a href="#municipios" class="btn-hero btn-primary">Explorar Municipios</a>
+        <a href="login.html" class="btn-hero btn-secondary"><i class="fa-solid fa-right-to-bracket"></i> Acceder al Sistema</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-num">7</div><div class="hero-stat-label">Municipios</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">~350K</div><div class="hero-stat-label">Habitantes</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">1</div><div class="hero-stat-label">Senador</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">3+</div><div class="hero-stat-label">Diputados</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-wave"></div>
+</section>
 
 <!-- VALVERDE -->
-<div class="seccion" id="valverde">
-  <div class="seccion-titulo">La Provincia Valverde</div>
-  <div class="seccion-sub">Corazón del Cibao Norte</div>
-  <div class="stats-grid">
-    <div class="stat-box"><div class="stat-num">7</div><div class="stat-label">Municipios</div></div>
-    <div class="stat-box"><div class="stat-num">~350K</div><div class="stat-label">Habitantes</div></div>
-    <div class="stat-box"><div class="stat-num">1</div><div class="stat-label">Senador</div></div>
-    <div class="stat-box"><div class="stat-num">3+</div><div class="stat-label">Diputados</div></div>
+<section class="section" id="valverde">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag"><i class="fa-solid fa-landmark"></i> La Provincia</div>
+      <h2 class="section-title">La Provincia <span>Valverde</span></h2>
+      <p class="section-subtitle">Corazón del Cibao Norte — Historia, cultura y política en una de las provincias más dinámicas de la República Dominicana.</p>
+    </div>
+    <div style="max-width:800px;margin:0 auto;background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:32px;line-height:1.8;font-size:14px;color:#475569">
+      <p>La <strong style="color:#003087">Provincia Valverde</strong> se encuentra en el noroeste de la República Dominicana, con capital en la ciudad de <strong style="color:#0f172a">Mao</strong>. Es una de las provincias más importantes del Cibao Norte, con una economía basada en la agricultura, ganadería y comercio.</p>
+      <p style="margin-top:12px">Su nombre rinde homenaje a <strong style="color:#0f172a">Juan Pablo Duarte</strong>, uno de los Padres de la Patria, cuyo segundo nombre era "Valverde". La provincia fue creada el <strong style="color:#003087">8 de septiembre de 1886</strong>.</p>
+      <p style="margin-top:12px">En el escenario político, Valverde ha sido escenario de intensas contiendas electorales, con los principales partidos compitiendo por la alcaldía, diputaciones y representación senatorial.</p>
+    </div>
   </div>
-  <div style="background:rgba(255,255,255,0.05);border-radius:16px;padding:16px;line-height:1.7;font-size:13px;color:#cbd5e1">
-    <p>La <strong style="color:#efbc00">Provincia Valverde</strong> se encuentra en el noroeste de la República Dominicana, con capital en la ciudad de <strong style="color:white">Mao</strong>. Es una de las provincias más importantes del Cibao Norte, con una economía basada en la agricultura, ganadería y comercio.</p>
-    <p style="margin-top:8px">Su nombre rinde homenaje a <strong style="color:white">Juan Pablo Duarte</strong>, uno de los Padres de la Patria, cuyo segundo nombre era "Valverde". La provincia fue creada el 8 de septiembre de 1886.</p>
-    <p style="margin-top:8px">En el escenario político, Valverde ha sido escenario de intensas contiendas electorales, con los principales partidos compitiendo por la alcaldía, diputaciones y representación senatorial.</p>
-  </div>
-</div>
+</section>
 
 <!-- MUNICIPIOS -->
-<div class="seccion" id="municipios">
-  <div class="seccion-titulo">Municipios de Valverde</div>
-  <div class="seccion-sub">7 municipios conforman la provincia</div>
-
-  <div class="muni-card">
-    <div class="muni-header">
-      <div class="muni-icon">🏙️</div>
-      <div><div class="muni-nombre">Mao</div><div class="muni-tipo">Cabecera Provincial · Capital</div></div>
+<section class="section section-dark" id="municipios">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag"><i class="fa-solid fa-map-location-dot"></i> Geografía</div>
+      <h2 class="section-title">Municipios de <span>Valverde</span></h2>
+      <p class="section-subtitle">7 municipios conforman la provincia, cada uno con su identidad y estructura política propia.</p>
     </div>
-    <div class="muni-datos">
-      <div class="muni-dato"><div class="num">~150K</div><div class="lab">Habitantes</div></div>
-      <div class="muni-dato"><div class="num">6+</div><div class="lab">Zonas</div></div>
-      <div class="muni-dato"><div class="num">Alto</div><div class="lab">Densidad</div></div>
+    <div class="muni-grid">
+      <div class="muni-card">
+        <div class="muni-top">
+          <div class="muni-icon" style="background:#eff6ff;color:#003087">🏙️</div>
+          <div><div class="muni-name">Mao</div><div class="muni-type">Cabecera Provincial · Capital</div></div>
+        </div>
+        <div class="muni-data">
+          <div class="muni-dato"><div class="num">~150K</div><div class="lab">Habitantes</div></div>
+          <div class="muni-dato"><div class="num">6</div><div class="lab">Zonas</div></div>
+          <div class="muni-dato"><div class="num">Alto</div><div class="lab">Densidad</div></div>
+        </div>
+      </div>
+      <div class="muni-card">
+        <div class="muni-top">
+          <div class="muni-icon" style="background:#f0fdf4;color:#16a34a">🌾</div>
+          <div><div class="muni-name">Esperanza</div><div class="muni-type">2do Municipio · Zona Agrícola</div></div>
+        </div>
+        <div class="muni-data">
+          <div class="muni-dato"><div class="num">~60K</div><div class="lab">Habitantes</div></div>
+          <div class="muni-dato"><div class="num">3</div><div class="lab">Zonas</div></div>
+          <div class="muni-dato"><div class="num">Medio</div><div class="lab">Densidad</div></div>
+        </div>
+      </div>
+      <div class="muni-card">
+        <div class="muni-top">
+          <div class="muni-icon" style="background:#faf5ff;color:#7c3aed">💧</div>
+          <div><div class="muni-name">Laguna Salada</div><div class="muni-type">Municipio · Zona Húmeda</div></div>
+        </div>
+        <div class="muni-data">
+          <div class="muni-dato"><div class="num">~45K</div><div class="lab">Habitantes</div></div>
+          <div class="muni-dato"><div class="num">2</div><div class="lab">Zonas</div></div>
+          <div class="muni-dato"><div class="num">Medio</div><div class="lab">Densidad</div></div>
+        </div>
+      </div>
+      <div class="muni-card">
+        <div class="muni-top">
+          <div class="muni-icon" style="background:#ecfdf5;color:#059669">🌿</div>
+          <div><div class="muni-name">Amina</div><div class="muni-type">Distrito Municipal</div></div>
+        </div>
+        <div class="muni-data">
+          <div class="muni-dato"><div class="num">~15K</div><div class="lab">Habitantes</div></div>
+          <div class="muni-dato"><div class="num">1</div><div class="lab">Zona</div></div>
+          <div class="muni-dato"><div class="num">Bajo</div><div class="lab">Densidad</div></div>
+        </div>
+      </div>
+      <div class="muni-card">
+        <div class="muni-top">
+          <div class="muni-icon" style="background:#fff7ed;color:#ea580c">🐄</div>
+          <div><div class="muni-name">Guatapanal</div><div class="muni-type">Distrito Municipal</div></div>
+        </div>
+        <div class="muni-data">
+          <div class="muni-dato"><div class="num">~12K</div><div class="lab">Habitantes</div></div>
+          <div class="muni-dato"><div class="num">1</div><div class="lab">Zona</div></div>
+          <div class="muni-dato"><div class="num">Bajo</div><div class="lab">Densidad</div></div>
+        </div>
+      </div>
+      <div class="muni-card">
+        <div class="muni-top">
+          <div class="muni-icon" style="background:#fefce8;color:#ca8a04">🌻</div>
+          <div><div class="muni-name">Jaibón</div><div class="muni-type">Distrito Municipal</div></div>
+        </div>
+        <div class="muni-data">
+          <div class="muni-dato"><div class="num">~10K</div><div class="lab">Habitantes</div></div>
+          <div class="muni-dato"><div class="num">1</div><div class="lab">Zona</div></div>
+          <div class="muni-dato"><div class="num">Bajo</div><div class="lab">Densidad</div></div>
+        </div>
+      </div>
+      <div class="muni-card">
+        <div class="muni-top">
+          <div class="muni-icon" style="background:#fdf2f8;color:#db2777">⛰️</div>
+          <div><div class="muni-name">Potrero</div><div class="muni-type">Distrito Municipal</div></div>
+        </div>
+        <div class="muni-data">
+          <div class="muni-dato"><div class="num">~8K</div><div class="lab">Habitantes</div></div>
+          <div class="muni-dato"><div class="num">1</div><div class="lab">Zona</div></div>
+          <div class="muni-dato"><div class="num">Bajo</div><div class="lab">Densidad</div></div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="muni-card">
-    <div class="muni-header">
-      <div class="muni-icon">🌾</div>
-      <div><div class="muni-nombre">Esperanza</div><div class="muni-tipo">2do Municipio · Zona Agrícola</div></div>
-    </div>
-    <div class="muni-datos">
-      <div class="muni-dato"><div class="num">~60K</div><div class="lab">Habitantes</div></div>
-      <div class="muni-dato"><div class="num">3</div><div class="lab">Zonas</div></div>
-      <div class="muni-dato"><div class="num">Medio</div><div class="lab">Densidad</div></div>
-    </div>
-  </div>
-
-  <div class="muni-card">
-    <div class="muni-header">
-      <div class="muni-icon">💧</div>
-      <div><div class="muni-nombre">Laguna Salada</div><div class="muni-tipo">Municipio · Zona Húmeda</div></div>
-    </div>
-    <div class="muni-datos">
-      <div class="muni-dato"><div class="num">~45K</div><div class="lab">Habitantes</div></div>
-      <div class="muni-dato"><div class="num">2</div><div class="lab">Zonas</div></div>
-      <div class="muni-dato"><div class="num">Medio</div><div class="lab">Densidad</div></div>
-    </div>
-  </div>
-
-  <div class="muni-card">
-    <div class="muni-header">
-      <div class="muni-icon">🌿</div>
-      <div><div class="muni-nombre">Amina</div><div class="muni-tipo">Distrito Municipal</div></div>
-    </div>
-    <div class="muni-datos">
-      <div class="muni-dato"><div class="num">~15K</div><div class="lab">Habitantes</div></div>
-      <div class="muni-dato"><div class="num">1</div><div class="lab">Zona</div></div>
-      <div class="muni-dato"><div class="num">Bajo</div><div class="lab">Densidad</div></div>
-    </div>
-  </div>
-
-  <div class="muni-card">
-    <div class="muni-header">
-      <div class="muni-icon">🐄</div>
-      <div><div class="muni-nombre">Guatapanal</div><div class="muni-tipo">Distrito Municipal</div></div>
-    </div>
-    <div class="muni-datos">
-      <div class="muni-dato"><div class="num">~12K</div><div class="lab">Habitantes</div></div>
-      <div class="muni-dato"><div class="num">1</div><div class="lab">Zona</div></div>
-      <div class="muni-dato"><div class="num">Bajo</div><div class="lab">Densidad</div></div>
-    </div>
-  </div>
-
-  <div class="muni-card">
-    <div class="muni-header">
-      <div class="muni-icon">🌻</div>
-      <div><div class="muni-nombre">Jaibón</div><div class="muni-tipo">Distrito Municipal</div></div>
-    </div>
-    <div class="muni-datos">
-      <div class="muni-dato"><div class="num">~10K</div><div class="lab">Habitantes</div></div>
-      <div class="muni-dato"><div class="num">1</div><div class="lab">Zona</div></div>
-      <div class="muni-dato"><div class="num">Bajo</div><div class="lab">Densidad</div></div>
-    </div>
-  </div>
-
-  <div class="muni-card">
-    <div class="muni-header">
-      <div class="muni-icon">⛰️</div>
-      <div><div class="muni-nombre">Potrero</div><div class="muni-tipo">Distrito Municipal</div></div>
-    </div>
-    <div class="muni-datos">
-      <div class="muni-dato"><div class="num">~8K</div><div class="lab">Habitantes</div></div>
-      <div class="muni-dato"><div class="num">1</div><div class="lab">Zona</div></div>
-      <div class="muni-dato"><div class="num">Bajo</div><div class="lab">Densidad</div></div>
-    </div>
-  </div>
-</div>
+</section>
 
 <!-- ALCALDES -->
-<div class="seccion" id="alcaldes">
-  <div class="seccion-titulo">Alcaldes de Valverde</div>
-  <div class="seccion-sub">Mandato 2020-2024</div>
-
-  <div class="alcalde-card">
-    <div class="alcalde-foto"><div class="foto-placeholder">CM</div></div>
-    <div class="alcalde-info">
-      <div class="alcalde-nombre">Celedonio Mercado</div>
-      <div class="alcalde-muni">Alcalde de Mao</div>
-      <div class="alcalde-partido">PL · Partido Liberal</div>
+<section class="section" id="alcaldes">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag"><i class="fa-solid fa-user-tie"></i> Representación</div>
+      <h2 class="section-title">Alcaldes de <span>Valverde</span></h2>
+      <p class="section-subtitle">Mandato 2020-2024. Los representantes electos de cada municipio.</p>
     </div>
-    <div class="alcalde-badge" style="background:rgba(0,128,0,0.2);color:#4ade80">Mao</div>
-  </div>
-
-  <div class="alcalde-card">
-    <div class="alcalde-foto"><div class="foto-placeholder">EP</div></div>
-    <div class="alcalde-info">
-      <div class="alcalde-nombre">Enmanuel Polanco</div>
-      <div class="alcalde-muni">Alcalde de Esperanza</div>
-      <div class="alcalde-partido">PRM · Partido Revolucionario Moderno</div>
+    <div class="alcaldes-grid">
+      <div class="alcalde-card">
+        <div class="alcalde-foto" style="background:linear-gradient(135deg,#16a34a,#15803d)">CM</div>
+        <div class="alcalde-info">
+          <div class="alcalde-nombre">Celedonio Mercado</div>
+          <div class="alcalde-muni">Alcalde de Mao</div>
+          <div class="alcalde-partido">PL · Partido Liberal</div>
+        </div>
+        <div class="alcalde-badge" style="background:#f0fdf4;color:#16a34a">Mao</div>
+      </div>
+      <div class="alcalde-card">
+        <div class="alcalde-foto" style="background:linear-gradient(135deg,#003087,#1a4fa8)">EP</div>
+        <div class="alcalde-info">
+          <div class="alcalde-nombre">Enmanuel Polanco</div>
+          <div class="alcalde-muni">Alcalde de Esperanza</div>
+          <div class="alcalde-partido">PRM · Partido Revolucionario Moderno</div>
+        </div>
+        <div class="alcalde-badge" style="background:#eff6ff;color:#003087">Esperanza</div>
+      </div>
+      <div class="alcalde-card">
+        <div class="alcalde-foto" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)">LS</div>
+        <div class="alcalde-info">
+          <div class="alcalde-nombre">—</div>
+          <div class="alcalde-muni">Alcalde de Laguna Salada</div>
+          <div class="alcalde-partido">—</div>
+        </div>
+        <div class="alcalde-badge" style="background:#faf5ff;color:#7c3aed">L. Salada</div>
+      </div>
+      <div class="alcalde-card">
+        <div class="alcalde-foto" style="background:linear-gradient(135deg,#059669,#047857)">AM</div>
+        <div class="alcalde-info">
+          <div class="alcalde-nombre">—</div>
+          <div class="alcalde-muni">Jefe D.M. Amina</div>
+          <div class="alcalde-partido">—</div>
+        </div>
+        <div class="alcalde-badge" style="background:#ecfdf5;color:#059669">Amina</div>
+      </div>
+      <div class="alcalde-card">
+        <div class="alcalde-foto" style="background:linear-gradient(135deg,#ea580c,#c2410c)">GU</div>
+        <div class="alcalde-info">
+          <div class="alcalde-nombre">—</div>
+          <div class="alcalde-muni">Jefe D.M. Guatapanal</div>
+          <div class="alcalde-partido">—</div>
+        </div>
+        <div class="alcalde-badge" style="background:#fff7ed;color:#ea580c">Guatapanal</div>
+      </div>
+      <div class="alcalde-card">
+        <div class="alcalde-foto" style="background:linear-gradient(135deg,#ca8a04,#a16207)">JB</div>
+        <div class="alcalde-info">
+          <div class="alcalde-nombre">—</div>
+          <div class="alcalde-muni">Jefe D.M. Jaibón</div>
+          <div class="alcalde-partido">—</div>
+        </div>
+        <div class="alcalde-badge" style="background:#fefce8;color:#ca8a04">Jaibón</div>
+      </div>
+      <div class="alcalde-card">
+        <div class="alcalde-foto" style="background:linear-gradient(135deg,#db2777,#be185d)">PT</div>
+        <div class="alcalde-info">
+          <div class="alcalde-nombre">—</div>
+          <div class="alcalde-muni">Jefe D.M. Potrero</div>
+          <div class="alcalde-partido">—</div>
+        </div>
+        <div class="alcalde-badge" style="background:#fdf2f8;color:#db2777">Potrero</div>
+      </div>
     </div>
-    <div class="alcalde-badge" style="background:rgba(0,48,135,0.3);color:#60a5fa">Esperanza</div>
-  </div>
-
-  <div class="alcalde-card">
-    <div class="alcalde-foto"><div class="foto-placeholder">LS</div></div>
-    <div class="alcalde-info">
-      <div class="alcalde-nombre">—</div>
-      <div class="alcalde-muni">Alcalde de Laguna Salada</div>
-      <div class="alcalde-partido">—</div>
+    <div style="text-align:center;margin-top:24px;padding:14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;font-size:12px;color:#94a3b8">
+      <i class="fa-solid fa-circle-info" style="margin-right:6px"></i> Datos de mandato 2020-2024. Se actualizarán para las elecciones 2026.
     </div>
-    <div class="alcalde-badge" style="background:rgba(124,58,237,0.2);color:#a78bfa">L. Salada</div>
   </div>
-
-  <div class="alcalde-card">
-    <div class="alcalde-foto"><div class="foto-placeholder">AM</div></div>
-    <div class="alcalde-info">
-      <div class="alcalde-nombre">—</div>
-      <div class="alcalde-muni">Jefe D.M. Amina</div>
-      <div class="alcalde-partido">—</div>
-    </div>
-    <div class="alcalde-badge" style="background:rgba(239,188,0,0.2);color:#fbbf24">Amina</div>
-  </div>
-
-  <div class="alcalde-card">
-    <div class="alcalde-foto"><div class="foto-placeholder">GU</div></div>
-    <div class="alcalde-info">
-      <div class="alcalde-nombre">—</div>
-      <div class="alcalde-muni">Jefe D.M. Guatapanal</div>
-      <div class="alcalde-partido">—</div>
-    </div>
-    <div class="alcalde-badge" style="background:rgba(16,185,129,0.2);color:#34d399">Guatapanal</div>
-  </div>
-
-  <div class="alcalde-card">
-    <div class="alcalde-foto"><div class="foto-placeholder">JB</div></div>
-    <div class="alcalde-info">
-      <div class="alcalde-nombre">—</div>
-      <div class="alcalde-muni">Jefe D.M. Jaibón</div>
-      <div class="alcalde-partido">—</div>
-    </div>
-    <div class="alcalde-badge" style="background:rgba(249,115,22,0.2);color:#fb923c">Jaibón</div>
-  </div>
-
-  <div class="alcalde-card">
-    <div class="alcalde-foto"><div class="foto-placeholder">PT</div></div>
-    <div class="alcalde-info">
-      <div class="alcalde-nombre">—</div>
-      <div class="alcalde-muni">Jefe D.M. Potrero</div>
-      <div class="alcalde-partido">—</div>
-    </div>
-    <div class="alcalde-badge" style="background:rgba(236,72,153,0.2);color:#f472b6">Potrero</div>
-  </div>
-
-  <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:12px;margin-top:8px;font-size:11px;color:#64748b;text-align:center">
-    <i class="fa-solid fa-circle-info mr-1"></i> Datos de mandato 2020-2024. Se actualizarán para las elecciones 2026.
-  </div>
-</div>
+</section>
 
 <!-- PARTIDOS -->
-<div class="seccion" id="partidos">
-  <div class="seccion-titulo">Partidos Políticos</div>
-  <div class="seccion-sub">Principales fuerzas en Valverde</div>
-  <div class="partido-grid">
-    <div class="partido-card" style="border-color:rgba(0,48,135,0.4);background:rgba(0,48,135,0.1)">
-      <div class="partido-logo" style="background:linear-gradient(135deg,#003087,#1a4fa8)">PRM</div>
-      <div class="partido-nombre">PRM</div>
-      <div class="partido-full">Partido Revolucionario Moderno</div>
-      <div class="partido-anio">Fundado: 2014</div>
+<section class="section section-dark" id="partidos">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag"><i class="fa-solid fa-flag"></i> Política</div>
+      <h2 class="section-title">Partidos <span>Políticos</span></h2>
+      <p class="section-subtitle">Principales fuerzas políticas en la Provincia Valverde.</p>
     </div>
-    <div class="partido-card" style="border-color:rgba(0,128,0,0.4);background:rgba(0,128,0,0.1)">
-      <div class="partido-logo" style="background:linear-gradient(135deg,#16a34a,#15803d)">PL</div>
-      <div class="partido-nombre">PL</div>
-      <div class="partido-full">Partido Liberal</div>
-      <div class="partido-anio">Fundado: 1961</div>
-    </div>
-    <div class="partido-card" style="border-color:rgba(220,38,38,0.4);background:rgba(220,38,38,0.1)">
-      <div class="partido-logo" style="background:linear-gradient(135deg,#dc2626,#991b1b)">PRD</div>
-      <div class="partido-nombre">PRD</div>
-      <div class="partido-full">Partido Revolucionario Dominicano</div>
-      <div class="partido-anio">Fundado: 1939</div>
-    </div>
-    <div class="partido-card" style="border-color:rgba(239,188,0,0.4);background:rgba(239,188,0,0.1)">
-      <div class="partido-logo" style="background:linear-gradient(135deg,#efbc00,#ca8a04);color:#1e293b">PLD</div>
-      <div class="partido-nombre">PLD</div>
-      <div class="partido-full">Partido de la Liberación Dominicana</div>
-      <div class="partido-anio">Fundado: 1973</div>
-    </div>
-    <div class="partido-card" style="border-color:rgba(124,58,237,0.4);background:rgba(124,58,237,0.1)">
-      <div class="partido-logo" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)">FP</div>
-      <div class="partido-nombre">FP</div>
-      <div class="partido-full">Fuerza del Pueblo</div>
-      <div class="partido-anio">Fundado: 2019</div>
-    </div>
-    <div class="partido-card" style="border-color:rgba(14,165,233,0.4);background:rgba(14,165,233,0.1)">
-      <div class="partido-logo" style="background:linear-gradient(135deg,#0ea5e9,#0284c7)">AL</div>
-      <div class="partido-nombre">AL</div>
-      <div class="partido-full">Alianza por la Democracia</div>
-      <div class="partido-anio">Fundado: 2023</div>
+    <div class="partidos-grid">
+      <div class="partido-card" style="border-color:#00308720">
+        <div class="partido-logo" style="background:linear-gradient(135deg,#003087,#1a4fa8)">PRM</div>
+        <div class="partido-nombre">PRM</div>
+        <div class="partido-full">Partido Revolucionario Moderno</div>
+        <div class="partido-anio">Fundado: 2014</div>
+      </div>
+      <div class="partido-card" style="border-color:#16a34a20">
+        <div class="partido-logo" style="background:linear-gradient(135deg,#16a34a,#15803d)">PL</div>
+        <div class="partido-nombre">PL</div>
+        <div class="partido-full">Partido Liberal</div>
+        <div class="partido-anio">Fundado: 1961</div>
+      </div>
+      <div class="partido-card" style="border-color:#dc262620">
+        <div class="partido-logo" style="background:linear-gradient(135deg,#dc2626,#991b1b)">PRD</div>
+        <div class="partido-nombre">PRD</div>
+        <div class="partido-full">Partido Revolucionario Dominicano</div>
+        <div class="partido-anio">Fundado: 1939</div>
+      </div>
+      <div class="partido-card" style="border-color:#ca8a0420">
+        <div class="partido-logo" style="background:linear-gradient(135deg,#efbc00,#ca8a04);color:#1e293b">PLD</div>
+        <div class="partido-nombre">PLD</div>
+        <div class="partido-full">Partido de la Liberación Dominicana</div>
+        <div class="partido-anio">Fundado: 1973</div>
+      </div>
+      <div class="partido-card" style="border-color:#7c3aed20">
+        <div class="partido-logo" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)">FP</div>
+        <div class="partido-nombre">FP</div>
+        <div class="partido-full">Fuerza del Pueblo</div>
+        <div class="partido-anio">Fundado: 2019</div>
+      </div>
+      <div class="partido-card" style="border-color:#0ea5e920">
+        <div class="partido-logo" style="background:linear-gradient(135deg,#0ea5e9,#0284c7)">AL</div>
+        <div class="partido-nombre">AL</div>
+        <div class="partido-full">Alianza por la Democracia</div>
+        <div class="partido-anio">Fundado: 2023</div>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- HISTORIA -->
-<div class="seccion" id="historia">
-  <div class="seccion-titulo">Historia Política</div>
-  <div class="seccion-sub">Momentos clave de Valverde</div>
-  <div class="timeline">
-    <div class="timeline-item">
-      <div class="timeline-year">1886</div>
-      <div class="timeline-text">Creación de la Provincia Valverde, separándose de la antigua Provincia de Santiago. Se establece Mao como capital provincial.</div>
+<section class="section" id="historia">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag"><i class="fa-solid fa-clock-rotate-left"></i> Cronología</div>
+      <h2 class="section-title">Historia <span>Política</span></h2>
+      <p class="section-subtitle">Momentos clave que han marcado la historia electoral de Valverde.</p>
     </div>
-    <div class="timeline-item">
-      <div class="timeline-year">1962</div>
-      <div class="timeline-text">Primeras elecciones democráticas tras la era de Trujillo. El PLD gana la alcaldía de Mao en su fundación.</div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-year">1978</div>
-      <div class="timeline-text">Transición democrática: el PRD gana la presidencia y Valverde se convierte en bastión opositor.</div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-year">1996</div>
-      <div class="timeline-text">El PLD comienza su era de dominación en Valverde, ganando múltiples alcaldías y la representación senatorial.</div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-year">2010</div>
-      <div class="timeline-text">El PL mantiene la alcaldía de Mao mientras el PLD domina el resto de la provincia.</div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-year">2016</div>
-      <div class="timeline-text">El PRD resurge en Valverde, ganando la alcaldía de Esperanza y varias posiciones concejal.</div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-year">2020</div>
-      <div class="timeline-text">El PL conserva Mao con Celedonio Mercado. Las elecciones se vuelven más competidas entre PL, PRM y PLD.</div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-year">2024</div>
-      <div class="timeline-text">El PRM gana la alcaldía de Esperanza con Enmanuel Polanco. Se prepara la disputa por Valverde en 2026.</div>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-year">2026</div>
-      <div class="timeline-text">Próximas elecciones generales. Valverde será escenario de una de las batallas más disputadas del Cibao Norte.</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year">1886</div>
+        <div class="timeline-text">Creación de la Provincia Valverde, separándose de la antigua Provincia de Santiago. Se establece Mao como capital provincial.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1962</div>
+        <div class="timeline-text">Primeras elecciones democráticas tras la era de Trujillo. El PLD gana la alcaldía de Mao en su fundación.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1978</div>
+        <div class="timeline-text">Transición democrática: el PRD gana la presidencia y Valverde se convierte en bastión opositor.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1996</div>
+        <div class="timeline-text">El PLD comienza su era de dominación en Valverde, ganando múltiples alcaldías y la representación senatorial.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2010</div>
+        <div class="timeline-text">El PL mantiene la alcaldía de Mao mientras el PLD domina el resto de la provincia.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2016</div>
+        <div class="timeline-text">El PRD resurge en Valverde, ganando la alcaldía de Esperanza y varias posiciones concejal.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2020</div>
+        <div class="timeline-text">El PL conserva Mao con Celedonio Mercado. Las elecciones se vuelven más competidas entre PL, PRM y PLD.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2024</div>
+        <div class="timeline-text">El PRM gana la alcaldía de Esperanza con Enmanuel Polanco. Se prepara la disputa por Valverde en 2026.</div>
+      </div>
+      <div class="timeline-item" style="border-color:#003087;background:#eff6ff">
+        <div class="timeline-year" style="color:#C8102E">2026</div>
+        <div class="timeline-text"><strong>Próximas elecciones generales.</strong> Valverde será escenario de una de las batallas más disputadas del Cibao Norte.</div>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- CURIOSIDADES -->
-<div class="seccion" id="curiosidades">
-  <div class="seccion-titulo">Curiosidades de Valverde</div>
-  <div class="seccion-sub">Datos que no conocías</div>
-
-  <div class="curio-card">
-    <div class="curio-icon">🏛️</div>
-    <div class="curio-titulo">¿Por qué se llama "Valverde"?</div>
-    <div class="curio-text">La provincia fue nombrada en honor a <strong>Juan Pablo Duarte</strong>, cuyo segundo nombre era "Valverde". Duarte es considerado el Padre de la Patria dominicana.</div>
+<section class="section section-dark" id="curiosidades">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag"><i class="fa-solid fa-lightbulb"></i> Datos</div>
+      <h2 class="section-title">Curiosidades de <span>Valverde</span></h2>
+      <p class="section-subtitle">Datos interesantes que quizás no conocías de esta provincia.</p>
+    </div>
+    <div class="curiosidades-grid">
+      <div class="curio-card">
+        <div class="curio-icon" style="background:#eff6ff;color:#003087">🏛️</div>
+        <div class="curio-titulo">¿Por qué se llama "Valverde"?</div>
+        <div class="curio-text">La provincia fue nombrada en honor a <strong>Juan Pablo Duarte</strong>, cuyo segundo nombre era "Valverde". Duarte es considerado el Padre de la Patria dominicana.</div>
+      </div>
+      <div class="curio-card">
+        <div class="curio-icon" style="background:#f0fdf4;color:#16a34a">🌾</div>
+        <div class="curio-titulo">El Granero del Norte</div>
+        <div class="curio-text">Valverde es conocido como "El Granero del Norte" por su enorme producción de arroz, maíz y otros cereales que abastecen a todo el norte del país.</div>
+      </div>
+      <div class="curio-card">
+        <div class="curio-icon" style="background:#faf5ff;color:#7c3aed">💧</div>
+        <div class="curio-titulo">Laguna Salada: ¿Lago o Mar?</div>
+        <div class="curio-text">La Laguna Salada es una de las lagunas más grandes del Caribe. En temporada de lluvias puede alcanzar hasta 25 km de largo, pero en verano se reduce significativamente.</div>
+      </div>
+      <div class="curio-card">
+        <div class="curio-icon" style="background:#fefce8;color:#ca8a04">🎭</div>
+        <div class="curio-titulo">La Gritería en Valverde</div>
+        <div class="curio-text">Cada 7 de diciembre, la "Gritería" llena las calles de Mao y demás municipios con música, fuegos artificiales y celebración a la Virgen de la Altagracia.</div>
+      </div>
+      <div class="curio-card">
+        <div class="curio-icon" style="background:#fdf2f8;color:#db2777">⚾</div>
+        <div class="curio-titulo">Cuna de peloteros</div>
+        <div class="curio-text">Valverde ha dado varios peloteros a las Grandes Ligas. La pasión por el béisbol es tan fuerte como la pasión política.</div>
+      </div>
+      <div class="curio-card">
+        <div class="curio-icon" style="background:#fff7ed;color:#ea580c">🗳️</div>
+        <div class="curio-titulo">Mao: La Ciudad Lechera</div>
+        <div class="curio-text">Mao es conocida como "La Ciudad Lechera" por su enorme producción lechera. La industria láctea es uno de los pilares económicos de la provincia.</div>
+      </div>
+    </div>
   </div>
-
-  <div class="curio-card">
-    <div class="curio-icon">🌾</div>
-    <div class="curio-titulo">El Granero del Norte</div>
-    <div class="curio-text">Valverde es conocido como "El Granero del Norte" por su enorme producción de arroz, maíz y otros cereales que abastecen a todo el norte del país.</div>
-  </div>
-
-  <div class="curio-card">
-    <div class="curio-icon">💧</div>
-    <div class="curio-titulo">Laguna Salada: ¿Lago o Mar?</div>
-    <div class="curio-text">La Laguna Salada es una de las lagunas más grandes del Caribe. En temporada de lluvias puede alcanzar hasta 25 km de largo, pero en verano se reduce significativamente.</div>
-  </div>
-
-  <div class="curio-card">
-    <div class="curio-icon">🎭</div>
-    <div class="curio-titulo">La Gritería en Valverde</div>
-    <div class="curio-text">Cada 7 de diciembre, la "Gritería" llena las calles de Mao y demás municipios con música, fuegos artificiales y celebración a la Virgen de la Altagracia.</div>
-  </div>
-
-  <div class="curio-card">
-    <div class="curio-icon">⚾</div>
-    <div class="curio-titulo">Cuna de peloteros</div>
-    <div class="curio-text">Valverde ha dado varios peloteros a las Grandes Ligas. La pasión por el béisbol es tan fuerte como la pasión política.</div>
-  </div>
-
-  <div class="curio-card">
-    <div class="curio-icon">🗳️</div>
-    <div class="curio-titulo">Mao: La Ciudad Lechera</div>
-    <div class="curio-text">Mao es conocida como "La Ciudad Lechera" por su enorme producción lechera. La industria láctea es uno de los pilares económicos de la provincia.</div>
-  </div>
-</div>
+</section>
 
 <!-- FOOTER -->
-<div class="footer">
-  <p>Portal Público · PRM Valverde · 2026</p>
-  <p style="margin-top:4px"><a href="login.html">Entrar al Sistema</a></p>
-</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <div class="footer-brand-icon"></div>
+          <span class="footer-brand-text">PRM Valverde</span>
+        </div>
+        <p class="footer-desc">Portal informativo del Partido Revolucionario Moderno en la Provincia Valverde. Desarrollo, Democracia e Igualdad.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navegación</h4>
+        <a href="#valverde">Valverde</a>
+        <a href="#municipios">Municipios</a>
+        <a href="#alcaldes">Alcaldes</a>
+        <a href="#partidos">Partidos</a>
+        <a href="#historia">Historia</a>
+      </div>
+      <div class="footer-links">
+        <h4>Sistema</h4>
+        <a href="login.html">Acceder</a>
+        <a href="login.html">Portal Dirigentes</a>
+        <a href="login.html">Portal Candidatos</a>
+        <a href="login.html">Portal Delegados</a>
+      </div>
+      <div class="footer-links">
+        <h4>Contacto</h4>
+        <a href="#">Mao, Valverde</a>
+        <a href="#">República Dominicana</a>
+        <a href="#">info@prm-valverde.do</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">&copy; 2026 PRM Valverde. Todos los derechos reservados.</div>
+      <div class="footer-social">
+        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
 
 <script>
-function scrollTo_(id) {
+function scrollTo_(id, evt) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  document.querySelectorAll('.nav a').forEach(a => a.classList.remove('activo'));
-  event.target.classList.add('activo');
+  if (evt) {
+    document.querySelectorAll('.nav-flat a').forEach(a => a.classList.remove('activo'));
+    evt.target.classList.add('activo');
+  }
 }
 
-// Highlight nav on scroll
+function toggleMobileNav() {
+  const nav = document.getElementById('nav-flat');
+  nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+}
+
 window.addEventListener('scroll', () => {
   const sections = ['valverde','municipios','alcaldes','partidos','historia','curiosidades'];
-  const navLinks = document.querySelectorAll('.nav a');
+  const navLinks = document.querySelectorAll('.nav-flat a');
+  const headerLinks = document.querySelectorAll('.header-nav a');
   let current = '';
   sections.forEach(id => {
     const el = document.getElementById(id);
-    if (el && el.getBoundingClientRect().top <= 100) current = id;
+    if (el && el.getBoundingClientRect().top <= 160) current = id;
   });
   navLinks.forEach(a => {
+    a.classList.remove('activo');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('activo');
+  });
+  headerLinks.forEach(a => {
     a.classList.remove('activo');
     if (a.getAttribute('href') === '#' + current) a.classList.add('activo');
   });
