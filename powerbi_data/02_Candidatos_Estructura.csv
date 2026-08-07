@@ -1,0 +1,6 @@
+candidato_id,candidato_nombre,cargo,tipo,municipio,zona,total_dirigentes,dirigentes_mujeres,dirigentes_hombres,total_comite,total_apoyos,apoyos_verificados,apoyos_confirmados
+c1,José Ramírez Peña,Candidato a Senador,candidato,MAO,,0,0,0,0,0,0,0
+c2,María Santos Cruz,Candidata a Diputada,candidato,MAO,,0,0,0,0,0,0,0
+c3,Carlos Mena Báez,Candidato a Alcalde,candidato,MAO,,0,0,0,0,0,0,0
+p1,Ana López Domínguez,Pre-candidata Senadora,precandidato,MAO,,0,0,0,0,0,0,0
+p2,Pedro Vargas Reyes,Pre-candidato Alcalde,precandidato,MAO,,0,0,0,0,0,0,0

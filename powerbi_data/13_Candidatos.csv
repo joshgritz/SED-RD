@@ -1,0 +1,6 @@
+id,nombre,cargo,tipo,municipio,zona,activo,creado_en
+c1,José Ramírez Peña,Candidato a Senador,candidato,MAO,,true,Sat Mar 14 2026 13:18:58 GMT-0400 (GMT-04:00)
+c2,María Santos Cruz,Candidata a Diputada,candidato,MAO,,true,Sat Mar 14 2026 13:18:58 GMT-0400 (GMT-04:00)
+c3,Carlos Mena Báez,Candidato a Alcalde,candidato,MAO,,true,Sat Mar 14 2026 13:18:58 GMT-0400 (GMT-04:00)
+p1,Ana López Domínguez,Pre-candidata Senadora,precandidato,MAO,,true,Sat Mar 14 2026 13:18:58 GMT-0400 (GMT-04:00)
+p2,Pedro Vargas Reyes,Pre-candidato Alcalde,precandidato,MAO,,true,Sat Mar 14 2026 13:18:58 GMT-0400 (GMT-04:00)

@@ -1,0 +1,8 @@
+id,clave,valor,categoria,descripcion,modificado_en
+7,login_demo_permitido,true,auth,Permitir acceso sin padron (demo),Wed Aug 05 2026 00:36:45 GMT-0400 (GMT-04:00)
+3,nombre_sistema,Sistema Electoral PRM - Valverde,general,Nombre que se muestra en la web,Wed Aug 05 2026 00:36:45 GMT-0400 (GMT-04:00)
+4,version,1.0.0,general,Version del sistema,Wed Aug 05 2026 00:36:45 GMT-0400 (GMT-04:00)
+6,banner_activo,true,ui,Mostrar banner principal,Wed Aug 05 2026 00:36:45 GMT-0400 (GMT-04:00)
+5,footer_text,Partido Revolucionario Moderno - Provincia Valverde,ui,Texto del pie de pagina,Wed Aug 05 2026 00:36:45 GMT-0400 (GMT-04:00)
+1,modulos_visibles,[object Object],ui,Modulos visibles en la web,Wed Aug 05 2026 00:36:45 GMT-0400 (GMT-04:00)
+2,theme_colors,[object Object],ui,Colores del tema,Wed Aug 05 2026 00:36:45 GMT-0400 (GMT-04:00)
