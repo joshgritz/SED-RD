@@ -21,6 +21,17 @@
   input:focus, select:focus, textarea:focus { border-color:#003087; }
   ::-webkit-scrollbar { width:8px; height:8px; }
   ::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:4px; }
+  .nav-btn { padding:6px 12px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer; transition:all .15s; white-space:nowrap; border:none; }
+  .nav-btn:not(.bg-slate-900):not(.bg-white):hover { background:#e2e8f0; }
+  .notif-badge { position:absolute; top:-6px; right:-6px; background:#dc2626; color:white; font-size:10px; font-weight:900; min-width:18px; height:18px; border-radius:9px; display:flex; align-items:center; justify-content:center; padding:0 4px; }
+  .notif-dropdown { position:absolute; top:100%; right:0; width:360px; max-height:400px; overflow-y:auto; background:white; border-radius:12px; box-shadow:0 12px 40px rgba(0,0,0,0.15); border:1px solid #e2e8f0; z-index:200; }
+  .activity-item { display:flex; gap:10px; padding:10px 14px; border-bottom:1px solid #f1f5f9; align-items:flex-start; }
+  .activity-item:last-child { border-bottom:none; }
+  .activity-icon { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:13px; }
+  .live-dot { width:8px; height:8px; background:#16a34a; border-radius:50%; animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .stat-card { transition:all .2s; }
+  .stat-card:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,0.08); }
 </style>
 </head>
 <body class="bg-slate-100 min-h-screen">
@@ -51,18 +62,28 @@
 <!-- ═══════════ PANEL ═══════════ -->
 <div id="pantalla-panel" class="hidden">
 
-  <header class="bg-[#003087] text-white shadow-lg border-b-4 border-[#C8102E] sticky top-0 z-50">
+  <header class="bg-[#003087] text-white shadow-lg border-b-4 border-[#efbc00] sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center gap-3">
-        <span class="font-black tracking-wider text-lg">PRM · VALVERDE <span class="text-yellow-400 text-xs font-bold ml-2 bg-white/15 px-2 py-1 rounded-full">ADMIN</span></span>
+        <span class="font-black tracking-wider text-lg">PRM · VALVERDE <span class="text-[#efbc00] text-xs font-bold ml-2 bg-white/15 px-2 py-1 rounded-full">ADMIN</span></span>
       </div>
       <div class="flex items-center gap-2">
+        <div class="relative">
+          <button onclick="toggleNotifDropdown()" class="relative w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center transition-all">
+            <i class="fa-solid fa-bell text-sm"></i>
+            <span id="notif-badge" class="notif-badge hidden">0</span>
+          </button>
+          <div id="notif-dropdown" class="notif-dropdown hidden">
+            <div class="p-3 border-b border-slate-100 font-black text-sm text-slate-700"><i class="fa-solid fa-bell mr-2 text-[#efbc00]"></i> Notificaciones</div>
+            <div id="notif-list" class="p-2 text-center text-slate-400 text-xs">Cargando...</div>
+          </div>
+        </div>
         <button onclick="cerrarSesionAdmin()" class="text-xs bg-red-500/80 hover:bg-red-500 px-3 py-1.5 rounded-lg font-bold"><i class="fa-solid fa-right-from-bracket mr-1"></i> Salir</button>
       </div>
     </div>
   </header>
 
-  <nav class="bg-white shadow sticky top-[57px] z-40 border-b border-slate-200 overflow-x-auto">
+  <nav class="bg-white shadow sticky top-[61px] z-40 border-b border-slate-200 overflow-x-auto">
     <div class="max-w-7xl mx-auto px-4 flex gap-1 py-2 min-w-max">
       <button class="nav-btn bg-slate-900 text-white" data-tab="resumen" onclick="mostrarTab('resumen')"><i class="fa-solid fa-chart-pie mr-1"></i> Resumen</button>
       <button class="nav-btn" data-tab="candidatos" onclick="mostrarTab('candidatos')"><i class="fa-solid fa-user-tie mr-1"></i> Candidatos</button>
@@ -71,28 +92,64 @@
       <button class="nav-btn" data-tab="apoyos" onclick="mostrarTab('apoyos')"><i class="fa-solid fa-handshake mr-1"></i> Apoyos</button>
       <button class="nav-btn" data-tab="planchas" onclick="mostrarTab('planchas')"><i class="fa-solid fa-bullhorn mr-1"></i> Planchas</button>
       <button class="nav-btn" data-tab="padron" onclick="mostrarTab('padron')"><i class="fa-solid fa-book mr-1"></i> Padrón</button>
-      <button class="nav-btn" data-tab="config" onclick="mostrarTab('config')"><i class="fa-solid fa-gear mr-1"></i> Config Web</button>
-      <a href="importador_padron.html" class="nav-btn bg-white text-slate-600 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-100"><i class="fa-solid fa-file-import mr-1"></i> Importar Padrón</a>
-      <a href="index.html" target="_blank" class="nav-btn bg-white text-slate-600 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-100"><i class="fa-solid fa-globe mr-1"></i> Ver Web</a>
+      <button class="nav-btn" data-tab="administradores" onclick="mostrarTab('administradores')"><i class="fa-solid fa-user-shield mr-1"></i> Admins</button>
+      <button class="nav-btn" data-tab="config" onclick="mostrarTab('config')"><i class="fa-solid fa-gear mr-1"></i> Config</button>
+      <a href="importador_padron.html" class="nav-btn bg-white text-slate-600 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-100"><i class="fa-solid fa-file-import mr-1"></i> Importar</a>
     </div>
   </nav>
 
   <main class="max-w-7xl mx-auto px-4 py-6">
 
-    <!-- RESUMEN -->
+    <!-- ═══════════ RESUMEN ═══════════ -->
     <section id="tab-resumen" class="tab-panel active">
       <div id="kpis" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6"></div>
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="bg-white rounded-2xl shadow-sm p-5">
-          <h3 class="font-black text-slate-700 mb-4 text-sm"><i class="fa-solid fa-chart-simple mr-2 text-blue-700"></i> Apoyos por zona</h3>
-          <div style="height:220px"><canvas id="chart-zonas"></canvas></div>
+
+      <!-- Actividad en vivo -->
+      <div class="grid md:grid-cols-3 gap-6 mb-6">
+        <div class="bg-white rounded-2xl shadow-sm p-5 border-l-4 border-green-500">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-black text-slate-700 text-sm"><i class="fa-solid fa-signal mr-2 text-green-500"></i> Usuarios activos</h3>
+            <div class="live-dot"></div>
+          </div>
+          <div id="kpi-en-linea" class="text-3xl font-black text-green-600">0</div>
+          <p class="text-[11px] text-slate-400 mt-1">Últimos 15 minutos</p>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm p-5 border-l-4 border-blue-500">
+          <h3 class="font-black text-slate-700 text-sm mb-3"><i class="fa-solid fa-user-plus mr-2 text-blue-500"></i> Registrados hoy</h3>
+          <div id="kpi-reg-hoy" class="text-3xl font-black text-blue-600">0</div>
+          <p class="text-[11px] text-slate-400 mt-1">Nuevos registros</p>
         </div>
         <div class="bg-white rounded-2xl shadow-sm p-5">
-          <h3 class="font-black text-slate-700 mb-4 text-sm"><i class="fa-solid fa-users mr-2 text-green-600"></i> Estructura de candidatos</h3>
-          <div style="height:220px"><canvas id="chart-candidatos"></canvas></div>
+          <h3 class="font-black text-slate-700 text-sm mb-3"><i class="fa-solid fa-clock-rotate-left mr-2 text-[#efbc00]"></i> Última actividad</h3>
+          <div id="kpi-ultima-actividad" class="text-sm font-bold text-slate-600">—</div>
+          <p class="text-[11px] text-slate-400 mt-1">Última acción registrada</p>
         </div>
       </div>
-      <div class="bg-white rounded-2xl shadow-sm p-5 mt-6">
+
+      <div class="grid md:grid-cols-3 gap-6 mb-6">
+        <!-- Feed de actividad -->
+        <div class="bg-white rounded-2xl shadow-sm p-5 md:col-span-1">
+          <h3 class="font-black text-slate-700 mb-3 text-sm"><i class="fa-solid fa-list mr-2 text-purple-600"></i> Actividad en vivo</h3>
+          <div id="activity-feed" class="max-h-[360px] overflow-y-auto">
+            <p class="text-slate-400 text-xs text-center py-4">Cargando actividad...</p>
+          </div>
+        </div>
+        <!-- Charts -->
+        <div class="bg-white rounded-2xl shadow-sm p-5 md:col-span-2">
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <h3 class="font-black text-slate-700 mb-4 text-sm"><i class="fa-solid fa-chart-simple mr-2 text-blue-700"></i> Apoyos por zona</h3>
+              <div style="height:220px"><canvas id="chart-zonas"></canvas></div>
+            </div>
+            <div>
+              <h3 class="font-black text-slate-700 mb-4 text-sm"><i class="fa-solid fa-users mr-2 text-green-600"></i> Estructura de candidatos</h3>
+              <div style="height:220px"><canvas id="chart-candidatos"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-sm p-5">
         <div class="flex justify-between items-center mb-4">
           <h3 class="font-black text-slate-700 text-sm"><i class="fa-solid fa-user-tie mr-2 text-yellow-500"></i> Candidatos y pre-candidatos</h3>
           <button onclick="nuevoCandidato()" class="bg-[#003087] hover:bg-[#002a70] text-white text-xs font-bold px-4 py-2 rounded-lg"><i class="fa-solid fa-plus mr-1"></i> Nuevo</button>
@@ -101,7 +158,7 @@
       </div>
     </section>
 
-    <!-- CANDIDATOS -->
+    <!-- ═══════════ CANDIDATOS ═══════════ -->
     <section id="tab-candidatos" class="tab-panel">
       <div class="bg-white rounded-2xl shadow-sm p-5">
         <div class="flex justify-between items-center mb-4">
@@ -112,7 +169,7 @@
       </div>
     </section>
 
-    <!-- DIRIGENTES -->
+    <!-- ═══════════ DIRIGENTES ═══════════ -->
     <section id="tab-dirigentes" class="tab-panel">
       <div class="bg-white rounded-2xl shadow-sm p-5">
         <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
@@ -126,7 +183,7 @@
       </div>
     </section>
 
-    <!-- COMITÉ -->
+    <!-- ═══════════ COMITÉ ═══════════ -->
     <section id="tab-comite" class="tab-panel">
       <div class="bg-white rounded-2xl shadow-sm p-5">
         <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
@@ -140,7 +197,7 @@
       </div>
     </section>
 
-    <!-- APOYOS -->
+    <!-- ═══════════ APOYOS ═══════════ -->
     <section id="tab-apoyos" class="tab-panel">
       <div class="bg-white rounded-2xl shadow-sm p-5">
         <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
@@ -154,7 +211,7 @@
       </div>
     </section>
 
-    <!-- PLANCHAS -->
+    <!-- ═══════════ PLANCHAS ═══════════ -->
     <section id="tab-planchas" class="tab-panel">
       <div class="bg-white rounded-2xl shadow-sm p-5">
         <h3 class="font-black text-slate-700 mb-4 text-sm"><i class="fa-solid fa-bullhorn mr-2 text-blue-500"></i> Planchas</h3>
@@ -162,43 +219,40 @@
       </div>
     </section>
 
-    <!-- PADRÓN -->
+    <!-- ═══════════ PADRÓN ═══════════ -->
     <section id="tab-padron" class="tab-panel">
       <div class="bg-white rounded-2xl shadow-sm p-5">
         <div class="flex justify-between items-center mb-4">
-          <h3 class="font-black text-slate-700 text-sm"><i class="fa-solid fa-book mr-2 text-sky-600"></i> Padrón Electoral (máx 200 mostrados)</h3>
+          <h3 class="font-black text-slate-700 text-sm"><i class="fa-solid fa-book mr-2 text-sky-600"></i> Padrón Electoral (máx 200)</h3>
           <input id="busqueda-padron" placeholder="Buscar por cédula o nombre..." class="max-w-md" oninput="renderPadron()">
         </div>
         <div class="overflow-x-auto"><table><thead><tr><th>Cédula</th><th>Nombre</th><th>Municipio</th><th>Recinto</th><th>Colegio</th><th>Voto Primaria</th><th>Militante</th><th>Creado</th></tr></thead><tbody id="tbody-padron"></tbody></table></div>
       </div>
     </section>
 
-    <!-- CONFIG -->
+    <!-- ═══════════ ADMINISTRADORES ═══════════ -->
+    <section id="tab-administradores" class="tab-panel">
+      <div class="bg-white rounded-2xl shadow-sm p-5">
+        <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+          <h3 class="font-black text-slate-700 text-sm"><i class="fa-solid fa-user-shield mr-2 text-[#003087]"></i> Gestión de Administradores</h3>
+          <button onclick="nuevoAdmin()" class="bg-[#003087] hover:bg-[#002a70] text-white text-xs font-bold px-4 py-2 rounded-lg"><i class="fa-solid fa-plus mr-1"></i> Agregar Administrador</button>
+        </div>
+        <p class="text-xs text-slate-400 mb-4">Solo los <strong>SUPER_ADMIN</strong> pueden agregar o desactivar administradores.</p>
+        <div class="overflow-x-auto"><table><thead><tr><th>Nombre</th><th>Cédula</th><th>Nivel</th><th>Estado</th><th>Agregado por</th><th>Acciones</th></tr></thead><tbody id="tbody-admins"></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- ═══════════ CONFIG ═══════════ -->
     <section id="tab-config" class="tab-panel">
       <div class="grid md:grid-cols-2 gap-6">
         <div class="bg-white rounded-2xl shadow-sm p-5">
           <h3 class="font-black text-slate-700 mb-4 text-sm"><i class="fa-solid fa-wrench mr-2 text-slate-500"></i> Módulos visibles en la web</h3>
           <div class="space-y-3">
-            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3">
-              <span class="text-sm font-semibold text-slate-600">Buscador</span>
-              <input type="checkbox" id="cfg-buscador" onchange="guardarConfig()">
-            </label>
-            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3">
-              <span class="text-sm font-semibold text-slate-600">Planchas</span>
-              <input type="checkbox" id="cfg-planchas" onchange="guardarConfig()">
-            </label>
-            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3">
-              <span class="text-sm font-semibold text-slate-600">Dirigentes</span>
-              <input type="checkbox" id="cfg-dirigentes" onchange="guardarConfig()">
-            </label>
-            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3">
-              <span class="text-sm font-semibold text-slate-600">Reportes</span>
-              <input type="checkbox" id="cfg-reportes" onchange="guardarConfig()">
-            </label>
-            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3">
-              <span class="text-sm font-semibold text-slate-600">Mapa</span>
-              <input type="checkbox" id="cfg-mapa" onchange="guardarConfig()">
-            </label>
+            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3"><span class="text-sm font-semibold text-slate-600">Buscador</span><input type="checkbox" id="cfg-buscador" onchange="guardarConfig()"></label>
+            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3"><span class="text-sm font-semibold text-slate-600">Planchas</span><input type="checkbox" id="cfg-planchas" onchange="guardarConfig()"></label>
+            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3"><span class="text-sm font-semibold text-slate-600">Dirigentes</span><input type="checkbox" id="cfg-dirigentes" onchange="guardarConfig()"></label>
+            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3"><span class="text-sm font-semibold text-slate-600">Reportes</span><input type="checkbox" id="cfg-reportes" onchange="guardarConfig()"></label>
+            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3"><span class="text-sm font-semibold text-slate-600">Mapa</span><input type="checkbox" id="cfg-mapa" onchange="guardarConfig()"></label>
           </div>
         </div>
         <div class="bg-white rounded-2xl shadow-sm p-5">
@@ -209,7 +263,7 @@
             <div><label class="text-xs font-bold text-slate-400 uppercase">Color acento</label><input type="color" id="cfg-color-accent" class="h-10" onchange="guardarConfigColor()"></div>
             <div><label class="text-xs font-bold text-slate-400 uppercase">Nombre del sistema</label><input type="text" id="cfg-nombre-sistema" onchange="guardarConfig()"></div>
             <div><label class="text-xs font-bold text-slate-400 uppercase">Texto del pie</label><input type="text" id="cfg-footer" onchange="guardarConfig()"></div>
-            <div><label class="text-xs font-bold text-slate-400 uppercase">Cambiar clave de acceso (opcional)</label><input type="text" id="cfg-admin-pin" placeholder="Dejar vacío para no cambiar" onchange="cambiarClaveAdmin()"></div>
+            <div><label class="text-xs font-bold text-slate-400 uppercase">Cambiar clave de acceso</label><input type="text" id="cfg-admin-pin" placeholder="Dejar vacío para no cambiar" onchange="cambiarClaveAdmin()"></div>
           </div>
         </div>
       </div>
@@ -218,61 +272,41 @@
   </main>
 </div>
 
-<!-- Modal Candidato -->
+<!-- ═══════════ MODAL CANDIDATO ═══════════ -->
 <div id="modal-candidato" class="hidden fixed inset-0 z-[100] bg-black/60 flex items-center justify-center p-4">
   <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
     <h3 id="modal-candidato-title" class="font-black text-slate-800 text-lg mb-4"><i class="fa-solid fa-user-tie mr-2 text-blue-700"></i> Candidato</h3>
     <input id="candidato-id-original" type="hidden">
     <div class="space-y-3">
-      <div>
-        <label class="text-xs font-bold text-slate-400 uppercase">Nombre completo</label>
-        <input id="cand-nombre" placeholder="Ej: María Santos Cruz">
+      <div><label class="text-xs font-bold text-slate-400 uppercase">Nombre completo</label><input id="cand-nombre" placeholder="Ej: María Santos Cruz"></div>
+      <div class="grid grid-cols-2 gap-2">
+        <div><label class="text-xs font-bold text-slate-400 uppercase">Tipo</label><select id="cand-tipo"><option value="precandidato">Pre-candidato</option><option value="candidato">Candidato</option></select></div>
+        <div><label class="text-xs font-bold text-slate-400 uppercase">Cargo</label><select id="cand-cargo"><option value="Senador">Senador</option><option value="Diputado">Diputado</option><option value="Alcalde">Alcalde</option><option value="Regidor">Regidor</option><option value="Otro">Otro</option></select></div>
       </div>
       <div class="grid grid-cols-2 gap-2">
-        <div>
-          <label class="text-xs font-bold text-slate-400 uppercase">Tipo</label>
-          <select id="cand-tipo">
-            <option value="precandidato">Pre-candidato</option>
-            <option value="candidato">Candidato</option>
-          </select>
-        </div>
-        <div>
-          <label class="text-xs font-bold text-slate-400 uppercase">Cargo</label>
-          <select id="cand-cargo">
-            <option value="Senador">Senador</option>
-            <option value="Diputado">Diputado</option>
-            <option value="Alcalde">Alcalde</option>
-            <option value="Regidor">Regidor</option>
-            <option value="Otro">Otro</option>
-          </select>
-        </div>
+        <div><label class="text-xs font-bold text-slate-400 uppercase">Municipio</label><select id="cand-municipio"><option value="MAO">Mao</option><option value="ESPERANZA">Esperanza</option><option value="LAGUNA SALADA">Laguna Salada</option><option value="AMINA">Amina</option><option value="GUATAPANAL">Guatapanal</option><option value="JAIBON">Jaibón</option><option value="POTRERO">Potrero</option><option value="">—</option></select></div>
+        <div><label class="text-xs font-bold text-slate-400 uppercase">Zona</label><input id="cand-zona" placeholder="Ej: Zona A"></div>
       </div>
-      <div class="grid grid-cols-2 gap-2">
-        <div>
-          <label class="text-xs font-bold text-slate-400 uppercase">Municipio</label>
-          <select id="cand-municipio">
-            <option value="MAO">Mao</option>
-            <option value="ESPERANZA">Esperanza</option>
-            <option value="LAGUNA SALADA">Laguna Salada</option>
-            <option value="AMINA">Amina</option>
-            <option value="GUATAPANAL">Guatapanal</option>
-            <option value="JAIBON">Jaibón</option>
-            <option value="POTRERO">Potrero</option>
-            <option value="">—</option>
-          </select>
-        </div>
-        <div>
-          <label class="text-xs font-bold text-slate-400 uppercase">Zona</label>
-          <input id="cand-zona" placeholder="Ej: Zona A">
-        </div>
-      </div>
-      <div>
-        <label class="text-xs font-bold text-slate-400 uppercase">ID interno (ej: c4)</label>
-        <input id="cand-id" placeholder="c4">
-      </div>
+      <div><label class="text-xs font-bold text-slate-400 uppercase">ID interno</label><input id="cand-id" placeholder="c4"></div>
       <div class="flex gap-2 pt-2">
         <button onclick="guardarCandidatoModal()" class="flex-1 bg-[#003087] hover:bg-[#002a70] text-white font-bold py-2.5 rounded-xl"><i class="fa-solid fa-floppy-disk mr-1"></i> Guardar</button>
         <button onclick="cerrarModalCandidato()" class="px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 rounded-xl">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL ADMIN ═══════════ -->
+<div id="modal-admin" class="hidden fixed inset-0 z-[100] bg-black/60 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6">
+    <h3 class="font-black text-slate-800 text-lg mb-4"><i class="fa-solid fa-user-shield mr-2 text-[#003087]"></i> Nuevo Administrador</h3>
+    <div class="space-y-3">
+      <div><label class="text-xs font-bold text-slate-400 uppercase">Cédula</label><input id="adm-cedula" placeholder="001-1234567-8"></div>
+      <div><label class="text-xs font-bold text-slate-400 uppercase">Nombre completo</label><input id="adm-nombre" placeholder="Juan Pérez"></div>
+      <div><label class="text-xs font-bold text-slate-400 uppercase">Nivel</label><select id="adm-nivel"><option value="MODERADOR">Moderador</option><option value="ADMIN">Admin</option><option value="SUPER_ADMIN">Super Admin</option></select></div>
+      <div class="flex gap-2 pt-2">
+        <button onclick="guardarAdmin()" class="flex-1 bg-[#003087] hover:bg-[#002a70] text-white font-bold py-2.5 rounded-xl"><i class="fa-solid fa-floppy-disk mr-1"></i> Guardar</button>
+        <button onclick="cerrarModalAdmin()" class="px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 rounded-xl">Cancelar</button>
       </div>
     </div>
   </div>
@@ -282,6 +316,8 @@
 const SUPABASE_URL = 'https://ilivjaiexfqpioqrozlf.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
 let sb = null;
+let adminNivel = '';
+let realtimeChannel = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   if (window.supabase) {
@@ -296,6 +332,9 @@ document.addEventListener('DOMContentLoaded', () => {
 function mostrarPanel() {
   document.getElementById('pantalla-login').classList.add('hidden');
   document.getElementById('pantalla-panel').classList.remove('hidden');
+  cargarNotificaciones();
+  cargarNivelAdmin();
+  subscribirRealtime();
 }
 
 async function entrarAdmin() {
@@ -316,6 +355,7 @@ async function entrarAdmin() {
 function cerrarSesionAdmin() {
   localStorage.removeItem('prm_admin');
   localStorage.removeItem('prm_admin_pin');
+  if (realtimeChannel) { sb.removeChannel(realtimeChannel); realtimeChannel = null; }
   document.getElementById('pantalla-panel').classList.add('hidden');
   document.getElementById('pantalla-login').classList.remove('hidden');
 }
@@ -324,7 +364,7 @@ function mostrarTab(name) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   const panel = document.getElementById('tab-' + name);
   if (panel) panel.classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b => {
+  document.querySelectorAll('.nav-btn[data-tab]').forEach(b => {
     b.classList.remove('bg-slate-900', 'text-white');
     b.classList.add('bg-white', 'text-slate-600');
   });
@@ -342,11 +382,12 @@ function cargarTab(name) {
     case 'apoyos': renderApoyos(); break;
     case 'planchas': cargarPlanchas(); break;
     case 'padron': renderPadron(); break;
+    case 'administradores': renderAdmins(); break;
     case 'config': cargarConfig(); break;
   }
 }
 
-// ═══════════ RESUMEN ═══════════
+// ═══════════ RESUMEN / KPIs ═══════════
 async function cargarResumen() {
   const kpis = document.getElementById('kpis');
   kpis.innerHTML = '';
@@ -367,10 +408,8 @@ async function cargarResumen() {
   });
 
   const { data: cand } = await sb.from('candidatos').select('tipo').eq('activo', true);
-  const prec = (cand || []).filter(c => c.tipo === 'precandidato').length;
-  const candAct = (cand || []).filter(c => c.tipo === 'candidato').length;
-  setKpi('precandidatos', prec);
-  setKpi('candidatos', candAct);
+  setKpi('precandidatos', (cand || []).filter(c => c.tipo === 'precandidato').length);
+  setKpi('candidatos', (cand || []).filter(c => c.tipo === 'candidato').length);
 
   const { count: dirg } = await sb.from('dirigentes').select('*', { count: 'exact', head: true }).eq('activo', true);
   const { count: comite } = await sb.from('comite_miembros').select('*', { count: 'exact', head: true });
@@ -385,6 +424,7 @@ async function cargarResumen() {
   setKpi('zonas', zonas || 0);
   setKpi('municipios', municipios || 0);
 
+  // Charts
   const { data: apoyosData } = await sb.from('apoyos').select('zona');
   const zonasMap = {};
   (apoyosData || []).forEach(a => { const z = a.zona || 'Sin zona'; zonasMap[z] = (zonasMap[z] || 0) + 1; });
@@ -394,6 +434,10 @@ async function cargarResumen() {
   const candMap = {};
   (estructura || []).forEach(e => { const n = e.candidato_nombre || 'Sin nombre'; candMap[n] = (candMap[n] || 0) + 1; });
   dibujarChartCandidatos(candMap);
+
+  // Actividad en vivo
+  cargarActividad();
+  cargarKpisActividad();
 }
 
 function setKpi(id, val) {
@@ -423,6 +467,164 @@ function dibujarChartCandidatos(data) {
     data: { labels: Object.keys(data), datasets: [{ label: 'Dirigentes', data: Object.values(data), backgroundColor: '#003087' }] },
     options: { maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
   });
+}
+
+// ═══════════ ACTIVIDAD EN VIVO ═══════════
+const ACCION_ICONS = {
+  login: { icon: 'fa-right-to-bracket', bg: 'bg-blue-100', color: 'text-blue-600' },
+  registro: { icon: 'fa-user-plus', bg: 'bg-green-100', color: 'text-green-600' },
+  plancha_creada: { icon: 'fa-bullhorn', bg: 'bg-purple-100', color: 'text-purple-600' },
+  plancha_editada: { icon: 'fa-pen', bg: 'bg-amber-100', color: 'text-amber-600' },
+  voto_marcado: { icon: 'fa-check-to-slot', bg: 'bg-emerald-100', color: 'text-emerald-600' },
+  candidato_creado: { icon: 'fa-user-tie', bg: 'bg-blue-100', color: 'text-blue-600' },
+  dirigente_creado: { icon: 'fa-people-group', bg: 'bg-teal-100', color: 'text-teal-600' },
+  default: { icon: 'fa-circle-info', bg: 'bg-slate-100', color: 'text-slate-500' }
+};
+
+function tiempoRelativo(fecha) {
+  const diff = (Date.now() - new Date(fecha).getTime()) / 1000;
+  if (diff < 60) return 'ahora mismo';
+  if (diff < 3600) return 'hace ' + Math.floor(diff / 60) + ' min';
+  if (diff < 86400) return 'hace ' + Math.floor(diff / 3600) + ' h';
+  return 'hace ' + Math.floor(diff / 86400) + ' d';
+}
+
+async function cargarActividad() {
+  const { data } = await sb.from('log_actividad').select('*').order('created_at', { ascending: false }).limit(20);
+  renderActivityFeed(data || []);
+}
+
+function renderActivityFeed(items) {
+  const feed = document.getElementById('activity-feed');
+  if (!items.length) {
+    feed.innerHTML = '<p class="text-slate-400 text-xs text-center py-6">Sin actividad reciente</p>';
+    return;
+  }
+  feed.innerHTML = items.map(item => {
+    const ic = ACCION_ICONS[item.accion] || ACCION_ICONS.default;
+    return `<div class="activity-item">
+      <div class="activity-icon ${ic.bg} ${ic.color}"><i class="fa-solid ${ic.icon}"></i></div>
+      <div class="flex-1 min-w-0">
+        <p class="text-xs font-bold text-slate-700">${item.nombre_actor || 'Sistema'}</p>
+        <p class="text-[11px] text-slate-500 truncate">${item.accion.replace(/_/g, ' ')}</p>
+      </div>
+      <span class="text-[10px] text-slate-400 whitespace-nowrap">${tiempoRelativo(item.created_at)}</span>
+    </div>`;
+  }).join('');
+}
+
+async function cargarKpisActividad() {
+  const now = new Date();
+  const min15 = new Date(now - 15 * 60 * 1000).toISOString();
+  const hoy = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
+
+  const { count: enLinea } = await sb.from('log_actividad').select('*', { count: 'exact', head: true }).gte('created_at', min15);
+  const { count: regHoy } = await sb.from('log_actividad').select('*', { count: 'exact', head: true }).eq('accion', 'registro').gte('created_at', hoy);
+
+  document.getElementById('kpi-en-linea').textContent = enLinea || 0;
+  document.getElementById('kpi-reg-hoy').textContent = regHoy || 0;
+
+  const { data: ultima } = await sb.from('log_actividad').select('accion, created_at, nombre_actor').order('created_at', { ascending: false }).limit(1).single();
+  if (ultima) {
+    document.getElementById('kpi-ultima-actividad').textContent = `${ultima.nombre_actor || 'Sistema'} — ${ultima.accion.replace(/_/g, ' ')} (${tiempoRelativo(ultima.created_at)})`;
+  }
+}
+
+// ═══════════ NOTIFICACIONES ═══════════
+async function cargarNotificaciones() {
+  let count = 0;
+  const items = [];
+
+  const { count: candPend } = await sb.from('candidatos').select('*', { count: 'exact', head: true }).eq('activo', false);
+  if (candPend && candPend > 0) { count += candPend; items.push({ label: candPend + ' candidatos pendientes de aprobar', tab: 'candidatos', icon: 'fa-user-tie', color: 'text-amber-500' }); }
+
+  const { count: planchasBorrador } = await sb.from('planchas').select('*', { count: 'exact', head: true }).in('estatus', ['BORRADOR', 'PENDIENTE']);
+  if (planchasBorrador && planchasBorrador > 0) { count += planchasBorrador; items.push({ label: planchasBorrador + ' planchas en BORRADOR/PENDIENTE', tab: 'planchas', icon: 'fa-bullhorn', color: 'text-purple-500' }); }
+
+  const ultimas24h = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
+  const { count: registrosHoy } = await sb.from('log_actividad').select('*', { count: 'exact', head: true }).eq('accion', 'registro').gte('created_at', ultimas24h);
+  if (registrosHoy && registrosHoy > 0) { count += registrosHoy; items.push({ label: registrosHoy + ' registros nuevos (24h)', tab: 'dirigentes', icon: 'fa-user-plus', color: 'text-green-500' }); }
+
+  const badge = document.getElementById('notif-badge');
+  if (count > 0) { badge.textContent = count > 99 ? '99+' : count; badge.classList.remove('hidden'); } else { badge.classList.add('hidden'); }
+
+  const list = document.getElementById('notif-list');
+  if (items.length === 0) {
+    list.innerHTML = '<p class="text-slate-400 text-xs py-4">Sin notificaciones pendientes</p>';
+  } else {
+    list.innerHTML = items.map(it => `<div class="flex items-center gap-3 p-3 hover:bg-slate-50 cursor-pointer rounded-lg" onclick="mostrarTab('${it.tab}');toggleNotifDropdown()">
+      <i class="fa-solid ${it.icon} ${it.color}"></i><span class="text-xs font-semibold text-slate-600">${it.label}</span>
+    </div>`).join('');
+  }
+}
+
+function toggleNotifDropdown() {
+  const dd = document.getElementById('notif-dropdown');
+  dd.classList.toggle('hidden');
+}
+
+// ═══════════ REALTIME ═══════════
+function subscribirRealtime() {
+  if (!sb || realtimeChannel) return;
+  realtimeChannel = sb.channel('admin-activity')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'log_actividad' }, payload => {
+      cargarActividad();
+      cargarKpisActividad();
+      cargarNotificaciones();
+    })
+    .subscribe();
+}
+
+// ═══════════ ADMIN ROLES ═══════════
+async function cargarNivelAdmin() {
+  const pin = localStorage.getItem('prm_admin_pin') || '';
+  try {
+    const { data: dirs } = await sb.from('dirigentes').select('cedula, nombre').eq('activo', true);
+    adminNivel = 'ADMIN';
+  } catch (e) { adminNivel = 'ADMIN'; }
+}
+
+async function renderAdmins() {
+  const { data } = await sb.from('admin_roles').select('*').order('created_at', { ascending: false });
+  const tb = document.getElementById('tbody-admins');
+  if (!data || !data.length) { tb.innerHTML = '<tr><td colspan="6" class="text-center text-slate-400 py-4">No hay administradores registrados. Ejecuta el SQL de migración primero.</td></tr>'; return; }
+  tb.innerHTML = data.map(a => `<tr>
+    <td class="font-semibold">${a.nombre}</td>
+    <td class="font-mono text-xs">${a.cedula}</td>
+    <td><span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${a.nivel === 'SUPER_ADMIN' ? 'bg-red-100 text-red-700' : a.nivel === 'ADMIN' ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-600'}">${a.nivel}</span></td>
+    <td><span class="${a.activo ? 'text-green-600' : 'text-red-500'}">${a.activo ? 'Activo' : 'Inactivo'}</span></td>
+    <td class="text-xs text-slate-400">${a.agregado_por || '—'}</td>
+    <td class="whitespace-nowrap">
+      ${a.nivel !== 'SUPER_ADMIN' ? `<button onclick="toggleAdmin('${a.cedula}', ${!a.activo})" class="text-amber-500 hover:underline text-xs mr-1">${a.activo ? 'Desactivar' : 'Activar'}</button>` : '<span class="text-xs text-slate-300">Protegido</span>'}
+    </td>
+  </tr>`).join('');
+}
+
+function nuevoAdmin() {
+  document.getElementById('adm-cedula').value = '';
+  document.getElementById('adm-nombre').value = '';
+  document.getElementById('adm-nivel').value = 'MODERADOR';
+  document.getElementById('modal-admin').classList.remove('hidden');
+}
+
+function cerrarModalAdmin() {
+  document.getElementById('modal-admin').classList.add('hidden');
+}
+
+async function guardarAdmin() {
+  const cedula = document.getElementById('adm-cedula').value.trim();
+  const nombre = document.getElementById('adm-nombre').value.trim();
+  const nivel = document.getElementById('adm-nivel').value;
+  if (!cedula || !nombre) { alert('Cédula y nombre son obligatorios.'); return; }
+  const { error } = await sb.from('admin_roles').upsert({ cedula, nombre, nivel, activo: true, agregado_por: 'Admin Panel' });
+  if (error) { alert('Error: ' + error.message); return; }
+  cerrarModalAdmin();
+  renderAdmins();
+}
+
+async function toggleAdmin(cedula, activo) {
+  await sb.from('admin_roles').update({ activo }).eq('cedula', cedula);
+  renderAdmins();
 }
 
 // ═══════════ CANDIDATOS ═══════════
@@ -522,9 +724,11 @@ async function guardarCandidatoModal() {
   if (idOriginal) {
     const { error } = await sb.from('candidatos').update({ nombre, tipo, cargo, municipio, zona }).eq('id', idOriginal);
     if (error) { alert('Error: ' + error.message); return; }
+    await sb.from('log_actividad').insert({ accion: 'candidato_editado', detalle: { id, nombre } });
   } else {
     const { error } = await sb.from('candidatos').insert({ id, nombre, tipo, cargo, municipio, zona, activo: true });
     if (error) { alert('Error: ' + error.message); return; }
+    await sb.from('log_actividad').insert({ accion: 'candidato_creado', detalle: { id, nombre } });
   }
   cerrarModalCandidato();
   cargarCandidatos();
@@ -571,6 +775,7 @@ function nuevoDirigente() {
   const telefono = prompt('Teléfono:');
   sb.from('dirigentes').insert({ cedula: cedula.trim(), nombre, zona, municipio, telefono, activo: true }).then(res => {
     if (res.error) { alert('Error: ' + res.error.message); return; }
+    sb.from('log_actividad').insert({ accion: 'dirigente_creado', detalle: { cedula: cedula.trim(), nombre } });
     renderDirigentes();
   });
 }
@@ -578,13 +783,12 @@ function nuevoDirigente() {
 async function editarDirigente(cedula) {
   const { data } = await sb.from('dirigentes').select('*').eq('cedula', cedula).single();
   if (!data) return;
-  const nombre = prompt('Nombre:', data.nombre);
+  const nombre = prompt('Nombre:', data.nombre || '');
   if (nombre === null) return;
   const zona = prompt('Zona:', data.zona || '');
   const municipio = prompt('Municipio:', data.municipio || '');
-  const sector = prompt('Sector:', data.sector || '');
   const telefono = prompt('Teléfono:', data.telefono || '');
-  await sb.from('dirigentes').update({ nombre, zona, municipio, sector, telefono }).eq('cedula', cedula);
+  await sb.from('dirigentes').update({ nombre, zona, municipio, telefono }).eq('cedula', cedula);
   renderDirigentes();
 }
 
@@ -596,31 +800,33 @@ async function toggleDirigente(cedula, activo) {
 // ═══════════ COMITÉ ═══════════
 async function renderComite() {
   const q = (document.getElementById('busqueda-comite').value || '').trim().toLowerCase();
-  const { data } = await sb.from('comite_miembros').select('*, dirigentes(nombre)');
+  const { data } = await sb.from('comite_miembros').select('*, dirigentes(nombre, cedula)').order('created_at', { ascending: false });
   const tb = document.getElementById('tbody-comite');
   tb.innerHTML = '';
-  (data || []).filter(c => !q || (c.nombre_miembro || '').toLowerCase().includes(q) || (c.cedula_miembro || '').includes(q)).forEach(c => {
+  (data || []).filter(m => !q || (m.nombre || '').toLowerCase().includes(q) || (m.cedula || '').includes(q)).forEach(m => {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${c.dirigentes ? c.dirigentes.nombre : c.dirigente_cedula}</td><td class="font-mono">${c.cedula_miembro || ''}</td><td class="font-semibold">${c.nombre_miembro || ''}</td><td>${c.genero || ''}</td><td>${c.fidelidad || ''}</td><td>${c.recinto_nombre || ''}</td>
-      <td><button onclick="eliminarMiembro('${c.id}')" class="text-red-600" title="Eliminar"><i class="fa-solid fa-trash"></i></button></td>`;
+    tr.innerHTML = `<td class="text-xs">${m.dirigentes?.nombre || m.dirigente_cedula || '—'}</td><td class="font-mono">${m.cedula || m.dirigente_cedula || ''}</td><td class="font-semibold">${m.nombre || ''}</td><td>${m.genero || ''}</td><td>${m.fidelidad || ''}</td><td>${m.recinto || ''}</td>
+      <td><button onclick="eliminarMiembro(${m.id})" class="text-red-600 hover:underline"><i class="fa-solid fa-trash"></i></button></td>`;
     tb.appendChild(tr);
   });
 }
 
 function nuevoMiembroComite() {
-  const cedulaDir = prompt('Cédula del dirigente:');
-  if (!cedulaDir || !cedulaDir.trim()) return;
-  const cedula = prompt('Cédula del miembro:');
-  if (!cedula || !cedula.trim()) return;
+  const cedula = prompt('Cédula del dirigente base:');
+  if (!cedula) return;
   const nombre = prompt('Nombre del miembro:');
-  sb.from('comite_miembros').insert({ dirigente_cedula: cedulaDir.trim(), cedula_miembro: cedula.trim(), nombre_miembro: nombre }).then(res => {
+  if (!nombre) return;
+  const genero = prompt('Género (M/F):');
+  const fidelidad = prompt('Nivel de fidelidad:');
+  const recinto = prompt('Recinto:');
+  sb.from('comite_miembros').insert({ cedula, nombre, genero, fidelidad, recinto, dirigente_cedula: cedula }).then(res => {
     if (res.error) { alert('Error: ' + res.error.message); return; }
     renderComite();
   });
 }
 
 async function eliminarMiembro(id) {
-  if (!confirm('¿Eliminar miembro?')) return;
+  if (!confirm('¿Eliminar este miembro?')) return;
   await sb.from('comite_miembros').delete().eq('id', id);
   renderComite();
 }
@@ -633,50 +839,46 @@ async function renderApoyos() {
   tb.innerHTML = '';
   (data || []).filter(a => !q || (a.nombre || '').toLowerCase().includes(q) || (a.cedula || '').includes(q)).forEach(a => {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td class="font-mono">${a.cedula || ''}</td><td class="font-semibold">${a.nombre || ''}</td><td>${a.candidato_id || ''}</td><td>${a.dirigente_cedula || ''}</td>
-      <td><span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${a.tipo_apoyo === 'CONFIRMADO' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-600'}">${a.tipo_apoyo || ''}</span></td>
-      <td><span class="${a.verificado ? 'text-green-600' : 'text-slate-400'}">${a.verificado ? '✔' : '—'}</span></td>
-      <td class="whitespace-nowrap">
-        <button onclick="toggleVerificado(${a.id}, ${a.verificado ? 'false' : 'true'})" class="text-green-600" title="Verificar"><i class="fa-solid fa-check-circle"></i></button>
-        <button onclick="eliminarApoyo(${a.id})" class="text-red-600 ml-1" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
-      </td>`;
+    tr.innerHTML = `<td class="font-mono">${a.cedula || ''}</td><td class="font-semibold">${a.nombre || ''}</td><td>${a.candidato_id || ''}</td><td>${a.dirigente_cedula || ''}</td><td>${a.tipo_apoyo || ''}</td>
+      <td><button onclick="toggleVerificado(${a.id}, ${!a.verificado})" class="${a.verificado ? 'text-green-600' : 'text-slate-400'}"><i class="fa-solid fa-${a.verificado ? 'check-circle' : 'circle'}"></i></button></td>
+      <td><button onclick="eliminarApoyo(${a.id})" class="text-red-600 hover:underline"><i class="fa-solid fa-trash"></i></button></td>`;
     tb.appendChild(tr);
   });
 }
 
 function nuevoApoyo() {
   const cedula = prompt('Cédula:');
-  if (!cedula || !cedula.trim()) return;
+  if (!cedula) return;
   const nombre = prompt('Nombre:');
-  if (!nombre || !nombre.trim()) return;
-  const candidato_id = prompt('Candidato (id):');
-  const dirigente_cedula = prompt('Dirigente (cédula):');
-  const tipo_apoyo = prompt('Tipo (POTENCIAL, CONFIRMADO, DIRECTO, INDIRECTO):', 'POTENCIAL');
-  sb.from('apoyos').insert({ cedula: cedula.trim(), nombre, candidato_id, dirigente_cedula, tipo_apoyo }).then(res => {
+  if (!nombre) return;
+  const candidato_id = prompt('ID del candidato:');
+  const dirigente_cedula = prompt('Cédula del dirigente:');
+  const tipo_apoyo = prompt('Tipo de apoyo (firma/promesa/voto):');
+  sb.from('apoyos').insert({ cedula, nombre, candidato_id, dirigente_cedula, tipo_apoyo, verificado: false }).then(res => {
     if (res.error) { alert('Error: ' + res.error.message); return; }
     renderApoyos();
   });
 }
 
-async function toggleVerificado(id, verificado) {
-  await sb.from('apoyos').update({ verificado }).eq('id', id);
+async function toggleVerificado(id, val) {
+  await sb.from('apoyos').update({ verificado: val }).eq('id', id);
   renderApoyos();
 }
 
 async function eliminarApoyo(id) {
-  if (!confirm('¿Eliminar apoyo?')) return;
+  if (!confirm('¿Eliminar este apoyo?')) return;
   await sb.from('apoyos').delete().eq('id', id);
   renderApoyos();
 }
 
 // ═══════════ PLANCHAS ═══════════
 async function cargarPlanchas() {
-  const { data } = await sb.from('planchas').select('*').order('actualizado_en', { ascending: false });
+  const { data } = await sb.from('planchas').select('*').order('created_at', { ascending: false });
   const tb = document.getElementById('tbody-planchas');
   tb.innerHTML = '';
   (data || []).forEach(p => {
+    const ok = ['APROBADA', 'ACTIVA', 'APROBADO'].includes((p.estatus || '').toUpperCase());
     const tr = document.createElement('tr');
-    const ok = p.estatus === 'VALIDADA' || p.estatus === 'PROCLAMADA';
     tr.innerHTML = `<td class="font-mono">${p.codigo || ''}</td><td class="font-semibold">${p.nombre_plancha || ''}</td><td>${p.nivel || ''}</td><td>${p.zona_nombre || ''}</td><td>${p.municipio || ''}</td>
       <td><span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${ok ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-600'}">${p.estatus || ''}</span></td>
       <td>${p.total_miembros || 0}</td><td>${p.pct_mujeres || p.porcentaje_mujeres || 0}%</td><td>${p.pct_jovenes || p.porcentaje_jovenes || 0}%</td>`;
@@ -719,7 +921,6 @@ async function cargarConfig() {
   document.getElementById('cfg-footer').value = String(map['footer_text'] || '').replace(/"/g, '');
 }
 
-// Las funciones .from('config_web') requieren pin; todas las escrituras usan la fn segura
 async function cambiarClaveAdmin() {
   const nueva = document.getElementById('cfg-admin-pin').value.trim();
   if (!nueva) return;
@@ -763,6 +964,13 @@ async function guardarConfigColor() {
   const { error } = await sb.rpc('fn_actualizar_config_admin', { p_clave: 'theme_colors', p_valor: JSON.stringify(colors), p_pin: pin });
   if (error) alert('Error: ' + error.message);
 }
+
+// Cerrar dropdown al hacer clic fuera
+document.addEventListener('click', (e) => {
+  const dd = document.getElementById('notif-dropdown');
+  if (!dd) return;
+  if (!e.target.closest('.relative') && !dd.classList.contains('hidden')) dd.classList.add('hidden');
+});
 </script>
 </body>
 </html>
