@@ -564,9 +564,50 @@ function peIrA(destino) {
   if (destino === 'perfil') {
     window.location.href = 'dirigentes.html';
   } else if (destino === 'candidatos') {
-    window.location.href = 'candidato.html';
+    peAccederCandidato();
   } else if (destino === 'zona') {
     window.location.href = 'zonas.html';
+  }
+}
+
+async function peAccederCandidato() {
+  if (!sb || !E.cedFmt) { window.location.href = 'candidato.html'; return; }
+  try {
+    const { data: existente } = await sb.from('candidatos')
+      .select('id, tipo, nombre')
+      .eq('id', E.cedFmt)
+      .maybeSingle();
+
+    if (existente) {
+      if (existente.tipo === 'candidato') {
+        peToast('Accediendo como Candidato...', 'info');
+      } else {
+        peToast('Accediendo como Pre-candidato...', 'info');
+      }
+      setTimeout(() => { window.location.href = 'candidato.html'; }, 600);
+      return;
+    }
+
+    const { error } = await sb.from('candidatos').insert({
+      id: E.cedFmt,
+      nombre: E.nombre || 'Sin nombre',
+      cargo: 'ALCALDE',
+      tipo: 'precandidato',
+      municipio: E.municipio || null,
+      zona: E.zona || null,
+      activo: true
+    });
+
+    if (error) {
+      console.error('Error al registrar pre-candidato:', error);
+      peToast('Accediendo...', 'info');
+    } else {
+      peToast('✅ Registrado como Pre-candidato', 'ok');
+    }
+    setTimeout(() => { window.location.href = 'candidato.html'; }, 800);
+  } catch(e) {
+    console.error(e);
+    window.location.href = 'candidato.html';
   }
 }
 function peGetDestino(rol) {
@@ -728,6 +769,8 @@ window.peSeleccionarRolReg = peSeleccionarRolReg;
 window.peEnviarRecuperacion = peEnviarRecuperacion;
 window.peConfirmarRecuperacion = peConfirmarRecuperacion;
 window.peCargarZonasReg = peCargarZonasReg;
+window.peIrA = peIrA;
+window.peAccederCandidato = peAccederCandidato;
 window.peFmtCedula = peFmtCedula;
 window.peMover = peMover;
 window.peMoverN = peMoverN;
