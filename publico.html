@@ -224,10 +224,10 @@ body{font-family:'Montserrat',sans-serif;background:#fff;color:#1e293b;min-heigh
     </div>
     <div class="hero-right">
       <div class="hero-stats">
-        <div class="hero-stat"><div class="hero-stat-icon"><i class="fa-solid fa-users"></i></div><div class="hero-stat-num" id="pub-inscritos">—</div><div class="hero-stat-label">Total Inscritos</div></div>
-        <div class="hero-stat"><div class="hero-stat-icon"><i class="fa-solid fa-check-to-slot"></i></div><div class="hero-stat-num" id="pub-votaron">—</div><div class="hero-stat-label">Votaron Hoy</div></div>
-        <div class="hero-stat"><div class="hero-stat-icon"><i class="fa-solid fa-chart-line"></i></div><div class="hero-stat-num" id="pub-proyeccion">—</div><div class="hero-stat-label">Proyección</div></div>
-        <div class="hero-stat"><div class="hero-stat-icon"><i class="fa-solid fa-building-columns"></i></div><div class="hero-stat-num" id="pub-mesas">—</div><div class="hero-stat-label">Mesas Activas</div></div>
+        <div class="hero-stat"><div class="hero-stat-icon"><i class="fa-solid fa-landmark"></i></div><div class="hero-stat-num" style="font-size:22px;line-height:1.2">Odalis Rodríguez</div><div class="hero-stat-label">Senador por Valverde</div></div>
+        <div class="hero-stat"><div class="hero-stat-icon"><i class="fa-solid fa-people-group"></i></div><div class="hero-stat-num">3</div><div class="hero-stat-label">Diputados PRM</div></div>
+        <div class="hero-stat"><div class="hero-stat-icon"><i class="fa-solid fa-building-columns"></i></div><div class="hero-stat-num">7</div><div class="hero-stat-label">Municipios</div></div>
+        <div class="hero-stat"><div class="hero-stat-icon"><i class="fa-solid fa-users"></i></div><div class="hero-stat-num">~350K</div><div class="hero-stat-label">Habitantes</div></div>
       </div>
     </div>
   </div>
@@ -562,23 +562,7 @@ body{font-family:'Montserrat',sans-serif;background:#fff;color:#1e293b;min-heigh
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const sbPub = window.supabase.createClient('https://ilivjaiexfqpioqrozlf.supabase.co','sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW');
-
-async function cargarEstadisticas() {
-  try {
-    const [ins, mesas] = await Promise.all([
-      sbPub.from('candidatos').select('id', { count: 'exact', head: true }).eq('activo', true),
-      sbPub.from('mesas').select('id', { count: 'exact', head: true })
-    ]);
-    document.getElementById('pub-inscritos').textContent = (ins.count || 0).toLocaleString('es-DO');
-    document.getElementById('pub-mesas').textContent = (mesas.count || 0).toLocaleString('es-DO');
-    document.getElementById('pub-votaron').textContent = '0';
-    document.getElementById('pub-proyeccion').textContent = (ins.count || 0) > 0 ? Math.round((ins.count * 0.62)) : '—';
-  } catch(e) { console.warn('Stats load error', e); }
-}
-cargarEstadisticas();
 
 function scrollTo_(id, evt) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
