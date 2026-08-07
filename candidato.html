@@ -333,7 +333,8 @@ async function cambiarPin() {
 // ═══════════ CERRAR SESIÓN ═══════════
 function cerrarSesion() {
   localStorage.removeItem('prm_sesion');
-  window.location.href = 'login.html';
+  window.location.href = 'login.html?from=logout';
+}
 }
 
 // ═══════════ UTILS ═══════════

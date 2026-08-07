@@ -502,7 +502,7 @@ function cambiarTab(tab, evt) {
   document.getElementById('tab-' + tab).classList.add('activo');
 }
 
-function cerrarSesion() { localStorage.removeItem('prm_sesion'); window.location.href = 'login.html'; }
+function cerrarSesion() { localStorage.removeItem('prm_sesion'); window.location.href = 'login.html?from=logout'; }
 let _tt;
 function toast(msg, tipo) { const el=document.getElementById('toast'); clearTimeout(_tt); el.textContent=msg; el.className='toast toast-'+(tipo||'ok'); el.style.display='block'; _tt=setTimeout(()=>el.style.display='none',3000); }
 

@@ -724,6 +724,11 @@ let _tt; function peToast(msg, tipo) { const el=document.getElementById('toast')
 
 // ═══════════ AUTO-LOGIN ═══════════
 window.addEventListener('DOMContentLoaded', function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('from') === 'logout') {
+    setTimeout(function() { abrirPortalElectoral(); }, 200);
+    return;
+  }
   const raw = localStorage.getItem('prm_sesion');
   if (raw) {
     try {

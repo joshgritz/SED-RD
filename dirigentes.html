@@ -2065,8 +2065,7 @@ async function cerrarSesion() {
   }
   localStorage.removeItem('prm_sesion');
   sesion = null;
-  // Recargar la página para limpiar todo el estado
-  window.location.href = 'login.html';
+  window.location.href = 'login.html?from=logout';
 }
 
 // ══════════════════════════════════════════════════════
