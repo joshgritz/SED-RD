@@ -96,6 +96,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
 .person-card{background:white;border-top:4px solid #efbc00;border-radius:20px;padding:28px 20px;text-align:center;transition:all .3s;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
 .person-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.1)}
 .person-foto{width:120px;height:120px;border-radius:50%;margin:0 auto 16px;background:linear-gradient(135deg,#003087,#0a1f5c);background-size:cover;background-position:center;border:4px solid #efbc00;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:900;color:white;box-shadow:0 4px 16px rgba(0,0,0,0.12)}
+.person-foto span{display:none}
 .person-nombre{font-size:18px;font-weight:900;color:#0f172a;line-height:1.2}
 .person-cargo{font-size:13px;color:#003087;font-weight:700;margin-top:6px}
 .person-partido{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;background:#f0f4ff;color:#003087}
@@ -279,21 +280,21 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
     <div class="person-grid">
       <div class="person-card">
         <div class="person-demarcacion badge-municipio">Mao</div>
-        <div class="person-foto" style="background-image:url('img/mao.png')"><span>YJ</span></div>
+        <div class="person-foto" style="background-image:url('img/mao.png')"></div>
         <div class="person-nombre">Yohendy Jiménez Bonilla</div>
         <div class="person-cargo">Alcalde de Mao</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-municipio">Esperanza</div>
-        <div class="person-foto" style="background-image:url('img/esperanza.jpg')"><span>FR</span></div>
+        <div class="person-foto" style="background-image:url('img/esperanza.jpg')"></div>
         <div class="person-nombre">Freddy Rodríguez</div>
         <div class="person-cargo">Alcalde de Esperanza</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-municipio">L. Salada</div>
-        <div class="person-foto" style="background-image:url('img/laguna.jpg')"><span>GR</span></div>
+        <div class="person-foto" style="background-image:url('img/laguna.jpg')"></div>
         <div class="person-nombre">Germán D. Rodríguez Saldaña</div>
         <div class="person-cargo">Alcalde de Laguna Salada</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
@@ -313,7 +314,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
     <div class="person-grid">
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Amina</div>
-        <div class="person-foto" style="background-image:url('img/gabriel.jpg')"><span>GS</span></div>
+        <div class="person-foto" style="background-image:url('img/gabriel.jpg')"></div>
         <div class="person-nombre">Gabriel Santana</div>
         <div class="person-cargo">Pte. Junta Distrital de Amina</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
@@ -321,7 +322,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Guatapanal</div>
-        <div class="person-foto" style="background-image:url('img/trejo.jpg')"><span>HC</span></div>
+        <div class="person-foto" style="background-image:url('img/trejo.jpg')"></div>
         <div class="person-nombre">Dr. Herminio Chávez Trejo</div>
         <div class="person-cargo">Pte. Junta Distrital de Guatapanal</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
@@ -329,7 +330,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Jib-P.N.</div>
-        <div class="person-foto" style="background-image:url('img/fernando.jpg')"><span>FR</span></div>
+        <div class="person-foto" style="background-image:url('img/fernando.jpg')"></div>
         <div class="person-nombre">Fernando Alfonso Rodríguez</div>
         <div class="person-cargo">Pte. Junta Distrital de Jaibón-Pueblo Nuevo</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
@@ -337,7 +338,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Boca Mao</div>
-        <div class="person-foto" style="background-image:url('img/felix.jpg')"><span>FS</span></div>
+        <div class="person-foto" style="background-image:url('img/felix.jpg')"></div>
         <div class="person-nombre">Félix Santos Rodríguez</div>
         <div class="person-cargo">Pte. Junta Distrital de Boca de Mao</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
@@ -345,7 +346,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Maizal</div>
-        <div class="person-foto" style="background-image:url('img/jaime.jpg')"><span>JS</span></div>
+        <div class="person-foto" style="background-image:url('img/jaime.jpg')"></div>
         <div class="person-nombre">Jaime Sánchez</div>
         <div class="person-cargo">Pte. Junta Distrital de Maizal</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
@@ -353,7 +354,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Jicomé</div>
-        <div class="person-foto" style="background-image:url('img/domingo.jpg')"><span>DO</span></div>
+        <div class="person-foto" style="background-image:url('img/domingo.jpg')"></div>
         <div class="person-nombre">Domingo Antonio Ortega</div>
         <div class="person-cargo">Pte. Junta Distrital de Jicomé</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
@@ -361,7 +362,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Paradero</div>
-        <div class="person-foto" style="background-image:url('img/maximo.jpg')"><span>MD</span></div>
+        <div class="person-foto" style="background-image:url('img/maximo.jpg')"></div>
         <div class="person-nombre">Máximo Disla Polanco</div>
         <div class="person-cargo">Pte. Junta Distrital de Paradero</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
@@ -369,7 +370,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">C. Guayacanes</div>
-        <div class="person-foto" style="background-image:url('img/luis.jpg')"><span>LV</span></div>
+        <div class="person-foto" style="background-image:url('img/luis.jpg')"></div>
         <div class="person-nombre">Luis Rafael Valdez Cabrera</div>
         <div class="person-cargo">Pte. Junta Distrital de Cruce de Guayacanes</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
@@ -377,7 +378,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Jaibón</div>
-        <div class="person-foto" style="background-image:url('img/riki.jpg')"><span>RT</span></div>
+        <div class="person-foto" style="background-image:url('img/riki.jpg')"></div>
         <div class="person-nombre">Ricki Ricardo Tejada Blanco</div>
         <div class="person-cargo">Pte. Junta Distrital de Jaibón</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
@@ -385,7 +386,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">La Caya</div>
-        <div class="person-foto" style="background-image:url('img/edward.jpg')"><span>EB</span></div>
+        <div class="person-foto" style="background-image:url('img/edward.jpg')"></div>
         <div class="person-nombre">Edward Barrientos</div>
         <div class="person-cargo">Pte. Junta Distrital de La Caya</div>
         <div class="person-partido"><img src="img/logo-pld.jpg" alt="PLD"> PLD</div>
@@ -406,7 +407,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
     <div class="person-grid">
       <div class="person-card featured">
         <div class="person-demarcacion badge-senador">Senador</div>
-        <div class="person-foto" style="background-image:url('img/odalis.jpg')"><span>OR</span></div>
+        <div class="person-foto" style="background-image:url('img/odalis.jpg')"></div>
         <div class="person-nombre">Odalis Rodríguez</div>
         <div class="person-cargo">Senador por Valverde</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
@@ -427,7 +428,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
     <div class="person-grid">
       <div class="person-card">
         <div class="person-demarcacion badge-diputado">Diputada</div>
-        <div class="person-foto" style="background-image:url('img/angela.jpg')"><span>AR</span></div>
+        <div class="person-foto" style="background-image:url('img/angela.jpg')"></div>
         <div class="person-nombre">María De Los Ángeles Rodríguez Bonseñor</div>
         <div class="person-cargo">Diputada por Valverde</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
@@ -435,7 +436,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-diputado">Diputado</div>
-        <div class="person-foto" style="background-image:url('img/valenzuela.jpg')"><span>JV</span></div>
+        <div class="person-foto" style="background-image:url('img/valenzuela.jpg')"></div>
         <div class="person-nombre">José Altagracia Valenzuela Arias</div>
         <div class="person-cargo">Diputado por Valverde</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
@@ -443,7 +444,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-diputado">Diputado</div>
-        <div class="person-foto" style="background-image:url('img/ruben.jpg')"><span>RP</span></div>
+        <div class="person-foto" style="background-image:url('img/ruben.jpg')"></div>
         <div class="person-nombre">Rubén Darío Peñalo Torres</div>
         <div class="person-cargo">Diputado por Valverde</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
