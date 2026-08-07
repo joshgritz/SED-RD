@@ -3,239 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#003087">
-<title>PRM Valverde — Portal Electoral</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Admin — Sistema Electoral PRM · Valverde</title>
+<script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b;min-height:100vh;overflow-x:hidden}
-  .header{background:#fff;position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,0.08)}
-  .header-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:72px}
-  .header-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
-  .header-logo-icon{width:48px;height:48px;border-radius:50%;background:#003087;display:flex;align-items:center;justify-content:center;position:relative}
-  .header-logo-icon::after{content:'👍';font-size:20px;filter:brightness(10)}
-  .header-logo-text{display:flex;flex-direction:column}
-  .header-logo-text .siglas{font-size:18px;font-weight:800;color:#003087;letter-spacing:2px;line-height:1}
-  .header-logo-text .full{font-size:8px;font-weight:600;color:#64748b;letter-spacing:1px;text-transform:uppercase}
-  .header-nav{display:flex;gap:4px}
-  .header-nav a{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;color:#475569;transition:all .2s}
-  .header-nav a:hover{background:#f1f5f9;color:#003087}
-  .header-actions{display:flex;gap:8px;align-items:center}
-  .header-cta{padding:10px 20px;background:#003087;color:white;border:none;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;text-decoration:none;transition:all .2s;font-family:inherit}
-  .header-cta:hover{background:#1a4fa8;transform:translateY(-1px)}
-  .header-hamburger{display:none;background:none;border:none;font-size:20px;color:#003087;cursor:pointer}
-  .nav-flat{display:flex;gap:6px;padding:16px 24px;overflow-x:auto;background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:72px;z-index:150;justify-content:center}
-  .nav-flat a{flex-shrink:0;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;color:#64748b;transition:all .2s;white-space:nowrap}
-  .nav-flat a:hover{background:#f1f5f9;color:#003087}
-  .nav-flat a.activo{background:#003087;color:white}
-  .hero{position:relative;background:linear-gradient(135deg,#003087 0%,#0a1f5c 40%,#003087 100%);min-height:520px;display:flex;align-items:center;overflow:hidden}
-  .hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
-  .hero-content{max-width:1200px;margin:0 auto;padding:60px 24px;display:flex;align-items:center;gap:60px;width:100%}
-  .hero-left{flex:1}
-  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(231,255,137,0.15);border:1px solid rgba(231,255,137,0.3);border-radius:24px;padding:8px 20px;font-size:11px;font-weight:700;color:#E7FF89;margin-bottom:24px}
-  .hero h1{font-size:48px;font-weight:800;color:white;line-height:1.1;margin-bottom:16px}
-  .hero h1 span{color:#E7FF89}
-  .hero-sub{font-size:16px;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:32px;max-width:480px}
-  .hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
-  .btn-hero{padding:14px 32px;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;text-decoration:none;transition:all .2s;border:none;font-family:inherit}
-  .btn-primary{background:#E7FF89;color:#003087}
-  .btn-primary:hover{background:#d4f060;transform:translateY(-2px);box-shadow:0 8px 24px rgba(231,255,137,0.3)}
-  .btn-secondary{background:rgba(255,255,255,0.1);color:white;border:2px solid rgba(255,255,255,0.3)}
-  .btn-secondary:hover{background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.5)}
-  .hero-right{flex:0 0 400px;display:flex;justify-content:center}
-  .hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .hero-stat{background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:24px;text-align:center}
-  .hero-stat-num{font-size:36px;font-weight:800;color:#E7FF89}
-  .hero-stat-label{font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:1px;margin-top:4px;font-weight:600}
-  .hero-wave{position:absolute;bottom:0;left:0;right:0;height:80px;background:#fff;clip-path:ellipse(60% 100% at 50% 100%)}
-  .section{padding:80px 24px}
-  .section-dark{background:#f8fafc}
-  .section-inner{max-width:1200px;margin:0 auto}
-  .section-header{text-align:center;margin-bottom:48px}
-  .section-tag{display:inline-flex;align-items:center;gap:8px;background:#eff6ff;color:#003087;padding:6px 16px;border-radius:20px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
-  .section-title{font-size:36px;font-weight:800;color:#0f172a}
-  .section-title span{color:#003087}
-  .section-subtitle{font-size:15px;color:#64748b;margin-top:8px;max-width:600px;margin-left:auto;margin-right:auto}
-  .muni-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
-  .muni-card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:24px;transition:all .3s;position:relative;overflow:hidden}
-  .muni-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.08);border-color:#003087}
-  .muni-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#003087,#C8102E);opacity:0;transition:opacity .3s}
-  .muni-card:hover::before{opacity:1}
-  .muni-top{display:flex;align-items:center;gap:14px;margin-bottom:16px}
-  .muni-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
-  .muni-name{font-size:18px;font-weight:800;color:#0f172a}
-  .muni-type{font-size:12px;color:#64748b;font-weight:500}
-  .muni-data{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-  .muni-dato{text-align:center;padding:12px 8px;background:#f8fafc;border-radius:10px}
-  .muni-dato .num{font-size:18px;font-weight:800;color:#003087}
-  .muni-dato .lab{font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:700;letter-spacing:0.5px;margin-top:2px}
-  .alcaldes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
-  .alcalde-card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:20px;display:flex;gap:16px;align-items:center;transition:all .3s}
-  .alcalde-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.06)}
-  .alcalde-foto{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#003087,#1a4fa8);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:white;flex-shrink:0;border:3px solid #eff6ff}
-  .alcalde-info{flex:1}
-  .alcalde-nombre{font-size:15px;font-weight:800;color:#0f172a}
-  .alcalde-muni{font-size:12px;color:#003087;font-weight:600;margin-top:2px}
-  .alcalde-partido{font-size:11px;color:#94a3b8;margin-top:2px}
-  .alcalde-badge{padding:6px 14px;border-radius:20px;font-size:10px;font-weight:800;flex-shrink:0;text-transform:uppercase;letter-spacing:0.5px}
-  .footer{background:#0f172a;color:white;padding:60px 24px 32px}
-  .footer-inner{max-width:1200px;margin:0 auto}
-  .footer-top{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;margin-bottom:40px;flex-wrap:wrap}
-  .footer-brand{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-  .footer-brand-icon{width:40px;height:40px;border-radius:50%;background:#003087;display:flex;align-items:center;justify-content:center;font-size:16px}
-  .footer-brand-icon::after{content:'👍';font-size:14px;filter:brightness(10)}
-  .footer-brand-text{font-size:16px;font-weight:800;color:white}
-  .footer-desc{font-size:13px;color:#94a3b8;line-height:1.7;max-width:320px}
-  .footer-links h4{font-size:12px;font-weight:800;color:white;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
-  .footer-links a{display:block;font-size:13px;color:#94a3b8;text-decoration:none;padding:4px 0;transition:color .2s}
-  .footer-links a:hover{color:#E7FF89}
-  .footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
-  .footer-copy{font-size:12px;color:#64748b}
-  .footer-social{display:flex;gap:12px}
-  .footer-social a{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;color:#94a3b8;text-decoration:none;transition:all .2s;font-size:14px}
-  .footer-social a:hover{background:#003087;color:white}
-  .tab-panel{display:none}
-  .tab-panel.active{display:block}
-  table{border-collapse:collapse;width:100%}
-  th,td{padding:8px 10px;font-size:13px;text-align:left;white-space:nowrap}
-  th{background:#f1f5f9;color:#475569;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
-  tr:nth-child(even) td{background:#f8fafc}
-  tr:hover td{background:#eef4ff}
-  .panel-input,.panel-input:focus{border:1.5px solid #e2e8f0;border-radius:8px;padding:8px 10px;font-size:13px;width:100%;outline:none}
-  .panel-input:focus{border-color:#003087}
-  ::-webkit-scrollbar{width:8px;height:8px}
-  ::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:4px}
-  .admin-badge{background:#E7FF89;color:#003087;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:1px}
-  #pantalla-admin{display:none}
-  #pantalla-admin.active{display:block}
-  @media(max-width:768px){.header-nav{display:none}.header-hamburger{display:block}.hero-content{flex-direction:column;text-align:center;padding:40px 20px}.hero h1{font-size:32px}.hero-sub{margin-left:auto;margin-right:auto}.hero-buttons{justify-content:center}.hero-right{flex:none;width:100%}.hero-stats{grid-template-columns:1fr 1fr}.section{padding:48px 16px}.section-title{font-size:28px}.muni-grid,.alcaldes-grid{grid-template-columns:1fr}.footer-top{flex-direction:column}}
+  body { font-family: 'Segoe UI', system-ui, sans-serif; }
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; }
+  table { border-collapse: collapse; width:100%; }
+  th, td { padding:8px 10px; font-size:13px; text-align:left; white-space:nowrap; }
+  th { background:#f1f5f9; color:#475569; font-size:11px; text-transform:uppercase; letter-spacing:.5px; }
+  tr:nth-child(even) td { background:#f8fafc; }
+  tr:hover td { background:#eef4ff; }
+  input, select, textarea { border:1.5px solid #e2e8f0; border-radius:8px; padding:8px 10px; font-size:13px; width:100%; outline:none; }
+  input:focus, select:focus, textarea:focus { border-color:#003087; }
+  ::-webkit-scrollbar { width:8px; height:8px; }
+  ::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:4px; }
 </style>
 </head>
-<body>
+<body class="bg-slate-100 min-h-screen">
 
-<!-- ═══════════ PORTAL PÚBLICO ═══════════ -->
-<div id="pantalla-publico">
-  <header class="header">
-    <div class="header-inner">
-      <a href="#" class="header-logo">
-        <div class="header-logo-icon"></div>
-        <div class="header-logo-text">
-          <span class="siglas">PRM</span>
-          <span class="full">Partido Revolucionario Moderno</span>
-        </div>
-      </a>
-      <nav class="header-nav">
-        <a href="#valverde" class="activo">Inicio</a>
-        <a href="#municipios">Municipios</a>
-        <a href="#alcaldes">Alcaldes</a>
-      </nav>
-      <div class="header-actions">
-        <a href="login.html" class="header-cta" style="background:transparent;border:2px solid #003087;color:#003087"><i class="fa-solid fa-right-to-bracket"></i> Iniciar</a>
-        <a href="login.html" class="header-cta">Registrarse</a>
-        <button class="header-hamburger" onclick="document.querySelector('.header-nav').classList.toggle('show')"><i class="fa-solid fa-bars"></i></button>
+<!-- ═══════════ LOGIN ═══════════ -->
+<div id="pantalla-login" class="min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-sm">
+    <div class="bg-[#003087] rounded-3xl shadow-2xl text-center p-6 mb-6 text-white">
+      <div class="w-16 h-16 mx-auto bg-white rounded-full flex items-center justify-center mb-3">
+        <span class="font-black text-[#C8102E] text-xl">PRM</span>
       </div>
+      <h1 class="text-xl font-black tracking-wide">PANEL DE ADMINISTRACIÓN</h1>
+      <p class="text-xs text-blue-200 mt-1">Sistema Electoral · Provincia Valverde</p>
     </div>
-  </header>
-
-  <section class="hero">
-    <div class="hero-content">
-      <div class="hero-left">
-        <div class="hero-badge"><i class="fa-solid fa-check-to-slot"></i> Elecciones 2026 · Provincia Valverde</div>
-        <h1>República Dominicana<br><span>Provincia Valverde</span></h1>
-        <p class="hero-sub">Sistema Electoral del Partido Revolucionario Moderno. Gestión de candidatos, dirigentes, delegados y estructura política de la provincia.</p>
-        <div class="hero-buttons">
-          <a href="#municipios" class="btn-hero btn-primary">Explorar Municipios</a>
-          <a href="login.html" class="btn-hero btn-secondary"><i class="fa-solid fa-right-to-bracket"></i> Acceder al Sistema</a>
-        </div>
-      </div>
-      <div class="hero-right">
-        <div class="hero-stats">
-          <div class="hero-stat"><div class="hero-stat-num">7</div><div class="hero-stat-label">Municipios</div></div>
-          <div class="hero-stat"><div class="hero-stat-num">~350K</div><div class="hero-stat-label">Habitantes</div></div>
-          <div class="hero-stat"><div class="hero-stat-num">1</div><div class="hero-stat-label">Senador</div></div>
-          <div class="hero-stat"><div class="hero-stat-num">3+</div><div class="hero-stat-label">Diputados</div></div>
-        </div>
-      </div>
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+      <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Clave de acceso</label>
+      <input id="pin-admin" type="password" placeholder="••••••" class="border-2 border-slate-200 rounded-xl px-4 py-3 w-full text-center text-xl font-black tracking-[0.4em]"
+             onkeydown="if(event.key==='Enter') entrarAdmin()">
+      <button onclick="entrarAdmin()" class="mt-4 w-full bg-[#003087] hover:bg-[#002a70] text-white font-bold py-3 rounded-xl transition-all active:scale-95">
+        <i class="fa-solid fa-lock mr-2"></i> Entrar
+      </button>
+      <p id="login-error" class="text-red-600 text-xs font-bold mt-2 text-center hidden"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Clave incorrecta</p>
     </div>
-    <div class="hero-wave"></div>
-  </section>
-
-  <section class="section section-dark" id="municipios">
-    <div class="section-inner">
-      <div class="section-header">
-        <div class="section-tag"><i class="fa-solid fa-map-location-dot"></i> Geografía</div>
-        <h2 class="section-title">Municipios de <span>Valverde</span></h2>
-        <p class="section-subtitle">7 municipios conforman la provincia, cada uno con su identidad y estructura política propia.</p>
-      </div>
-      <div class="muni-grid">
-        <div class="muni-card"><div class="muni-top"><div class="muni-icon" style="background:#eff6ff;color:#003087">🏙️</div><div><div class="muni-name">Mao</div><div class="muni-type">Cabecera Provincial · Capital</div></div></div><div class="muni-data"><div class="muni-dato"><div class="num">~150K</div><div class="lab">Habitantes</div></div><div class="muni-dato"><div class="num">6</div><div class="lab">Zonas</div></div><div class="muni-dato"><div class="num">Alto</div><div class="lab">Densidad</div></div></div></div>
-        <div class="muni-card"><div class="muni-top"><div class="muni-icon" style="background:#f0fdf4;color:#16a34a">🌾</div><div><div class="muni-name">Esperanza</div><div class="muni-type">2do Municipio · Zona Agrícola</div></div></div><div class="muni-data"><div class="muni-dato"><div class="num">~60K</div><div class="lab">Habitantes</div></div><div class="muni-dato"><div class="num">3</div><div class="lab">Zonas</div></div><div class="muni-dato"><div class="num">Medio</div><div class="lab">Densidad</div></div></div></div>
-        <div class="muni-card"><div class="muni-top"><div class="muni-icon" style="background:#faf5ff;color:#7c3aed">💧</div><div><div class="muni-name">Laguna Salada</div><div class="muni-type">Municipio · Zona Húmeda</div></div></div><div class="muni-data"><div class="muni-dato"><div class="num">~45K</div><div class="lab">Habitantes</div></div><div class="muni-dato"><div class="num">2</div><div class="lab">Zonas</div></div><div class="muni-dato"><div class="num">Medio</div><div class="lab">Densidad</div></div></div></div>
-        <div class="muni-card"><div class="muni-top"><div class="muni-icon" style="background:#ecfdf5;color:#059669">🌿</div><div><div class="muni-name">Amina</div><div class="muni-type">Distrito Municipal</div></div></div><div class="muni-data"><div class="muni-dato"><div class="num">~15K</div><div class="lab">Habitantes</div></div><div class="muni-dato"><div class="num">1</div><div class="lab">Zona</div></div><div class="muni-dato"><div class="num">Bajo</div><div class="lab">Densidad</div></div></div></div>
-        <div class="muni-card"><div class="muni-top"><div class="muni-icon" style="background:#fff7ed;color:#ea580c">🐄</div><div><div class="muni-name">Guatapanal</div><div class="muni-type">Distrito Municipal</div></div></div><div class="muni-data"><div class="muni-dato"><div class="num">~12K</div><div class="lab">Habitantes</div></div><div class="muni-dato"><div class="num">1</div><div class="lab">Zona</div></div><div class="muni-dato"><div class="num">Bajo</div><div class="lab">Densidad</div></div></div></div>
-        <div class="muni-card"><div class="muni-top"><div class="muni-icon" style="background:#fefce8;color:#ca8a04">🌻</div><div><div class="muni-name">Jaibón</div><div class="muni-type">Distrito Municipal</div></div></div><div class="muni-data"><div class="muni-dato"><div class="num">~10K</div><div class="lab">Habitantes</div></div><div class="muni-dato"><div class="num">1</div><div class="lab">Zona</div></div><div class="muni-dato"><div class="num">Bajo</div><div class="lab">Densidad</div></div></div></div>
-        <div class="muni-card"><div class="muni-top"><div class="muni-icon" style="background:#fdf2f8;color:#db2777">⛰️</div><div><div class="muni-name">Potrero</div><div class="muni-type">Distrito Municipal</div></div></div><div class="muni-data"><div class="muni-dato"><div class="num">~8K</div><div class="lab">Habitantes</div></div><div class="muni-dato"><div class="num">1</div><div class="lab">Zona</div></div><div class="muni-dato"><div class="num">Bajo</div><div class="lab">Densidad</div></div></div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="alcaldes">
-    <div class="section-inner">
-      <div class="section-header">
-        <div class="section-tag"><i class="fa-solid fa-user-tie"></i> Representación</div>
-        <h2 class="section-title">Alcaldes de <span>Valverde</span></h2>
-        <p class="section-subtitle">Mandato 2024-2028. Los representantes electos de cada municipio.</p>
-      </div>
-      <div class="alcaldes-grid">
-        <div class="alcalde-card"><div class="alcalde-foto" style="background:linear-gradient(135deg,#16a34a,#15803d)">YJ</div><div class="alcalde-info"><div class="alcalde-nombre">Yohendy Jiménez</div><div class="alcalde-muni">Alcalde de Mao</div><div class="alcalde-partido">PRM</div></div><div class="alcalde-badge" style="background:#f0fdf4;color:#16a34a">Mao</div></div>
-        <div class="alcalde-card"><div class="alcalde-foto" style="background:linear-gradient(135deg,#003087,#1a4fa8)">FR</div><div class="alcalde-info"><div class="alcalde-nombre">Freddy Rodríguez</div><div class="alcalde-muni">Alcalde de Esperanza</div><div class="alcalde-partido">PRM</div></div><div class="alcalde-badge" style="background:#eff6ff;color:#003087">Esperanza</div></div>
-        <div class="alcalde-card"><div class="alcalde-foto" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)">GR</div><div class="alcalde-info"><div class="alcalde-nombre">Germán D. Rodríguez Saldaña</div><div class="alcalde-muni">Alcalde de Laguna Salada</div><div class="alcalde-partido">PRM</div></div><div class="alcalde-badge" style="background:#faf5ff;color:#7c3aed">L. Salada</div></div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-bottom">
-        <div class="footer-copy">&copy; 2026 PRM Valverde. Todos los derechos reservados.</div>
-      </div>
-    </div>
-  </footer>
+    <a href="index.html" class="block text-center text-xs text-slate-500 mt-4 hover:underline"><i class="fa-solid fa-arrow-left mr-1"></i> Volver a la web</a>
+  </div>
 </div>
 
 <!-- ═══════════ PANEL ═══════════ -->
-<div id="pantalla-admin" style="display:none">
-
-  <!-- Login Admin -->
-  <div id="admin-login" class="min-h-screen p-4 bg-slate-100" style="display:flex;align-items:center;justify-content:center">
-    <div class="w-full max-w-sm">
-      <div class="bg-[#003087] rounded-3xl shadow-2xl text-center p-6 mb-6 text-white">
-        <div class="w-16 h-16 mx-auto bg-white rounded-full flex items-center justify-center mb-3">
-          <span class="font-black text-[#C8102E] text-xl">PRM</span>
-        </div>
-        <h1 class="text-xl font-black tracking-wide">PANEL DE ADMINISTRACIÓN</h1>
-        <p class="text-xs text-blue-200 mt-1">Sistema Electoral · Provincia Valverde</p>
-      </div>
-      <div class="bg-white rounded-2xl shadow-lg p-6">
-        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Clave de acceso</label>
-        <input id="pin-admin" type="password" placeholder="••••••" class="border-2 border-slate-200 rounded-xl px-4 py-3 w-full text-center text-xl font-black tracking-[0.4em]"
-               onkeydown="if(event.key==='Enter') entrarAdmin()">
-        <button onclick="entrarAdmin()" class="mt-4 w-full bg-[#003087] hover:bg-[#002a70] text-white font-bold py-3 rounded-xl transition-all active:scale-95">
-          <i class="fa-solid fa-lock mr-2"></i> Entrar
-        </button>
-        <p id="login-error" class="text-red-600 text-xs font-bold mt-2 text-center hidden"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Clave incorrecta</p>
-      </div>
-      <button onclick="cerrarSesionAdmin()" class="block text-center text-xs text-slate-500 mt-4 hover:underline"><i class="fa-solid fa-arrow-left mr-1"></i> Volver al portal</button>
-    </div>
-  </div>
-
-  <!-- Panel Admin (oculto hasta autenticar) -->
-  <div id="admin-panel-content" style="display:none">
+<div id="pantalla-panel" class="hidden">
 
   <header class="bg-[#003087] text-white shadow-lg border-b-4 border-[#C8102E] sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
@@ -463,7 +277,6 @@
     </div>
   </div>
 </div>
-</div>
 
 <script>
 const SUPABASE_URL = 'https://ilivjaiexfqpioqrozlf.supabase.co';
@@ -481,10 +294,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function mostrarPanel() {
-  document.getElementById('pantalla-publico').style.display = 'none';
-  document.getElementById('pantalla-admin').style.display = 'block';
-  document.getElementById('admin-login').style.display = 'none';
-  document.getElementById('admin-panel-content').style.display = 'block';
+  document.getElementById('pantalla-login').classList.add('hidden');
+  document.getElementById('pantalla-panel').classList.remove('hidden');
 }
 
 async function entrarAdmin() {
@@ -505,10 +316,8 @@ async function entrarAdmin() {
 function cerrarSesionAdmin() {
   localStorage.removeItem('prm_admin');
   localStorage.removeItem('prm_admin_pin');
-  document.getElementById('admin-panel-content').style.display = 'none';
-  document.getElementById('admin-login').style.display = 'flex';
-  document.getElementById('pantalla-admin').style.display = 'none';
-  document.getElementById('pantalla-publico').style.display = 'block';
+  document.getElementById('pantalla-panel').classList.add('hidden');
+  document.getElementById('pantalla-login').classList.remove('hidden');
 }
 
 function mostrarTab(name) {
