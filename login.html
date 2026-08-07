@@ -416,7 +416,11 @@ function abrirPortalElectoral(modo) {
   if (modo === 'registro') {
     peIrStep('pe-step-registro-rol');
   } else {
-    peIrStep('pe-step-portal');
+    E.rolDeseado = null;
+    document.getElementById('pe-ced-titulo').textContent = '🔍 Identificación';
+    document.getElementById('pe-ced-sub').textContent = 'Ingresa tu cédula para continuar';
+    peIrStep('pe-step-cedula');
+    setTimeout(() => document.getElementById('pe-inp-cedula').focus(), 300);
   }
 }
 function cerrarPortalElectoral() {
