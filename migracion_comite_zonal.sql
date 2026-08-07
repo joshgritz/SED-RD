@@ -72,8 +72,8 @@ BEGIN
     FROM catalogo_cargos cc
     LEFT JOIN comite_zonal_miembros czm
         ON czm.cargo_id = cc.id
-        AND czm.municipio = p_municipio
-        AND czm.zona_nombre = p_zona
+        AND LOWER(czm.municipio) = LOWER(p_municipio)
+        AND LOWER(czm.zona_nombre) = LOWER(p_zona)
         AND czm.activo = TRUE
     WHERE cc.nivel = 'ZONA'
     ORDER BY cc.orden_display;
@@ -101,8 +101,8 @@ BEGIN
     -- Verificar si ya existe alguien en este cargo para esta zona
     SELECT EXISTS(
         SELECT 1 FROM comite_zonal_miembros
-        WHERE municipio = p_municipio
-        AND zona_nombre = p_zona
+        WHERE LOWER(municipio) = LOWER(p_municipio)
+        AND LOWER(zona_nombre) = LOWER(p_zona)
         AND cargo_id = p_cargo_id
         AND activo = TRUE
     ) INTO v_existe;
@@ -118,8 +118,8 @@ BEGIN
             suplente_cedula = p_suplente_cedula,
             suplente_nombre = p_suplente_nombre,
             notas = p_notas
-        WHERE municipio = p_municipio
-        AND zona_nombre = p_zona
+        WHERE LOWER(municipio) = LOWER(p_municipio)
+        AND LOWER(zona_nombre) = LOWER(p_zona)
         AND cargo_id = p_cargo_id
         AND activo = TRUE;
     ELSE
@@ -149,8 +149,8 @@ RETURNS JSON AS $$
 BEGIN
     UPDATE comite_zonal_miembros
     SET activo = FALSE
-    WHERE municipio = p_municipio
-    AND zona_nombre = p_zona
+    WHERE LOWER(municipio) = LOWER(p_municipio)
+    AND LOWER(zona_nombre) = LOWER(p_zona)
     AND cargo_id = p_cargo_id;
 
     RETURN json_build_object('ok', true, 'mensaje', 'Eliminado exitosamente');
@@ -176,8 +176,8 @@ BEGIN
         COUNT(*) FILTER (WHERE fecha_nacimiento IS NOT NULL AND fecha_nacimiento >= CURRENT_DATE - INTERVAL '25 years')
     INTO v_total, v_mujeres, v_jovenes
     FROM comite_zonal_miembros
-    WHERE municipio = p_municipio
-    AND zona_nombre = p_zona
+    WHERE LOWER(municipio) = LOWER(p_municipio)
+    AND LOWER(zona_nombre) = LOWER(p_zona)
     AND activo = TRUE;
 
     IF v_total = 0 THEN

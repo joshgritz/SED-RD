@@ -282,12 +282,14 @@ async function cargarConteos() {
     if (!data) { console.warn('Sin datos de dirigentes'); return; }
     const countMap = {};
     data.forEach(d => {
-      const key = (d.zona || '') + '|' + (d.municipio || '');
+      const key = (d.zona || '').trim().toLowerCase() + '|' + (d.municipio || '').trim().toLowerCase();
       countMap[key] = (countMap[key] || 0) + 1;
     });
+    console.log('CountMap:', countMap);
     MUNICIPIOS.forEach(m => {
       m.zonas.forEach(z => {
-        z.dirigentes = countMap[z.nombre + '|' + m.nombre] || 0;
+        const mapKey = z.nombre.trim().toLowerCase() + '|' + m.nombre.trim().toLowerCase();
+        z.dirigentes = countMap[mapKey] || 0;
       });
     });
   } catch(e) { console.error('Excepción cargando conteos:', e); }
@@ -367,8 +369,8 @@ async function cargarDirigentes() {
     console.log('Buscando dirigentes en:', zonaActual.municipio, '|', zonaActual.zona);
     const { data: dirs, error } = await sb.from('dirigentes')
       .select('cedula, nombre, zona, municipio, sector, latitud, longitud, activo')
-      .eq('zona', zonaActual.zona)
-      .eq('municipio', zonaActual.municipio)
+      .ilike('zona', zonaActual.zona)
+      .ilike('municipio', zonaActual.municipio)
       .eq('activo', true);
 
     if (error) { console.error('Error query dirigentes:', error); return; }
