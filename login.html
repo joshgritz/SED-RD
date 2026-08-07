@@ -333,6 +333,7 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
       <div class="pe-card">
         <div class="pe-card-header"><h2>👋 Bienvenido</h2><p id="pe-destino-nombre">¿A dónde quieres ir?</p></div>
         <div class="pe-card-body">
+          <div class="pe-error-box" id="pe-err-destino"></div>
           <div class="pe-role-grid">
             <div class="pe-role-card" onclick="peIrA('perfil')"><div class="rc-icon" style="background:#dbeafe">👤</div><div class="rc-text"><div class="rc-title">Mi Perfil</div><div class="rc-sub">Ver y editar mi información personal</div></div><div class="rc-arrow">›</div></div>
             <div class="pe-role-card" onclick="peIrA('candidatos')"><div class="rc-icon" style="background:#fef3c7">🗳️</div><div class="rc-text"><div class="rc-title">Candidatos</div><div class="rc-sub">Portal de candidaturas y estructura</div></div><div class="rc-arrow">›</div></div>
@@ -579,32 +580,13 @@ async function peAccederCandidato() {
       .maybeSingle();
 
     if (existente) {
-      if (existente.tipo === 'candidato') {
-        peToast('Accediendo como Candidato...', 'info');
-      } else {
-        peToast('Accediendo como Pre-candidato...', 'info');
-      }
+      peToast('Accediendo...', 'info');
       setTimeout(() => { window.location.href = 'candidato.html'; }, 600);
       return;
     }
 
-    const { error } = await sb.from('candidatos').insert({
-      id: E.cedFmt,
-      nombre: E.nombre || 'Sin nombre',
-      cargo: 'ALCALDE',
-      tipo: 'precandidato',
-      municipio: E.municipio || null,
-      zona: E.zona || null,
-      activo: true
-    });
+    peErr('pe-err-destino', '⚠️ No estás registrado como candidato. Regístrate primero con el botón "Registrarse".');
 
-    if (error) {
-      console.error('Error al registrar pre-candidato:', error);
-      peToast('Accediendo...', 'info');
-    } else {
-      peToast('✅ Registrado como Pre-candidato', 'ok');
-    }
-    setTimeout(() => { window.location.href = 'candidato.html'; }, 800);
   } catch(e) {
     console.error(e);
     window.location.href = 'candidato.html';
