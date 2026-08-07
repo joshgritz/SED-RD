@@ -389,9 +389,8 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
         <div class="pe-card-body">
           <div class="pe-reg-options">
             <button class="pe-reg-opt" onclick="peSeleccionarRolReg('candidato',this)"><div class="ro-icon" style="background:#dbeafe">🗳️</div><div class="ro-text"><div class="ro-title">Candidato / Pre-candidato</div><div class="ro-desc">Postularme para un cargo electivo</div></div></button>
-            <button class="pe-reg-opt" onclick="peSeleccionarRolReg('coordinador',this)"><div class="ro-icon" style="background:#fef3c7">🔱</div><div class="ro-text"><div class="ro-title">Coordinador</div><div class="ro-desc">Organizar una zona o candidatura</div></div></button>
             <button class="pe-reg-opt" onclick="peSeleccionarRolReg('dirigente',this)"><div class="ro-icon" style="background:#dcfce7">🤝</div><div class="ro-text"><div class="ro-title">Dirigente de Base</div><div class="ro-desc">Liderar un comité de base</div></div></button>
-            <button class="pe-reg-opt" onclick="peSeleccionarRolReg('miembro',this)"><div class="ro-icon" style="background:#f3e8ff">👥</div><div class="ro-text"><div class="ro-title">Miembro de Estructura</div><div class="ro-desc">Unirme a una estructura existente</div></div></button>
+            <button class="pe-reg-opt" onclick="peSeleccionarRolReg('delegado',this)"><div class="ro-icon" style="background:#fce7f3">📋</div><div class="ro-text"><div class="ro-title">Delegado</div><div class="ro-desc">Mesas, actas y votantes del día</div></div></button>
           </div>
           <button class="pe-btn pe-btn-gris" style="margin-top:10px" onclick="peIrStep('pe-step-portal')">← Volver</button>
         </div>
@@ -606,15 +605,15 @@ function peSeleccionarRolReg(rol, el) {
   document.querySelectorAll('.pe-reg-opt').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
   E.rolDeseado = rol;
-  const titulos = { candidato: '🗳️ Registro de Candidato', coordinador: '🔱 Registro de Coordinador', dirigente: '🤝 Registro de Dirigente', miembro: '👥 Registro de Miembro' };
-  document.getElementById('pe-reg-titulo').textContent = titulos[rol];
+  const titulos = { candidato: '🗳️ Registro de Candidato', dirigente: '🤝 Registro de Dirigente', delegado: '📋 Registro de Delegado' };
+  document.getElementById('pe-reg-titulo').textContent = titulos[rol] || '📝 Registro';
   document.getElementById('pe-reg-sub').textContent = 'Crea tu cuenta en el sistema';
   document.getElementById('pe-reg-campos-candidato').style.display = rol === 'candidato' ? 'block' : 'none';
-  document.getElementById('pe-reg-campos-coordinador').style.display = rol === 'coordinador' ? 'block' : 'none';
-  document.getElementById('pe-reg-campos-miembro').style.display = rol === 'miembro' ? 'block' : 'none';
-  document.getElementById('pe-reg-campo-sector').style.display = (rol === 'dirigente' || rol === 'coordinador') ? 'block' : 'none';
-  document.getElementById('pe-reg-campo-zona').style.display = (rol !== 'miembro') ? 'block' : 'none';
-  document.getElementById('pe-reg-campo-municipio').style.display = (rol !== 'miembro') ? 'block' : 'none';
+  document.getElementById('pe-reg-campos-coordinador').style.display = 'none';
+  document.getElementById('pe-reg-campos-miembro').style.display = 'none';
+  document.getElementById('pe-reg-campo-sector').style.display = 'none';
+  document.getElementById('pe-reg-campo-zona').style.display = 'block';
+  document.getElementById('pe-reg-campo-municipio').style.display = 'block';
   if (rol === 'coordinador' || rol === 'miembro') peCargarCandidatosReg();
   peIrStep('pe-step-registro');
 }
@@ -653,18 +652,8 @@ async function peCompletarRegistro() {
       await sb.from('candidatos').insert({ id: cedFmt, nombre, cargo, tipo, activo: true });
       await sb.from('usuarios_sistema').insert({ cedula: cedFmt, nombre, rol: 'CANDIDATO', zona, municipio: mun, pin_hash: peHashPin(pin), pin_cambiado: false, activo: true });
     }
-    if (E.rolDeseado === 'coordinador') {
-      const candId = document.getElementById('pe-reg-candidato-apoyo').value;
-      if (candId) { const { data: cand } = await sb.from('candidatos').select('nombre, cargo').eq('id', candId).maybeSingle(); await sb.from('estructuras_dirigente').insert({ dirigente_cedula: cedFmt, candidato_id: candId, candidato_nombre: cand?.nombre || '', cargo_candidato: cand?.cargo || '', activo: true }); }
-      await sb.from('usuarios_sistema').insert({ cedula: cedFmt, nombre, rol: 'COORDINADOR', zona, municipio: mun, pin_hash: peHashPin(pin), pin_cambiado: false, activo: true });
-    }
     if (E.rolDeseado === 'dirigente') { await sb.from('usuarios_sistema').insert({ cedula: cedFmt, nombre, rol: 'DIRIGENTE_BASE', zona, municipio: mun, pin_hash: peHashPin(pin), pin_cambiado: false, activo: true }); }
-    if (E.rolDeseado === 'miembro') {
-      const estrId = document.getElementById('pe-reg-estructura-miembro').value;
-      const inv = document.getElementById('pe-reg-invitador').value.replace(/\D/g, '');
-      if (estrId && inv) { const invFmt = inv.slice(0,3)+'-'+inv.slice(3,10)+'-'+inv.slice(10); await sb.from('comite_miembros').insert({ dirigente_cedula: invFmt, cedula_miembro: cedFmt, nombre_miembro: nombre, telefono: tel }).then(({error}) => {}); }
-      await sb.from('usuarios_sistema').insert({ cedula: cedFmt, nombre, rol: 'MIEMBRO_ESTRUCTURA', zona: null, municipio: null, pin_hash: peHashPin(pin), pin_cambiado: false, activo: true });
-    }
+    if (E.rolDeseado === 'delegado') { await sb.from('usuarios_sistema').insert({ cedula: cedFmt, nombre, rol: 'DELEGADO', zona, municipio: mun, pin_hash: peHashPin(pin), pin_cambiado: false, activo: true }); }
   }
   peToast('✅ Registro completado', 'ok');
   setTimeout(() => { E.rolDeseado = null; peIrStep('pe-step-cedula'); document.getElementById('pe-inp-cedula').value = ''; }, 1500);
