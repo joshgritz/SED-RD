@@ -32,27 +32,36 @@ body{font-family:'Montserrat',sans-serif;background:#fff;color:#1e293b;min-heigh
 .header-hamburger{display:none;background:none;border:none;font-size:20px;color:#003087;cursor:pointer}
 
 /* ── HERO ── */
-.hero{position:relative;background:linear-gradient(135deg,#003087 0%,#0a1f5c 40%,#003087 100%);min-height:520px;display:flex;align-items:center;overflow:hidden}
-.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
-.hero-content{max-width:1200px;margin:0 auto;padding:60px 24px;display:flex;align-items:center;gap:60px;width:100%}
+.hero{position:relative;background:linear-gradient(160deg,#0047AB 0%,#002d6b 35%,#001a40 100%);min-height:580px;display:flex;align-items:center;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M40 40v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-36V0h-2v4h-4v2h4v4h2V6h4V4h-4zM4 40v-4H2v4H0v2h4v4h2v-4h4v-2H4zM4 4V0H2v4H0v2h4v4h2V6h4V4H4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero::after{content:'';position:absolute;top:-50%;right:-20%;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(197,168,100,0.08) 0%,transparent 70%);pointer-events:none}
+.hero-content{max-width:1200px;margin:0 auto;padding:70px 24px;display:flex;align-items:center;gap:60px;width:100%;position:relative;z-index:1}
 .hero-left{flex:1}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(231,255,137,0.15);border:1px solid rgba(231,255,137,0.3);border-radius:24px;padding:8px 20px;font-size:11px;font-weight:700;color:#E7FF89;margin-bottom:24px}
-.hero-badge i{font-size:10px}
-.hero h1{font-size:48px;font-weight:800;color:white;line-height:1.1;margin-bottom:16px}
-.hero h1 span{color:#E7FF89}
-.hero-sub{font-size:16px;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:32px;max-width:480px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.18);border-radius:24px;padding:8px 20px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.9);margin-bottom:28px}
+.hero-badge i{font-size:10px;color:#C5A864}
+.hero-logo-ring{width:72px;height:72px;border-radius:50%;border:3px solid #C5A864;background:rgba(255,255,255,0.1);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 0 30px rgba(197,168,100,0.2)}
+.hero-logo-ring span{font-family:Arial Black,sans-serif;font-weight:900;font-size:22px;color:white;letter-spacing:1px}
+.hero-title{font-family:'Montserrat',sans-serif;font-size:52px;font-weight:900;color:white;line-height:1.05;margin-bottom:4px;letter-spacing:-1px}
+.hero-title-gold{display:block;font-size:14px;font-weight:700;color:#C5A864;letter-spacing:4px;text-transform:uppercase;margin-top:8px}
+.hero-gold-line{width:60px;height:3px;background:linear-gradient(90deg,#C5A864,#e8d5a0);border-radius:2px;margin:16px 0 20px}
+.hero-sub{font-size:15px;color:rgba(255,255,255,0.65);line-height:1.8;margin-bottom:36px;max-width:460px;font-weight:400}
 .hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
-.btn-hero{padding:14px 32px;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;text-decoration:none;transition:all .2s;border:none;font-family:inherit}
-.btn-primary{background:#E7FF89;color:#003087}
-.btn-primary:hover{background:#d4f060;transform:translateY(-2px);box-shadow:0 8px 24px rgba(231,255,137,0.3)}
-.btn-secondary{background:rgba(255,255,255,0.1);color:white;border:2px solid rgba(255,255,255,0.3)}
-.btn-secondary:hover{background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.5)}
-.hero-right{flex:0 0 400px;display:flex;justify-content:center}
-.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.hero-stat{background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:24px;text-align:center}
-.hero-stat-num{font-size:36px;font-weight:800;color:#E7FF89}
-.hero-stat-label{font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:1px;margin-top:4px;font-weight:600}
+.btn-hero{padding:14px 32px;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;text-decoration:none;transition:all .25s;border:none;font-family:'Montserrat',sans-serif}
+.btn-primary{background:#C5A864;color:#001a40}
+.btn-primary:hover{background:#d4b978;transform:translateY(-2px);box-shadow:0 8px 24px rgba(197,168,100,0.35)}
+.btn-secondary{background:rgba(255,255,255,0.08);color:white;border:1.5px solid rgba(255,255,255,0.25);backdrop-filter:blur(4px)}
+.btn-secondary:hover{background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.4)}
+.hero-right{flex:0 0 420px;display:flex;justify-content:center}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.hero-stat{background:rgba(255,255,255,0.95);border-radius:16px;padding:24px 20px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.12);border:1px solid rgba(255,255,255,0.5);transition:transform .3s}
+.hero-stat:hover{transform:translateY(-4px)}
+.hero-stat-num{font-size:32px;font-weight:900;color:#0047AB;line-height:1}
+.hero-stat-label{font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-top:6px;font-weight:700}
+.hero-stat-icon{font-size:18px;margin-bottom:8px;color:#C5A864}
 .hero-wave{position:absolute;bottom:0;left:0;right:0;height:80px;background:#fff;clip-path:ellipse(60% 100% at 50% 100%)}
+.hero-status{position:absolute;bottom:100px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);border:1px solid rgba(197,168,100,0.3);border-radius:24px;padding:8px 20px;font-size:11px;font-weight:700;color:#0047AB;box-shadow:0 4px 16px rgba(0,0,0,0.08);z-index:2;white-space:nowrap}
+.hero-status .dot{width:8px;height:8px;border-radius:50%;background:#16a34a;animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
 
 /* ── SECCIONES ── */
 .section{padding:80px 24px}
@@ -144,12 +153,15 @@ body{font-family:'Montserrat',sans-serif;background:#fff;color:#1e293b;min-heigh
 @media(max-width:768px){
   .header-nav{display:none}
   .header-hamburger{display:block}
-  .hero-content{flex-direction:column;text-align:center;padding:40px 20px}
-  .hero h1{font-size:32px}
+  .hero-content{flex-direction:column;text-align:center;padding:50px 20px 80px}
+  .hero-logo-ring{margin:0 auto 16px}
+  .hero-title{font-size:32px}
+  .hero-gold-line{margin:12px auto 16px}
   .hero-sub{margin-left:auto;margin-right:auto}
   .hero-buttons{justify-content:center}
   .hero-right{flex:none;width:100%}
   .hero-stats{grid-template-columns:1fr 1fr}
+  .hero-status{bottom:90px;font-size:10px;padding:6px 14px}
   .section{padding:48px 16px}
   .section-title{font-size:28px}
   .muni-grid,.alcaldes-grid,.curiosidades-grid{grid-template-columns:1fr}
@@ -201,22 +213,25 @@ body{font-family:'Montserrat',sans-serif;background:#fff;color:#1e293b;min-heigh
   <div class="hero-content">
     <div class="hero-left">
       <div class="hero-badge"><i class="fa-solid fa-check-to-slot"></i> Elecciones 2026 · Provincia Valverde</div>
-      <h1>República Dominicana<br><span>Provincia Valverde</span></h1>
+      <div class="hero-logo-ring"><span>PRM</span></div>
+      <h1 class="hero-title">PRM · VALVERDE<span class="hero-title-gold">Partido Revolucionario Moderno</span></h1>
+      <div class="hero-gold-line"></div>
       <p class="hero-sub">Desarrollo, Democracia e Igualdad. Conoce la estructura política, los municipios y la historia de una de las provincias más importantes del Cibao Noroeste.</p>
       <div class="hero-buttons">
-        <a href="#municipios" class="btn-hero btn-primary">Explorar Municipios</a>
+        <a href="#municipios" class="btn-hero btn-primary"><i class="fa-solid fa-map-location-dot"></i> Explorar Municipios</a>
         <a href="login.html" class="btn-hero btn-secondary"><i class="fa-solid fa-right-to-bracket"></i> Acceder al Sistema</a>
       </div>
     </div>
     <div class="hero-right">
       <div class="hero-stats">
-        <div class="hero-stat"><div class="hero-stat-num">7</div><div class="hero-stat-label">Municipios</div></div>
-        <div class="hero-stat"><div class="hero-stat-num">~350K</div><div class="hero-stat-label">Habitantes</div></div>
-        <div class="hero-stat"><div class="hero-stat-num">1</div><div class="hero-stat-label">Senador</div></div>
-        <div class="hero-stat"><div class="hero-stat-num">3+</div><div class="hero-stat-label">Diputados</div></div>
+        <div class="hero-stat"><div class="hero-stat-icon"><i class="fa-solid fa-users"></i></div><div class="hero-stat-num" id="pub-inscritos">—</div><div class="hero-stat-label">Total Inscritos</div></div>
+        <div class="hero-stat"><div class="hero-stat-icon"><i class="fa-solid fa-check-to-slot"></i></div><div class="hero-stat-num" id="pub-votaron">—</div><div class="hero-stat-label">Votaron Hoy</div></div>
+        <div class="hero-stat"><div class="hero-stat-icon"><i class="fa-solid fa-chart-line"></i></div><div class="hero-stat-num" id="pub-proyeccion">—</div><div class="hero-stat-label">Proyección</div></div>
+        <div class="hero-stat"><div class="hero-stat-icon"><i class="fa-solid fa-building-columns"></i></div><div class="hero-stat-num" id="pub-mesas">—</div><div class="hero-stat-label">Mesas Activas</div></div>
       </div>
     </div>
   </div>
+  <div class="hero-status"><span class="dot"></span> Base de Datos Supabase Activo</div>
   <div class="hero-wave"></div>
 </section>
 
@@ -547,7 +562,24 @@ body{font-family:'Montserrat',sans-serif;background:#fff;color:#1e293b;min-heigh
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const sbPub = window.supabase.createClient('https://ilivjaiexfqpioqrozlf.supabase.co','sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW');
+
+async function cargarEstadisticas() {
+  try {
+    const [ins, mesas] = await Promise.all([
+      sbPub.from('candidatos').select('id', { count: 'exact', head: true }).eq('activo', true),
+      sbPub.from('mesas').select('id', { count: 'exact', head: true })
+    ]);
+    document.getElementById('pub-inscritos').textContent = (ins.count || 0).toLocaleString('es-DO');
+    document.getElementById('pub-mesas').textContent = (mesas.count || 0).toLocaleString('es-DO');
+    document.getElementById('pub-votaron').textContent = '0';
+    document.getElementById('pub-proyeccion').textContent = (ins.count || 0) > 0 ? Math.round((ins.count * 0.62)) : '—';
+  } catch(e) { console.warn('Stats load error', e); }
+}
+cargarEstadisticas();
+
 function scrollTo_(id, evt) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   if (evt) {
