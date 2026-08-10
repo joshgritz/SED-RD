@@ -319,13 +319,18 @@ let sb = null;
 let adminNivel = '';
 let realtimeChannel = null;
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   if (window.supabase) {
     sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
   }
   if (localStorage.getItem('prm_admin') === '1') {
-    mostrarPanel();
-    mostrarTab('resumen');
+    const { data: { session } } = await sb.auth.getSession();
+    if (session && session.user.app_metadata?.role === 'super_admin') {
+      mostrarPanel();
+      mostrarTab('resumen');
+    } else {
+      localStorage.removeItem('prm_admin');
+    }
   }
 });
 
@@ -340,21 +345,29 @@ function mostrarPanel() {
 async function entrarAdmin() {
   const pin = document.getElementById('pin-admin').value.trim();
   if (!pin) return;
-  const { data, error } = await sb.rpc('fn_verificar_admin_pin', { p_pin: pin });
-  if (error) { alert('Error: ' + error.message); return; }
-  if (data === true) {
-    localStorage.setItem('prm_admin', '1');
-    localStorage.setItem('prm_admin_pin', pin);
-    mostrarPanel();
-    mostrarTab('resumen');
-  } else {
+  const email = 'admin@prm.local';
+  const password = pin + 'Prm#2026';
+  const { data: authData, error: authErr } = await sb.auth.signInWithPassword({ email, password });
+  if (authErr || !authData?.session) {
     document.getElementById('login-error').classList.remove('hidden');
+    return;
   }
+  const role = authData.user.app_metadata?.role;
+  if (role !== 'super_admin') {
+    document.getElementById('login-error').classList.remove('hidden');
+    await sb.auth.signOut();
+    return;
+  }
+  localStorage.setItem('prm_admin', '1');
+  localStorage.setItem('prm_admin_token', authData.session.access_token);
+  mostrarPanel();
+  mostrarTab('resumen');
 }
 
 function cerrarSesionAdmin() {
   localStorage.removeItem('prm_admin');
-  localStorage.removeItem('prm_admin_pin');
+  localStorage.removeItem('prm_admin_token');
+  sb.auth.signOut();
   if (realtimeChannel) { sb.removeChannel(realtimeChannel); realtimeChannel = null; }
   document.getElementById('pantalla-panel').classList.add('hidden');
   document.getElementById('pantalla-login').classList.remove('hidden');

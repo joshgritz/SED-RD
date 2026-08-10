@@ -791,20 +791,42 @@ async function peVerificarPin() {
   if (pin.length < 4) { peErr('pe-err-pin', 'Ingresa los 4 dígitos'); return; }
   peHide('pe-err-pin');
   if (sb) {
-    const { data } = await sb.rpc('login_sistema', { p_cedula: E.cedFmt, p_pin_hash: peHashPin(pin) });
-    if (!data || !data.ok) {
-      peErr('pe-err-pin', data?.error || 'PIN incorrecto');
-      ['pe-p0','pe-p1','pe-p2','pe-p3'].forEach(id => document.getElementById(id).value = '');
-      document.getElementById('pe-p0').focus();
+    try {
+      const email = E.cedFmt + '@prm.local';
+      const password = pin + 'Prm#2026';
+      const { data: authData, error: authErr } = await sb.auth.signInWithPassword({ email, password });
+      if (authErr) {
+        if (authErr.message.includes('Invalid login')) {
+          peErr('pe-err-pin', 'PIN incorrecto o cuenta no registrada');
+        } else {
+          peErr('pe-err-pin', 'Error: ' + authErr.message);
+        }
+        ['pe-p0','pe-p1','pe-p2','pe-p3'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('pe-p0').focus();
+        return;
+      }
+      const claims = authData.user.app_metadata || {};
+      const sess = {
+        cedula: E.cedFmt,
+        nombre: E.nombre,
+        zona: claims.zona || E.zona,
+        municipio: claims.municipio || E.municipio,
+        rol: claims.role || E.rolSistema || 'dirigente_base',
+        token: authData.session.access_token,
+        auth_user_id: authData.user.id,
+        foto_base64: E.foto
+      };
+      peGuardarSesion(sess);
+      peRedirigir(sess);
+      return;
+    } catch(e) {
+      console.error('Auth error:', e);
+      peErr('pe-err-pin', 'Error de conexión');
       return;
     }
-    peGuardarSesion({ ...data, foto_base64: E.foto });
-    if (!data.pin_cambiado) { peIrStep('pe-step-cambiar-pin'); return; }
-    peRedirigir(data);
-    return;
   }
-  peGuardarSesion({ cedula: E.cedFmt, nombre: E.nombre, zona: E.zona, municipio: E.municipio, rol: E.rolSistema || 'DIRIGENTE_BASE', token: 'demo-'+Date.now(), foto_base64: E.foto });
-  peRedirigir({ rol: E.rolSistema || 'DIRIGENTE_BASE' });
+  peGuardarSesion({ cedula: E.cedFmt, nombre: E.nombre, zona: E.zona, municipio: E.municipio, rol: E.rolSistema || 'dirigente_base', token: 'demo-'+Date.now(), foto_base64: E.foto });
+  peRedirigir({ rol: E.rolSistema || 'dirigente_base' });
 }
 
 // ═══════════ GUARDAR NUEVO PIN ═══════════
@@ -814,8 +836,10 @@ async function peGuardarNuevoPin() {
   if (p1.length < 4) { peErr('pe-err-nuevo-pin', 'Ingresa tu nuevo PIN'); return; }
   if (p1 !== p2) { peErr('pe-err-nuevo-pin', 'Los PINs no coinciden'); return; }
   if (sb) {
-    await sb.from('dirigentes').update({ pin_hash: peHashPin(p1) }).eq('cedula', E.cedFmt);
-    await sb.from('usuarios_sistema').update({ pin_cambiado: true }).eq('cedula', E.cedFmt);
+    const newPass = p1 + 'Prm#2026';
+    const { error } = await sb.auth.updateUser({ password: newPass });
+    if (error) { peErr('pe-err-nuevo-pin', 'Error: ' + error.message); return; }
+    await sb.from('dirigentes').update({ pin_hash: p1 }).eq('cedula', E.cedFmt);
   }
   peToast('✅ PIN guardado', 'ok');
   setTimeout(() => peRedirigir({ rol: E.rolSistema }), 1000);
@@ -859,7 +883,7 @@ async function peAccederCandidato() {
   }
 }
 function peGetDestino(rol) {
-  const map = { SUPER_ADMIN: 'admin.html', PRESIDENTE_ZONAL: 'admin.html', SECRETARIO_GENERAL: 'admin.html' };
+  const map = { super_admin: 'admin.html', dirigente_zonal: 'admin.html', admin: 'admin.html' };
   if (map[rol]) return map[rol];
   if (E.rolDeseado === 'candidato') return 'candidato.html';
   if (E.rolDeseado === 'delegado') return 'delegados.html';
@@ -909,18 +933,28 @@ async function peCompletarRegistro() {
   if (pin.length < 4) { peErr('pe-err-reg', 'Crea tu PIN de 4 dígitos'); return; }
   const cedFmt = cedula.slice(0,3)+'-'+cedula.slice(3,10)+'-'+cedula.slice(10);
   if (sb) {
-    const { error: errDir } = await sb.from('dirigentes').insert({ cedula: cedFmt, nombre, municipio: mun || null, zona: zona || null, sector, telefono: tel, email, pin_hash: peHashPin(pin), activo: true });
+    const { error: errDir } = await sb.from('dirigentes').insert({ cedula: cedFmt, nombre, municipio: mun || null, zona: zona || null, sector, telefono: tel, email, pin_hash: pin, activo: true });
     if (errDir && errDir.code === '23505') { peErr('pe-err-reg', 'Esta cédula ya está registrada'); return; }
     else if (errDir) { peErr('pe-err-reg', 'Error: ' + errDir.message); return; }
+    const rolMap = { candidato: 'candidato', dirigente: 'dirigente_base', delegado: 'delegado' };
+    const authEmail = cedFmt + '@prm.local';
+    const authPass = pin + 'Prm#2026';
+    const { error: authErr } = await sb.auth.signUp({
+      email: authEmail,
+      password: authPass,
+      options: {
+        data: { cedula: cedFmt, nombre },
+      }
+    });
+    if (authErr && !authErr.message.includes('already registered')) {
+      console.warn('Auth signup warning:', authErr.message);
+    }
     if (E.rolDeseado === 'candidato') {
       const tipo = document.getElementById('pe-reg-tipo').value;
       const cargo = document.getElementById('pe-reg-cargo').value;
       if (!cargo) { peErr('pe-err-reg', 'Selecciona el cargo que buscas'); return; }
       await sb.from('candidatos').insert({ id: cedFmt, nombre, cargo, tipo, activo: true });
-      await sb.from('usuarios_sistema').insert({ cedula: cedFmt, nombre, rol: 'CANDIDATO', zona, municipio: mun, pin_hash: peHashPin(pin), pin_cambiado: false, activo: true });
     }
-    if (E.rolDeseado === 'dirigente') { await sb.from('usuarios_sistema').insert({ cedula: cedFmt, nombre, rol: 'DIRIGENTE_BASE', zona, municipio: mun, pin_hash: peHashPin(pin), pin_cambiado: false, activo: true }); }
-    if (E.rolDeseado === 'delegado') { await sb.from('usuarios_sistema').insert({ cedula: cedFmt, nombre, rol: 'DELEGADO', zona, municipio: mun, pin_hash: peHashPin(pin), pin_cambiado: false, activo: true }); }
   }
   peToast('✅ Registro completado', 'ok');
   setTimeout(() => { E.rolDeseado = null; peIrStep('pe-step-cedula'); document.getElementById('pe-inp-cedula').value = ''; }, 1500);
@@ -951,7 +985,7 @@ async function peConfirmarRecuperacion() {
 
 // ═══════════ SESIÓN ═══════════
 function peGuardarSesion(data) {
-  localStorage.setItem('prm_sesion', JSON.stringify({ cedula: data.cedula, nombre: data.nombre, zona: data.zona, municipio: data.municipio, rol: data.rol, token: data.token, foto_base64: data.foto_base64 || null, rolDeseado: E.rolDeseado || null, expires: Date.now() + 86400000 }));
+  localStorage.setItem('prm_sesion', JSON.stringify({ cedula: data.cedula, nombre: data.nombre, zona: data.zona, municipio: data.municipio, rol: data.rol, token: data.token, auth_user_id: data.auth_user_id || null, foto_base64: data.foto_base64 || null, rolDeseado: E.rolDeseado || null, expires: Date.now() + 86400000 }));
 }
 
 // ═══════════ ZONAS ═══════════
@@ -982,6 +1016,8 @@ let _tt; function peToast(msg, tipo) { const el=document.getElementById('toast')
 window.addEventListener('DOMContentLoaded', function() {
   const params = new URLSearchParams(window.location.search);
   if (params.get('from') === 'logout') {
+    if (_sb) _sb.auth.signOut();
+    localStorage.removeItem('prm_sesion');
     setTimeout(function() { abrirPortalElectoral(); }, 200);
     return;
   }
@@ -989,7 +1025,7 @@ window.addEventListener('DOMContentLoaded', function() {
   if (raw) {
     try {
       const s = JSON.parse(raw);
-      if (s.expires > Date.now()) {
+      if (s.expires > Date.now() && s.token && !s.token.startsWith('demo-')) {
         E.rolDeseado = s.rolDeseado || null;
         window.location.href = peGetDestino(s.rol);
         return;
