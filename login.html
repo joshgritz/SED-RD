@@ -771,8 +771,8 @@ async function peBuscarCedula() {
   peHide('pe-err-cedula');
   if (sb) {
     try {
-      const { data: pad } = await sb.from('padron_maestro').select('nombre_completo, foto_base64').eq('cedula', cedFmt).maybeSingle();
-      if (pad) { E.nombre = pad.nombre_completo; E.foto = pad.foto_base64; E.enPadron = true; }
+      const { data: pad } = await sb.rpc('lookup_cedula', { p_cedula: cedFmt });
+      if (pad) { E.nombre = pad.nombre_completo; E.enPadron = true; }
       const { data: dir } = await sb.from('dirigentes').select('nombre, zona, municipio').eq('cedula', cedFmt).eq('activo', true).maybeSingle();
       if (dir) { E.esDirigente = true; E.nombre = E.nombre || dir.nombre; E.zona = dir.zona; E.municipio = dir.municipio; }
       const { data: usr } = await sb.from('usuarios_sistema').select('rol, zona, municipio, pin_cambiado, nombre').eq('cedula', cedFmt).eq('activo', true).maybeSingle();
