@@ -1,0 +1,159 @@
+<!-- ══════════════════════════════════════════════
+     TEMPLATE: Acta Final — PRM Valverde
+     Se clona y llena dinámicamente con acta_generator.js
+     ══════════════════════════════════════════════ -->
+
+<div class="acta-container" id="acta-printable">
+
+  <!-- ── ENCABEZADO ── -->
+  <div class="acta-header">
+    <div class="partido-nombre">Partido Revolucionario Moderno</div>
+    <div class="provincia">Provincia Valverde</div>
+    <div class="acta-tipo" id="acta-tipo-eleccion">ACTA DE CONSENSO</div>
+    <div class="acta-meta">
+      <span id="acta-meta-nivel"><i class="fa-solid fa-location-dot"></i> Zona A · Mao</span>
+      <span id="acta-meta-fecha"><i class="fa-regular fa-calendar"></i> 09 de agosto de 2026</span>
+      <span id="acta-meta-numero"><i class="fa-solid fa-hashtag"></i> ACTA-2026-08-0001</span>
+    </div>
+  </div>
+
+  <!-- ── MECANISMO ── -->
+  <div class="acta-section">
+    <div class="acta-section-title">Mecanismo Electoral Aplicado</div>
+    <div class="mecanismo-box" id="acta-mecanismo-box">
+      <strong>CONSENSO</strong>
+      La presente plancha fue propuesta por consenso de las partes interesadas y
+      ratificada por la dirigencia de conformidad con los estatutos del partido.
+      No se realizó votación.
+    </div>
+  </div>
+
+  <!-- ── PLANCHA(S) ── -->
+  <div class="acta-section">
+    <div class="acta-section-title">Plancha(s) Inscrita(s)</div>
+    <div id="acta-planchas-container">
+      <!-- Se llena dinámicamente -->
+    </div>
+  </div>
+
+  <!-- ── CUOTAS ── -->
+  <div class="acta-section">
+    <div class="acta-section-title">Verificación de Cuotas Estatutarias</div>
+    <div class="cuotas-grid" id="acta-cuotas-grid">
+      <div class="cuota-card" id="cuota-genero">
+        <div class="cuota-icon"></div>
+        <div class="cuota-label">Género</div>
+        <div class="cuota-valor" id="cuota-genero-valor">50%</div>
+        <div class="cuota-status" id="cuota-genero-status">CUMPLE</div>
+        <div class="cuota-base">Art. 155 — 40% a 60%</div>
+      </div>
+      <div class="cuota-card" id="cuota-juventud">
+        <div class="cuota-icon"></div>
+        <div class="cuota-label">Juventud</div>
+        <div class="cuota-valor" id="cuota-juventud-valor">20%</div>
+        <div class="cuota-status" id="cuota-juventud-status">CUMPLE</div>
+        <div class="cuota-base">Art. 154 — mínimo 10%</div>
+      </div>
+      <div class="cuota-card" id="cuota-militancia">
+        <div class="cuota-icon"></div>
+        <div class="cuota-label">Militancia</div>
+        <div class="cuota-valor" id="cuota-militancia-valor">3+ años</div>
+        <div class="cuota-status" id="cuota-militancia-status">CUMPLE</div>
+        <div class="cuota-base">Según reglamento electoral</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RESULTADO ── -->
+  <div class="acta-section">
+    <div class="acta-section-title">Resultado</div>
+    <div class="resultado-box" id="acta-resultado-box">
+      <!-- Se llena dinámicamente según mecanismo -->
+    </div>
+  </div>
+
+  <!-- ── FIRMAS ── -->
+  <div class="acta-section firmas-section">
+    <div class="acta-section-title">Firmas</div>
+    <div class="firmas-grid">
+      <div class="firma-box">
+        <div class="firma-linea"></div>
+        <div class="firma-label">Presidente de Mesa/Comité</div>
+        <div class="firma-dato" id="firma-pres-nombre">Nombre:</div>
+        <div class="firma-dato" id="firma-pres-cedula">Cédula:</div>
+      </div>
+      <div class="firma-box">
+        <div class="firma-linea"></div>
+        <div class="firma-label">Secretario/a</div>
+        <div class="firma-dato" id="firma-sec-nombre">Nombre:</div>
+        <div class="firma-dato" id="firma-sec-cedula">Cédula:</div>
+      </div>
+      <div class="firma-box">
+        <div class="firma-linea"></div>
+        <div class="firma-label">Testigo 1</div>
+        <div class="firma-dato" id="firma-test1-nombre">Nombre:</div>
+        <div class="firma-dato" id="firma-test1-cedula">Cédula:</div>
+        <div class="firma-testigo-label">Declarado, no verificado por el sistema</div>
+      </div>
+      <div class="firma-box">
+        <div class="firma-linea"></div>
+        <div class="firma-label">Testigo 2</div>
+        <div class="firma-dato" id="firma-test2-nombre">Nombre:</div>
+        <div class="firma-dato" id="firma-test2-cedula">Cédula:</div>
+        <div class="firma-testigo-label">Declarado, no verificado por el sistema</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SELLO ── -->
+  <div class="acta-sello">
+    <div class="sello-numero" id="acta-sello-numero">ACTA-2026-08-0001</div>
+    <div class="sello-fecha" id="acta-sello-fecha">Generada: 09/08/2026, 14:30:25 AST</div>
+    <div class="sello-usuario" id="acta-sello-usuario">Por: Gritzewsky Ventura (402-1184229-5)</div>
+    <div class="sello-sistema">Sistema Electoral PRM · Valverde v1.0.0</div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════
+     MODAL: Formulario de firmantes
+     ══════════════════════════════════════════════ -->
+<div class="acta-modal-overlay" id="acta-modal-overlay">
+  <div class="acta-modal">
+    <div class="acta-modal-header">
+      <h3><i class="fa-solid fa-file-signature mr-2"></i>Generar Acta Final</h3>
+      <p>Complete los datos de los firmantes antes de generar</p>
+    </div>
+    <div class="acta-modal-body">
+      <label>Presidente de Mesa/Comité</label>
+      <input id="acta-firm-pres-nombre" type="text" placeholder="Nombre completo">
+      <input id="acta-firm-pres-cedula" type="text" placeholder="Cédula" style="margin-top:6px">
+
+      <label>Secretario/a</label>
+      <input id="acta-firm-sec-nombre" type="text" placeholder="Nombre completo">
+      <input id="acta-firm-sec-cedula" type="text" placeholder="Cédula" style="margin-top:6px">
+
+      <div class="testigo-group">
+        <h4><i class="fa-solid fa-user-check mr-1"></i>Testigo 1</h4>
+        <input id="acta-firm-test1-nombre" type="text" placeholder="Nombre completo">
+        <input id="acta-firm-test1-cedula" type="text" placeholder="Cédula" style="margin-top:6px">
+        <div class="testigo-nota"><i class="fa-solid fa-circle-info mr-1"></i>Declarado, no verificado por el sistema</div>
+      </div>
+
+      <div class="testigo-group">
+        <h4><i class="fa-solid fa-user-check mr-1"></i>Testigo 2</h4>
+        <input id="acta-firm-test2-nombre" type="text" placeholder="Nombre completo">
+        <input id="acta-firm-test2-cedula" type="text" placeholder="Cédula" style="margin-top:6px">
+        <div class="testigo-nota"><i class="fa-solid fa-circle-info mr-1"></i>Declarado, no verificado por el sistema</div>
+      </div>
+    </div>
+    <div class="acta-modal-footer">
+      <button class="acta-btn acta-btn-secondary" onclick="actaGenerator.cerrarModal()">Cancelar</button>
+      <button class="acta-btn acta-btn-primary" onclick="actaGenerator.generarPDF()"><i class="fa-solid fa-file-pdf mr-1"></i>Generar PDF</button>
+      <button class="acta-btn acta-btn-secondary" onclick="actaGenerator.imprimir()"><i class="fa-solid fa-print mr-1"></i>Imprimir</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="acta-toast" id="acta-toast"></div>

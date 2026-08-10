@@ -1,0 +1,517 @@
+/* ══════════════════════════════════════════════
+   ACTA FINAL — Estilos
+   PRM Valverde · Sistema Electoral
+   ══════════════════════════════════════════════ */
+
+/* ── Reset del contenedor del acta ── */
+.acta-container {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  color: #1a1a1a;
+  background: #fff;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 50px 60px;
+  line-height: 1.6;
+  font-size: 13px;
+}
+
+/* ── Encabezado oficial ── */
+.acta-header {
+  text-align: center;
+  border-bottom: 3px double #003087;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+.acta-header .partido-nombre {
+  font-size: 18px;
+  font-weight: bold;
+  color: #003087;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.acta-header .provincia {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 12px;
+}
+
+.acta-header .acta-tipo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #003087;
+  margin: 16px 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.acta-header .acta-meta {
+  font-size: 12px;
+  color: #666;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.acta-header .acta-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ── Secciones ── */
+.acta-section {
+  margin-bottom: 28px;
+  page-break-inside: avoid;
+}
+
+.acta-section-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #003087;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #003087;
+  padding-bottom: 4px;
+  margin-bottom: 14px;
+}
+
+/* ── Mecanismo ── */
+.mecanismo-box {
+  background: #f0f4fa;
+  border-left: 4px solid #003087;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  font-size: 12.5px;
+  line-height: 1.7;
+}
+
+.mecanismo-box strong {
+  color: #003087;
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
+/* ── Tablas ── */
+.acta-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 12.5px;
+}
+
+.acta-table th {
+  background: #003087;
+  color: #fff;
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.acta-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.acta-table tr:nth-child(even) td {
+  background: #f8f9fb;
+}
+
+.acta-table .ganadora td {
+  background: #e8f5e9;
+  font-weight: bold;
+}
+
+.acta-table .empate td {
+  background: #fff3e0;
+}
+
+/* ── Verificación de cuotas ── */
+.cuotas-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.cuota-card {
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 14px;
+  text-align: center;
+}
+
+.cuota-card.cumple {
+  border-color: #2e7d32;
+  background: #f1f8e9;
+}
+
+.cuota-card.no-cumple {
+  border-color: #c62828;
+  background: #fce4ec;
+}
+
+.cuota-card .cuota-icon {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.cuota-card .cuota-label {
+  font-size: 11px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.cuota-card .cuota-valor {
+  font-size: 16px;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.cuota-card .cuota-status {
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+.cuota-card.cumple .cuota-status { color: #2e7d32; }
+.cuota-card.no-cumple .cuota-status { color: #c62828; }
+
+.cuota-card .cuota-base {
+  font-size: 10px;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* ── Resultado ── */
+.resultado-box {
+  border: 2px solid #003087;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 16px 0;
+}
+
+.resultado-box.ratificacion {
+  border-color: #2e7d32;
+  background: #f1f8e9;
+  text-align: center;
+}
+
+.resultado-box.ratificacion .resultado-tipo {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2e7d32;
+  margin-bottom: 10px;
+}
+
+.resultado-box.empate {
+  border-color: #e65100;
+  background: #fff3e0;
+}
+
+.resultado-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 14px 0;
+  text-align: center;
+}
+
+.resultado-stat {
+  background: #f5f5f5;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.resultado-stat .stat-num {
+  font-size: 18px;
+  font-weight: bold;
+  color: #003087;
+}
+
+.resultado-stat .stat-label {
+  font-size: 10px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ── Firmas ── */
+.firmas-section {
+  margin-top: 40px;
+  page-break-inside: avoid;
+}
+
+.firmas-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.firma-box {
+  text-align: center;
+}
+
+.firma-linea {
+  border-bottom: 1.5px solid #1a1a1a;
+  height: 60px;
+  margin-bottom: 6px;
+}
+
+.firma-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+}
+
+.firma-dato {
+  font-size: 11px;
+  color: #666;
+  margin-top: 2px;
+}
+
+.firma-testigo-label {
+  font-size: 10px;
+  color: #999;
+  font-style: italic;
+  margin-top: 2px;
+}
+
+/* ── Sello de trazabilidad ── */
+.acta-sello {
+  margin-top: 40px;
+  border-top: 2px solid #003087;
+  padding-top: 14px;
+  text-align: center;
+  font-size: 11px;
+  color: #666;
+}
+
+.acta-sello .sello-numero {
+  font-size: 14px;
+  font-weight: bold;
+  color: #003087;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.acta-sello .sello-fecha {
+  margin-bottom: 2px;
+}
+
+.acta-sello .sello-usuario {
+  font-style: italic;
+}
+
+.acta-sello .sello-sistema {
+  font-size: 10px;
+  color: #999;
+  margin-top: 6px;
+}
+
+/* ── Modal de firmantes ── */
+.acta-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.acta-modal-overlay.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.acta-modal {
+  background: #fff;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.acta-modal-header {
+  background: #003087;
+  color: #fff;
+  padding: 18px 24px;
+  border-radius: 16px 16px 0 0;
+}
+
+.acta-modal-header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.acta-modal-header p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.acta-modal-body {
+  padding: 24px;
+}
+
+.acta-modal-body label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  margin-top: 14px;
+}
+
+.acta-modal-body label:first-child {
+  margin-top: 0;
+}
+
+.acta-modal-body input {
+  width: 100%;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.acta-modal-body input:focus {
+  border-color: #003087;
+}
+
+.acta-modal-body .testigo-group {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: 12px;
+}
+
+.acta-modal-body .testigo-group h4 {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: #003087;
+}
+
+.acta-modal-body .testigo-nota {
+  font-size: 10px;
+  color: #94a3b8;
+  font-style: italic;
+  margin-top: 8px;
+}
+
+.acta-modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.acta-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+}
+
+.acta-btn-primary {
+  background: #003087;
+  color: #fff;
+}
+
+.acta-btn-primary:hover {
+  background: #002a70;
+}
+
+.acta-btn-secondary {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.acta-btn-secondary:hover {
+  background: #e2e8f0;
+}
+
+.acta-btn-danger {
+  background: #dc2626;
+  color: #fff;
+}
+
+.acta-btn-danger:hover {
+  background: #b91c1c;
+}
+
+/* ── Toast de acta ── */
+.acta-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #003087;
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  z-index: 2000;
+  display: none;
+  max-width: 400px;
+}
+
+.acta-toast.show { display: block; }
+.acta-toast.success { background: #16a34a; }
+.acta-toast.error { background: #dc2626; }
+
+/* ══════════════════════════════════════════════
+   PRINT STYLES — window.print()
+   ══════════════════════════════════════════════ */
+@media print {
+  body * { visibility: hidden; }
+  .acta-container, .acta-container * { visibility: visible; }
+  .acta-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 30px 50px;
+    margin: 0;
+    box-shadow: none;
+    border: none;
+  }
+
+  .acta-modal-overlay,
+  .acta-toast,
+  .no-print { display: none !important; }
+
+  .acta-section { page-break-inside: avoid; }
+  .firmas-section { page-break-before: auto; }
+
+  .cuota-card { border-width: 1px; }
+  .acta-table th { background: #003087 !important; color: #fff !important; }
+}
