@@ -551,3 +551,28 @@ DO $$ BEGIN
   END IF;
 END $$;
 
+-- Additional tables: enable RLS with authenticated policies
+ALTER TABLE IF EXISTS candidato_fases ENABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS dirigente_zona_asignacion ENABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS etapas_proceso ENABLE ROW LEVEL SECURITY;
+
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'candidato_fases' AND policyname = 'cf_select_auth') THEN
+    CREATE POLICY cf_select_auth ON candidato_fases FOR SELECT TO authenticated USING (true);
+    CREATE POLICY cf_insert_auth ON candidato_fases FOR INSERT TO authenticated WITH CHECK (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'dirigente_zona_asignacion' AND policyname = 'dza_select_auth') THEN
+    CREATE POLICY dza_select_auth ON dirigente_zona_asignacion FOR SELECT TO authenticated USING (true);
+    CREATE POLICY dza_insert_auth ON dirigente_zona_asignacion FOR INSERT TO authenticated WITH CHECK (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'etapas_proceso' AND policyname = 'ep_select_auth') THEN
+    CREATE POLICY ep_select_auth ON etapas_proceso FOR SELECT TO authenticated USING (true);
+    CREATE POLICY ep_insert_auth ON etapas_proceso FOR INSERT TO authenticated WITH CHECK (true);
+  END IF;
+END $$;
+
+-- Revoke anon access on v_auth_users (exposes auth.users data)
+REVOKE ALL ON v_auth_users FROM anon;
+REVOKE ALL ON v_auth_users FROM public;
+GRANT SELECT ON v_auth_users TO authenticated;
+
