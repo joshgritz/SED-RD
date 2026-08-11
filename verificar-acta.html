@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#003087">
+  <title>Verificar Acta Electoral</title>
+  <script src="js/config_loader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --c-primary: #003087;
+      --c-secondary: #C8102E;
+      --c-accent: #F5A623;
+      --c-bg: #f0f4f8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--c-bg);
+      color: #1e293b;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--c-primary), #001d5e);
+      color: white;
+      width: 100%;
+      padding: 20px 16px;
+      text-align: center;
+    }
+    .header h1 { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+    .header p { font-size: 11px; opacity: 0.7; }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      padding: 16px;
+      flex: 1;
+    }
+
+    /* Loading */
+    .loading-box {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .loading-box .spinner {
+      width: 40px; height: 40px;
+      border: 4px solid #e2e8f0;
+      border-top-color: var(--c-primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-box p { color: #64748b; font-size: 14px; }
+
+    /* Result card */
+    .result-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .result-header {
+      padding: 24px 20px;
+      text-align: center;
+      color: white;
+    }
+    .result-header .icon { font-size: 48px; margin-bottom: 8px; }
+    .result-header .status { font-size: 18px; font-weight: 800; letter-spacing: 0.5px; }
+    .result-header .subtitle { font-size: 12px; opacity: 0.85; margin-top: 4px; }
+
+    .result-header.autentica { background: linear-gradient(135deg, #16a34a, #15803d); }
+    .result-header.no-encontrada { background: linear-gradient(135deg, #dc2626, #b91c1c); }
+    .result-header.alterada { background: linear-gradient(135deg, #d97706, #b45309); }
+    .result-header.sin-hash { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+
+    .result-body { padding: 20px; }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .detail-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1e293b;
+      text-align: right;
+      max-width: 60%;
+      word-break: break-word;
+    }
+    .detail-value.mecanismo {
+      background: #f1f5f9;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .integridad-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .integridad-badge.ok { background: #dcfce7; color: #166534; }
+    .integridad-badge.warn { background: #fef3c7; color: #92400e; }
+    .integridad-badge.missing { background: #e0e7ff; color: #3730a3; }
+
+    .footer {
+      text-align: center;
+      padding: 20px 16px;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .footer .partido { font-weight: 700; color: #64748b; }
+
+    .error-box {
+      text-align: center;
+      padding: 40px 20px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      margin-top: 8px;
+    }
+    .error-box .icon { font-size: 48px; margin-bottom: 12px; }
+    .error-box h2 { font-size: 16px; color: #1e293b; margin-bottom: 8px; }
+    .error-box p { font-size: 13px; color: #64748b; }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1><i class="fa-solid fa-shield-halved mr-1"></i> Verificación de Acta Electoral</h1>
+    <p id="header-sub">Sistema Electoral</p>
+  </div>
+
+  <div class="container">
+
+    <!-- Loading -->
+    <div id="view-loading" class="loading-box">
+      <div class="spinner"></div>
+      <p>Verificando autenticidad del acta...</p>
+    </div>
+
+    <!-- Resultado -->
+    <div id="view-resultado" class="hidden">
+      <div class="result-card">
+        <div id="result-header" class="result-header">
+          <div id="result-icon" class="icon"></div>
+          <div id="result-status" class="status"></div>
+          <div id="result-subtitle" class="subtitle"></div>
+        </div>
+        <div class="result-body">
+          <div class="detail-row">
+            <span class="detail-label">Número de Acta</span>
+            <span id="d-numero" class="detail-value"></span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Fecha de Generación</span>
+            <span id="d-fecha" class="detail-value"></span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Mecanismo Electoral</span>
+            <span id="d-mecanismo" class="detail-value mecanismo"></span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Nivel Territorial</span>
+            <span id="d-nivel" class="detail-value"></span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Integridad</span>
+            <span id="d-integridad" class="integridad-badge"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error: no number -->
+    <div id="view-error" class="hidden">
+      <div class="error-box">
+        <div class="icon">🔍</div>
+        <h2>Falta el número de acta</h2>
+        <p>Escanea el código QR del acta o accede con el enlace completo.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div id="footer-partido" class="partido"></div>
+    <div id="footer-sistema" style="margin-top:4px"></div>
+  </div>
+
+  <script>
+  (function() {
+    const MECANISMOS = {
+      CONSENSO: 'Consenso',
+      ELECCION_INTERNA: 'Elección Interna',
+      PROCESO_ABIERTO: 'Proceso Abierto',
+      PROCESO_CERRADO: 'Proceso Cerrado'
+    };
+    const NIVELES = {
+      ZONA: 'Zona',
+      MUNICIPIO: 'Municipio',
+      PROVINCIA: 'Provincia'
+    };
+    const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+    function formatFecha(iso) {
+      const d = new Date(iso);
+      const dia = d.getDate();
+      const mes = MESES[d.getMonth()];
+      const anio = d.getFullYear();
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      return dia + ' de ' + mes + ' de ' + anio + ', ' + hh + ':' + mm;
+    }
+
+    function show(viewId) {
+      ['view-loading', 'view-resultado', 'view-error'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(viewId).classList.remove('hidden');
+    }
+
+    function renderResultado(row) {
+      const headerEl = document.getElementById('result-header');
+      const iconEl = document.getElementById('result-icon');
+      const statusEl = document.getElementById('result-status');
+      const subtitleEl = document.getElementById('result-subtitle');
+      const badgeEl = document.getElementById('d-integridad');
+
+      // Estado
+      const integridad = row.integridad || 'SIN_HASH';
+      if (integridad === 'AUTENTICA') {
+        headerEl.className = 'result-header autentica';
+        iconEl.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+        statusEl.textContent = 'ACTA AUTÉNTICA';
+        subtitleEl.textContent = 'El acta existe y su contenido no ha sido alterado';
+      } else if (integridad === 'ALTERADA') {
+        headerEl.className = 'result-header alterada';
+        iconEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+        statusEl.textContent = 'ACTA ALTERADA';
+        subtitleEl.textContent = 'El contenido fue modificado después de su generación';
+      } else {
+        headerEl.className = 'result-header sin-hash';
+        iconEl.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
+        statusEl.textContent = 'ACTA ENCONTRADA';
+        subtitleEl.textContent = 'Acta generada antes del sistema de verificación';
+      }
+
+      // Detalles
+      document.getElementById('d-numero').textContent = row.numero_acta;
+      document.getElementById('d-fecha').textContent = formatFecha(row.generated_at);
+      document.getElementById('d-mecanismo').textContent = MECANISMOS[row.mecanismo] || row.mecanismo;
+
+      let nivelStr = NIVELES[row.nivel] || row.nivel;
+      if (row.zona) nivelStr += ' — ' + row.zona;
+      if (row.municipio) nivelStr += (row.zona ? ', ' : ' — ') + row.municipio;
+      document.getElementById('d-nivel').textContent = nivelStr;
+
+      // Badge integridad
+      if (integridad === 'AUTENTICA') {
+        badgeEl.className = 'integridad-badge ok';
+        badgeEl.innerHTML = '<i class="fa-solid fa-shield-check"></i> No ha sido alterada';
+      } else if (integridad === 'ALTERADA') {
+        badgeEl.className = 'integridad-badge warn';
+        badgeEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Contenido modificado';
+      } else {
+        badgeEl.className = 'integridad-badge missing';
+        badgeEl.innerHTML = '<i class="fa-solid fa-circle-dashed"></i> No verificable';
+      }
+
+      show('view-resultado');
+    }
+
+    function renderError(msg) {
+      document.getElementById('view-error').querySelector('h2').textContent = msg || 'Acta no encontrada';
+      document.getElementById('view-error').querySelector('p').textContent =
+        'Este número no tiene registros en el sistema. Verifica el código QR o el enlace.';
+      show('view-error');
+    }
+
+    // ── Init ──
+    async function init() {
+      // Branding from config
+      if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG) {
+        const b = APP_CONFIG.branding;
+        const c = b?.colores || {};
+        if (c.primario) document.documentElement.style.setProperty('--c-primary', c.primario);
+        if (c.secundario) document.documentElement.style.setProperty('--c-secondary', c.secundario);
+        if (c.accent) document.documentElement.style.setProperty('--c-accent', c.accent);
+
+        document.getElementById('header-sub').textContent =
+          APP_CONFIG.ui?.tituloSistema || 'Sistema Electoral';
+        document.getElementById('footer-partido').textContent =
+          APP_CONFIG.client?.nombre || APP_CONFIG.branding?.territorio || '';
+        document.getElementById('footer-sistema').textContent =
+          'Sistema Electoral · v' + (APP_CONFIG.client?.version || '1.0.0');
+      }
+
+      // Read ?n= param
+      const params = new URLSearchParams(window.location.search);
+      const numeroActa = params.get('n');
+      if (!numeroActa) { show('view-error'); return; }
+
+      // Supabase anon client
+      const SUPABASE_URL = 'https://ilivjaiexfqpioqrozlf.supabase.co';
+      const SUPABASE_KEY = 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
+      const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+      try {
+        const { data, error } = await sb.rpc('fn_verificar_acta', { p_numero_acta: numeroActa });
+        if (error) { console.error(error); renderError('Error de conexión'); return; }
+        if (!data || data.length === 0) { renderError('Acta no encontrada'); return; }
+        renderResultado(data[0]);
+      } catch (e) {
+        console.error(e);
+        renderError('Error de conexión');
+      }
+    }
+
+    // Wait for config to load, then init
+    if (typeof configLoader !== 'undefined') {
+      configLoader.load().then(init).catch(init);
+    } else {
+      init();
+    }
+  })();
+  </script>
+</body>
+</html>

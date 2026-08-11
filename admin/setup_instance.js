@@ -310,7 +310,7 @@ const STEP_VERIFY = {
   },
   6: {
     tables: ['actas_generadas','votos_eleccion'],
-    functions: ['fn_generar_numero_acta','fn_registrar_acta'],
+    functions: ['fn_generar_numero_acta','fn_registrar_acta','fn_verificar_acta'],
     rls_enabled: ['actas_generadas','votos_eleccion'],
   },
   7: {

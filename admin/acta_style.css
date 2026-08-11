@@ -299,9 +299,16 @@
   margin-top: 40px;
   border-top: 2px solid var(--color-primary);
   padding-top: 14px;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
   font-size: 11px;
   color: #666;
+}
+
+.acta-sello .sello-info {
+  flex: 1;
+  text-align: left;
 }
 
 .acta-sello .sello-numero {
@@ -324,6 +331,25 @@
   font-size: 10px;
   color: #999;
   margin-top: 6px;
+}
+
+.acta-sello .sello-qr {
+  text-align: center;
+  flex-shrink: 0;
+  margin-left: 20px;
+}
+
+.acta-sello .sello-qr canvas,
+.acta-sello .sello-qr img {
+  width: 80px !important;
+  height: 80px !important;
+}
+
+.acta-sello .qr-label {
+  font-size: 8px;
+  color: #999;
+  margin-top: 4px;
+  white-space: nowrap;
 }
 
 /* ── Modal de firmantes ── */

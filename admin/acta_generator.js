@@ -326,6 +326,21 @@ const actaGenerator = (function() {
       document.getElementById('acta-sello-usuario').textContent = 'Por: ' + (firmantes.presNombre || '—') + ' (' + (firmantes.presCedula || '—') + ')';
       document.getElementById('acta-meta-numero').innerHTML = '<i class="fa-solid fa-hashtag"></i> ' + numeroActa;
 
+      // Generar QR de verificación
+      const verUrl = buildVerificacionUrl(numeroActa);
+      const qrContainer = document.getElementById('acta-qr-container');
+      if (qrContainer && typeof QRCode !== 'undefined') {
+        qrContainer.innerHTML = '';
+        new QRCode(qrContainer, {
+          text: verUrl,
+          width: 80,
+          height: 80,
+          colorDark: '#000000',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+
       // Renderizar a imagen con html2canvas
       const element = document.getElementById('acta-printable');
       const canvas = await html2canvas(element, {
@@ -473,6 +488,12 @@ const actaGenerator = (function() {
     return data;
   }
 
+  // ── Construir URL de verificación pública ──
+  function buildVerificacionUrl(numeroActa) {
+    const base = window.location.origin;
+    return base + '/verificar-acta.html?n=' + encodeURIComponent(numeroActa);
+  }
+
   // ── API pública ──
   return {
     init,
@@ -484,6 +505,7 @@ const actaGenerator = (function() {
     generarPDF,
     imprimir,
     verificarActaExistente,
+    buildVerificacionUrl,
     get plancha() { return _plancha; },
     get miembros() { return _miembros; },
     get cuotas() { return _cuotas; }

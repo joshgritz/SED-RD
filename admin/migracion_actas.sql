@@ -26,6 +26,8 @@ CREATE TABLE IF NOT EXISTS actas_generadas (
     ganadora_plancha_id   UUID REFERENCES planchas(id),
     -- Snapshot completo del acta (JSON inmutable)
     json_contenido        JSONB NOT NULL,
+    -- Hash SHA-256 de integridad (calculado server-side al insertar)
+    hash_integridad       TEXT,
     -- Firmantes
     presidente_nombre     TEXT,
     presidente_cedula     TEXT,
@@ -61,6 +63,9 @@ CREATE INDEX IF NOT EXISTS idx_actas_numero ON actas_generadas(numero_acta);
 CREATE INDEX IF NOT EXISTS idx_actas_fecha ON actas_generadas(generated_at);
 CREATE INDEX IF NOT EXISTS idx_votos_acta ON votos_eleccion(acta_id);
 CREATE INDEX IF NOT EXISTS idx_votos_plancha ON votos_eleccion(plancha_id);
+
+-- Extensión para hash server-side
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -- Función para generar número de acta secuencial
 CREATE OR REPLACE FUNCTION fn_generar_numero_acta()
@@ -122,11 +127,11 @@ BEGIN
     WHERE raw_app_meta_data->>'role' = 'super_admin'
     LIMIT 1;
 
-    -- Insertar acta
+    -- Insertar acta (hash calculado server-side)
     INSERT INTO actas_generadas (
         numero_acta, mecanismo, nivel, zona, municipio,
         plancha_id, resultado_tipo, ganadora_plancha_id,
-        json_contenido,
+        json_contenido, hash_integridad,
         presidente_nombre, presidente_cedula,
         secretario_nombre, secretario_cedula,
         testigos_json,
@@ -135,6 +140,7 @@ BEGIN
         v_numero, p_mecanismo, p_nivel, p_zona, p_municipio,
         p_plancha_id, p_resultado_tipo, p_ganadora_plancha_id,
         p_json_contenido,
+        encode(digest(p_json_contenido::text, 'sha256'), 'hex'),
         p_presidente_nombre, p_presidente_cedula,
         p_secretario_nombre, p_secretario_cedula,
         p_testigos_json,
@@ -164,3 +170,53 @@ CREATE POLICY votos_select_auth ON votos_eleccion
 
 CREATE POLICY votos_insert_auth ON votos_eleccion
     FOR INSERT TO authenticated WITH CHECK (true);
+
+-- ══════════════════════════════════════════════
+-- FN: Verificar acta (pública, sin login)
+-- SECURITY DEFINER: ejecuta como owner, bypassa RLS
+-- Retorna SOLO campos mínimos de verificación
+-- ══════════════════════════════════════════════
+CREATE OR REPLACE FUNCTION fn_verificar_acta(p_numero_acta TEXT)
+RETURNS TABLE (
+    numero_acta  TEXT,
+    mecanismo    TEXT,
+    nivel        TEXT,
+    zona         TEXT,
+    municipio    TEXT,
+    generated_at TIMESTAMPTZ,
+    integridad   TEXT
+)
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        a.numero_acta,
+        a.mecanismo,
+        a.nivel,
+        a.zona,
+        a.municipio,
+        a.generated_at,
+        CASE
+            WHEN a.hash_integridad IS NULL THEN 'SIN_HASH'
+            WHEN encode(digest(a.json_contenido::text, 'sha256'), 'hex') = a.hash_integridad
+                THEN 'AUTENTICA'
+            ELSE 'ALTERADA'
+        END AS integridad
+    FROM actas_generadas a
+    WHERE a.numero_acta = p_numero_acta;
+END;
+$$;
+
+-- ══════════════════════════════════════════════
+-- PERMISOS: GRANT EXCLUSIVO a la función, NO a la tabla
+-- ══════════════════════════════════════════════
+-- Permitir a anónimos ejecutar fn_verificar_acta (lectura pública)
+GRANT EXECUTE ON FUNCTION fn_verificar_acta(TEXT) TO anon;
+-- Permitir a autenticados también
+GRANT EXECUTE ON FUNCTION fn_verificar_acta(TEXT) TO authenticated;
+
+-- ⚠️  NO se concede SELECT a anon sobre actas_generadas.
+-- La política RLS vigente (actas_select_auth) solo aplica a authenticated.
+-- La tabla permanece completamente cerrada a usuarios anónimos.

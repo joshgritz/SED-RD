@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SED-RD — Sistema Electoral Dominicano. Plataforma digital para la gestión electoral interna de partidos políticos en República Dominicana.">
+  <title>SED-RD — Sistema Electoral Dominicano</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #F7F9FC;
+      --surface: #FFFFFF;
+      --primary: #1B365D;
+      --primary-light: #2A4A7F;
+      --secondary: #4A90D9;
+      --accent: #2ECC71;
+      --accent-dark: #27AE60;
+      --text: #2C3E50;
+      --muted: #7F8C9B;
+      --border: #E1E8EF;
+      --radius: 16px;
+      --shadow: 0 4px 24px rgba(27,54,93,0.08);
+      --shadow-lg: 0 8px 40px rgba(27,54,93,0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto; padding: 14px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--primary);
+    }
+    .nav-logo svg { width: 32px; height: 32px; }
+    .nav-logo span { font-weight: 800; font-size: 16px; }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 13px;
+      font-weight: 600; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--primary); }
+    .btn-nav {
+      background: var(--primary); color: white !important; padding: 8px 18px;
+      border-radius: 10px; font-size: 13px; font-weight: 700;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .btn-nav:hover { background: var(--primary-light); }
+
+    /* ── HERO ── */
+    .hero { padding: 80px 0 60px; text-align: center; }
+    .hero-emblem { width: 100px; height: 100px; margin: 0 auto 24px; }
+    .hero .subtitle {
+      font-size: 13px; font-weight: 700; color: var(--secondary);
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;
+    }
+    .hero h1 {
+      font-size: 44px; font-weight: 800; color: var(--primary);
+      letter-spacing: -1px; margin-bottom: 12px;
+    }
+    .hero h1 .accent { color: var(--accent); }
+    .hero .tagline {
+      font-size: 16px; color: var(--muted); max-width: 520px;
+      margin: 0 auto 36px; line-height: 1.7;
+    }
+    .hero-ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 12px; font-size: 14px;
+      font-weight: 700; text-decoration: none; transition: all 0.2s;
+      border: none; cursor: pointer;
+    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-light); transform: translateY(-1px); box-shadow: var(--shadow); }
+    .btn-secondary {
+      background: var(--surface); color: var(--primary);
+      border: 2px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--secondary); color: var(--secondary); }
+
+    /* ── SECTION ── */
+    .section { padding: 64px 0; }
+    .section-label {
+      font-size: 12px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--secondary); margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 28px; font-weight: 800; color: var(--primary);
+      margin-bottom: 32px; letter-spacing: -0.5px;
+    }
+
+    /* ── MISION / VISION / VALORES ── */
+    .mvv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .mvv-card {
+      background: var(--surface); border-radius: var(--radius); padding: 28px;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+    }
+    .mvv-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 16px;
+    }
+    .mvv-icon.i-mision { background: #EBF5FB; color: var(--secondary); }
+    .mvv-icon.i-vision { background: #E8F8F0; color: var(--accent); }
+    .mvv-icon.i-valores { background: #FEF3E2; color: #E67E22; }
+    .mvv-card h3 {
+      font-size: 16px; font-weight: 800; color: var(--primary); margin-bottom: 8px;
+    }
+    .mvv-card p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+    .valores-list { list-style: none; margin-top: 12px; }
+    .valores-list li {
+      display: flex; align-items: center; gap: 8px; padding: 6px 0;
+      font-size: 13px; font-weight: 600; color: var(--text);
+    }
+    .valores-list li::before {
+      content: ''; width: 20px; height: 20px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 8l3 3 5-5' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: center;
+      background-size: 12px;
+    }
+
+    /* ── LIDERAZGO ── */
+    .liderazgo-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 16px; margin-bottom: 24px;
+    }
+    .lider-card {
+      background: var(--surface); border-radius: var(--radius); padding: 24px 16px;
+      text-align: center; box-shadow: var(--shadow); border: 1px solid var(--border);
+      transition: transform 0.2s;
+    }
+    .lider-card:hover { transform: translateY(-2px); }
+    .lider-avatar {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 800; margin: 0 auto 12px;
+    }
+    .lider-card h4 { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
+    .lider-card .cargo { font-size: 11px; color: var(--muted); font-weight: 600; }
+    .section-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--secondary); font-size: 13px; font-weight: 700;
+      text-decoration: none; transition: gap 0.2s;
+    }
+    .section-link:hover { gap: 10px; }
+
+    /* ── GEOGRAFÍA ── */
+    .geo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+    .geo-card {
+      background: var(--surface); border-radius: var(--radius); padding: 24px;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+    }
+    .geo-card h3 { font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 4px; }
+    .geo-subtitle { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+    .geo-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+    }
+    .geo-item:last-child { border-bottom: none; }
+    .geo-item .nombre { font-size: 13px; font-weight: 600; }
+    .geo-item .tag {
+      font-size: 10px; padding: 2px 8px; border-radius: 6px;
+      font-weight: 700; background: #EBF5FB; color: var(--secondary);
+    }
+    .geo-item .poblacion { font-size: 12px; color: var(--muted); font-weight: 600; }
+    .geo-map-placeholder {
+      background: var(--surface); border-radius: var(--radius); padding: 32px;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+      text-align: center; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; min-height: 260px;
+    }
+    .geo-map-placeholder svg { width: 100px; height: 100px; opacity: 0.2; }
+    .geo-map-placeholder p { color: var(--muted); font-size: 12px; margin-top: 12px; }
+
+    /* ── ORIGEN ── */
+    .origen-card {
+      background: var(--surface); border-radius: var(--radius);
+      box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+      padding: 40px; position: relative; overflow: hidden;
+    }
+    .origen-card::before {
+      content: '\201C'; position: absolute; top: -10px; left: 20px;
+      font-size: 120px; color: var(--border); font-family: Georgia, serif; line-height: 1;
+    }
+    .origen-text { position: relative; z-index: 1; }
+    .origen-text p {
+      font-size: 15px; color: var(--text); line-height: 1.8;
+      margin-bottom: 16px; font-style: italic;
+    }
+    .origen-text p:last-of-type { margin-bottom: 24px; }
+    .origen-author { display: flex; align-items: center; gap: 12px; }
+    .origen-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 800; flex-shrink: 0;
+    }
+    .origen-name { font-size: 14px; font-weight: 700; color: var(--primary); }
+    .origen-role { font-size: 12px; color: var(--muted); }
+
+    /* ── FOOTER ── */
+    .footer { background: var(--primary); color: white; padding: 40px 0; text-align: center; }
+    .footer-brand { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+    .footer-sub { font-size: 12px; opacity: 0.6; margin-bottom: 20px; }
+    .footer-social { display: flex; justify-content: center; gap: 16px; margin-bottom: 20px; }
+    .footer-social a {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: rgba(255,255,255,0.1); color: white;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: 16px; transition: background 0.2s;
+    }
+    .footer-social a:hover { background: rgba(255,255,255,0.2); }
+    .footer-copy { font-size: 11px; opacity: 0.4; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 30px; }
+      .mvv-grid { grid-template-columns: 1fr; }
+      .geo-grid { grid-template-columns: 1fr; }
+      .liderazgo-grid { grid-template-columns: repeat(2, 1fr); }
+      .section-title { font-size: 22px; }
+      .nav-links a.hide-mobile { display: none; }
+      .origen-card { padding: 28px 20px; }
+    }
+    @media (max-width: 480px) {
+      .hero { padding: 48px 0 32px; }
+      .hero-emblem { width: 72px; height: 72px; }
+      .hero h1 { font-size: 26px; }
+      .hero-ctas { flex-direction: column; align-items: center; }
+      .btn { width: 100%; max-width: 280px; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="10" fill="#1B365D"/><rect x="12" y="12" width="16" height="4" rx="1" fill="#4A90D9"/><rect x="14" y="16" width="12" height="10" rx="2" fill="#2A4A7F"/><rect x="16" y="14" width="8" height="2" rx="1" fill="#1B365D"/><path d="M16 21l2 2 5-5" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>SED-RD</span>
+    </a>
+    <div class="nav-links">
+      <a href="#mision" class="hide-mobile">Misión</a>
+      <a href="#producto" class="hide-mobile">Producto</a>
+      <a href="#contacto" class="hide-mobile">Contacto</a>
+      <a href="login.html" class="btn-nav">Acceder al Sistema</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="container">
+    <svg class="hero-emblem" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="5" y="5" width="90" height="90" rx="22" fill="#1B365D"/>
+      <rect x="8" y="8" width="84" height="84" rx="20" fill="none" stroke="#4A90D9" stroke-width="1" opacity="0.25"/>
+      <rect x="30" y="30" width="40" height="8" rx="2" fill="#4A90D9"/>
+      <rect x="34" y="38" width="32" height="24" rx="3" fill="#2A4A7F"/>
+      <rect x="42" y="32" width="16" height="3" rx="1.5" fill="#1B365D"/>
+      <path d="M40 50l6 6 14-14" stroke="#2ECC71" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="72" cy="28" r="2" fill="#4A90D9" opacity="0.35"/>
+    </svg>
+
+    <div class="subtitle">Sistema Electoral Dominicano</div>
+    <h1>SED-<span class="accent">RD</span></h1>
+    <p class="tagline">Plataforma digital segura para la gestión electoral interna de partidos políticos — con trazabilidad completa en cada paso.</p>
+
+    <div class="hero-ctas">
+      <a href="login.html" class="btn btn-primary">
+        <i class="fa-solid fa-right-to-bracket"></i> Acceder al Sistema
+      </a>
+      <a href="#mision" class="btn btn-secondary">
+        <i class="fa-solid fa-arrow-down"></i> Conocer Más
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MISIÓN / VISIÓN / VALORES ═══ -->
+<section class="section" id="mision">
+  <div class="container">
+    <div class="section-label">Nuestro Propósito</div>
+    <h2 class="section-title">Misión, Visión y Valores</h2>
+
+    <div class="mvv-grid">
+      <div class="mvv-card">
+        <div class="mvv-icon i-mision">🎯</div>
+        <h3>Misión</h3>
+        <p>SED-RD ofrece a los partidos políticos dominicanos una plataforma digital segura para gestionar su democracia interna — desde el padrón de militantes hasta el acta final, con trazabilidad completa en cada paso.</p>
+      </div>
+
+      <div class="mvv-card">
+        <div class="mvv-icon i-vision">🔭</div>
+        <h3>Visión</h3>
+        <p>Convertirse en el sistema de referencia para la gestión electoral interna de los partidos políticos en República Dominicana.</p>
+      </div>
+
+      <div class="mvv-card">
+        <div class="mvv-icon i-valores">💎</div>
+        <h3>Valores</h3>
+        <ul class="valores-list">
+          <li>Transparencia</li>
+          <li>Seguridad</li>
+          <li>Democracia Interna</li>
+          <li>Trazabilidad</li>
+          <li>Accesibilidad</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LIDERAZGO ═══ -->
+<section class="section" id="producto" style="background: white;">
+  <div class="container">
+    <div class="section-label">Estructura de Liderazgo</div>
+    <h2 class="section-title">Representantes y Dirigentes</h2>
+
+    <div class="liderazgo-grid">
+      <div class="lider-card">
+        <div class="lider-avatar">JR</div>
+        <h4>Juan Rodríguez</h4>
+        <div class="cargo">Presidente</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">ML</div>
+        <h4>María López</h4>
+        <div class="cargo">Secretaria General</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">PC</div>
+        <h4>Pedro Castillo</h4>
+        <div class="cargo">Vicepresidente 1ro</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">AR</div>
+        <h4>Ana Ramírez</h4>
+        <div class="cargo">Vicepresidenta 2da</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">DM</div>
+        <h4>Diego Martínez</h4>
+        <div class="cargo">Tesorero</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">LS</div>
+        <h4>Laura Sánchez</h4>
+        <div class="cargo">Fiscal</div>
+      </div>
+    </div>
+
+    <a href="#" class="section-link">
+      Ver Estructura Completa <i class="fa-solid fa-arrow-right"></i>
+    </a>
+  </div>
+</section>
+
+<!-- ═══ GEOGRAFÍA ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">Cobertura Territorial</div>
+    <h2 class="section-title">Geografía</h2>
+
+    <div class="geo-grid">
+      <div class="geo-map-placeholder">
+        <svg viewBox="0 0 120 120" fill="none"><rect x="20" y="15" width="80" height="90" rx="12" fill="#E1E8EF"/><path d="M40 35Q60 25 80 35Q85 55 75 75Q60 85 45 75Q30 60 40 35Z" fill="#4A90D9" opacity="0.3"/><circle cx="55" cy="50" r="4" fill="#1B365D"/><circle cx="45" cy="60" r="3" fill="#4A90D9"/><circle cx="68" cy="58" r="3" fill="#4A90D9"/></svg>
+        <p>Mapa de referencia — Provincia de ejemplo</p>
+      </div>
+
+      <div class="geo-card">
+        <h3>Provincia Valverde</h3>
+        <div class="geo-subtitle">7 municipios · 10 zonas electorales</div>
+        <div class="geo-item">
+          <span class="nombre">Mao</span>
+          <span class="tag">Cabecera</span>
+          <span class="poblacion">81,116 hab.</span>
+        </div>
+        <div class="geo-item">
+          <span class="nombre">Esperanza</span>
+          <span class="tag">Municipio</span>
+          <span class="poblacion">65,234 hab.</span>
+        </div>
+        <div class="geo-item">
+          <span class="nombre">Laguna Salada</span>
+          <span class="tag">Municipio</span>
+          <span class="poblacion">42,891 hab.</span>
+        </div>
+        <div class="geo-item">
+          <span class="nombre">Amina</span>
+          <span class="tag">Distrito</span>
+          <span class="poblacion">18,432 hab.</span>
+        </div>
+        <div class="geo-item">
+          <span class="nombre">Guatapanal</span>
+          <span class="tag">Distrito</span>
+          <span class="poblacion">15,678 hab.</span>
+        </div>
+        <div class="geo-item">
+          <span class="nombre">Jaibón</span>
+          <span class="tag">Distrito</span>
+          <span class="poblacion">12,345 hab.</span>
+        </div>
+        <div class="geo-item">
+          <span class="nombre">Potrero</span>
+          <span class="tag">Distrito</span>
+          <span class="poblacion">9,876 hab.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ORIGEN ═══ -->
+<section class="section" id="historia" style="background: white;">
+  <div class="container">
+    <div class="section-label">Nuestra Historia</div>
+    <h2 class="section-title">Cómo Nació SED-RD</h2>
+
+    <div class="origen-card">
+      <div class="origen-text">
+        <p>Nadie me lo pidió. No había presupuesto, ni equipo, ni certeza de que fuera a funcionar. Solo la experiencia de estar en el terreno como dirigente de zona y ver, de cerca, todo lo que faltaba.</p>
+        <p>La idea llegó antes que las herramientas para construirla. Durante mucho tiempo existió solo en mi cabeza, dando vueltas, hasta que decidí que tenía que dejar de ser una idea y convertirse en algo real. Aprendí lo que hizo falta aprender. Encontré tiempo donde no lo había. Seguí cuando lo lógico hubiera sido parar.</p>
+        <p>SED-RD no nació en un laboratorio ni en una oficina central. Nació donde nace el trabajo político de verdad: en la base. Lo construyó alguien que conoce ese trabajo porque lo vivió primero, y que decidió que la militancia también merece herramientas hechas con la misma seriedad con la que se hacen las cosas importantes.</p>
+      </div>
+      <div class="origen-author">
+        <div class="origen-avatar">GV</div>
+        <div>
+          <div class="origen-name">Gritzewsky Ventura</div>
+          <div class="origen-role">Fundador, SED-RD</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer" id="contacto">
+  <div class="container">
+    <div class="footer-brand">SED-RD</div>
+    <div class="footer-sub">Sistema Electoral Dominicano</div>
+    <div class="footer-social">
+      <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="#" title="Linktree"><i class="fa-solid fa-link"></i></a>
+    </div>
+    <div class="footer-copy">© 2026 SED-RD. Todos los derechos reservados.</div>
+  </div>
+</footer>
+
+</body>
+</html>
