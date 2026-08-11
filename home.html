@@ -4,8 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="theme-color" content="#003087">
-<title>Sistema Electoral PRM — Valverde</title>
+<title>Sistema Electoral — Valverde</title>
+<script src="js/config_loader.js"></script>
 <style>
+  :root {
+    --color-primary: #003087;
+    --color-secondary: #C8102E;
+    --color-accent: #F5A623;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   
   body {
@@ -15,7 +21,7 @@
   }
 
   .header {
-    background: linear-gradient(135deg, #003087 0%, #001a4d 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, #001a4d 100%);
     color: white;
     padding: 28px 20px 24px;
     text-align: center;
@@ -44,7 +50,7 @@
     border-radius: 50%;
     margin: 0 auto 14px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 26px; font-weight: 900; color: #C8102E;
+    font-size: 26px; font-weight: 900; color: var(--color-secondary);
     box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     position: relative; z-index: 1;
   }
@@ -61,7 +67,7 @@
     display: inline-block;
     background: rgba(245,166,35,0.25);
     border: 1px solid rgba(245,166,35,0.5);
-    color: #F5A623;
+    color: var(--color-accent);
     font-size: 10px; font-weight: 800;
     padding: 3px 10px; border-radius: 20px;
     margin-top: 10px; letter-spacing: 1px;
@@ -118,7 +124,7 @@
   .badge-doc   { background: #f3e8ff; color: #6b21a8; }
   .badge-py    { background: #fff7ed; color: #9a3412; }
 
-  .icon-main   { background: linear-gradient(135deg, #003087, #1a4fa8); }
+  .icon-main   { background: linear-gradient(135deg, var(--color-primary), #1a4fa8); }
   .icon-import { background: linear-gradient(135deg, #0ea5e9, #0284c7); }
   .icon-db     { background: linear-gradient(135deg, #f59e0b, #d97706); }
   .icon-doc    { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
@@ -146,15 +152,15 @@
     text-align: center; padding: 24px 16px;
     font-size: 11px; color: #94a3b8;
   }
-  .footer a { color: #003087; text-decoration: none; font-weight: 700; }
+  .footer a { color: var(--color-primary); text-decoration: none; font-weight: 700; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="logo">PRM</div>
-  <h1>Sistema Electoral PRM</h1>
-  <p>Provincia Valverde — República Dominicana</p>
+  <div class="logo" id="home-logo"></div>
+  <h1 id="home-titulo"></h1>
+  <p id="home-subtitulo"></p>
   <span class="version-badge">v0.3 · EN DESARROLLO</span>
 </div>
 
@@ -164,7 +170,7 @@
     <div class="status-title">✅ Estado actual del proyecto</div>
     <div class="status-text">
       Módulo de inscripción de planchas zonales operativo.<br>
-      Extractor de padrón PRM con fotos funcionando.<br>
+      Extractor de padrón con fotos funcionando.<br>
       Búsqueda de militantes con foto real integrada.
     </div>
   </div>
@@ -191,7 +197,7 @@
       <div class="card-icon icon-import">📋</div>
       <div class="card-text">
         <div class="card-title">Importador de Padrón</div>
-        <div class="card-desc">Sube PDFs del padrón PRM y extrae militantes con fotos. Exporta a JSON y SQL.</div>
+        <div class="card-desc">Sube PDFs del padrón y extrae militantes con fotos. Exporta a JSON y SQL.</div>
         <span class="card-badge badge-tool">HERRAMIENTA</span>
       </div>
       <div class="card-arrow">›</div>
@@ -206,7 +212,7 @@
       <div class="card-icon icon-db">🗄️</div>
       <div class="card-text">
         <div class="card-title">estructura_db.sql</div>
-        <div class="card-desc">Esquema Supabase — 16 tablas, trigger de cuotas, datos semilla de Valverde</div>
+        <div class="card-desc">Esquema Supabase — 16 tablas, trigger de cuotas, datos semilla</div>
         <span class="card-badge badge-db">SUPABASE SQL</span>
       </div>
       <div class="card-arrow">⬇</div>
@@ -294,9 +300,26 @@
 </div>
 
 <div class="footer">
-  Sistema Electoral PRM — Provincia Valverde<br>
-  Basado en <a href="README.md">Estatutos PRM enero 2022</a> · Arts. 77, 89, 96, 117, 151, 154, 155
+  <span id="home-footer-text"></span><br>
+  <span id="home-footer-docs"></span> · Arts. 77, 89, 96, 117, 151, 154, 155
 </div>
+
+<script>
+(function() {
+  if (typeof APP_CONFIG === 'undefined') return;
+  const b = APP_CONFIG.branding;
+  const u = APP_CONFIG.ui;
+  document.getElementById('home-logo').textContent = b.logoText || b.initials;
+  document.getElementById('home-titulo').textContent = (u.tituloSistema || 'Sistema Electoral') + ' ' + b.name;
+  document.getElementById('home-subtitulo').textContent = b.territorio + ' — ' + b.pais;
+  document.getElementById('home-footer-text').textContent = (u.tituloSistema || 'Sistema Electoral') + ' ' + b.name + ' — ' + b.territorio;
+  document.getElementById('home-footer-docs').textContent = 'Basado en ' + (b.estatutoLabel || 'Estatutos');
+  var root = document.documentElement;
+  root.style.setProperty('--color-primary', b.primaryColor);
+  root.style.setProperty('--color-secondary', b.secondaryColor);
+  root.style.setProperty('--color-accent', b.accentColor);
+})();
+</script>
 
 </body>
 </html>

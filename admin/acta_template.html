@@ -1,5 +1,5 @@
 <!-- ══════════════════════════════════════════════
-     TEMPLATE: Acta Final — PRM Valverde
+     TEMPLATE: Acta Final — Multi-Cliente
      Se clona y llena dinámicamente con acta_generator.js
      ══════════════════════════════════════════════ -->
 
@@ -7,8 +7,8 @@
 
   <!-- ── ENCABEZADO ── -->
   <div class="acta-header">
-    <div class="partido-nombre">Partido Revolucionario Moderno</div>
-    <div class="provincia">Provincia Valverde</div>
+    <div class="partido-nombre" id="acta-partido-nombre">Partido Revolucionario Moderno</div>
+    <div class="provincia" id="acta-provincia">Provincia Valverde</div>
     <div class="acta-tipo" id="acta-tipo-eleccion">ACTA DE CONSENSO</div>
     <div class="acta-meta">
       <span id="acta-meta-nivel"><i class="fa-solid fa-location-dot"></i> Zona A · Mao</span>
@@ -45,14 +45,14 @@
         <div class="cuota-label">Género</div>
         <div class="cuota-valor" id="cuota-genero-valor">50%</div>
         <div class="cuota-status" id="cuota-genero-status">CUMPLE</div>
-        <div class="cuota-base">Art. 155 — 40% a 60%</div>
+        <div class="cuota-base" id="cuota-genero-base">Art. 155 — 40% a 60%</div>
       </div>
       <div class="cuota-card" id="cuota-juventud">
         <div class="cuota-icon"></div>
         <div class="cuota-label">Juventud</div>
         <div class="cuota-valor" id="cuota-juventud-valor">20%</div>
         <div class="cuota-status" id="cuota-juventud-status">CUMPLE</div>
-        <div class="cuota-base">Art. 154 — mínimo 10%</div>
+        <div class="cuota-base" id="cuota-juventud-base">Art. 154 — mínimo 10%</div>
       </div>
       <div class="cuota-card" id="cuota-militancia">
         <div class="cuota-icon"></div>
@@ -110,7 +110,7 @@
     <div class="sello-numero" id="acta-sello-numero">ACTA-2026-08-0001</div>
     <div class="sello-fecha" id="acta-sello-fecha">Generada: 09/08/2026, 14:30:25 AST</div>
     <div class="sello-usuario" id="acta-sello-usuario">Por: Gritzewsky Ventura (402-1184229-5)</div>
-    <div class="sello-sistema">Sistema Electoral PRM · Valverde v1.0.0</div>
+    <div class="sello-sistema" id="acta-sello-sistema">Sistema Electoral · v1.0.0</div>
   </div>
 
 </div>

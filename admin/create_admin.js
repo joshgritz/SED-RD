@@ -17,12 +17,13 @@ async function createAdmin() {
     password: 'admin2026Prm#2026',
     email_confirm: true,
     app_metadata: {
-      role: 'super_admin',
+      role: 'ADMIN_SISTEMA',
+      cedula: null,
       zona: null,
       municipio: 'all',
     },
     user_metadata: {
-      nombre: 'Administrador PRM',
+      nombre: 'Administrador',
     },
   });
 
@@ -37,7 +38,8 @@ async function createAdmin() {
       if (listResult?.users?.length > 0) {
         await sb.auth.admin.updateUserById(listResult.users[0].id, {
           app_metadata: {
-            role: 'super_admin',
+            role: 'ADMIN_SISTEMA',
+            cedula: null,
             zona: null,
             municipio: 'all',
           },

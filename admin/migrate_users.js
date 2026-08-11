@@ -111,6 +111,7 @@ async function migrateBatch(offset) {
         email_confirm: true,
         app_metadata: {
           role: user.rol,
+          cedula: user.cedula,
           zona: user.zona,
           municipio: user.municipio,
         },
@@ -131,6 +132,7 @@ async function migrateBatch(offset) {
             await sb.auth.admin.updateUserById(listResult.users[0].id, {
               app_metadata: {
                 role: user.rol,
+                cedula: user.cedula,
                 zona: user.zona,
                 municipio: user.municipio,
               },
@@ -174,7 +176,7 @@ async function migrateBatch(offset) {
 async function main() {
   console.log('═══════════════════════════════════════════');
   console.log('  MIGRACIÓN A SUPABASE AUTH');
-  console.log('  PRM Valverde');
+  console.log('  Migración Supabase Auth');
   console.log('═══════════════════════════════════════════');
   console.log(`Password pattern: {PIN}${PASSWORD_SUFFIX}`);
   console.log(`Batch size: ${BATCH_SIZE}`);

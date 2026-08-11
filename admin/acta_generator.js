@@ -1,6 +1,6 @@
 // ══════════════════════════════════════════════
 // acta_generator.js
-// Generador de Actas Finales — PRM Valverde
+// Generador de Actas Finales — Sistema Electoral
 // ══════════════════════════════════════════════
 
 const actaGenerator = (function() {
@@ -11,24 +11,28 @@ const actaGenerator = (function() {
   let _votos = [];
   let _actaData = null;
 
-  const MECANISMOS = {
-    CONSENSO: {
-      titulo: 'ACTA DE CONSENSO',
-      desc: 'La presente plancha fue propuesta por consenso de las partes interesadas y ratificada por la dirigencia de conformidad con los estatutos del partido. No se realizó votación.'
-    },
-    ELECCION_INTERNA: {
-      titulo: 'ACTA DE ELECCIÓN INTERNA',
-      desc: 'Se realizó votación interna entre los miembros habilitados de {alcance} según el Art. 98 de los estatutos del partido.'
-    },
-    PROCESO_ABIERTO: {
-      titulo: 'ACTA DE PROCESO ABIERTO',
-      desc: 'Se abrió el proceso de elección a todos los militantes registrados en {alcance}, de conformidad con los estatutos del partido.'
-    },
-    PROCESO_CERRADO: {
-      titulo: 'ACTA DE PROCESO CERRADO',
-      desc: 'La votación fue restringida a los niveles y dirigentes habilitados de {alcance} según los estatutos del partido.'
-    }
-  };
+  function getMecanismos() {
+    const citaMec = window.configLoader?.getCitaActa('mecanismoElectoral');
+    const refMec = citaMec ? citaMec.textoEstatuto : 'estatutos del partido';
+    return {
+      CONSENSO: {
+        titulo: 'ACTA DE CONSENSO',
+        desc: 'La presente plancha fue propuesta por consenso de las partes interesadas y ratificada por la dirigencia de conformidad con los estatutos del partido. No se realizó votación.'
+      },
+      ELECCION_INTERNA: {
+        titulo: 'ACTA DE ELECCIÓN INTERNA',
+        desc: 'Se realizó votación interna entre los miembros habilitados de {alcance} según el ' + refMec + '.'
+      },
+      PROCESO_ABIERTO: {
+        titulo: 'ACTA DE PROCESO ABIERTO',
+        desc: 'Se abrió el proceso de elección a todos los militantes registrados en {alcance}, de conformidad con los estatutos del partido.'
+      },
+      PROCESO_CERRADO: {
+        titulo: 'ACTA DE PROCESO CERRADO',
+        desc: 'La votación fue restringida a los niveles y dirigentes habilitados de {alcance} según los estatutos del partido.'
+      }
+    };
+  }
 
   const MESES_ES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 
@@ -98,7 +102,8 @@ const actaGenerator = (function() {
 
   // ── Construir HTML del mecanismo ──
   function buildMecanismo(mecanismo, alcance) {
-    const cfg = MECANISMOS[mecanismo];
+    const mecanismos = getMecanismos();
+    const cfg = mecanismos[mecanismo];
     if (!cfg) return '';
     const desc = cfg.desc.replace('{alcance}', alcance || '');
     return '<strong>' + cfg.titulo + '</strong>\n' + desc;
@@ -128,6 +133,10 @@ const actaGenerator = (function() {
     const juvClass = _cuotas.juventud_ok ? 'cumple' : 'no-cumple';
     const milClass = _cuotas.militancia_ok ? 'cumple' : 'no-cumple';
 
+    const citaGen = window.configLoader?.buildCitaDual('cuotaGenero') || 'Art. 155 — 40% a 60%';
+    const citaJuv = window.configLoader?.buildCitaDual('cuotaJuventud') || 'Art. 154 — mínimo 10%';
+    const citaMil = window.configLoader?.buildCitaDual('militancia') || 'Según reglamento electoral';
+
     return `
       <div class="cuota-card ${genClass}" id="cuota-genero">
         <div class="cuota-icon">${_cuotas.genero_ok ? '&#10003;' : '&#10007;'}</div>
@@ -135,7 +144,7 @@ const actaGenerator = (function() {
         <div class="cuota-valor">${_cuotas.porcentaje_mujeres || 0}%</div>
         <div class="cuota-status">${_cuotas.genero_ok ? 'CUMPLE' : 'NO CUMPLE'}</div>
         <div class="cuota-base">${_cuotas.total_mujeres || 0}M / ${_cuotas.total_hombres || 0}H de ${_cuotas.total_miembros || 0}</div>
-        <div class="cuota-base">Art. 155 — 40% a 60%</div>
+        <div class="cuota-base">${citaGen}</div>
       </div>
       <div class="cuota-card ${juvClass}" id="cuota-juventud">
         <div class="cuota-icon">${_cuotas.juventud_ok ? '&#10003;' : '&#10007;'}</div>
@@ -143,14 +152,14 @@ const actaGenerator = (function() {
         <div class="cuota-valor">${_cuotas.porcentaje_jovenes || 0}%</div>
         <div class="cuota-status">${_cuotas.juventud_ok ? 'CUMPLE' : 'NO CUMPLE'}</div>
         <div class="cuota-base">${_cuotas.total_jovenes || 0} jóvenes (18-35)</div>
-        <div class="cuota-base">Art. 154 — mínimo 10%</div>
+        <div class="cuota-base">${citaJuv}</div>
       </div>
       <div class="cuota-card ${milClass}" id="cuota-militancia">
         <div class="cuota-icon">${_cuotas.militancia_ok ? '&#10003;' : '&#10007;'}</div>
         <div class="cuota-label">Militancia</div>
         <div class="cuota-valor">${_cuotas.militancia_ok ? '3+ años' : 'No verificado'}</div>
         <div class="cuota-status">${_cuotas.militancia_ok ? 'CUMPLE' : 'NO CUMPLE'}</div>
-        <div class="cuota-base">Según reglamento electoral</div>
+        <div class="cuota-base">${citaMil}</div>
       </div>
     `;
   }
@@ -236,19 +245,19 @@ const actaGenerator = (function() {
       ? 'Zona ' + (_plancha.zona_nombre || _plancha.zona || '')
       : _plancha.nivel === 'MUNICIPIO'
         ? 'Municipio ' + (_plancha.municipio || '')
-        : 'Provincia Valverde';
+        : typeof APP_CONFIG !== 'undefined' && APP_CONFIG ? APP_CONFIG.branding?.territorio || 'Provincia' : 'Provincia';
 
     const tituloNivel = _plancha.nivel === 'ZONA'
       ? (_plancha.zona_nombre || _plancha.zona || '') + ' · ' + (_plancha.municipio || '')
       : _plancha.nivel === 'MUNICIPIO'
         ? (_plancha.municipio || '')
-        : 'Provincia Valverde';
+        : typeof APP_CONFIG !== 'undefined' && APP_CONFIG ? APP_CONFIG.branding?.territorio || 'Provincia' : 'Provincia';
 
     const ahora = new Date();
     const fechaLarga = formatearFecha(ahora);
 
     // Actualizar encabezado
-    document.getElementById('acta-tipo-eleccion').textContent = MECANISMOS[mecanismo]?.titulo || 'ACTA';
+    document.getElementById('acta-tipo-eleccion').textContent = getMecanismos()[mecanismo]?.titulo || 'ACTA';
     document.getElementById('acta-meta-nivel').innerHTML = '<i class="fa-solid fa-location-dot"></i> ' + tituloNivel;
     document.getElementById('acta-meta-fecha').innerHTML = '<i class="fa-regular fa-calendar"></i> ' + fechaLarga;
 

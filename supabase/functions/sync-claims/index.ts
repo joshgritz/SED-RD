@@ -51,6 +51,7 @@ serve(async (req) => {
 
     // Construir los nuevos claims (solo los que se proporcionen)
     const newMetadata = {};
+    if (cedula !== undefined) newMetadata.cedula = cedula;
     if (role !== undefined) newMetadata.role = role;
     if (zona !== undefined) newMetadata.zona = zona;
     if (municipio !== undefined) newMetadata.municipio = municipio;

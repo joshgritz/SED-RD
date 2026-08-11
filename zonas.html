@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="theme-color" content="#003087">
-<title>Portal Zonal — PRM Valverde</title>
+<title>Portal Zonal — Valverde</title>
+<script src="js/config_loader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/fotos.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script>
@@ -21,9 +23,10 @@ function initSb() {
 }
 </script>
 <style>
+:root{--color-primary:#003087;--color-secondary:#C8102E;--color-accent:#F5A623}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293b;min-height:100vh}
-.header{background:linear-gradient(135deg,#003087,#1a4fa8);color:white;padding:16px;position:sticky;top:0;z-index:100}
+.header{background:linear-gradient(135deg,var(--color-primary),#1a4fa8);color:white;padding:16px;position:sticky;top:0;z-index:100}
 .header-top{display:flex;justify-content:space-between;align-items:center}
 .header h1{font-size:16px;font-weight:900;margin:6px 0 2px}
 .header p{font-size:11px;opacity:0.7}
@@ -35,8 +38,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 .muni-accordion{margin-bottom:8px}
 .muni-header{display:flex;align-items:center;gap:10px;padding:14px;border:2px solid #e2e8f0;border-radius:14px;cursor:pointer;transition:all .15s;background:white}
 .muni-header:active{transform:scale(0.98)}
-.muni-header:hover{border-color:#003087}
-.muni-header.abierto{border-color:#003087;background:#f8faff;border-bottom-left-radius:0;border-bottom-right-radius:0}
+.muni-header:hover{border-color:var(--color-primary)}
+.muni-header.abierto{border-color:var(--color-primary);background:#f8faff;border-bottom-left-radius:0;border-bottom-right-radius:0}
 .muni-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .muni-nombre{font-size:15px;font-weight:800;flex:1}
 .muni-count{font-size:11px;color:#64748b;font-weight:700}
@@ -46,7 +49,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 .muni-zonas.abierta{display:block}
 .zona-item{display:flex;align-items:center;gap:10px;padding:10px 14px;margin:4px 0;border:2px solid #f1f5f9;border-radius:10px;cursor:pointer;transition:all .15s}
 .zona-item:active{transform:scale(0.98)}
-.zona-item:hover{border-color:#003087;background:#f8faff}
+.zona-item:hover{border-color:var(--color-primary);background:#f8faff}
 .zona-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 .zona-nombre{font-size:13px;font-weight:700;flex:1}
 .zona-dir-count{font-size:11px;color:#64748b;font-weight:700}
@@ -54,13 +57,13 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 /* ── TABS ── */
 .tabs{display:flex;gap:4px;background:white;border-radius:14px;padding:4px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
 .tab{flex:1;padding:10px 6px;border:none;border-radius:10px;font-size:10px;font-weight:800;cursor:pointer;background:transparent;color:#64748b;transition:all .2s;font-family:inherit;text-align:center}
-.tab.activo{background:#003087;color:white}
+.tab.activo{background:var(--color-primary);color:white}
 .tab-content{display:none}.tab-content.activo{display:block}
 
 /* ── KPI ── */
 .kpi-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
 .kpi{background:white;border-radius:12px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
-.kpi-num{font-size:22px;font-weight:900;color:#003087}.kpi-label{font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:700}
+.kpi-num{font-size:22px;font-weight:900;color:var(--color-primary)}.kpi-label{font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:700}
 
 /* ── DIRIGENTE CARD ── */
 .dir-card{display:flex;align-items:center;gap:10px;padding:12px;border:2px solid #e2e8f0;border-radius:12px;margin-bottom:8px;transition:all .15s}
@@ -75,7 +78,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 
 /* ── DELEGADO ── */
 .del-card{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid #e2e8f0;border-radius:10px;margin-bottom:6px;font-size:12px}
-.del-mesa{font-weight:800;color:#C8102E;min-width:50px}
+.del-mesa{font-weight:800;color:var(--color-secondary);min-width:50px}
 .del-nombre{font-weight:600;flex:1}
 .del-estado{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:700}
 .del-estado.pend{background:#fef3c7;color:#92400e}
@@ -83,8 +86,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 /* ── COMITÉ ZONAL ── */
 .cargo-card{display:flex;align-items:center;gap:12px;padding:12px;border:2px solid #e2e8f0;border-radius:12px;margin-bottom:8px;transition:all .15s}
 .cargo-card.vacío{border-style:dashed;opacity:0.6}
-.cargo-card.presidente{border-color:#C8102E;background:#fef2f2}
-.cargo-card.vice{border-color:#003087;background:#eff6ff}
+.cargo-card.presidente{border-color:var(--color-secondary);background:#fef2f2}
+.cargo-card.vice{border-color:var(--color-primary);background:#eff6ff}
 .cargo-card.secre{border-color:#16a34a;background:#f0fdf4}
 .cargo-card.frente{border-color:#7c3aed;background:#faf5ff}
 .cargo-num{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0}
@@ -94,7 +97,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 .cargo-actions{display:flex;gap:4px;flex-shrink:0}
 .cargo-btn{width:28px;height:28px;border-radius:8px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all .15s}
 .cargo-btn:active{transform:scale(0.9)}
-.cargo-btn-edit{background:#dbeafe;color:#003087}.cargo-btn-del{background:#fee2e2;color:#dc2626}
+.cargo-btn-edit{background:#dbeafe;color:var(--color-primary)}.cargo-btn-del{background:#fee2e2;color:#dc2626}
 
 .cuota-bar{height:8px;border-radius:4px;background:#e2e8f0;overflow:hidden;margin:6px 0}
 .cuota-fill{height:100%;border-radius:4px;transition:width .3s}
@@ -108,7 +111,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 .btn-gris{background:#f1f5f9;color:#64748b}
 
 .toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:400px;margin:0 auto;padding:13px 18px;border-radius:14px;font-size:14px;font-weight:700;z-index:9999;text-align:center;display:none}
-.toast-ok{background:#16a34a;color:white}.toast-error{background:#dc2626;color:white}.toast-info{background:#003087;color:white}
+.toast-ok{background:#16a34a;color:white}.toast-error{background:#dc2626;color:white}.toast-info{background:var(--color-primary);color:white}
 </style>
 </head>
 <body>
@@ -119,7 +122,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
     <button style="background:rgba(255,255,255,0.2);color:white;border:none;padding:6px 12px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer" onclick="cerrarSesion()">Salir 🔒</button>
   </div>
   <h1 id="zona-titulo">🏛️ Gestión Zonal</h1>
-  <p id="zona-sub">Valverde · PRM 2026</p>
+  <p id="zona-sub"></p>
 </div>
 
 <div class="wrap">
@@ -191,6 +194,16 @@ let sesion = null;
 let zonaActual = null;
 let dirigentesZona = [];
 
+// ═══════════ CONFIG VARS ═══════════
+(function() {
+  if (typeof APP_CONFIG === 'undefined' || !APP_CONFIG) return;
+  var root = document.documentElement;
+  root.style.setProperty('--color-primary', APP_CONFIG.branding.primaryColor);
+  root.style.setProperty('--color-secondary', APP_CONFIG.branding.secondaryColor);
+  root.style.setProperty('--color-accent', APP_CONFIG.branding.accentColor);
+  document.querySelector('meta[name="theme-color"]').content = APP_CONFIG.branding.primaryColor;
+})();
+
 const MUNICIPIOS = [
   {
     nombre: 'Mao', tipo: 'Cabecera Provincial', icon: '🏙️', color: '#003087',
@@ -246,19 +259,22 @@ const MUNICIPIOS = [
 const ROL_VER_COMITE = ['PRESIDENTE_ZONAL','SECRETARIO_GENERAL','VICEPRESIDENTE','SUBSECRETARIO_GENERAL','SEC_ORGANIZACION','COORDINADOR'];
 
 function getSesion() {
-  const raw = localStorage.getItem('prm_sesion');
+  const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion';
+  const raw = localStorage.getItem(sk);
   if (!raw) { window.location.href = 'login.html'; return null; }
   try {
     const s = JSON.parse(raw);
-    if (s.expires <= Date.now()) { localStorage.removeItem('prm_sesion'); window.location.href = 'login.html'; return null; }
+    if (s.expires <= Date.now()) { localStorage.removeItem(sk); window.location.href = 'login.html'; return null; }
     return s;
-  } catch(e) { localStorage.removeItem('prm_sesion'); window.location.href = 'login.html'; return null; }
+  } catch(e) { localStorage.removeItem(sk); window.location.href = 'login.html'; return null; }
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
   sesion = getSesion();
   if (!sesion) return;
-  document.getElementById('zona-sub').textContent = (sesion.nombre || 'PRM') + ' · Valverde 2026';
+  var b = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG) ? APP_CONFIG.branding : {};
+  var u = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG) ? APP_CONFIG.ui : {};
+  document.getElementById('zona-sub').textContent = (sesion.nombre || b.name || '') + ' · ' + (u.anoElectoral || new Date().getFullYear());
   console.log('Sesión:', JSON.stringify({ rol: sesion.rol, nombre: sesion.nombre, municipio: sesion.municipio, zona: sesion.zona }));
   console.log('SB disponible:', !!sb);
   
@@ -389,10 +405,12 @@ async function cargarDirigentes() {
 
     // Fotos
     let fotosMap = {};
+    let fotosRaw = [];
     if (cedulas.length > 0) {
       const { data: f } = await sb.from('padron_maestro')
-        .select('cedula, foto_base64').in('cedula', cedulas);
-      if (f) f.forEach(x => { fotosMap[x.cedula] = x.foto_base64; });
+        .select('cedula, foto_url, foto_base64').in('cedula', cedulas);
+      fotosRaw = f || [];
+      if (f) f.forEach(x => { fotosMap[x.cedula] = x.foto_url || x.foto_base64; });
     }
 
     // Roles
@@ -403,12 +421,16 @@ async function cargarDirigentes() {
       if (r) r.forEach(x => { rolesMap[x.cedula] = x.rol; });
     }
 
-    dirigentesZona = dirigentesZona.map(d => ({
-      ...d,
-      comite: comiteMap[d.cedula] || 0,
-      foto: fotosMap[d.cedula] || null,
-      rol: rolesMap[d.cedula] || null
-    }));
+    dirigentesZona = dirigentesZona.map(d => {
+      const padFoto = fotosRaw.find(x=>x.cedula===d.cedula);
+      return {
+        ...d,
+        comite: comiteMap[d.cedula] || 0,
+        foto: fotosMap[d.cedula] || null,
+        foto_url: padFoto ? (padFoto.foto_url || null) : null,
+        rol: rolesMap[d.cedula] || null
+      };
+    });
 
     // KPIs
     document.getElementById('kpi-dirigentes').textContent = dirigentesZona.length;
@@ -433,8 +455,9 @@ function renderDirigentes() {
 
   el.innerHTML = dirigentesZona.map(d => {
     const ini = (d.nombre || '??').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+    const fotoId = 'zf-' + d.cedula.replace(/[^0-9]/g,'');
     const fotoHtml = d.foto
-      ? '<img src="data:image/jpeg;base64,' + d.foto + '">'
+      ? `<img id="${fotoId}" data-foto-url="${d.foto_url||''}" data-foto-b64="${(d.foto&&!d.foto_url)?d.foto:''}" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" style="width:100%;height:100%;object-fit:cover">`
       : ini;
     const rolLabel = d.rol ? d.rol.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase()) : 'Dirigente';
     const comiteBadge = verComite
@@ -451,9 +474,18 @@ function renderDirigentes() {
         ${comiteBadge}
       </div>`;
   }).join('');
-}
 
-// ═══════════ RENDER MAPA ═══════════
+  // Resolver fotos async
+  if (typeof batchGetFotoUrls === 'function') {
+    const rows = dirigentesZona.filter(d=>d.foto).map(d=>({cedula:d.cedula,foto_url:d.foto_url||null,foto_base64:(d.foto&&!d.foto_url)?d.foto:null}));
+    batchGetFotoUrls(sb, rows).then(urls => {
+      Object.entries(urls).forEach(([ced,url])=>{
+        const el=document.getElementById('zf-'+ced.replace(/[^0-9]/g,''));
+        if(el&&url)el.src=url;
+      });
+    });
+  }
+}
 function renderMapa() {
   const el = document.getElementById('mapa-container');
   const ubicaciones = dirigentesZona.filter(d => d.latitud && d.longitud);
@@ -473,7 +505,7 @@ function renderMapa() {
     <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f1f5f9">
       <span style="font-size:14px">📍</span>
       <div style="flex:1"><div style="font-size:12px;font-weight:700">${d.nombre}</div><div style="font-size:10px;color:#64748b">${d.sector || '—'}</div></div>
-      <a href="https://www.google.com/maps?q=${d.latitud},${d.longitud}" target="_blank" style="font-size:10px;color:#003087;font-weight:700;text-decoration:none">Ver →</a>
+      <a href="https://www.google.com/maps?q=${d.latitud},${d.longitud}" target="_blank" style="font-size:10px;color:var(--color-primary);font-weight:700;text-decoration:none">Ver →</a>
     </div>
   `).join('');
 }
@@ -502,7 +534,7 @@ function cambiarTab(tab, evt) {
   document.getElementById('tab-' + tab).classList.add('activo');
 }
 
-function cerrarSesion() { localStorage.removeItem('prm_sesion'); window.location.href = 'login.html?from=logout'; }
+function cerrarSesion() { const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion'; localStorage.removeItem(sk); window.location.href = 'login.html?from=logout'; }
 let _tt;
 function toast(msg, tipo) { const el=document.getElementById('toast'); clearTimeout(_tt); el.textContent=msg; el.className='toast toast-'+(tipo||'ok'); el.style.display='block'; _tt=setTimeout(()=>el.style.display='none',3000); }
 
@@ -510,10 +542,10 @@ function toast(msg, tipo) { const el=document.getElementById('toast'); clearTime
 let comiteCargos = [];
 
 const CARGOS_ZONA = [
-  { id: 1, nombre: 'Presidente(a) de Zona', cat: 'ALTA_DIRECCION', color: '#C8102E' },
-  { id: 2, nombre: '1er Vicepresidente(a)', cat: 'ALTA_DIRECCION', color: '#003087' },
-  { id: 3, nombre: '2do Vicepresidente(a)', cat: 'ALTA_DIRECCION', color: '#003087' },
-  { id: 4, nombre: '3er Vicepresidente(a)', cat: 'ALTA_DIRECCION', color: '#003087' },
+  { id: 1, nombre: 'Presidente(a) de Zona', cat: 'ALTA_DIRECCION', color: (typeof configLoader !== 'undefined' ? configLoader.getColor('secondary') : null) || '#C8102E' },
+  { id: 2, nombre: '1er Vicepresidente(a)', cat: 'ALTA_DIRECCION', color: (typeof configLoader !== 'undefined' ? configLoader.getColor('primary') : null) || '#003087' },
+  { id: 3, nombre: '2do Vicepresidente(a)', cat: 'ALTA_DIRECCION', color: (typeof configLoader !== 'undefined' ? configLoader.getColor('primary') : null) || '#003087' },
+  { id: 4, nombre: '3er Vicepresidente(a)', cat: 'ALTA_DIRECCION', color: (typeof configLoader !== 'undefined' ? configLoader.getColor('primary') : null) || '#003087' },
   { id: 5, nombre: 'Secretario(a) General', cat: 'ALTA_DIRECCION', color: '#16a34a' },
   { id: 6, nombre: '1er Subsecretario(a) General', cat: 'ALTA_DIRECCION', color: '#16a34a' },
   { id: 7, nombre: '2do Subsecretario(a) General', cat: 'ALTA_DIRECCION', color: '#16a34a' },
@@ -573,7 +605,7 @@ function renderComiteZonal() {
       <div class="card-title">📊 Estructura del Comité Zonal</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
         <div style="text-align:center">
-          <div style="font-size:22px;font-weight:900;color:#003087">${filled.length}/${total}</div>
+          <div style="font-size:22px;font-weight:900;color:var(--color-primary)">${filled.length}/${total}</div>
           <div style="font-size:9px;color:#64748b;text-transform:uppercase;font-weight:700">Ocupados</div>
         </div>
         <div style="text-align:center">
@@ -638,7 +670,7 @@ function renderComiteZonal() {
             <div class="cargo-nombre">${c.nombre}</div>
             <div class="cargo-persona ${esVacío ? 'vacio' : ''}">${nombre || 'Sin asignar'}</div>
           </div>
-          ${generoIcon ? `<span style="font-size:14px;color:${sexo === 'F' ? '#7c3aed' : '#003087'}">${generoIcon}</span>` : ''}
+          ${generoIcon ? `<span style="font-size:14px;color:${sexo === 'F' ? '#7c3aed' : 'var(--color-primary)'}">${generoIcon}</span>` : ''}
           <div class="cargo-actions">
             <button class="cargo-btn cargo-btn-edit" onclick="editarCargo(${c.id}, '${c.nombre}', '${zonaActual.municipio}', '${zonaActual.zona}')"><i class="fa-solid fa-pen"></i></button>
             ${nombre ? `<button class="cargo-btn cargo-btn-del" onclick="eliminarCargo(${c.id}, '${zonaActual.municipio}', '${zonaActual.zona}')"><i class="fa-solid fa-trash"></i></button>` : ''}
@@ -685,11 +717,11 @@ function editarCargo(cargoId, cargoNombre, municipio, zona) {
       <div style="margin-bottom:16px">
         <label style="font-size:11px;font-weight:700;color:#64748b;display:block;margin-bottom:4px">Sexo</label>
         <div style="display:flex;gap:8px">
-          <button id="sexo-m" onclick="selectSexo('M')" style="flex:1;padding:10px;border:2px solid ${actualSexo === 'M' ? '#003087' : '#e2e8f0'};border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;background:${actualSexo === 'M' ? '#eff6ff' : 'white'}">♂ Masculino</button>
+          <button id="sexo-m" onclick="selectSexo('M')" style="flex:1;padding:10px;border:2px solid ${actualSexo === 'M' ? 'var(--color-primary)' : '#e2e8f0'};border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;background:${actualSexo === 'M' ? '#eff6ff' : 'white'}">♂ Masculino</button>
           <button id="sexo-f" onclick="selectSexo('F')" style="flex:1;padding:10px;border:2px solid ${actualSexo === 'F' ? '#7c3aed' : '#e2e8f0'};border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;background:${actualSexo === 'F' ? '#faf5ff' : 'white'}">♀ Femenino</button>
         </div>
       </div>
-      <button onclick="guardarCargo(${cargoId}, '${municipio}', '${zona}')" style="width:100%;padding:13px;background:#003087;color:white;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer">Guardar</button>
+      <button onclick="guardarCargo(${cargoId}, '${municipio}', '${zona}')" style="width:100%;padding:13px;background:var(--color-primary);color:white;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer">Guardar</button>
     </div>`;
   document.body.appendChild(modal);
   window._cargoSexoSel = actualSexo;
@@ -697,7 +729,7 @@ function editarCargo(cargoId, cargoNombre, municipio, zona) {
 
 function selectSexo(s) {
   window._cargoSexoSel = s;
-  document.getElementById('sexo-m').style.borderColor = s === 'M' ? '#003087' : '#e2e8f0';
+  document.getElementById('sexo-m').style.borderColor = s === 'M' ? 'var(--color-primary)' : '#e2e8f0';
   document.getElementById('sexo-m').style.background = s === 'M' ? '#eff6ff' : 'white';
   document.getElementById('sexo-f').style.borderColor = s === 'F' ? '#7c3aed' : '#e2e8f0';
   document.getElementById('sexo-f').style.background = s === 'F' ? '#faf5ff' : 'white';

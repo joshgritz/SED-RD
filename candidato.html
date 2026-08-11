@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="theme-color" content="#C8102E">
-<title>Portal Candidato — PRM Valverde</title>
+<title>Portal Candidato — Valverde</title>
+<script src="js/config_loader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/fotos.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 <script>
 var _sb = null;
@@ -17,9 +19,10 @@ if (window.supabase) {
 }
 </script>
 <style>
+:root{--color-primary:#003087;--color-secondary:#C8102E;--color-accent:#F5A623}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293b;min-height:100vh}
-.header{background:linear-gradient(135deg,#C8102E,#9b1b30);color:white;padding:20px 16px 16px;position:sticky;top:0;z-index:100}
+.header{background:linear-gradient(135deg,var(--color-secondary),#9b1b30);color:white;padding:20px 16px 16px;position:sticky;top:0;z-index:100}
 .header-top{display:flex;justify-content:space-between;align-items:center}
 .header h1{font-size:18px;font-weight:900;margin:8px 0 2px}
 .header p{font-size:12px;opacity:0.7}
@@ -28,9 +31,9 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 .card-title{font-size:13px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px}
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
 .stat-box{background:#f8faff;border:2px solid #e2e8f0;border-radius:14px;padding:14px;text-align:center}
-.stat-num{font-size:28px;font-weight:900;color:#003087}.stat-label{font-size:10px;color:#94a3b8;font-weight:700;text-transform:uppercase}
+.stat-num{font-size:28px;font-weight:900;color:var(--color-primary)}.stat-label{font-size:10px;color:#94a3b8;font-weight:700;text-transform:uppercase}
 .perfil-card{display:flex;align-items:center;gap:12px;background:white;border-radius:16px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:12px}
-.perfil-foto{width:56px;height:56px;border-radius:50%;background:#C8102E;color:white;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;flex-shrink:0;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+.perfil-foto{width:56px;height:56px;border-radius:50%;background:var(--color-secondary);color:white;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;flex-shrink:0;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
 .perfil-foto img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .perfil-nombre{font-size:16px;font-weight:900;color:#1e293b}
 .perfil-sub{font-size:11px;color:#64748b;margin-top:2px}
@@ -45,7 +48,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 .dir-badge{margin-left:auto;font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px;flex-shrink:0}
 .btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;touch-action:manipulation;font-family:inherit;margin-bottom:8px;transition:all .15s}
 .btn:active{transform:scale(0.97)}
-.btn-azul{background:#003087;color:white}.btn-rojo{background:#C8102E;color:white}.btn-gris{background:#f1f5f9;color:#64748b}
+.btn-azul{background:var(--color-primary);color:white}.btn-rojo{background:var(--color-secondary);color:white}.btn-gris{background:#f1f5f9;color:#64748b}
 .chart-wrap{height:200px;margin-bottom:8px}
 .empty{text-align:center;padding:24px;color:#94a3b8;font-size:13px}
 .toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:400px;margin:0 auto;padding:13px 18px;border-radius:14px;font-size:14px;font-weight:700;z-index:9999;text-align:center;display:none}
@@ -61,7 +64,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
     <button style="background:rgba(255,255,255,0.2);color:white;border:none;padding:6px 12px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer" onclick="cerrarSesion()">Salir 🔒</button>
   </div>
   <h1 id="cand-titulo">Portal de Candidato</h1>
-  <p id="cand-sub">Valverde · PRM 2026</p>
+  <p id="cand-sub"></p>
 </div>
 
 <div class="wrap">
@@ -146,18 +149,32 @@ if (!sb && window.supabase) {
   );
 }
 
+// ═══════════ CONFIG VARS ═══════════
+(function() {
+  if (typeof APP_CONFIG === 'undefined' || !APP_CONFIG) return;
+  var root = document.documentElement;
+  root.style.setProperty('--color-primary', APP_CONFIG.branding.primaryColor);
+  root.style.setProperty('--color-secondary', APP_CONFIG.branding.secondaryColor);
+  root.style.setProperty('--color-accent', APP_CONFIG.branding.accentColor);
+  var b = APP_CONFIG.branding;
+  var u = APP_CONFIG.ui;
+  document.querySelector('meta[name="theme-color"]').content = b.secondaryColor;
+  document.getElementById('cand-sub').textContent = b.territorio + ' · ' + (u.anoElectoral || new Date().getFullYear());
+})();
+
 // ═══════════ SESIÓN ═══════════
 let sesion = null;
 let chartZonas = null;
 
 function getSesion() {
-  const raw = localStorage.getItem('prm_sesion');
+  const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion';
+  const raw = localStorage.getItem(sk);
   if (!raw) { window.location.href = 'login.html'; return null; }
   try {
     const s = JSON.parse(raw);
-    if (s.expires <= Date.now()) { localStorage.removeItem('prm_sesion'); window.location.href = 'login.html'; return null; }
+    if (s.expires <= Date.now()) { localStorage.removeItem(sk); window.location.href = 'login.html'; return null; }
     return s;
-  } catch(e) { localStorage.removeItem('prm_sesion'); window.location.href = 'login.html'; return null; }
+  } catch(e) { localStorage.removeItem(sk); window.location.href = 'login.html'; return null; }
 }
 
 // ═══════════ INICIALIZAR ═══════════
@@ -172,9 +189,13 @@ window.addEventListener('DOMContentLoaded', async () => {
   const fotoEl = document.getElementById('cand-foto');
   if (sb && sesion.cedula) {
     const { data: pad } = await sb.from('padron_maestro')
-      .select('foto_base64').eq('cedula', sesion.cedula).maybeSingle();
-    if (pad && pad.foto_base64) {
-      fotoEl.innerHTML = '<img src="data:image/jpeg;base64,' + pad.foto_base64 + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+      .select('foto_url, foto_base64').eq('cedula', sesion.cedula).maybeSingle();
+    if (pad && (pad.foto_url || pad.foto_base64)) {
+      const img = document.createElement('img');
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%';
+      fotoEl.innerHTML = '';
+      fotoEl.appendChild(img);
+      renderFotoAsync(sb, img, pad.foto_url, pad.foto_base64);
     } else {
       const nc = sesion.nombre || '??';
       fotoEl.textContent = nc.slice(0,2).toUpperCase();
@@ -197,14 +218,15 @@ async function cargarDatos() {
 
     if (!cand) {
       alert('⚠️ No estás registrado como candidato. Serás redirigido al portal para que te registres.');
-      localStorage.removeItem('prm_sesion');
+      const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion';
+      localStorage.removeItem(sk);
       window.location.href = 'login.html';
       return;
     }
 
     if (cand) {
       document.getElementById('cand-titulo').textContent = cand.nombre;
-      document.getElementById('cand-sub').textContent = cand.cargo + ' · PRM Valverde';
+      document.getElementById('cand-sub').textContent = cand.cargo;
       const badge = document.getElementById('cand-badge');
       badge.textContent = cand.tipo === 'candidato' ? 'Candidato' : 'Pre-candidato';
       badge.className = 'badge ' + (cand.tipo === 'candidato' ? 'badge-candidato' : 'badge-precandidato');
@@ -279,7 +301,7 @@ function renderChartZonas(data) {
   if (!ctx) return;
   const labels = Object.keys(data);
   const values = Object.values(data);
-  const colores = ['#003087','#C8102E','#efbc00','#16a34a','#7c3aed','#0ea5e9','#f97316','#ec4899','#14b8a6','#6366f1'];
+  const colores = [configLoader.getColor('primary') || '#003087', configLoader.getColor('secondary') || '#C8102E', configLoader.getColor('accent') || '#F5A623', '#16a34a', '#7c3aed', '#0ea5e9', '#f97316', '#ec4899', '#14b8a6', '#6366f1'];
 
   if (chartZonas) chartZonas.destroy();
   chartZonas = new Chart(ctx, {
@@ -332,7 +354,8 @@ async function cambiarPin() {
 
 // ═══════════ CERRAR SESIÓN ═══════════
 function cerrarSesion() {
-  localStorage.removeItem('prm_sesion');
+  const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion';
+  localStorage.removeItem(sk);
   window.location.href = 'login.html?from=logout';
 }
 }

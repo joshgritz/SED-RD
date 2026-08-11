@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Importador de Padrón PRM - Valverde</title>
+<title>Importador de Padrón Electoral</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config_loader.js"></script>
 <style>
   :root { --blue:#003087; --red:#C8102E; --gold:#F5A623; --gray:#f4f6f9; }
   * { box-sizing:border-box; margin:0; padding:0; }
@@ -93,8 +94,8 @@
 <div class="header">
   <div class="logo">PRM</div>
   <div>
-    <h1>Importador de Padrón Electoral — PRACAF 2024</h1>
-    <p>Partido Revolucionario Moderno — Provincia Valverde</p>
+    <h1>Importador de Padrón Electoral</h1>
+    <p>Partido — Provincia</p>
   </div>
 </div>
 
@@ -163,6 +164,26 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
 
 const SB_URL = 'https://ilivjaiexfqpioqrozlf.supabase.co';
 const SB_KEY = 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
+
+// Inyectar CSS variables y título desde config.json
+(async function() {
+  if (window.configLoader) await configLoader.load();
+  const cfg = window.APP_CONFIG;
+  if (cfg) {
+    const c = cfg.branding?.colores || {};
+    const r = document.documentElement.style;
+    if (c.primario) r.setProperty('--blue', c.primario);
+    if (c.secundario) r.setProperty('--red', c.secundario);
+    if (c.acento) r.setProperty('--gold', c.acento);
+    document.title = 'Importador de Padrón Electoral — ' + (cfg.client?.nombreCorto || '');
+    const logo = document.querySelector('.header .logo');
+    if (logo) logo.textContent = cfg.client?.nombreCorto || 'PRM';
+    const h1 = document.querySelector('.header h1');
+    if (h1) h1.textContent = 'Importador de Padrón Electoral';
+    const sub = document.querySelector('.header p');
+    if (sub) sub.textContent = cfg.client?.nombre + ' — ' + (cfg.territorio?.provincia || '');
+  }
+})();
 
 let allMilitantes      = [];
 let filteredMilitantes = [];
@@ -557,7 +578,7 @@ function showModal(cedula) {
       <span>📋 Colegio: ${m.colegio||'—'}</span>
     </div>
     <div style="margin-top:12px;padding:10px;background:#f8f9fa;border-radius:8px;font-size:12px;color:#666">
-      <strong>PRACAF 2024</strong> · Prov: ${m.provincia||'VALVERDE'} · Mun: ${m.municipio||'MAO'}
+      <strong>PRACAF 2024</strong> · Prov: ${m.provincia||''} · Mun: ${m.municipio||''}
     </div>`;
   document.getElementById('modalBg').classList.add('open');
 }
@@ -652,7 +673,7 @@ function log(msg) {
   const input = document.getElementById('gatePin');
   const err = document.getElementById('gateError');
   // Si viene desde admin.html con sesión, pasa directo
-  if (localStorage.getItem('prm_admin') === '1') { gate.style.display = 'none'; return; }
+  if (localStorage.getItem((window.APP_CONFIG?.client?.id || 'prm') + '_admin') === '1') { gate.style.display = 'none'; return; }
   gate.style.display = 'flex';
   async function intentar() {
     const pin = input.value.trim();
@@ -661,8 +682,9 @@ function log(msg) {
     if (!sb) { err.style.display = 'block'; err.textContent = 'Error de conexión'; return; }
     const { data } = await sb.rpc('fn_verificar_admin_pin', { p_pin: pin });
     if (data === true) {
-      localStorage.setItem('prm_admin', '1');
-      localStorage.setItem('prm_admin_pin', pin);
+      const clientId = window.APP_CONFIG?.client?.id || 'prm';
+      localStorage.setItem(clientId + '_admin', '1');
+      localStorage.setItem(clientId + '_admin_pin', pin);
       gate.style.display = 'none';
     } else {
       err.style.display = 'block';

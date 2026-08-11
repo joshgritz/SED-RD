@@ -4,12 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="theme-color" content="#003087">
-<title>PRM Valverde — Portal Electoral</title>
+<title>Sistema Electoral — Portal</title>
+<script src="js/config_loader.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/fotos.js"></script>
+<script src="js/audit.js"></script>
 <script>
 var _sb = null;
 if (window.supabase) {
@@ -20,6 +23,7 @@ if (window.supabase) {
 }
 </script>
 <style>
+:root{--color-primary:#003087;--color-secondary:#C8102E;--color-accent:#F5A623}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b;min-height:100vh;overflow-x:hidden}
 
@@ -29,10 +33,10 @@ body{font-family:'Montserrat',system-ui,sans-serif;background:#fff;color:#1e293b
 .header-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
 .header-logo img{height:48px;width:auto}
 .header-actions{display:flex;gap:8px;align-items:center}
-.header-cta{padding:10px 20px;background:#003087;color:white;border:none;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;text-decoration:none;transition:all .2s;font-family:'Montserrat',sans-serif}
+.header-cta{padding:10px 20px;background:var(--color-primary);color:white;border:none;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;text-decoration:none;transition:all .2s;font-family:'Montserrat',sans-serif}
 .header-cta:hover{background:#1a4fa8;transform:translateY(-1px)}
-.header-cta-outline{background:transparent;border:2px solid #003087;color:#003087}
-.header-icon-btn{width:40px;height:40px;border-radius:50%;background:#f1f5f9;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:#003087;font-size:15px}
+.header-cta-outline{background:transparent;border:2px solid var(--color-primary);color:var(--color-primary)}
+.header-icon-btn{width:40px;height:40px;border-radius:50%;background:#f1f5f9;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:var(--color-primary);font-size:15px}
 .header-icon-btn:hover{background:#e2e8f0;transform:translateY(-1px)}
 
 /* ── DARK MODE ── */
@@ -66,7 +70,7 @@ body.dark .header-icon-btn{background:#1e293b;color:#93c5fd}
 body.dark .header-icon-btn:hover{background:#334155}
 
 /* ── HERO ── */
-.hero{position:relative;background:linear-gradient(160deg,#003087 0%,#0a1f5c 35%,#001a40 100%);min-height:580px;display:flex;align-items:center;overflow:hidden}
+.hero{position:relative;background:linear-gradient(160deg,var(--color-primary) 0%,#0a1f5c 35%,#001a40 100%);min-height:580px;display:flex;align-items:center;overflow:hidden}
 .hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cpath d='M40 40v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-36V0h-2v4h-4v2h4v4h2V6h4V4h-4zM4 40v-4H2v4H0v2h4v4h2v-4h4v-2H4zM4 4V0H2v4H0v2h4v4h2V6h4V4H4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
 .hero::after{content:'';position:absolute;top:-40%;right:-15%;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(197,168,100,0.07) 0%,transparent 70%);pointer-events:none}
 .hero-content{max-width:1200px;margin:0 auto;padding:70px 24px;display:flex;align-items:center;gap:60px;width:100%;position:relative;z-index:1}
@@ -74,7 +78,7 @@ body.dark .header-icon-btn:hover{background:#334155}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.18);border-radius:24px;padding:8px 20px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.9);margin-bottom:28px}
 .hero-badge i{font-size:10px;color:#C5A864}
 .hero-shield{width:80px;height:80px;border-radius:50%;border:3px solid #C5A864;background:white;display:flex;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 0 40px rgba(197,168,100,0.25),0 8px 32px rgba(0,0,0,0.2)}
-.hero-shield span{font-family:'Montserrat',sans-serif;font-weight:900;font-size:24px;color:#003087;letter-spacing:1px}
+.hero-shield span{font-family:'Montserrat',sans-serif;font-weight:900;font-size:24px;color:var(--color-primary);letter-spacing:1px}
 .hero h1{font-size:52px;font-weight:900;color:white;line-height:1.05;margin-bottom:4px;letter-spacing:-1px}
 .hero h1 span{display:block;font-size:14px;font-weight:700;color:#C5A864;letter-spacing:4px;text-transform:uppercase;margin-top:8px}
 .hero-gold-line{width:60px;height:3px;background:linear-gradient(90deg,#C5A864,#e8d5a0);border-radius:2px;margin:16px 0 20px}
@@ -89,7 +93,7 @@ body.dark .header-icon-btn:hover{background:#334155}
 .hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .hero-stat{background:rgba(255,255,255,0.95);border-radius:16px;padding:24px 20px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.12);border:1px solid rgba(197,168,100,0.2);transition:transform .3s}
 .hero-stat:hover{transform:translateY(-4px)}
-.hero-stat-num{font-size:32px;font-weight:900;color:#003087;line-height:1}
+.hero-stat-num{font-size:32px;font-weight:900;color:var(--color-primary);line-height:1}
 .hero-stat-label{font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-top:6px;font-weight:700}
 .hero-stat-icon{font-size:18px;margin-bottom:8px;color:#C5A864}
 .hero-wave{position:absolute;bottom:0;left:0;right:0;height:80px;background:#fff;clip-path:ellipse(60% 100% at 50% 100%)}
@@ -123,11 +127,11 @@ body.dark .header-icon-btn:hover{background:#334155}
 .person-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .person-card{background:white;border-top:4px solid #efbc00;border-radius:20px;padding:28px 20px;text-align:center;transition:all .3s;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
 .person-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.1)}
-.person-foto{width:120px;height:120px;border-radius:50%;margin:0 auto 16px;background:linear-gradient(135deg,#003087,#0a1f5c);background-size:cover;background-position:center;border:4px solid #efbc00;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:900;color:white;box-shadow:0 4px 16px rgba(0,0,0,0.12)}
+.person-foto{width:120px;height:120px;border-radius:50%;margin:0 auto 16px;background:linear-gradient(135deg,var(--color-primary),#0a1f5c);background-size:cover;background-position:center;border:4px solid #efbc00;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:900;color:white;box-shadow:0 4px 16px rgba(0,0,0,0.12)}
 .person-foto span{display:none}
 .person-nombre{font-size:18px;font-weight:900;color:#0f172a;line-height:1.2}
-.person-cargo{font-size:13px;color:#003087;font-weight:700;margin-top:6px}
-.person-partido{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;background:#f0f4ff;color:#003087}
+.person-cargo{font-size:13px;color:var(--color-primary);font-weight:700;margin-top:6px}
+.person-partido{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;background:#f0f4ff;color:var(--color-primary)}
 .person-partido img{width:16px;height:16px;border-radius:3px;object-fit:contain}
 .person-muni{font-size:11px;color:#94a3b8;margin-top:4px}
 .person-detail{font-size:12px;color:#64748b;margin-top:6px;font-style:italic}
@@ -135,7 +139,7 @@ body.dark .header-icon-btn:hover{background:#334155}
 .badge-municipio{background:#eff6ff;color:#2563eb}
 .badge-distrito{background:#f0fdf4;color:#16a34a}
 .badge-senador{background:#fff7ed;color:#C5A864;font-size:11px;padding:5px 14px}
-.badge-diputado{background:#eff6ff;color:#003087;font-size:11px;padding:5px 14px}
+.badge-diputado{background:#eff6ff;color:var(--color-primary);font-size:11px;padding:5px 14px}
 .person-card.featured{grid-column:span 2;border-top-width:6px;padding:36px 28px}
 .person-card.featured .person-foto{width:140px;height:140px;border-width:5px;font-size:42px}
 .person-card.featured .person-nombre{font-size:22px}
@@ -149,7 +153,7 @@ body.dark .header-icon-btn:hover{background:#334155}
 .footer-top{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;margin-bottom:40px;flex-wrap:wrap}
 .footer-brand{display:flex;align-items:center;gap:12px;margin-bottom:12px}
 .footer-brand-icon{width:40px;height:40px;border-radius:50%;border:2px solid #C5A864;background:white;display:flex;align-items:center;justify-content:center}
-.footer-brand-icon span{font-family:'Montserrat',sans-serif;font-weight:900;font-size:11px;color:#003087;letter-spacing:0.5px}
+.footer-brand-icon span{font-family:'Montserrat',sans-serif;font-weight:900;font-size:11px;color:var(--color-primary);letter-spacing:0.5px}
 .footer-brand-text{font-size:16px;font-weight:800;color:white}
 .footer-desc{font-size:13px;color:#94a3b8;line-height:1.7;max-width:320px}
 .footer-links h4{font-size:12px;font-weight:800;color:white;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
@@ -159,14 +163,14 @@ body.dark .header-icon-btn:hover{background:#334155}
 .footer-copy{font-size:12px;color:#64748b}
 .footer-social{display:flex;gap:12px}
 .footer-social a{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;color:#94a3b8;text-decoration:none;transition:all .2s;font-size:14px}
-.footer-social a:hover{background:#003087;color:white}
+.footer-social a:hover{background:var(--color-primary);color:white}
 
 /* ── PORTAL ELECTORAL (oculto por defecto) ── */
-#portal-electoral{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;background:linear-gradient(160deg,#003087 0%,#0a1f5c 35%,#001a40 100%);overflow-y:auto}
+#portal-electoral{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;background:linear-gradient(160deg,var(--color-primary) 0%,#0a1f5c 35%,#001a40 100%);overflow-y:auto}
 #portal-electoral.active{display:flex;flex-direction:column;align-items:center}
 .portal-elec-hero{text-align:center;padding:32px 20px 24px;color:white;width:100%;max-width:480px}
 .portal-elec-hero .hero-circle{width:64px;height:64px;border-radius:50%;border:3px solid #C5A864;background:white;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;box-shadow:0 0 30px rgba(197,168,100,0.25),0 4px 20px rgba(0,0,0,0.3)}
-.portal-elec-hero .hero-circle span{font-family:'Montserrat',sans-serif;font-weight:900;font-size:18px;color:#003087;letter-spacing:1px}
+.portal-elec-hero .hero-circle span{font-family:'Montserrat',sans-serif;font-weight:900;font-size:18px;color:var(--color-primary);letter-spacing:1px}
 .portal-elec-hero h1{font-size:22px;font-weight:900;margin-bottom:2px}
 .portal-elec-hero p{font-size:12px;opacity:0.7}
 .portal-elec-wrap{width:100%;max-width:480px;padding:0 16px 24px}
@@ -177,25 +181,25 @@ body.dark .header-icon-btn:hover{background:#334155}
 /* ── PORTAL ELECTORAL INTERNAL STYLES ── */
 .pe-step{display:none}.pe-step.active{display:block}
 .pe-card{background:white;border-radius:20px;box-shadow:0 4px 24px rgba(0,0,0,0.08);overflow:hidden;margin-bottom:16px}
-.pe-card-header{background:linear-gradient(135deg,#003087,#0a1f5c);padding:16px 20px;color:white}
+.pe-card-header{background:linear-gradient(135deg,var(--color-primary),#0a1f5c);padding:16px 20px;color:white}
 .pe-card-header h2{font-size:16px;font-weight:800}.pe-card-header p{font-size:12px;opacity:0.7;margin-top:2px}
 .pe-card-body{padding:20px}
 .pe-campo{margin-bottom:12px}
 .pe-campo label{display:block;font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:5px}
 .pe-campo input,.pe-campo select{width:100%;padding:11px 14px;border:2px solid #e2e8f0;border-radius:12px;font-size:14px;outline:none;font-family:inherit;background:white;transition:border .2s}
-.pe-campo input:focus{border-color:#003087}
+.pe-campo input:focus{border-color:var(--color-primary)}
 .pe-pin-row{display:flex;gap:10px;justify-content:center;margin-bottom:12px}
 .pe-pin-row input{width:50px;height:56px;text-align:center;font-size:20px;font-weight:900;border-radius:12px;border:2px solid #e2e8f0;outline:none;font-family:inherit;transition:border .2s}
-.pe-pin-row input:focus{border-color:#003087}
+.pe-pin-row input:focus{border-color:var(--color-primary)}
 .pe-btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;touch-action:manipulation;font-family:inherit;margin-bottom:8px;transition:all .15s}
 .pe-btn:active{transform:scale(0.97)}
-.pe-btn-azul{background:#003087;color:white}.pe-btn-verde{background:#16a34a;color:white}.pe-btn-gris{background:#f1f5f9;color:#64748b}.pe-btn-rojo{background:#dc2626;color:white}.pe-btn-oro{background:#C5A864;color:#001a40}
+.pe-btn-azul{background:var(--color-primary);color:white}.pe-btn-verde{background:#16a34a;color:white}.pe-btn-gris{background:#f1f5f9;color:#64748b}.pe-btn-rojo{background:#dc2626;color:white}.pe-btn-oro{background:#C5A864;color:#001a40}
 .pe-error-box{background:#fef2f2;border:2px solid #fecaca;border-radius:10px;padding:10px 12px;font-size:13px;color:#dc2626;font-weight:600;margin-bottom:10px;display:none}
 .pe-info-box{background:#eff6ff;border:2px solid #bfdbfe;border-radius:10px;padding:10px 12px;font-size:12px;color:#1e40af;margin-bottom:12px}
 .pe-role-grid{display:grid;gap:10px;margin-bottom:16px}
 .pe-role-card{display:flex;align-items:center;gap:12px;padding:16px;border:2px solid #e2e8f0;border-radius:16px;background:white;cursor:pointer;transition:all .15s;touch-action:manipulation}
 .pe-role-card:active{transform:scale(0.97)}
-.pe-role-card:hover{border-color:#003087;background:#f8faff}
+.pe-role-card:hover{border-color:var(--color-primary);background:#f8faff}
 .pe-role-card .rc-icon{font-size:28px;width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .pe-role-card .rc-text{flex:1}.pe-role-card .rc-title{font-size:14px;font-weight:800;color:#1e293b}.pe-role-card .rc-sub{font-size:11px;color:#64748b;margin-top:1px}
 .pe-role-card .rc-arrow{font-size:18px;color:#94a3b8}
@@ -208,12 +212,12 @@ body.dark .header-icon-btn:hover{background:#334155}
 .pe-reg-opt{display:flex;align-items:center;gap:10px;padding:14px;border:2px solid #e2e8f0;border-radius:14px;background:white;cursor:pointer;transition:all .15s;touch-action:manipulation;text-align:left}
 .pe-reg-opt:active{transform:scale(0.97)}
 .pe-reg-opt:hover{border-color:#16a34a;background:#f0fdf4}
-.pe-reg-opt.selected{border-color:#003087;background:#eff6ff}
+.pe-reg-opt.selected{border-color:var(--color-primary);background:#eff6ff}
 .pe-reg-opt .ro-icon{font-size:22px;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .pe-reg-opt .ro-text{flex:1}.pe-reg-opt .ro-title{font-size:13px;font-weight:800;color:#1e293b}.pe-reg-opt .ro-desc{font-size:10px;color:#64748b;margin-top:1px}
 
 .toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:400px;margin:0 auto;padding:13px 18px;border-radius:14px;font-size:14px;font-weight:700;z-index:9999;text-align:center;display:none}
-.toast-ok{background:#16a34a;color:white}.toast-error{background:#dc2626;color:white}.toast-info{background:#003087;color:white}
+.toast-ok{background:#16a34a;color:white}.toast-error{background:#dc2626;color:white}.toast-info{background:var(--color-primary);color:white}
 
 @media(max-width:768px){
   .hero-content{flex-direction:column;text-align:center;padding:50px 20px 80px}
@@ -254,8 +258,8 @@ body.dark .header-icon-btn:hover{background:#334155}
   <div class="hero-content">
     <div class="hero-left">
       <div class="hero-badge"><i class="fa-solid fa-check-to-slot"></i> Elecciones 2026 · Provincia Valverde</div>
-      <div class="hero-shield"><span>PRM</span></div>
-      <h1>PRM · VALVERDE<span>Partido Revolucionario Moderno</span></h1>
+      <div class="hero-shield"><span id="login-logo-text">PRM</span></div>
+      <h1 id="login-hero-title">PRM · VALVERDE<span id="login-hero-subtitle">Partido Revolucionario Moderno</span></h1>
       <div class="hero-gold-line"></div>
       <p class="hero-sub">Sistema Electoral del Partido Revolucionario Moderno. Gestión de candidatos, dirigentes, delegados y estructura política de la provincia.</p>
       <div class="hero-buttons">
@@ -284,7 +288,7 @@ body.dark .header-icon-btn:hover{background:#334155}
       <p class="section-subtitle">7 municipios conforman la provincia, cada uno con su identidad y estructura política propia.</p>
     </div>
     <div class="muni-grid">
-      <div class="muni-card"><div class="muni-top"><div class="muni-icon" style="background:#eff6ff;color:#003087">🏙️</div><div><div class="muni-name">Mao</div><div class="muni-type">Cabecera Provincial · Capital</div></div></div><div class="muni-data"><div class="muni-dato"><div class="num">~150K</div><div class="lab">Habitantes</div></div><div class="muni-dato"><div class="num">6</div><div class="lab">Zonas</div></div><div class="muni-dato"><div class="num">Alto</div><div class="lab">Densidad</div></div></div></div>
+      <div class="muni-card"><div class="muni-top"><div class="muni-icon" style="background:#eff6ff;color:var(--color-primary)">🏙️</div><div><div class="muni-name">Mao</div><div class="muni-type">Cabecera Provincial · Capital</div></div></div><div class="muni-data"><div class="muni-dato"><div class="num">~150K</div><div class="lab">Habitantes</div></div><div class="muni-dato"><div class="num">6</div><div class="lab">Zonas</div></div><div class="muni-dato"><div class="num">Alto</div><div class="lab">Densidad</div></div></div></div>
       <div class="muni-card"><div class="muni-top"><div class="muni-icon" style="background:#f0fdf4;color:#16a34a">🌾</div><div><div class="muni-name">Esperanza</div><div class="muni-type">2do Municipio · Zona Agrícola</div></div></div><div class="muni-data"><div class="muni-dato"><div class="num">~60K</div><div class="lab">Habitantes</div></div><div class="muni-dato"><div class="num">3</div><div class="lab">Zonas</div></div><div class="muni-dato"><div class="num">Medio</div><div class="lab">Densidad</div></div></div></div>
       <div class="muni-card"><div class="muni-top"><div class="muni-icon" style="background:#faf5ff;color:#7c3aed">💧</div><div><div class="muni-name">Laguna Salada</div><div class="muni-type">Municipio · Zona Húmeda</div></div></div><div class="muni-data"><div class="muni-dato"><div class="num">~45K</div><div class="lab">Habitantes</div></div><div class="muni-dato"><div class="num">2</div><div class="lab">Zonas</div></div><div class="muni-dato"><div class="num">Medio</div><div class="lab">Densidad</div></div></div></div>
       <div class="muni-card"><div class="muni-top"><div class="muni-icon" style="background:#ecfdf5;color:#059669">🌿</div><div><div class="muni-name">Amina</div><div class="muni-type">Distrito Municipal</div></div></div><div class="muni-data"><div class="muni-dato"><div class="num">~15K</div><div class="lab">Habitantes</div></div><div class="muni-dato"><div class="num">1</div><div class="lab">Zona</div></div><div class="muni-dato"><div class="num">Bajo</div><div class="lab">Densidad</div></div></div></div>
@@ -487,7 +491,7 @@ body.dark .header-icon-btn:hover{background:#334155}
       <div>
         <div class="footer-brand">
           <img src="img/prm-logo.png" alt="PRM" style="height:40px;width:auto">
-          <span class="footer-brand-text">PRM Valverde</span>
+          <span class="footer-brand-text" id="login-footer-brand">PRM Valverde</span>
         </div>
         <p class="footer-desc">Sistema Electoral del Partido Revolucionario Moderno en la Provincia Valverde. Desarrollo, Democracia e Igualdad.</p>
       </div>
@@ -514,7 +518,7 @@ body.dark .header-icon-btn:hover{background:#334155}
       </div>
     </div>
     <div class="footer-bottom">
-      <div class="footer-copy">&copy; 2026 PRM Valverde. Todos los derechos reservados.</div>
+      <div class="footer-copy" id="login-footer-copy">&copy; 2026 PRM Valverde. Todos los derechos reservados.</div>
       <div class="footer-social">
         <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
         <a href="#"><i class="fa-brands fa-twitter"></i></a>
@@ -529,8 +533,8 @@ body.dark .header-icon-btn:hover{background:#334155}
 <div id="portal-electoral">
   <button class="close-portal" onclick="cerrarPortalElectoral()"><i class="fa-solid fa-xmark"></i></button>
   <div class="portal-elec-hero">
-    <div class="hero-circle"><span>PRM</span></div>
-    <h1>Portal Electoral PRM</h1>
+    <div class="hero-circle"><span id="portal-logo-text">PRM</span></div>
+    <h1 id="portal-title">Portal Electoral PRM</h1>
     <p>Provincia Valverde · República Dominicana 2026</p>
   </div>
   <div class="portal-elec-wrap">
@@ -773,6 +777,9 @@ async function peBuscarCedula() {
     try {
       const { data: pad } = await sb.rpc('lookup_cedula', { p_cedula: cedFmt });
       if (pad) { E.nombre = pad.nombre_completo; E.enPadron = true; }
+      const { data: padFoto } = await sb.from('padron_maestro')
+        .select('foto_url, foto_base64').eq('cedula', cedFmt).maybeSingle();
+      if (padFoto) { E.foto_url = padFoto.foto_url || null; E.foto = padFoto.foto_base64 || null; }
       const { data: dir } = await sb.from('dirigentes').select('nombre, zona, municipio').eq('cedula', cedFmt).eq('activo', true).maybeSingle();
       if (dir) { E.esDirigente = true; E.nombre = E.nombre || dir.nombre; E.zona = dir.zona; E.municipio = dir.municipio; }
       const { data: usr } = await sb.from('usuarios_sistema').select('rol, zona, municipio, pin_cambiado, nombre').eq('cedula', cedFmt).eq('activo', true).maybeSingle();
@@ -814,7 +821,8 @@ async function peVerificarPin() {
         rol: claims.role || E.rolSistema || 'dirigente_base',
         token: authData.session.access_token,
         auth_user_id: authData.user.id,
-        foto_base64: E.foto
+        foto_url: E.foto_url || null,
+        foto_base64: E.foto || null
       };
       peGuardarSesion(sess);
       peRedirigir(sess);
@@ -825,7 +833,7 @@ async function peVerificarPin() {
       return;
     }
   }
-  peGuardarSesion({ cedula: E.cedFmt, nombre: E.nombre, zona: E.zona, municipio: E.municipio, rol: E.rolSistema || 'dirigente_base', token: 'demo-'+Date.now(), foto_base64: E.foto });
+  peGuardarSesion({ cedula: E.cedFmt, nombre: E.nombre, zona: E.zona, municipio: E.municipio, rol: E.rolSistema || 'dirigente_base', token: 'demo-'+Date.now(), foto_url: E.foto_url || null, foto_base64: E.foto || null });
   peRedirigir({ rol: E.rolSistema || 'dirigente_base' });
 }
 
@@ -883,7 +891,7 @@ async function peAccederCandidato() {
   }
 }
 function peGetDestino(rol) {
-  const map = { super_admin: 'admin.html', dirigente_zonal: 'admin.html', admin: 'admin.html' };
+  const map = { ADMIN_SISTEMA: 'admin.html', super_admin: 'admin.html', dirigente_zonal: 'admin.html', admin: 'admin.html' };
   if (map[rol]) return map[rol];
   if (E.rolDeseado === 'candidato') return 'candidato.html';
   if (E.rolDeseado === 'delegado') return 'delegados.html';
@@ -936,7 +944,7 @@ async function peCompletarRegistro() {
     const { error: errDir } = await sb.from('dirigentes').insert({ cedula: cedFmt, nombre, municipio: mun || null, zona: zona || null, sector, telefono: tel, email, pin_hash: pin, activo: true });
     if (errDir && errDir.code === '23505') { peErr('pe-err-reg', 'Esta cédula ya está registrada'); return; }
     else if (errDir) { peErr('pe-err-reg', 'Error: ' + errDir.message); return; }
-    const rolMap = { candidato: 'candidato', dirigente: 'dirigente_base', delegado: 'delegado' };
+    const rolMap = { candidato: 'candidato', dirigente: 'dirigente_zonal', delegado: 'delegado' };
     const authEmail = cedFmt + '@prm.local';
     const authPass = pin + 'Prm#2026';
     const { error: authErr } = await sb.auth.signUp({
@@ -948,6 +956,23 @@ async function peCompletarRegistro() {
     });
     if (authErr && !authErr.message.includes('already registered')) {
       console.warn('Auth signup warning:', authErr.message);
+    }
+    // Setear app_metadata via Edge Function (service role necesaria)
+    if (!authErr || authErr.message.includes('already registered')) {
+      try {
+        await sb.functions.invoke('register-dirigente', {
+          body: {
+            email: authEmail,
+            cedula: cedFmt,
+            nombre,
+            role: rolMap[E.rolDeseado] || 'dirigente_zonal',
+            zona: zona || null,
+            municipio: mun || null,
+          }
+        });
+      } catch (e) {
+        console.warn('register-dirigente warning:', e.message);
+      }
     }
     if (E.rolDeseado === 'candidato') {
       const tipo = document.getElementById('pe-reg-tipo').value;
@@ -985,7 +1010,13 @@ async function peConfirmarRecuperacion() {
 
 // ═══════════ SESIÓN ═══════════
 function peGuardarSesion(data) {
-  localStorage.setItem('prm_sesion', JSON.stringify({ cedula: data.cedula, nombre: data.nombre, zona: data.zona, municipio: data.municipio, rol: data.rol, token: data.token, auth_user_id: data.auth_user_id || null, foto_base64: data.foto_base64 || null, rolDeseado: E.rolDeseado || null, expires: Date.now() + 86400000 }));
+  const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
+  localStorage.setItem(sk, JSON.stringify({ cedula: data.cedula, nombre: data.nombre, zona: data.zona, municipio: data.municipio, rol: data.rol, token: data.token, auth_user_id: data.auth_user_id || null, foto_url: data.foto_url || null, foto_base64: data.foto_base64 || null, rolDeseado: E.rolDeseado || null, expires: Date.now() + 86400000 }));
+  // Audit: log login
+  if (typeof auditLogger !== 'undefined' && _sb) {
+    auditLogger.init(_sb, { cedula: data.cedula, nombre: data.nombre, rol: data.rol });
+    auditLogger.login(data.token?.startsWith('demo-') ? 'demo' : 'auth');
+  }
 }
 
 // ═══════════ ZONAS ═══════════
@@ -1014,14 +1045,41 @@ let _tt; function peToast(msg, tipo) { const el=document.getElementById('toast')
 
 // ═══════════ AUTO-LOGIN ═══════════
 window.addEventListener('DOMContentLoaded', function() {
+  // Apply config branding
+  if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG) {
+    var b = APP_CONFIG.branding;
+    var u = APP_CONFIG.ui;
+    var root = document.documentElement;
+    root.style.setProperty('--color-primary', b.primaryColor);
+    root.style.setProperty('--color-secondary', b.secondaryColor);
+    root.style.setProperty('--color-accent', b.accentColor);
+    document.querySelector('meta[name="theme-color"]').content = b.primaryColor;
+    var logoText = b.logoText || b.initials || '';
+    var title = (u.tituloSistema || 'Sistema Electoral') + ' ' + b.name;
+    document.getElementById('login-logo-text').textContent = logoText;
+    document.getElementById('login-hero-title').innerHTML = b.name + ' · ' + b.territorio.toUpperCase() + '<span>' + b.fullName + '</span>';
+    document.getElementById('login-footer-brand').textContent = b.name + ' ' + b.territorio;
+    document.getElementById('login-footer-copy').innerHTML = '&copy; ' + (u.anoElectoral || new Date().getFullYear()) + ' ' + b.name + ' ' + b.territorio + '. Todos los derechos reservados.';
+    document.getElementById('portal-logo-text').textContent = logoText;
+    document.getElementById('portal-title').textContent = (u.tituloSistema || 'Portal Electoral') + ' ' + b.name;
+  }
+
+  const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
   const params = new URLSearchParams(window.location.search);
   if (params.get('from') === 'logout') {
     if (_sb) _sb.auth.signOut();
-    localStorage.removeItem('prm_sesion');
+    // Audit: log logout before clearing
+    if (typeof auditLogger !== 'undefined' && _sb) {
+      const oldRaw = localStorage.getItem(sk);
+      if (oldRaw) {
+        try { const old = JSON.parse(oldRaw); auditLogger.init(_sb, old); auditLogger.logout(); } catch(e) {}
+      }
+    }
+    localStorage.removeItem(sk);
     setTimeout(function() { abrirPortalElectoral(); }, 200);
     return;
   }
-  const raw = localStorage.getItem('prm_sesion');
+  const raw = localStorage.getItem(sk);
   if (raw) {
     try {
       const s = JSON.parse(raw);
@@ -1030,8 +1088,8 @@ window.addEventListener('DOMContentLoaded', function() {
         window.location.href = peGetDestino(s.rol);
         return;
       }
-      localStorage.removeItem('prm_sesion');
-    } catch(e) { localStorage.removeItem('prm_sesion'); }
+      localStorage.removeItem(sk);
+    } catch(e) { localStorage.removeItem(sk); }
   }
 });
 

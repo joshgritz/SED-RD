@@ -2,6 +2,13 @@ node_modules/
 package-lock.json
 powerbi_data/
 *.js
+!js/config_loader.js
+!js/fotos.js
+!admin/setup_instance.js
+!admin/acta_generator.js
+!admin/migrate_fotos.js
+!admin/migrate_fotos_fast.js
+!admin/setup_storage.js
 !login.html
 !dirigentes.html
 !zonas.html
@@ -9,3 +16,7 @@ powerbi_data/
 !delegados.html
 !admin.html
 !index.html
+
+# Credenciales de clientes — NUNCA commitear
+client_inputs.json
+clients/*/.setup_state.json

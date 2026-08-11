@@ -1,7 +1,6 @@
 // ============================================================
-// SISTEMA ELECTORAL PRM - PROVINCIA VALVERDE
-// app.js — Lógica principal
-// Conecta con Supabase | Estatutos PRM Arts. 89,96,117,154,155
+// SISTEMA ELECTORAL — app.js
+// Lógica principal · Configurable multi-partido
 // ============================================================
 
 // ─────────────────────────────────────────────
@@ -56,69 +55,21 @@ const estado = {
     }
 };
 
-// Estructura territorial de Valverde (caché local)
-const territorioValverde = {
-    MAO: {
-        id: 1, tipo: 'MUNICIPIO',
-        zonas: [
-            { id:1, nombre:'Zona A', codigo:'MAO-ZA' },
-            { id:2, nombre:'Zona B', codigo:'MAO-ZB' },
-            { id:3, nombre:'Zona C', codigo:'MAO-ZC' },
-            { id:4, nombre:'Zona D', codigo:'MAO-ZD' },
-            { id:5, nombre:'Zona E', codigo:'MAO-ZE' },
-            { id:6, nombre:'Zona F', codigo:'MAO-ZF' },
-        ]
-    },
-    ESPERANZA: {
-        id: 2, tipo: 'MUNICIPIO',
-        zonas: [
-            { id:7, nombre:'Zona 1', codigo:'ESP-Z1' },
-            { id:8, nombre:'Zona 2', codigo:'ESP-Z2' },
-            { id:9, nombre:'Zona 3', codigo:'ESP-Z3' },
-        ]
-    },
-    LAGUNA_SALADA: {
-        id: 3, tipo: 'MUNICIPIO',
-        zonas: [{ id:10, nombre:'Zona Única', codigo:'LAG-ZU' }]
-    },
-    AMINA:       { id:4, tipo:'DISTRITO_MUNICIPAL', zonas:[] },
-    GUATAPANAL:  { id:5, tipo:'DISTRITO_MUNICIPAL', zonas:[] },
-    JAIBON:      { id:6, tipo:'DISTRITO_MUNICIPAL', zonas:[] },
-    POTRERO:     { id:7, tipo:'DISTRITO_MUNICIPAL', zonas:[] },
-};
+// Cargos y territorio se cargan desde config.json
+let cargosZonales = [];
+let territorioLocal = {};
 
-// Cargos del Comité Zonal — espejo del catálogo_cargos (Arts. 96 + 117)
-const cargosZonales = [
-    // Alta Dirección
-    { id:1,  nombre:'Presidente(a) de Zona',           categoria:'ALTA_DIRECCION',   obligatorio:true },
-    { id:2,  nombre:'1er Vicepresidente(a)',             categoria:'ALTA_DIRECCION',   obligatorio:true },
-    { id:3,  nombre:'2do Vicepresidente(a)',             categoria:'ALTA_DIRECCION',   obligatorio:true },
-    { id:4,  nombre:'3er Vicepresidente(a)',             categoria:'ALTA_DIRECCION',   obligatorio:true },
-    { id:5,  nombre:'Secretario(a) General',            categoria:'ALTA_DIRECCION',   obligatorio:true },
-    { id:6,  nombre:'1er Subsecretario(a) General',     categoria:'ALTA_DIRECCION',   obligatorio:true },
-    { id:7,  nombre:'2do Subsecretario(a) General',     categoria:'ALTA_DIRECCION',   obligatorio:true },
-    { id:8,  nombre:'3er Subsecretario(a) General',     categoria:'ALTA_DIRECCION',   obligatorio:true },
-    // Secretarías
-    { id:9,  nombre:'Secretario(a) de Organización',   categoria:'SECRETARIA',       obligatorio:true  },
-    { id:10, nombre:'Secretario(a) Electoral',          categoria:'SECRETARIA',       obligatorio:true  },
-    { id:11, nombre:'Secretario(a) de Educación',       categoria:'SECRETARIA',       obligatorio:true  },
-    { id:12, nombre:'Secretario(a) de Finanzas',        categoria:'SECRETARIA',       obligatorio:true  },
-    { id:13, nombre:'Secretario(a) de Comunicación',    categoria:'SECRETARIA',       obligatorio:true  },
-    { id:14, nombre:'Secretario(a) de Tecnología',      categoria:'SECRETARIA',       obligatorio:false },
-    { id:15, nombre:'Secretario(a) de Asuntos Munic.',  categoria:'SECRETARIA',       obligatorio:true  },
-    { id:16, nombre:'Secretario(a) de Actas',           categoria:'SECRETARIA',       obligatorio:true  },
-    // Frentes Sectoriales
-    { id:17, nombre:'Presidenta — Frente de Mujeres',   categoria:'FRENTE_SECTORIAL', obligatorio:true  },
-    { id:18, nombre:'Presidente — Frente de Juventud',  categoria:'FRENTE_SECTORIAL', obligatorio:true  },
-    { id:19, nombre:'Pdte. Frente Magisterial',         categoria:'FRENTE_SECTORIAL', obligatorio:false },
-    { id:20, nombre:'Pdte. Frente Agropecuario',        categoria:'FRENTE_SECTORIAL', obligatorio:false },
-    { id:21, nombre:'Pdte. Frente de Salud',            categoria:'FRENTE_SECTORIAL', obligatorio:false },
-];
+function _initConfigData() {
+    if (typeof APP_CONFIG === 'undefined' || !APP_CONFIG) return;
+    cargosZonales = APP_CONFIG.party?.cargosZonales || [];
+    territorioLocal = APP_CONFIG.territorio?.municipios || {};
+}
 
 // ─────────────────────────────────────────────
 // INICIALIZACIÓN
 // ─────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
+    _initConfigData();
     inicializarSupabase();
     inicializarInterfaz();
     mostrarModulo('buscador');
@@ -140,7 +91,8 @@ function inicializarSupabase() {
 
 function inicializarInterfaz() {
     const el = document.getElementById('display-demarcacion');
-    if (el) el.textContent = `Valverde · ${estado.usuario.zona_nombre}`;
+    const territorio = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG) ? (APP_CONFIG.branding?.territorio || '—') : '—';
+    if (el) el.textContent = `${territorio} · ${estado.usuario.zona_nombre}`;
     cargarZonas();
 }
 
@@ -224,7 +176,7 @@ function cargarZonas() {
     const sectorSelect = document.getElementById('select-sector');
     if (!zonaSelect) return;
 
-    const muni = territorioValverde[municipioKey];
+    const muni = territorioLocal[municipioKey];
     zonaSelect.innerHTML = '<option value="TODAS">Todas las Zonas</option>';
     if (sectorSelect) sectorSelect.innerHTML = '<option value="TODOS">Todos los Sectores</option>';
 
@@ -235,8 +187,9 @@ function cargarZonas() {
     }
 
     const nombreMuni = municipioKey.replace('_', ' ');
+    const territorio = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG) ? (APP_CONFIG.branding?.territorio || '—') : '—';
     const el = document.getElementById('display-demarcacion');
-    if (el) el.textContent = `Valverde · ${nombreMuni}`;
+    if (el) el.textContent = `${territorio} · ${nombreMuni}`;
 }
 
 // ─────────────────────────────────────────────
@@ -563,7 +516,7 @@ function renderSeccionCargos(contenedorId, categoria) {
                     <p class="text-[9px] text-slate-400 font-bold">
                         ${miembro?.sexo === 'F' ? '♀ Mujer' : miembro?.sexo === 'M' ? '♂ Hombre' : ''}
                         ${miembro?.edad ? `· ${miembro.edad} años` : ''}
-                        ${miembro?.militancia ? `· ${miembro.militancia} años PRM` : ''}
+                        ${miembro?.militancia ? `· ${miembro.militancia} años` : ''}
                     </p>
                 </div>
             </div>
@@ -706,7 +659,7 @@ function actualizarUICargo(cargoId, miembro) {
         const p2   = resultado.querySelectorAll('p')[1];
         if (img) img.src = miembro.foto || `https://ui-avatars.com/api/?name=${encodeURIComponent(miembro.nombre)}&background=003da5&color=fff&size=64`;
         if (p1)  p1.textContent = miembro.nombre;
-        if (p2)  p2.textContent = `${miembro.sexo === 'F' ? '♀ Mujer' : '♂ Hombre'} · ${miembro.edad} años · ${miembro.militancia} años PRM`;
+        if (p2)  p2.textContent = `${miembro.sexo === 'F' ? '♀ Mujer' : '♂ Hombre'} · ${miembro.edad} años · ${miembro.militancia} años`;
     }
 
     if (item) {
@@ -860,7 +813,8 @@ async function guardarPlancha() {
         const zonaId      = estado.usuario.zona_id || 4;
         const municipioId = estado.usuario.municipio_id || 1;
         const timestamp   = Date.now();
-        const codigo      = `VAL-MAO-Z${zonaId}-${new Date().getFullYear()}-${String(timestamp).slice(-3)}`;
+        const prefix = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG?.client?.id) ? APP_CONFIG.client.id.toUpperCase().slice(0,3) : 'APP';
+        const codigo      = `${prefix}-Z${zonaId}-${new Date().getFullYear()}-${String(timestamp).slice(-3)}`;
 
         let planchaId = estado.planchaActiva.id;
 
@@ -901,7 +855,8 @@ async function guardarPlancha() {
         } else {
             // Guardar en localStorage como fallback
             planchaId = `LOCAL-${timestamp}`;
-            const planchasLocales = JSON.parse(localStorage.getItem('prm_planchas') || '[]');
+            const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('planchas') : 'app_planchas';
+            const planchasLocales = JSON.parse(localStorage.getItem(sk) || '[]');
             const nuevaPlancha = {
                 id: planchaId, codigo,
                 nombre_plancha: `Plancha ${estado.usuario.zona_nombre}`,
@@ -911,7 +866,7 @@ async function guardarPlancha() {
                 creado_en: new Date().toISOString(),
             };
             planchasLocales.push(nuevaPlancha);
-            localStorage.setItem('prm_planchas', JSON.stringify(planchasLocales));
+            localStorage.setItem(sk, JSON.stringify(planchasLocales));
         }
 
         estado.planchaActiva.id     = planchaId;
@@ -948,7 +903,7 @@ async function cargarListaPlanchas() {
                 .order('creado_en', { ascending: false });
             if (data) estado.planchas = data;
         } else {
-            estado.planchas = JSON.parse(localStorage.getItem('prm_planchas') || '[]');
+            estado.planchas = JSON.parse(localStorage.getItem((typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('planchas') : 'app_planchas') || '[]');
         }
     } catch(e) {
         estado.planchas = [];
@@ -1029,8 +984,8 @@ async function eliminarPlancha(id) {
     if (supabase) {
         await supabase.from('planchas').delete().eq('id', id);
     } else {
-        const planchas = JSON.parse(localStorage.getItem('prm_planchas') || '[]').filter(p => p.id !== id);
-        localStorage.setItem('prm_planchas', JSON.stringify(planchas));
+        const planchas = JSON.parse(localStorage.getItem((typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('planchas') : 'app_planchas') || '[]').filter(p => p.id !== id);
+        localStorage.setItem((typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('planchas') : 'app_planchas', JSON.stringify(planchas));
     }
     await cargarListaPlanchas();
 }

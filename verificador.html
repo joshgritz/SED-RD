@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Verificador PRM</title>
+<title>Verificador</title>
 <style>
 body { font-family: monospace; padding: 20px; background: #111; color: #eee; font-size: 13px; }
 h2 { color: #fff; margin-bottom: 16px; }
@@ -17,7 +17,7 @@ button { padding:12px 20px; background:#003087; color:white; border:none; border
 </style>
 </head>
 <body>
-<h2>🔬 Verificador Sistema PRM</h2>
+<h2>🔬 Verificador Sistema</h2>
 <div id="log"></div>
 <div class="sep">─────────────────────────</div>
 <input type="text" id="cedula" placeholder="Cédula a buscar (ej: 402-1184229-5)" value="402-1184229-5">
@@ -36,6 +36,7 @@ button { padding:12px 20px; background:#003087; color:white; border:none; border
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/fotos.js"></script>
 <script>
 var _sbClient = null;
 var _sbUrl = 'https://ilivjaiexfqpioqrozlf.supabase.co';
@@ -62,9 +63,7 @@ function log(msg, type) {
 
 
 // ============================================================
-// SISTEMA ELECTORAL PRM - PROVINCIA VALVERDE
-// app.js — Lógica principal
-// Conecta con Supabase | Estatutos PRM Arts. 89,96,117,154,155
+// SISTEMA ELECTORAL — Verificador
 // ============================================================
 
 // ─────────────────────────────────────────────
@@ -119,7 +118,7 @@ const estado = {
     }
 };
 
-// Estructura territorial de Valverde (caché local)
+// Estructura territorial (caché local)
 const territorioValverde = {
     MAO: {
         id: 1, tipo: 'MUNICIPIO',
@@ -200,7 +199,7 @@ function inicializarSupabase() {
 
 function inicializarInterfaz() {
     const el = document.getElementById('display-demarcacion');
-    if (el) el.textContent = `Valverde · ${estado.usuario.zona_nombre}`;
+    if (el) el.textContent = `${typeof APP_CONFIG !== 'undefined' && APP_CONFIG ? APP_CONFIG.branding?.territorio || '' : ''} · ${estado.usuario.zona_nombre}`;
     cargarZonas();
 }
 
@@ -318,7 +317,7 @@ function cargarZonas() {
 
     const nombreMuni = municipioKey.replace('_', ' ');
     const el = document.getElementById('display-demarcacion');
-    if (el) el.textContent = `Valverde · ${nombreMuni}`;
+    if (el) el.textContent = `${typeof APP_CONFIG !== 'undefined' && APP_CONFIG ? APP_CONFIG.branding?.territorio || '' : ''} · ${nombreMuni}`;
 }
 
 // ─────────────────────────────────────────────
@@ -477,7 +476,7 @@ function renderSeccionCargos(contenedorId, categoria) {
                     <p class="text-[9px] text-slate-400 font-bold">
                         ${miembro?.sexo === 'F' ? '♀ Mujer' : miembro?.sexo === 'M' ? '♂ Hombre' : ''}
                         ${miembro?.edad ? `· ${miembro.edad} años` : ''}
-                        ${miembro?.militancia ? `· ${miembro.militancia} años PRM` : ''}
+                        ${miembro?.militancia ? `· ${miembro.militancia} años` : ''}
                     </p>
                 </div>
             </div>
@@ -533,7 +532,7 @@ async function validarCargo(cargoId) {
             const cedFmt = cedulaLimpiada.slice(0,3)+'-'+cedulaLimpiada.slice(3,10)+'-'+cedulaLimpiada.slice(10);
             const { data } = await supabaseClient
                 .from('padron_maestro')
-                .select('cedula, nombre_completo, foto_base64, telefono, direccion, voto_primaria, concurrencia_2016, concurrencia_2010')
+                .select('cedula, nombre_completo, foto_url, foto_base64, telefono, direccion, voto_primaria, concurrencia_2016, concurrencia_2010')
                 .eq('cedula', cedFmt)
                 .maybeSingle();
             if (data) {
@@ -548,7 +547,8 @@ async function validarCargo(cargoId) {
                     fecha_nacimiento: null,
                     anios_militancia: 99,
                     estatus_militante:'ACTIVO',
-                    foto:             data.foto_base64 || null,
+                    foto:             data.foto_url || data.foto_base64 || null,
+                    foto_url:         data.foto_url || null,
                 };
             }
         }
@@ -556,7 +556,7 @@ async function validarCargo(cargoId) {
         // Si no encontró en Supabase, mostrar error claro
         if (!persona) {
             mostrarErrorCargo(cargoId, supabaseClient 
-                ? 'Cédula no encontrada en el padrón electoral de Valverde'
+                ? 'Cédula no encontrada en el padrón electoral'
                 : 'Conectando con la base de datos... Intenta de nuevo en 3 segundos');
             input.classList.remove('opacity-50');
             return;
@@ -639,7 +639,7 @@ function actualizarUICargo(cargoId, miembro) {
         const p2   = resultado.querySelectorAll('p')[1];
         if (img) img.src = miembro.foto || `https://ui-avatars.com/api/?name=${encodeURIComponent(miembro.nombre)}&background=003da5&color=fff&size=64`;
         if (p1)  p1.textContent = miembro.nombre;
-        if (p2)  p2.textContent = `${miembro.sexo === 'F' ? '♀ Mujer' : '♂ Hombre'} · ${miembro.edad} años · ${miembro.militancia} años PRM`;
+        if (p2)  p2.textContent = `${miembro.sexo === 'F' ? '♀ Mujer' : '♂ Hombre'} · ${miembro.edad} años · ${miembro.militancia} años`;
     }
 
     if (item) {
@@ -945,8 +945,12 @@ function renderPerfilVotante(dados) {
 
     const foto = document.getElementById('res-foto');
     if (foto) {
-        if (dados.foto_b64) foto.src = `data:image/jpeg;base64,${dados.foto_b64}`;
-        else foto.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(dados.nombre_completo||dados.nombre||'?')}&background=003da5&color=fff&size=200`;
+        const placeholder = `https://ui-avatars.com/api/?name=${encodeURIComponent(dados.nombre_completo||dados.nombre||'?')}&background=003da5&color=fff&size=200`;
+        if (dados.foto_url || dados.foto_b64) {
+            renderFotoAsync(supabaseClient, foto, dados.foto_url||null, dados.foto_b64||null, placeholder);
+        } else {
+            foto.src = placeholder;
+        }
     }
 
     const tag = document.getElementById('tag-fidelidad');
@@ -993,7 +997,7 @@ async function buscarPersona() {
                     telefono: data.telefono || '',
                     direccion: data.direccion || '',
                     foto_b64: data.foto_base64 || null,
-                    foto_url: null,
+                    foto_url: data.foto_url || null,
                     voto: data.voto_primaria || '',
                     exterior: data.empadronado_exterior || false,
                     concurrencia: [data.concurrencia_2016?'2016':null, data.concurrencia_2010?'2010':null].filter(Boolean),
@@ -1051,11 +1055,11 @@ async function guardarPlancha() {
             mostrarAlerta('✅ Plancha guardada', 'exito');
         } else {
             const id = estado.planchaActiva.id || 'PL-'+Date.now();
-            const saved = JSON.parse(localStorage.getItem('prm_planchas')||'[]');
+            const saved = JSON.parse(localStorage.getItem('app_planchas')||'[]');
             const idx = saved.findIndex(p => p.id === id);
             const entry = {...data, id};
             if (idx > -1) saved[idx] = entry; else saved.push(entry);
-            localStorage.setItem('prm_planchas', JSON.stringify(saved));
+            localStorage.setItem('app_planchas', JSON.stringify(saved));
             estado.planchaActiva.id = id;
             mostrarAlerta('Plancha guardada localmente', 'info');
         }
@@ -1075,9 +1079,9 @@ async function cargarListaPlanchas() {
             const { data } = await supabaseClient.from('planchas').select('*').order('actualizado_en', {ascending:false});
             if (data) { estado.planchas = data; return; }
         }
-        estado.planchas = JSON.parse(localStorage.getItem('prm_planchas')||'[]');
+        estado.planchas = JSON.parse(localStorage.getItem('app_planchas')||'[]');
     } catch(e) {
-        estado.planchas = JSON.parse(localStorage.getItem('prm_planchas')||'[]');
+        estado.planchas = JSON.parse(localStorage.getItem('app_planchas')||'[]');
     }
 }
 
@@ -1086,8 +1090,8 @@ async function eliminarPlancha(id) {
     if (!confirm('¿Eliminar esta plancha?')) return;
     if (supabaseClient) { await supabaseClient.from('planchas').delete().eq('id', id); }
     else {
-        const p = JSON.parse(localStorage.getItem('prm_planchas')||'[]').filter(x => x.id !== id);
-        localStorage.setItem('prm_planchas', JSON.stringify(p));
+        const p = JSON.parse(localStorage.getItem('app_planchas')||'[]').filter(x => x.id !== id);
+        localStorage.setItem('app_planchas', JSON.stringify(p));
     }
     mostrarAlerta('Plancha eliminada', 'info');
     await cargarListaPlanchas();
@@ -1199,7 +1203,7 @@ async function testValidar() {
     
     var result = await supabaseClient
         .from('padron_maestro')
-        .select('cedula, nombre_completo, foto_base64')
+        .select('cedula, nombre_completo, foto_url, foto_base64')
         .eq('cedula', cedFmt)
         .maybeSingle();
     

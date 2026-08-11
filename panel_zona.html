@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="theme-color" content="#001F5B">
-<title>Panel Zonal PRM — Valverde</title>
+<title>Panel Zonal — Valverde</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config_loader.js"></script>
+<script src="js/fotos.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
@@ -16,6 +18,22 @@ if (window.supabase) {
     'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
   );
 }
+</script>
+<script>
+// Inyectar CSS variables desde config.json
+document.addEventListener('DOMContentLoaded', async function() {
+  if (window.configLoader) await configLoader.load();
+  const cfg = window.APP_CONFIG;
+  if (cfg) {
+    const c = cfg.branding?.colores || {};
+    const r = document.documentElement.style;
+    if (c.primarioOscuro) r.setProperty('--azul', c.primarioOscuro);
+    if (c.primario) r.setProperty('--azul2', c.primario);
+    if (c.secundario) r.setProperty('--rojo', c.secundario);
+    if (c.acento) r.setProperty('--oro', c.acento);
+    document.title = 'Panel Zonal — ' + (cfg.territorio?.provincia || '');
+  }
+});
 </script>
 <style>
 :root {
@@ -159,10 +177,10 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--gris); 
 <div class="header">
   <div class="header-top">
     <div style="display:flex; align-items:center; gap:10px">
-      <div class="logo">PRM</div>
+      <div class="logo" id="panel-logo">PRM</div>
       <div>
         <div style="font-size:13px; font-weight:800" id="panel-titulo">Panel Zonal</div>
-        <div style="font-size:10px; opacity:0.6" id="panel-zona-label">Valverde</div>
+        <div style="font-size:10px; opacity:0.6" id="panel-zona-label"></div>
       </div>
     </div>
     <div style="display:flex; gap:8px; align-items:center">
@@ -304,7 +322,7 @@ let mapaZona = null;
 // ══════════════════════════════════════════════════════
 window.addEventListener('DOMContentLoaded', async function() {
   // Cargar sesión
-  const raw = localStorage.getItem('prm_sesion');
+  const raw = localStorage.getItem((window.APP_CONFIG?.client?.id || 'prm') + '_sesion');
   if (!raw) { window.location.href = 'login.html'; return; }
   try {
     sesion = JSON.parse(raw);
@@ -328,11 +346,14 @@ window.addEventListener('DOMContentLoaded', async function() {
     SUPER_ADMIN: 'Super Admin'
   }[sesion.rol] || sesion.rol;
 
-  document.getElementById('panel-titulo').textContent = rolLabel;
-  document.getElementById('panel-zona-label').textContent = sesion.zona + ' · ' + sesion.municipio;
-  document.getElementById('panel-bienvenida').textContent = '¡Hola, ' + nombreCorto + '!';
-  document.getElementById('panel-subtitulo').textContent = rolLabel + ' · ' + sesion.zona;
-  document.getElementById('panel-nombre-corto').textContent = nombreCorto;
+    document.getElementById('panel-titulo').textContent = rolLabel;
+    document.getElementById('panel-zona-label').textContent = sesion.zona + ' · ' + sesion.municipio;
+    document.getElementById('panel-bienvenida').textContent = '¡Hola, ' + nombreCorto + '!';
+    document.getElementById('panel-subtitulo').textContent = rolLabel + ' · ' + sesion.zona;
+    document.getElementById('panel-nombre-corto').textContent = nombreCorto;
+    // Logo desde config
+    const logoEl = document.getElementById('panel-logo');
+    if (logoEl && window.APP_CONFIG) logoEl.textContent = APP_CONFIG.client?.nombreCorto || 'PRM';
 
   // Cargar datos
   await cargarDatos();
@@ -401,9 +422,9 @@ async function cargarDatos() {
 
   // Traer fotos del padrón
   const { data: fotos } = await sb.from('padron_maestro')
-    .select('cedula, foto_base64').in('cedula', cedulasArr);
+    .select('cedula, foto_url, foto_base64').in('cedula', cedulasArr);
   const fotosMap = {};
-  if (fotos) fotos.forEach(f => { fotosMap[f.cedula] = f.foto_base64; });
+  if (fotos) fotos.forEach(f => { fotosMap[f.cedula] = f.foto_url || f.foto_base64; });
 
   // Contar comités
   const { data: comiteData } = await sb.from('comite_miembros')
@@ -416,12 +437,16 @@ async function cargarDatos() {
   }
 
   // Construir estructura
-  estructuraData = (dirigentes || []).map(d => ({
-    ...d,
-    cargo:   cargosMap[d.cedula] || 'Dirigente',
-    foto:    fotosMap[d.cedula] || null,
-    comite:  comiteCount[d.cedula] || 0,
-  }));
+  estructuraData = (dirigentes || []).map(d => {
+    const padFoto = (fotos||[]).find(f=>f.cedula===d.cedula);
+    return {
+      ...d,
+      cargo:   cargosMap[d.cedula] || 'Dirigente',
+      foto:    fotosMap[d.cedula] || null,
+      foto_url: padFoto ? (padFoto.foto_url || null) : null,
+      comite:  comiteCount[d.cedula] || 0,
+    };
+  });
 
   const totalComite = estructuraData.reduce((t, d) => t + d.comite, 0);
   document.getElementById('stat-comite-total').textContent = totalComite;
@@ -510,12 +535,24 @@ function renderEstructura() {
   });
 
   el.innerHTML = html;
+
+  // Resolver fotos async
+  if (typeof batchGetFotoUrls === 'function') {
+    const rows = estructuraData.filter(d=>d.foto).map(d=>({cedula:d.cedula,foto_url:d.foto_url||null,foto_base64:(d.foto&&!d.foto_url)?d.foto:null}));
+    batchGetFotoUrls(sb, rows).then(urls => {
+      Object.entries(urls).forEach(([ced,url])=>{
+        const el=document.getElementById('zf-'+ced.replace(/[^0-9]/g,''));
+        if(el&&url)el.src=url;
+      });
+    });
+  }
 }
 
 function renderDirigenteItem(d) {
   const iniciales = (d.nombre||'').split(',')[0].split(' ').map(w=>w[0]).slice(0,2).join('');
+  const fotoId = 'zf-' + d.cedula.replace(/[^0-9]/g,'');
   const fotoHtml = d.foto
-    ? `<img src="data:image/jpeg;base64,${d.foto}" alt="${d.nombre}">`
+    ? `<img id="${fotoId}" data-foto-url="${d.foto_url||''}" data-foto-b64="${(d.foto&&!d.foto_url)?d.foto:''}" alt="${d.nombre}" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" style="width:100%;height:100%;object-fit:cover">`
     : iniciales;
   const comiteBadge = d.comite >= 10
     ? `<span class="badge badge-verde">${d.comite} comité ✅</span>`
@@ -563,12 +600,12 @@ function verFicha(cedula) {
   if (!d) return;
 
   const fotoHtml = d.foto
-    ? `<img src="data:image/jpeg;base64,${d.foto}" alt="${d.nombre}">`
+    ? `<img id="zficha-foto" data-foto-url="${d.foto_url||''}" data-foto-b64="${(d.foto&&!d.foto_url)?d.foto:''}" alt="${d.nombre}" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" style="width:100%;height:100%;object-fit:cover">`
     : `<span style="font-size:32px">👤</span>`;
 
   const mapsUrl = d.latitud
     ? `https://www.google.com/maps?q=${d.latitud},${d.longitud}`
-    : d.sector ? `https://www.google.com/maps/search/${encodeURIComponent(d.sector + ' Mao Valverde')}` : null;
+    : d.sector ? `https://www.google.com/maps/search/${encodeURIComponent(d.sector + ' ' + (window.APP_CONFIG?.territorio?.provincia || ''))}` : null;
 
   document.getElementById('modal-body').innerHTML = `
     <div class="ficha-top">
@@ -599,6 +636,12 @@ function verFicha(cedula) {
   `;
 
   document.getElementById('modal-bg').classList.add('open');
+
+  // Resolver foto async
+  setTimeout(() => {
+    const el = document.getElementById('zficha-foto');
+    if (el && d.foto) renderFotoAsync(sb, el, d.foto_url||null, (!d.foto_url?d.foto:null));
+  }, 0);
 }
 
 function cerrarModal() { document.getElementById('modal-bg').classList.remove('open'); }
@@ -628,9 +671,10 @@ function initMapaZona() {
   const bounds = [];
   conUbicacion.forEach(d => {
     const color = d.comite >= 10 ? '#16a34a' : '#dc2626';
+    const mapFotoId = 'zm-' + d.cedula.replace(/[^0-9]/g,'');
     const icono = L.divIcon({
       html: `<div style="background:${color};color:white;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3);overflow:hidden">
-        ${d.foto ? `<img src="data:image/jpeg;base64,${d.foto}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">` : (d.nombre||'?').split(',')[0][0]}
+        ${d.foto ? `<img id="${mapFotoId}" data-foto-url="${d.foto_url||''}" data-foto-b64="${(d.foto&&!d.foto_url)?d.foto:''}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E">` : (d.nombre||'?').split(',')[0][0]}
       </div>`,
       iconSize: [38, 38], iconAnchor: [19, 38], className: ''
     });
@@ -649,6 +693,17 @@ function initMapaZona() {
   });
 
   if (bounds.length > 0) mapaZona.fitBounds(bounds, { padding: [30, 30] });
+
+  // Resolver fotos del mapa async
+  if (typeof batchGetFotoUrls === 'function') {
+    const rows = conUbicacion.filter(d=>d.foto).map(d=>({cedula:d.cedula,foto_url:d.foto_url||null,foto_base64:(d.foto&&!d.foto_url)?d.foto:null}));
+    batchGetFotoUrls(sb, rows).then(urls => {
+      Object.entries(urls).forEach(([ced,url])=>{
+        const el=document.getElementById('zm-'+ced.replace(/[^0-9]/g,''));
+        if(el&&url)el.src=url;
+      });
+    });
+  }
 }
 
 // ══════════════════════════════════════════════════════
@@ -705,7 +760,7 @@ function cambiarTab(tab) {
 // SESIÓN
 // ══════════════════════════════════════════════════════
 function cerrarSesion() {
-  localStorage.removeItem('prm_sesion');
+  localStorage.removeItem((window.APP_CONFIG?.client?.id || 'prm') + '_sesion');
   window.location.href = 'login.html';
 }
 

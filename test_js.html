@@ -25,6 +25,7 @@ body { font-family: monospace; padding: 20px; background: #111; color: #0f0; }
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/fotos.js"></script>
 <script>
 // Capture ALL errors
 window.onerror = function(msg, src, line, col, err) {
@@ -911,8 +912,12 @@ function renderPerfilVotante(dados) {
 
     const foto = document.getElementById('res-foto');
     if (foto) {
-        if (dados.foto_b64) foto.src = `data:image/jpeg;base64,${dados.foto_b64}`;
-        else foto.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(dados.nombre_completo||dados.nombre||'?')}&background=003da5&color=fff&size=200`;
+        const placeholder = `https://ui-avatars.com/api/?name=${encodeURIComponent(dados.nombre_completo||dados.nombre||'?')}&background=003da5&color=fff&size=200`;
+        if (dados.foto_url || dados.foto_b64) {
+            renderFotoAsync(supabase, foto, dados.foto_url||null, dados.foto_b64||null, placeholder);
+        } else {
+            foto.src = placeholder;
+        }
     }
 
     const tag = document.getElementById('tag-fidelidad');
@@ -947,7 +952,7 @@ async function buscarPersona() {
                     telefono: data.telefono || '',
                     direccion: data.direccion || '',
                     foto_b64: data.foto_base64 || null,
-                    foto_url: null,
+                    foto_url: data.foto_url || null,
                     voto: data.voto_primaria || '',
                     exterior: data.empadronado_exterior || false,
                     concurrencia: [data.concurrencia_2016?'2016':null, data.concurrencia_2010?'2010':null].filter(Boolean),

@@ -4,18 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#003087">
-<title>Portal Dirigentes PRM — Valverde</title>
+<title>Portal Dirigentes — Valverde</title>
+<script src="js/config_loader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/fotos.js"></script>
+<script src="js/audit.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
   #mapa-dirigente { height: 320px; border-radius: 14px; overflow: hidden; z-index: 1; }
   .leaflet-popup-content { font-family: 'Segoe UI', sans-serif; }
 :root {
-  --azul: #003087;
+  --azul: var(--color-primary, #003087);
   --azul2: #1a4fa8;
-  --rojo: #C8102E;
-  --oro: #F5A623;
+  --rojo: var(--color-secondary, #C8102E);
+  --oro: var(--color-accent, #F5A623);
   --verde: #16a34a;
   --gris: #f0f4f8;
   --texto: #1e293b;
@@ -205,9 +208,9 @@ window.initGoogleMaps = function() {
       <span style="font-size:12px; opacity:0.6">Portal Dirigentes</span>
       <button class="btn-sm btn-gris" style="background:rgba(255,255,255,0.2); color:white; font-size:11px" onclick="cerrarSesion()">Salir 🔒</button>
     </div>
-    <div style="width:48px;height:48px;background:#003087;border-radius:50%;border:3px solid #C8102E;display:flex;align-items:center;justify-content:center;margin:8px auto 10px;box-shadow:0 2px 8px rgba(0,0,0,0.3)"><span style="font-family:Arial Black,sans-serif;font-weight:900;font-size:12px;color:white;letter-spacing:1px">PRM</span></div>
+    <div style="width:48px;height:48px;background:var(--color-primary, #003087);border-radius:50%;border:3px solid var(--color-secondary, #C8102E);display:flex;align-items:center;justify-content:center;margin:8px auto 10px;box-shadow:0 2px 8px rgba(0,0,0,0.3)"><span style="font-family:Arial Black,sans-serif;font-weight:900;font-size:12px;color:white;letter-spacing:1px" id="dash-logo-text"></span></div>
     <h1 id="dash-bienvenida">¡Bienvenido!</h1>
-    <p id="dash-subtitulo">Valverde · PRM</p>
+    <p id="dash-subtitulo"></p>
   </div>
   <div class="wrap">
 
@@ -254,7 +257,7 @@ window.initGoogleMaps = function() {
     <!-- Alerta estatutaria si comité incompleto -->
     <div id="dash-alerta-comite" style="display:none; background:#fef3c7; border:2px solid #fcd34d; border-radius:14px; padding:14px; margin-bottom:16px">
       <div style="font-weight:800; font-size:13px; color:#92400e">⚠️ Comité de Base Incompleto</div>
-      <div style="font-size:12px; color:#b45309; margin-top:4px">Según el Art. 89 de los Estatutos PRM necesitas mínimo 10 miembros en tu comité de base.</div>
+      <div style="font-size:12px; color:#b45309; margin-top:4px">Según el Art. 89 de los Estatutos necesitas mínimo 10 miembros en tu comité de base.</div>
       <button class="btn btn-oro" style="margin-top:10px; margin-bottom:0" onclick="irA('p-comite')">Completar ahora →</button>
     </div>
 
@@ -281,7 +284,7 @@ window.initGoogleMaps = function() {
         <span id="comite-count-label" style="font-size:13px; font-weight:900; color:var(--azul)">0 / 10</span>
       </div>
       <div class="barra-wrap"><div class="barra-fill" id="comite-barra" style="width:0%"></div></div>
-      <div style="font-size:11px; color:#94a3b8; margin-top:4px">Mínimo 10 miembros según Art. 89 Estatutos PRM</div>
+      <div style="font-size:11px; color:#94a3b8; margin-top:4px">Mínimo 10 miembros según Art. 89 Estatutos</div>
     </div>
 
     <!-- Añadir miembro -->
@@ -365,7 +368,7 @@ window.initGoogleMaps = function() {
     <div class="nav-back" onclick="irA('p-dashboard')"><span>← Dashboard</span></div>
     <div style="padding: 8px 20px 4px; position:relative; z-index:1">
       <h1>📍 Mi Zona</h1>
-      <p id="zona-header-sub">Valverde · PRM</p>
+      <p id="zona-header-sub"></p>
     </div>
   </div>
   <div class="wrap">
@@ -622,10 +625,11 @@ async function cargarDatosCompletos() {
 
     // Cargar foto del padrón
     const { data: pad } = await sb.from('padron_maestro')
-      .select('foto_base64')
+      .select('foto_url, foto_base64')
       .eq('cedula', cedFmtLoad).maybeSingle();
     if (pad) {
-      sesion.foto_base64 = pad.foto_base64;
+      sesion.foto_url = pad.foto_url || null;
+      sesion.foto_base64 = pad.foto_base64 || null;
     }
 
     // Cargar sexo y fecha_nacimiento de dirigentes
@@ -675,7 +679,8 @@ async function cargarDatosCompletos() {
 
 // Guardar token de sesión localmente
 function guardarSesionLocal(datos) {
-  localStorage.setItem('prm_sesion', JSON.stringify({
+  const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion';
+  localStorage.setItem(sk, JSON.stringify({
     cedula:  datos.cedula,
     token:   datos.token,
     nombre:  datos.nombre,
@@ -683,6 +688,7 @@ function guardarSesionLocal(datos) {
     municipio: datos.municipio,
     sector:  datos.sector,
     telefono: datos.telefono,
+    foto_url: datos.foto_url || null,
     foto_base64: datos.foto_base64 || null,
     expires: Date.now() + (24 * 60 * 60 * 1000)
   }));
@@ -690,10 +696,11 @@ function guardarSesionLocal(datos) {
 
 function cargarSesionLocal() {
   try {
-    const raw = localStorage.getItem('prm_sesion');
+    const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion';
+    const raw = localStorage.getItem(sk);
     if (!raw) return null;
     const s = JSON.parse(raw);
-    if (s.expires < Date.now()) { localStorage.removeItem('prm_sesion'); return null; }
+    if (s.expires < Date.now()) { localStorage.removeItem(sk); return null; }
     return s;
   } catch(e) { return null; }
 }
@@ -712,7 +719,7 @@ async function buscarEnPadron(cedula) {
   if (sb) {
     const { data, error } = await sb
       .from('padron_maestro')
-      .select('cedula, nombre_completo, foto_base64, telefono, direccion')
+      .select('cedula, nombre_completo, foto_url, foto_base64, telefono, direccion')
       .eq('cedula', cedFmt)
       .maybeSingle();
 
@@ -720,7 +727,8 @@ async function buscarEnPadron(cedula) {
       return {
         nombre:  data.nombre_completo,
         cedula:  data.cedula,
-        foto:    data.foto_base64,
+        foto:    data.foto_url || data.foto_base64,
+        foto_url: data.foto_url || null,
         tel:     data.telefono,
         dir:     data.direccion,
         enPadron: true
@@ -860,11 +868,11 @@ async function verificarCedulaReg() {
     document.getElementById('reg-nombre-display').textContent = result.nombre;
     document.getElementById('reg-nombre-box').style.display = 'block';
     document.getElementById('reg-paso2').style.display = 'block';
-    alerta('✅ Encontrado en el padrón PRM', 'ok');
+    alerta('✅ Encontrado en el padrón', 'ok');
   } else {
     regDatos.cedula = cedFmt;
     regDatos.nombre = null;
-    document.getElementById('reg-nombre-display').textContent = 'Militante PRM · ' + cedFmt;
+    document.getElementById('reg-nombre-display').textContent = 'Militante · ' + cedFmt;
     document.getElementById('reg-nombre-box').style.display = 'block';
     document.getElementById('reg-paso2').style.display = 'block';
     alerta('Cédula aceptada. No está en el padrón cargado.', 'info');
@@ -965,8 +973,12 @@ function actualizarDashboard() {
 
   // Renderizar foto
   const fotoEl = document.getElementById('dash-foto');
-  if (sesion.foto_base64) {
-    fotoEl.innerHTML = '<img src="data:image/jpeg;base64,' + sesion.foto_base64 + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+  if (sesion.foto_url || sesion.foto_base64) {
+    const img = document.createElement('img');
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%';
+    fotoEl.innerHTML = '';
+    fotoEl.appendChild(img);
+    renderFotoAsync(sb, img, sesion.foto_url, sesion.foto_base64);
   } else {
     const nc = sesion.nombre || '??';
     fotoEl.textContent = nc.slice(0,2).toUpperCase();
@@ -1057,7 +1069,7 @@ async function buscarMiembro() {
       sexo:      result.sexo || '',
       fecha_nacimiento: result.fecha_nacimiento || ''
     };
-    let infoExtra = '✅ En padrón PRM';
+    let infoExtra = '✅ En padrón';
     if (esDirigente) infoExtra += ' · ' + mensajeDisp;
 
     document.getElementById('comite-found-nombre').textContent = result.nombre;
@@ -1090,6 +1102,7 @@ async function agregarMiembro() {
       if (error.code === '23505') { alerta('Esta persona ya está en tu comité', 'error'); return; }
       alerta('Error al guardar: ' + error.message, 'error'); return;
     }
+    if (typeof auditLogger !== 'undefined') auditLogger.log('miembro_comite_agregado', { tabla: 'comite_miembros', registroId: miembroTemporal.cedula, detalle: { nombre: miembroTemporal.nombre } });
   }
 
   if (!sesion.comite) sesion.comite = [];
@@ -1128,7 +1141,7 @@ async function editarMiembro(cedula) {
     const cedLimpia = cedula.replace(/\D/g,'');
     const cedFmt = cedLimpia.slice(0,3)+'-'+cedLimpia.slice(3,10)+'-'+cedLimpia.slice(10);
     const { data } = await sb.from('padron_maestro')
-      .select('nombre_completo, foto_base64, cedula, recinto_nombre, colegio_num, direccion, voto_primaria, concurrencia_2016, concurrencia_2010, municipio')
+      .select('nombre_completo, foto_url, foto_base64, cedula, recinto_nombre, colegio_num, direccion, voto_primaria, concurrencia_2016, concurrencia_2010, municipio')
       .eq('cedula', cedFmt).maybeSingle();
     if (data) padron = data;
   }
@@ -1145,8 +1158,8 @@ async function editarMiembro(cedula) {
   }
 
   const generoStr = padron.sexo === 'F' ? '♀ Femenino' : padron.sexo === 'M' ? '♂ Masculino' : (m.genero === 'F' ? '♀ Femenino' : m.genero === 'M' ? '♂ Masculino' : '—');
-  const fotoHtml = padron.foto_base64
-    ? `<img src="data:image/jpeg;base64,${padron.foto_base64}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`
+  const fotoHtml = (padron.foto_url || padron.foto_base64)
+    ? `<img id="modal-foto" data-foto-url="${padron.foto_url||''}" data-foto-b64="${(padron.foto_base64&&!padron.foto_url)?padron.foto_base64:''}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E">`
     : `<span style="font-size:28px">${(padron.nombre_completo||'?')[0]}</span>`;
 
   const chk = (v) => v ? '✅' : '❌';
@@ -1159,7 +1172,7 @@ async function editarMiembro(cedula) {
     <div style="background:white;border-radius:20px;width:100%;max-width:440px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);margin:auto">
 
       <!-- Header -->
-      <div style="background:linear-gradient(135deg,#003087,#1a4fa8);color:white;padding:16px 20px;display:flex;justify-content:space-between;align-items:center">
+      <div style="background:linear-gradient(135deg,var(--color-primary),#1a4fa8);color:white;padding:16px 20px;display:flex;justify-content:space-between;align-items:center">
         <div>
           <div style="font-size:15px;font-weight:800">👤 Ficha del Miembro</div>
           <div style="font-size:11px;opacity:0.7;margin-top:2px">${padron.nombre_completo || m.nombre}</div>
@@ -1172,7 +1185,7 @@ async function editarMiembro(cedula) {
 
         <!-- Foto y datos básicos -->
         <div style="display:flex;gap:14px;align-items:center;background:#f8fafc;border-radius:14px;padding:14px">
-          <div style="width:72px;height:72px;border-radius:50%;background:#003087;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:3px solid #C8102E;overflow:hidden">
+          <div style="width:72px;height:72px;border-radius:50%;background:var(--color-primary);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:3px solid var(--color-secondary);overflow:hidden">
             ${fotoHtml}
           </div>
           <div style="flex:1">
@@ -1313,14 +1326,14 @@ async function editarMiembro(cedula) {
             : ''
           }
           <button onclick="puntearMiembro('${cedula}')"
-            style="display:block;width:100%;margin-top:8px;background:#003087;color:white;padding:9px;border-radius:9px;text-align:center;font-size:12px;font-weight:800;border:none;cursor:pointer;touch-action:manipulation">
+            style="display:block;width:100%;margin-top:8px;background:var(--color-primary);color:white;padding:9px;border-radius:9px;text-align:center;font-size:12px;font-weight:800;border:none;cursor:pointer;touch-action:manipulation">
             📌 Puntear en el mapa
           </button>
         </div>
 
         <!-- Botón guardar -->
         <button onclick="guardarEdicionMiembro('${cedula}')"
-          style="padding:14px;background:#003087;color:white;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
+          style="padding:14px;background:var(--color-primary);color:white;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
           💾 Guardar cambios
         </button>
 
@@ -1328,6 +1341,12 @@ async function editarMiembro(cedula) {
     </div>
   `;
   document.body.appendChild(modal);
+
+  // Resolver foto del modal async
+  setTimeout(() => {
+    const el = document.getElementById('modal-foto');
+    if (el) renderFotoAsync(sb, el, padron.foto_url||null, (!padron.foto_url?padron.foto_base64:null));
+  }, 0);
 }
 
 function puntearMiembro(cedula) {
@@ -1343,7 +1362,7 @@ function puntearMiembro(cedula) {
   mapModal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px';
   mapModal.innerHTML = `
     <div style="background:white;border-radius:16px;width:100%;max-width:500px;overflow:hidden">
-      <div style="background:#003087;color:white;padding:14px 18px;display:flex;justify-content:space-between;align-items:center">
+      <div style="background:var(--color-primary);color:white;padding:14px 18px;display:flex;justify-content:space-between;align-items:center">
         <div style="font-size:14px;font-weight:800">📌 Puntear ubicación del miembro</div>
         <button onclick="document.getElementById('modal-mapa-miembro').remove()"
           style="background:rgba(255,255,255,0.2);border:none;color:white;font-size:18px;cursor:pointer;border-radius:6px;width:28px;height:28px">✕</button>
@@ -1354,7 +1373,7 @@ function puntearMiembro(cedula) {
       <div id="mapa-miembro-container" style="height:300px"></div>
       <div style="padding:12px;display:flex;gap:8px">
         <button onclick="guardarPuntoMiembro()" id="btn-guardar-punto"
-          style="flex:1;padding:12px;background:#003087;color:white;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer">
+          style="flex:1;padding:12px;background:var(--color-primary);color:white;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer">
           💾 Guardar punto
         </button>
         <button onclick="document.getElementById('modal-mapa-miembro').remove()"
@@ -1498,6 +1517,7 @@ async function eliminarMiembro(cedula) {
       .delete()
       .eq('dirigente_cedula', sesion.cedula)
       .eq('cedula_miembro', cedula);
+    if (typeof auditLogger !== 'undefined') auditLogger.log('miembro_comite_eliminado', { tabla: 'comite_miembros', registroId: cedula });
   }
   sesion.comite = (sesion.comite || []).filter(m => m.cedula !== cedula);
   renderComite();
@@ -1537,7 +1557,7 @@ function renderComite() {
 
   // Total al final
   if (total >= minimo) {
-    lista.innerHTML += `<div style="text-align:center; padding:12px; background:#f0fdf4; border-radius:12px; margin-top:8px; font-weight:800; color:#166534; font-size:13px">✅ Comité completo — cumple Art. 89 Estatutos PRM</div>`;
+    lista.innerHTML += `      <div style="text-align:center; padding:12px; background:#f0fdf4; border-radius:12px; margin-top:8px; font-weight:800; color:#166534; font-size:13px">✅ Comité completo — cumple Art. 89 Estatutos</div>`;
   } else {
     lista.innerHTML += `<div style="text-align:center; padding:10px; color:#94a3b8; font-size:12px">Faltan ${minimo - total} miembro${minimo - total !== 1 ? 's' : ''} para completar el mínimo</div>`;
   }
@@ -1734,10 +1754,10 @@ function renderEstrategia() {
         <div style="margin-bottom:12px;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden">
           <div style="background:#f0f7ff;padding:10px 14px;display:flex;justify-content:space-between;align-items:center">
             <div>
-              <div style="font-weight:800;font-size:13px;color:#003087">${rec.replace(/^\d{4}\s+Rec:\s+\d+\s+-\s+/,'')}</div>
+              <div style="font-weight:800;font-size:13px;color:var(--color-primary)">${rec.replace(/^\d{4}\s+Rec:\s+\d+\s+-\s+/,'')}</div>
               <div style="font-size:10px;color:#64748b;margin-top:1px">${data.total} miembro${data.total !== 1?'s':''}</div>
             </div>
-            <span style="background:#003087;color:white;border-radius:20px;padding:2px 10px;font-size:11px;font-weight:800">${data.total}</span>
+            <span style="background:var(--color-primary);color:white;border-radius:20px;padding:2px 10px;font-size:11px;font-weight:800">${data.total}</span>
           </div>
           ${Object.entries(data.colegios).map(([col, mbs]) => `
             <div style="padding:8px 14px;border-top:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center">
@@ -1775,7 +1795,7 @@ function renderEstrategia() {
               </div>
             </div>
             <a href="${mapsUrl}" target="_blank"
-              style="background:#003087;color:white;padding:6px 10px;border-radius:8px;font-size:10px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0">
+              style="background:var(--color-primary);color:white;padding:6px 10px;border-radius:8px;font-size:10px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0">
               Ver mapa
             </a>
           </div>`;
@@ -1911,10 +1931,10 @@ function renderPerfil() {
     : '—';
 
   // Foto
-  const fotoHtml = sesion.foto_base64
-    ? `<img src="data:image/jpeg;base64,${sesion.foto_base64}"
-        style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid #003087;box-shadow:0 2px 12px rgba(0,0,0,0.2)">`
-    : `<div style="width:90px;height:90px;border-radius:50%;background:#003087;color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:32px;border:3px solid #C8102E">
+  const fotoHtml = (sesion.foto_url || sesion.foto_base64)
+    ? `<img id="perfil-foto" data-foto-url="${sesion.foto_url||''}" data-foto-b64="${(sesion.foto_base64&&!sesion.foto_url)?sesion.foto_base64:''}"
+        style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid var(--color-primary);box-shadow:0 2px 12px rgba(0,0,0,0.2)" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E">`
+    : `<div style="width:90px;height:90px;border-radius:50%;background:var(--color-primary);color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:32px;border:3px solid var(--color-secondary)">
         ${(sesion.nombre||'?').split(',')[0][0]}
        </div>`;
 
@@ -2021,7 +2041,7 @@ function renderPerfil() {
 
       <!-- Botón guardar -->
       <button onclick="actualizarPerfil()"
-        style="padding:14px;background:#003087;color:white;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
+        style="padding:14px;background:var(--color-primary);color:white;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
         💾 Guardar cambios
       </button>
 
@@ -2033,6 +2053,12 @@ function renderPerfil() {
 
     </div>
   `;
+
+  // Resolver foto del perfil async
+  setTimeout(() => {
+    const el = document.getElementById('perfil-foto');
+    if (el) renderFotoAsync(sb, el, sesion.foto_url||null, (!sesion.foto_url?sesion.foto_base64:null));
+  }, 0);
 }
 
 async function cambiarPin() {
@@ -2063,7 +2089,7 @@ async function cerrarSesion() {
       .update({ session_token: null, session_expires: null })
       .eq('cedula', sesion.cedula);
   }
-  localStorage.removeItem('prm_sesion');
+  localStorage.removeItem((typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion');
   sesion = null;
   window.location.href = 'login.html?from=logout';
 }
@@ -2300,22 +2326,34 @@ function mostrarListaBusqueda(resultados) {
   const div = document.createElement('div');
   div.id = 'lista-busqueda';
   div.style.cssText = 'background:white;border:2px solid #e2e8f0;border-radius:12px;overflow:hidden;margin-top:8px';
-  div.innerHTML = resultados.map(r => `
+  div.innerHTML = resultados.map(r => {
+    const fotoId = 'sbm-' + r.cedula.replace(/[^0-9]/g,'');
+    return `
     <div onclick="seleccionarMiembro('${r.cedula}')"
       style="padding:12px 14px;border-bottom:1px solid #f1f5f9;cursor:pointer;display:flex;align-items:center;gap:10px;touch-action:manipulation"
       onmouseover="this.style.background='#f0f7ff'" onmouseout="this.style.background='white'">
-      ${r.foto_base64 
-        ? `<img src="data:image/jpeg;base64,${r.foto_base64}" style="width:36px;height:36px;border-radius:50%;object-fit:cover">`
-        : `<div style="width:36px;height:36px;border-radius:50%;background:#003087;color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px">${(r.nombre_completo||'?')[0]}</div>`}
+      ${r.foto_url || r.foto
+        ? `<img id="${fotoId}" data-foto-url="${r.foto_url||''}" data-foto-b64="${(r.foto&&!r.foto_url)?r.foto:''}" style="width:36px;height:36px;border-radius:50%;object-fit:cover" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E">`
+        : `<div style="width:36px;height:36px;border-radius:50%;background:var(--color-primary);color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px">${(r.nombre_completo||'?')[0]}</div>`}
       <div>
         <div style="font-size:13px;font-weight:800">${r.nombre_completo}</div>
         <div style="font-size:11px;color:#64748b;font-family:monospace">${r.cedula}</div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
   
   const inputEl = document.getElementById('input-miembro');
   inputEl?.parentElement?.appendChild(div);
+
+  // Resolver fotos async
+  if (typeof renderFotoAsync === 'function') {
+    resultados.forEach(r => {
+      if (r.foto_url || r.foto) {
+        const el = document.getElementById('sbm-' + r.cedula.replace(/[^0-9]/g,''));
+        if (el) renderFotoAsync(sb, el, r.foto_url||null, (!r.foto_url?r.foto:null));
+      }
+    });
+  }
 }
 
 async function seleccionarMiembro(cedula) {
@@ -2326,6 +2364,19 @@ async function seleccionarMiembro(cedula) {
 }
 
 window.addEventListener('DOMContentLoaded', async function() {
+  // Init config
+  if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG) {
+    var root = document.documentElement;
+    root.style.setProperty('--color-primary', APP_CONFIG.branding.primaryColor);
+    root.style.setProperty('--color-secondary', APP_CONFIG.branding.secondaryColor);
+    root.style.setProperty('--color-accent', APP_CONFIG.branding.accentColor);
+    document.getElementById('dash-logo-text').textContent = APP_CONFIG.branding.logoText || APP_CONFIG.branding.initials || '';
+    var b = APP_CONFIG.branding;
+    var u = APP_CONFIG.ui;
+    document.getElementById('dash-subtitulo').textContent = b.territorio + ' · ' + (u.anoElectoral || new Date().getFullYear());
+    document.getElementById('zona-header-sub').textContent = b.territorio + ' · ' + (u.anoElectoral || new Date().getFullYear());
+  }
+
   // Init Supabase
   initSupabase();
 
@@ -2334,6 +2385,10 @@ window.addEventListener('DOMContentLoaded', async function() {
   if (sesionGuardada) {
     sesion = { ...sesionGuardada, comite: [], estructuras: [] };
     await cargarDatosCompletos();
+    // Init audit
+    if (typeof auditLogger !== 'undefined' && sb) {
+      auditLogger.init(sb, { cedula: sesion.cedula, nombre: sesion.nombre, rol: 'DIRIGENTE' });
+    }
     irA('p-dashboard');
   } else {
     // Sin sesión → ir al login
@@ -2377,9 +2432,9 @@ window.addEventListener('DOMContentLoaded', async function() {
 <style id="pracaf-css">
 .pc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:4px}
 .pc-card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.1);border:2px solid #e8edf5;cursor:pointer;transition:all .15s}
-.pc-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.18);border-color:#003087;transform:translateY(-1px)}
+.pc-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.18);border-color:var(--color-primary);transform:translateY(-1px)}
 .pc-card:active{transform:scale(.97)}
-.pc-head{background:linear-gradient(135deg,#003087,#1a3a6b);padding:5px 12px;display:flex;justify-content:space-between;align-items:center}
+.pc-head{background:linear-gradient(135deg,var(--color-primary),#1a3a6b);padding:5px 12px;display:flex;justify-content:space-between;align-items:center}
 .pc-ced{color:#aec6ff;font-size:11px;font-family:monospace}
 .pc-num{color:rgba(255,255,255,.35);font-size:11px;font-weight:800}
 .pc-body{display:flex;min-height:100px}
@@ -2389,15 +2444,15 @@ window.addEventListener('DOMContentLoaded', async function() {
 .pc-info{padding:9px 10px;flex:1;min-width:0}
 .pc-nom{font-weight:800;font-size:12px;color:#1e3a8a;line-height:1.3;margin-bottom:4px}
 .pc-dato{font-size:11px;color:#475569;margin-bottom:2px;display:flex;gap:4px}
-.pc-strip{background:linear-gradient(90deg,#C8102E,#9b1221);color:#fff;padding:5px 10px;font-size:10px;font-weight:700;display:flex;justify-content:space-between;gap:6px}
+.pc-strip{background:linear-gradient(90deg,var(--color-secondary),#9b1221);color:#fff;padding:5px 10px;font-size:10px;font-weight:700;display:flex;justify-content:space-between;gap:6px}
 .pc-strip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pc-stats{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-.pc-stat{background:white;border-radius:10px;padding:9px 10px;text-align:center;flex:1;min-width:58px;box-shadow:0 1px 4px rgba(0,0,0,.06);border-top:3px solid #003087}
-.pc-stat .psn{font-size:20px;font-weight:900;color:#003087;line-height:1}
+.pc-stat{background:white;border-radius:10px;padding:9px 10px;text-align:center;flex:1;min-width:58px;box-shadow:0 1px 4px rgba(0,0,0,.06);border-top:3px solid var(--color-primary)}
+.pc-stat .psn{font-size:20px;font-weight:900;color:var(--color-primary);line-height:1}
 .pc-stat .psl{font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-top:2px}
 .pc-srch{margin-bottom:12px}
 .pc-srch input{width:100%;padding:10px 13px;border:2px solid #e2e8f0;border-radius:10px;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box}
-.pc-srch input:focus{border-color:#003087}
+.pc-srch input:focus{border-color:var(--color-primary)}
 </style>
 <script id="pracaf-js">
 (function(){
@@ -2409,7 +2464,7 @@ window.addEventListener('DOMContentLoaded', async function() {
     if(!miss.length||!window.sb)return;
     try{
       var r=await window.sb.from('padron_maestro')
-        .select('cedula,nombre_completo,foto_base64,telefono,telefono2,direccion,recinto_nombre,colegio_num')
+        .select('cedula,nombre_completo,foto_url,foto_base64,telefono,telefono2,direccion,recinto_nombre,colegio_num')
         .in('cedula',miss);
       if(r.data)r.data.forEach(function(d){_cache[d.cedula]=d;});
     }catch(e){console.warn('padron err',e);}
@@ -2429,7 +2484,8 @@ window.addEventListener('DOMContentLoaded', async function() {
       var p=_cache[m.cedula]||{};
       return{i:i+1,ced:m.cedula,
         nom:p.nombre_completo||m.nombre||m.cedula,
-        foto:p.foto_base64||null,
+        foto:p.foto_url||p.foto_base64||null,
+        foto_url:p.foto_url||null,
         tel:m.telefono||p.telefono||'',
         tel2:p.telefono2||'',
         dir:m.direccion||p.direccion||'',
@@ -2451,7 +2507,8 @@ window.addEventListener('DOMContentLoaded', async function() {
     h+='</div><div class="pc-grid" id="_pcg">';
     
     mbs.forEach(function(m){
-      var foto=m.foto?'<img src="data:image/jpeg;base64,'+m.foto+'" alt="" loading="lazy">':
+      var fotoId='pcf-'+m.ced.replace(/[^0-9]/g,'');
+      var foto=m.foto?'<img id="'+fotoId+'" data-foto-url="'+(m.foto_url||'')+'" data-foto-b64="'+((m.foto&&!m.foto_url)?m.foto:'')+'" src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\'/%3E" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover">':
         '<span class="nf">&#128100;</span>';
       h+='<div class="pc-card" onclick="editarMiembro(''+m.ced+'')" data-n="'+m.nom.toLowerCase()+'" data-c="'+m.ced+'">';
       h+='<div class="pc-head"><span class="pc-ced">'+m.ced+'</span><span class="pc-num">#'+m.i+'</span></div>';
@@ -2467,10 +2524,24 @@ window.addEventListener('DOMContentLoaded', async function() {
     });
     h+='</div>';
     h+=tot>=MIN
-      ?'<div style="margin-top:12px;padding:10px;background:#f0fdf4;border-radius:10px;text-align:center;font-weight:800;color:#166534">&#9989; Comite completo - Art. 89 PRM</div>'
+      ?'<div style="margin-top:12px;padding:10px;background:#f0fdf4;border-radius:10px;text-align:center;font-weight:800;color:#166534">&#9989; Comite completo - Art. 89</div>'
       :'<div style="margin-top:8px;text-align:center;color:#94a3b8;font-size:12px">Faltan '+(MIN-tot)+' miembro'+(MIN-tot!==1?'s':'')+' para el minimo</div>';
     
     lista.innerHTML=h;
+
+    // Resolver fotos del grid con batch (no saturar API)
+    if (typeof batchGetFotoUrls === 'function' && mbs.some(function(m){return m.foto_url||m.foto;})) {
+      var fotoRows = mbs.filter(function(m){return m.foto_url||m.foto;}).map(function(m){
+        return {cedula:m.ced, foto_url:m.foto_url||null, foto_base64:(m.foto&&!m.foto_url)?m.foto:null};
+      });
+      batchGetFotoUrls(sb, fotoRows).then(function(urls){
+        Object.keys(urls).forEach(function(ced){
+          var el=document.getElementById('pcf-'+ced.replace(/[^0-9]/g,''));
+          if(el&&urls[ced])el.src=urls[ced];
+        });
+      });
+    }
+
     _running=false;
   }
 

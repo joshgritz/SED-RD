@@ -4,8 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="theme-color" content="#C8102E">
-<title>Delegado — PRM Valverde</title>
+<title>Delegado — Valverde</title>
+<script src="js/config_loader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/fotos.js"></script>
+<script src="js/audit.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script>
@@ -18,9 +21,10 @@ if (window.supabase) {
 }
 </script>
 <style>
+:root{--color-primary:#003087;--color-secondary:#C8102E;--color-accent:#F5A623}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293b;min-height:100vh}
-.header{background:linear-gradient(135deg,#C8102E,#9b1b30);color:white;padding:16px;position:sticky;top:0;z-index:100}
+.header{background:linear-gradient(135deg,var(--color-secondary),#9b1b30);color:white;padding:16px;position:sticky;top:0;z-index:100}
 .header-top{display:flex;justify-content:space-between;align-items:center}
 .header h1{font-size:16px;font-weight:900;margin:6px 0 2px}
 .header p{font-size:11px;opacity:0.7}
@@ -31,14 +35,14 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 /* ── TABS ── */
 .tabs{display:flex;gap:4px;background:white;border-radius:14px;padding:4px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
 .tab{flex:1;padding:10px 8px;border:none;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer;background:transparent;color:#64748b;transition:all .2s;font-family:inherit;text-align:center}
-.tab.activo{background:#C8102E;color:white}
+.tab.activo{background:var(--color-secondary);color:white}
 .tab-content{display:none}.tab-content.activo{display:block}
 
 /* ── MESA CARD ── */
 .mesa-card{display:flex;align-items:center;gap:12px;padding:14px;border:2px solid #e2e8f0;border-radius:14px;margin-bottom:8px;cursor:pointer;transition:all .15s}
 .mesa-card:active{transform:scale(0.98)}
-.mesa-card:hover{border-color:#C8102E;background:#fef2f2}
-.mesa-num{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#C8102E,#9b1b30);color:white;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;flex-shrink:0}
+.mesa-card:hover{border-color:var(--color-secondary);background:#fef2f2}
+.mesa-num{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--color-secondary),#9b1b30);color:white;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;flex-shrink:0}
 .mesa-info{flex:1}.mesa-nombre{font-size:13px;font-weight:800}.mesa-colegio{font-size:11px;color:#64748b}
 .mesa-stats{display:flex;gap:6px;margin-top:4px}
 .mesa-stat{font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;background:#f1f5f9;color:#64748b}
@@ -47,12 +51,12 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 /* ── KPI ── */
 .kpi-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
 .kpi{background:white;border-radius:12px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
-.kpi-num{font-size:22px;font-weight:900;color:#C8102E}.kpi-label{font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:700}
+.kpi-num{font-size:22px;font-weight:900;color:var(--color-secondary)}.kpi-label{font-size:9px;color:#94a3b8;text-transform:uppercase;font-weight:700}
 
 /* ── BUSCADOR ── */
 .search-box{position:relative;margin-bottom:12px}
 .search-box input{width:100%;padding:12px 16px 12px 40px;border:2px solid #e2e8f0;border-radius:12px;font-size:14px;outline:none;font-family:inherit;background:white}
-.search-box input:focus{border-color:#C8102E}
+.search-box input:focus{border-color:var(--color-secondary)}
 .search-box i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#94a3b8}
 
 /* ── VOTANTE ── */
@@ -65,8 +69,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 
 /* ── ACTA ── */
 .acta-zone{border:3px dashed #e2e8f0;border-radius:16px;padding:32px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:12px}
-.acta-zone:hover{border-color:#C8102E;background:#fef2f2}
-.acta-zone i{font-size:36px;color:#C8102E;margin-bottom:8px}
+.acta-zone:hover{border-color:var(--color-secondary);background:#fef2f2}
+.acta-zone i{font-size:36px;color:var(--color-secondary);margin-bottom:8px}
 .acta-zone p{font-size:13px;color:#64748b}
 .acta-preview{width:100%;max-height:300px;object-fit:contain;border-radius:12px;margin-bottom:8px;display:none}
 .acta-thumb{display:inline-block;width:80px;height:80px;border-radius:8px;object-fit:cover;margin:4px;border:2px solid #e2e8f0}
@@ -74,7 +78,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 /* ── BOTONES ── */
 .btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;touch-action:manipulation;font-family:inherit;margin-bottom:8px;transition:all .15s}
 .btn:active{transform:scale(0.97)}
-.btn-rojo{background:#C8102E;color:white}.btn-verde{background:#16a34a;color:white}.btn-azul{background:#003087;color:white}.btn-gris{background:#f1f5f9;color:#64748b}
+.btn-rojo{background:var(--color-secondary);color:white}.btn-verde{background:#16a34a;color:white}.btn-azul{background:var(--color-primary);color:white}.btn-gris{background:#f1f5f9;color:#64748b}
 
 /* ── TOAST ── */
 .toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:400px;margin:0 auto;padding:13px 18px;border-radius:14px;font-size:14px;font-weight:700;z-index:9999;text-align:center;display:none}
@@ -102,7 +106,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
     <button style="background:rgba(255,255,255,0.2);color:white;border:none;padding:6px 12px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer" onclick="cerrarSesion()">Salir 🔒</button>
   </div>
   <h1>🗳️ Día de Elecciones</h1>
-  <p id="del-sub">Valverde · PRM 2026</p>
+  <p id="del-sub"></p>
 </div>
 
 <div class="wrap">
@@ -200,6 +204,16 @@ if (!sb && window.supabase) {
   );
 }
 
+// ═══════════ CONFIG VARS ═══════════
+(function() {
+  if (typeof APP_CONFIG === 'undefined' || !APP_CONFIG) return;
+  var root = document.documentElement;
+  root.style.setProperty('--color-primary', APP_CONFIG.branding.primaryColor);
+  root.style.setProperty('--color-secondary', APP_CONFIG.branding.secondaryColor);
+  root.style.setProperty('--color-accent', APP_CONFIG.branding.accentColor);
+  document.querySelector('meta[name="theme-color"]').content = APP_CONFIG.branding.secondaryColor;
+})();
+
 // ═══════════ ESTADO ═══════════
 let sesion = null;
 let votantes = [];
@@ -210,20 +224,27 @@ let actaFile = null;
 
 // ═══════════ SESIÓN ═══════════
 function getSesion() {
-  const raw = localStorage.getItem('prm_sesion');
+  const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion';
+  const raw = localStorage.getItem(sk);
   if (!raw) { window.location.href = 'login.html'; return null; }
   try {
     const s = JSON.parse(raw);
-    if (s.expires <= Date.now()) { localStorage.removeItem('prm_sesion'); window.location.href = 'login.html'; return null; }
+    if (s.expires <= Date.now()) { localStorage.removeItem(sk); window.location.href = 'login.html'; return null; }
     return s;
-  } catch(e) { localStorage.removeItem('prm_sesion'); window.location.href = 'login.html'; return null; }
+  } catch(e) { localStorage.removeItem(sk); window.location.href = 'login.html'; return null; }
 }
 
 // ═══════════ INIT ═══════════
 window.addEventListener('DOMContentLoaded', async () => {
   sesion = getSesion();
   if (!sesion) return;
-  document.getElementById('del-sub').textContent = (sesion.zona || 'Valverde') + ' · ' + (sesion.municipio || 'PRM 2026');
+  // Init audit
+  if (typeof auditLogger !== 'undefined' && sb) {
+    auditLogger.init(sb, { cedula: sesion.cedula, nombre: sesion.nombre, rol: 'DELEGADO' });
+  }
+  var b = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG) ? APP_CONFIG.branding : {};
+  var u = (typeof APP_CONFIG !== 'undefined' && APP_CONFIG) ? APP_CONFIG.ui : {};
+  document.getElementById('del-sub').textContent = (sesion.zona || b.territorio || '') + ' · ' + (u.anoElectoral || new Date().getFullYear());
   await cargarDatos();
 });
 
@@ -233,12 +254,13 @@ async function cargarDatos() {
   try {
     // 1. Cargar padrón (votantes de la zona del delegado)
     const { data: padron } = await sb.from('padron_maestro')
-      .select('cedula, nombre_completo, foto_base64, sexo, fecha_nacimiento, recinto_nombre, colegio_num, direccion')
+      .select('cedula, nombre_completo, foto_url, foto_base64, sexo, fecha_nacimiento, recinto_nombre, colegio_num, direccion')
       .order('nombre_completo');
     votantes = (padron || []).map(p => ({
       cedula: p.cedula,
       nombre: p.nombre_completo,
-      foto: p.foto_base64,
+      foto: p.foto_url || p.foto_base64,
+      foto_url: p.foto_url || null,
       sexo: p.sexo,
       fecha_nacimiento: p.fecha_nacimiento,
       recinto: p.recinto_nombre || '',
@@ -308,8 +330,9 @@ function renderVotantes(lista) {
 
   el.innerHTML = data.map(v => {
     const ini = (v.nombre || '??').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+    const fotoId = 'vf-' + v.cedula.replace(/[^0-9]/g,'');
     const fotoHtml = v.foto
-      ? '<img src="data:image/jpeg;base64,' + v.foto + '">'
+      ? `<img id="${fotoId}" data-foto-url="${v.foto_url||''}" data-foto-b64="${(v.foto&&!v.foto_url)?v.foto:''}" style="width:100%;height:100%;object-fit:cover" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E">`
       : ini;
     return `
       <div class="votante-card" onclick="verVotante('${v.cedula}')">
@@ -323,6 +346,14 @@ function renderVotantes(lista) {
         </div>
       </div>`;
   }).join('');
+
+  // Resolver fotos async
+  data.forEach(v => {
+    if (v.foto) {
+      const el = document.getElementById('vf-' + v.cedula.replace(/[^0-9]/g,''));
+      if (el) renderFotoAsync(sb, el, v.foto_url||null, (!v.foto_url?v.foto:null));
+    }
+  });
 }
 
 function filtrarVotantes() {
@@ -353,11 +384,11 @@ function verVotante(cedula) {
   document.getElementById('modal-body').innerHTML = `
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
       <div style="background:#f1f5f9;padding:10px;border-radius:10px;text-align:center">
-        <div style="font-size:18px;font-weight:900;color:#003087">${v.cedula}</div>
+        <div style="font-size:18px;font-weight:900;color:var(--color-primary)">${v.cedula}</div>
         <div style="font-size:9px;color:#94a3b8;text-transform:uppercase">Cédula</div>
       </div>
       <div style="background:#f1f5f9;padding:10px;border-radius:10px;text-align:center">
-        <div style="font-size:18px;font-weight:900;color:#C8102E">${edad}</div>
+        <div style="font-size:18px;font-weight:900;color:var(--color-secondary)">${edad}</div>
         <div style="font-size:9px;color:#94a3b8;text-transform:uppercase">Edad</div>
       </div>
     </div>
@@ -433,6 +464,7 @@ async function subirActa() {
         imagen_base64: base64,
         fecha_subida: new Date().toISOString()
       });
+      if (typeof auditLogger !== 'undefined') auditLogger.log('acta_subida', { tabla: 'actas_electorales', detalle: { mesa_numero: mesa } });
     }
     toast('✅ Acta subida correctamente', 'ok');
     actaFile = null;
@@ -474,7 +506,7 @@ function renderChartEdad() {
     type: 'bar',
     data: {
       labels: Object.keys(rangos),
-      datasets: [{ label: 'Votantes', data: Object.values(rangos), backgroundColor: ['#003087','#C8102E','#efbc00','#16a34a','#7c3aed'], borderRadius: 6, barThickness: 24 }]
+      datasets: [{ label: 'Votantes', data: Object.values(rangos), backgroundColor: [configLoader.getColor('primary') || '#003087', configLoader.getColor('secondary') || '#C8102E', configLoader.getColor('accent') || '#F5A623', '#16a34a', '#7c3aed'], borderRadius: 6, barThickness: 24 }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
@@ -493,7 +525,7 @@ function cambiarTab(tab) {
 }
 
 function cerrarModal() { document.getElementById('modal-votante').classList.remove('activo'); }
-function cerrarSesion() { localStorage.removeItem('prm_sesion'); window.location.href = 'login.html'; }
+function cerrarSesion() { const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion'; localStorage.removeItem(sk); window.location.href = 'login.html'; }
 
 let _tt;
 function toast(msg, tipo) {

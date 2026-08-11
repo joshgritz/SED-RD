@@ -112,6 +112,7 @@ serve(async (req) => {
           email_confirm: true,
           app_metadata: {
             role: user.rol,
+            cedula: user.cedula,
             zona: user.zona,
             municipio: user.municipio,
           },
@@ -132,6 +133,7 @@ serve(async (req) => {
               await supabase.auth.admin.updateUserById(existingUser.users[0].id, {
                 app_metadata: {
                   role: user.rol,
+                  cedula: user.cedula,
                   zona: user.zona,
                   municipio: user.municipio,
                 },

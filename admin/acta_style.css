@@ -1,7 +1,13 @@
 /* ══════════════════════════════════════════════
    ACTA FINAL — Estilos
-   PRM Valverde · Sistema Electoral
+   Sistema Electoral · Configurable
    ══════════════════════════════════════════════ */
+
+:root {
+  --color-primary: var(--color-primary);
+  --color-secondary: #C8102E;
+  --color-accent: #F5A623;
+}
 
 /* ── Reset del contenedor del acta ── */
 .acta-container {
@@ -18,7 +24,7 @@
 /* ── Encabezado oficial ── */
 .acta-header {
   text-align: center;
-  border-bottom: 3px double #003087;
+  border-bottom: 3px double var(--color-primary);
   padding-bottom: 20px;
   margin-bottom: 30px;
 }
@@ -26,7 +32,7 @@
 .acta-header .partido-nombre {
   font-size: 18px;
   font-weight: bold;
-  color: #003087;
+  color: var(--color-primary);
   letter-spacing: 2px;
   text-transform: uppercase;
   margin-bottom: 4px;
@@ -41,7 +47,7 @@
 .acta-header .acta-tipo {
   font-size: 22px;
   font-weight: bold;
-  color: #003087;
+  color: var(--color-primary);
   margin: 16px 0 8px;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -72,10 +78,10 @@
 .acta-section-title {
   font-size: 14px;
   font-weight: bold;
-  color: #003087;
+  color: var(--color-primary);
   text-transform: uppercase;
   letter-spacing: 1px;
-  border-bottom: 2px solid #003087;
+  border-bottom: 2px solid var(--color-primary);
   padding-bottom: 4px;
   margin-bottom: 14px;
 }
@@ -83,7 +89,7 @@
 /* ── Mecanismo ── */
 .mecanismo-box {
   background: #f0f4fa;
-  border-left: 4px solid #003087;
+  border-left: 4px solid var(--color-primary);
   padding: 14px 18px;
   margin-bottom: 20px;
   font-size: 12.5px;
@@ -91,7 +97,7 @@
 }
 
 .mecanismo-box strong {
-  color: #003087;
+  color: var(--color-primary);
   display: block;
   margin-bottom: 4px;
   font-size: 13px;
@@ -106,7 +112,7 @@
 }
 
 .acta-table th {
-  background: #003087;
+  background: var(--color-primary);
   color: #fff;
   padding: 8px 10px;
   text-align: left;
@@ -195,7 +201,7 @@
 
 /* ── Resultado ── */
 .resultado-box {
-  border: 2px solid #003087;
+  border: 2px solid var(--color-primary);
   border-radius: 8px;
   padding: 20px;
   margin: 16px 0;
@@ -236,7 +242,7 @@
 .resultado-stat .stat-num {
   font-size: 18px;
   font-weight: bold;
-  color: #003087;
+  color: var(--color-primary);
 }
 
 .resultado-stat .stat-label {
@@ -291,7 +297,7 @@
 /* ── Sello de trazabilidad ── */
 .acta-sello {
   margin-top: 40px;
-  border-top: 2px solid #003087;
+  border-top: 2px solid var(--color-primary);
   padding-top: 14px;
   text-align: center;
   font-size: 11px;
@@ -301,7 +307,7 @@
 .acta-sello .sello-numero {
   font-size: 14px;
   font-weight: bold;
-  color: #003087;
+  color: var(--color-primary);
   letter-spacing: 1px;
   margin-bottom: 4px;
 }
@@ -350,7 +356,7 @@
 }
 
 .acta-modal-header {
-  background: #003087;
+  background: var(--color-primary);
   color: #fff;
   padding: 18px 24px;
   border-radius: 16px 16px 0 0;
@@ -397,7 +403,7 @@
 }
 
 .acta-modal-body input:focus {
-  border-color: #003087;
+  border-color: var(--color-primary);
 }
 
 .acta-modal-body .testigo-group {
@@ -411,7 +417,7 @@
 .acta-modal-body .testigo-group h4 {
   margin: 0 0 10px;
   font-size: 13px;
-  color: #003087;
+  color: var(--color-primary);
 }
 
 .acta-modal-body .testigo-nota {
@@ -440,7 +446,7 @@
 }
 
 .acta-btn-primary {
-  background: #003087;
+  background: var(--color-primary);
   color: #fff;
 }
 
@@ -471,7 +477,7 @@
   position: fixed;
   bottom: 24px;
   right: 24px;
-  background: #003087;
+  background: var(--color-primary);
   color: #fff;
   padding: 14px 20px;
   border-radius: 10px;
@@ -513,5 +519,5 @@
   .firmas-section { page-break-before: auto; }
 
   .cuota-card { border-width: 1px; }
-  .acta-table th { background: #003087 !important; color: #fff !important; }
+  .acta-table th { background: var(--color-primary) !important; color: #fff !important; }
 }

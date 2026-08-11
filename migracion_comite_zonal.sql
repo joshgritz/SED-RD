@@ -86,7 +86,7 @@ CREATE OR REPLACE FUNCTION fn_guardar_comite_zonal(
     p_zona TEXT,
     p_cargo_id INTEGER,
     p_cedula TEXT DEFAULT NULL,
-    p_nombre TEXT,
+    p_nombre TEXT DEFAULT NULL,
     p_sexo CHAR(1) DEFAULT NULL,
     p_fecha_nacimiento DATE DEFAULT NULL,
     p_es_titular BOOLEAN DEFAULT TRUE,
