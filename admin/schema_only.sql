@@ -511,14 +511,43 @@ ALTER TABLE estructuras_dirigente DISABLE ROW LEVEL SECURITY;
 ALTER TABLE usuarios_sistema DISABLE ROW LEVEL SECURITY;
 ALTER TABLE planchas DISABLE ROW LEVEL SECURITY;
 ALTER TABLE plancha_miembros DISABLE ROW LEVEL SECURITY;
-ALTER TABLE provincias DISABLE ROW LEVEL SECURITY;
-ALTER TABLE municipios DISABLE ROW LEVEL SECURITY;
-ALTER TABLE zonas DISABLE ROW LEVEL SECURITY;
-ALTER TABLE sectores DISABLE ROW LEVEL SECURITY;
-ALTER TABLE catalogo_cargos DISABLE ROW LEVEL SECURITY;
-ALTER TABLE roles_sistema DISABLE ROW LEVEL SECURITY;
-ALTER TABLE recintos_electorales DISABLE ROW LEVEL SECURITY;
 ALTER TABLE log_actividad DISABLE ROW LEVEL SECURITY;
 ALTER TABLE admin_roles DISABLE ROW LEVEL SECURITY;
-ALTER TABLE colegios_electorales DISABLE ROW LEVEL SECURITY;
+
+-- Reference tables: RLS enabled with public read access
+ALTER TABLE provincias ENABLE ROW LEVEL SECURITY;
+ALTER TABLE municipios ENABLE ROW LEVEL SECURITY;
+ALTER TABLE zonas ENABLE ROW LEVEL SECURITY;
+ALTER TABLE sectores ENABLE ROW LEVEL SECURITY;
+ALTER TABLE catalogo_cargos ENABLE ROW LEVEL SECURITY;
+ALTER TABLE roles_sistema ENABLE ROW LEVEL SECURITY;
+ALTER TABLE recintos_electorales ENABLE ROW LEVEL SECURITY;
+ALTER TABLE colegios_electorales ENABLE ROW LEVEL SECURITY;
+
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'ref_select_public' AND tablename = 'provincias') THEN
+    CREATE POLICY ref_select_public ON provincias FOR SELECT USING (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'ref_select_public' AND tablename = 'municipios') THEN
+    CREATE POLICY ref_select_public ON municipios FOR SELECT USING (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'ref_select_public' AND tablename = 'zonas') THEN
+    CREATE POLICY ref_select_public ON zonas FOR SELECT USING (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'ref_select_public' AND tablename = 'sectores') THEN
+    CREATE POLICY ref_select_public ON sectores FOR SELECT USING (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'ref_select_public' AND tablename = 'catalogo_cargos') THEN
+    CREATE POLICY ref_select_public ON catalogo_cargos FOR SELECT USING (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'ref_select_public' AND tablename = 'roles_sistema') THEN
+    CREATE POLICY ref_select_public ON roles_sistema FOR SELECT USING (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'ref_select_public' AND tablename = 'recintos_electorales') THEN
+    CREATE POLICY ref_select_public ON recintos_electorales FOR SELECT USING (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'ref_select_public' AND tablename = 'colegios_electorales') THEN
+    CREATE POLICY ref_select_public ON colegios_electorales FOR SELECT USING (true);
+  END IF;
+END $$;
 
