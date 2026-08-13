@@ -460,13 +460,14 @@
     .pe-btn-azul{background:var(--color-primary);color:white}.pe-btn-verde{background:#16a34a;color:white}.pe-btn-gris{background:#f1f5f9;color:#64748b}.pe-btn-rojo{background:#dc2626;color:white}.pe-btn-oro{background:#C5A864;color:#001a40}
     .pe-error-box{background:#fef2f2;border:2px solid #fecaca;border-radius:10px;padding:10px 12px;font-size:13px;color:#dc2626;font-weight:600;margin-bottom:10px;display:none}
     .pe-info-box{background:#eff6ff;border:2px solid #bfdbfe;border-radius:10px;padding:10px 12px;font-size:12px;color:#1e40af;margin-bottom:12px}
-    .pe-role-grid{display:grid;gap:10px;margin-bottom:16px}
-    .pe-role-card{display:flex;align-items:center;gap:12px;padding:16px;border:2px solid #e2e8f0;border-radius:16px;background:white;cursor:pointer;transition:all .15s;touch-action:manipulation}
-    .pe-role-card:active{transform:scale(0.97)}
-    .pe-role-card:hover{border-color:var(--color-primary);background:#f8faff}
-    .pe-role-card .rc-icon{font-size:28px;width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .pe-role-card .rc-text{flex:1}.pe-role-card .rc-title{font-size:14px;font-weight:800;color:#1e293b}.pe-role-card .rc-sub{font-size:11px;color:#64748b;margin-top:1px}
-    .pe-role-card .rc-arrow{font-size:18px;color:#94a3b8}
+    .pe-role-grid{display:grid;gap:12px;margin-bottom:16px}
+    .pe-role-card{position:relative;display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid #e8edf5;border-radius:18px;background:linear-gradient(135deg,#ffffff 0%,#f8fafd 100%);cursor:pointer;transition:all .2s cubic-bezier(.4,0,.2,1);touch-action:manipulation;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+    .pe-role-card:active{transform:scale(0.98)}
+    .pe-role-card:hover{border-color:rgba(15,23,42,.18);background:linear-gradient(135deg,#ffffff 0%,#f1f5fb 100%);box-shadow:0 8px 24px rgba(15,23,42,.10);transform:translateY(-2px)}
+    .pe-role-card .rc-icon{font-size:24px;width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 2px 6px rgba(15,23,42,.08)}
+    .pe-role-card .rc-text{flex:1}.pe-role-card .rc-title{font-size:14px;font-weight:800;color:#0f172a;letter-spacing:-.01em}.pe-role-card .rc-sub{font-size:11px;color:#64748b;margin-top:2px;line-height:1.4}
+    .pe-role-card .rc-arrow{width:30px;height:30px;border-radius:50%;background:#eef2f8;color:#334155;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:all .2s}
+    .pe-role-card:hover .rc-arrow{background:var(--color-primary);color:#fff;transform:translateX(2px)}
     .pe-portal-top{display:flex;gap:8px;margin-bottom:16px}
     .pe-portal-top .pe-btn{flex:1}
     .pe-portal-section{margin-bottom:14px}
@@ -622,7 +623,7 @@
 <div id="portal-electoral">
   <button class="close-portal" onclick="cerrarPortalElectoral()"><i class="fa-solid fa-xmark"></i></button>
   <div class="portal-elec-hero">
-    <div class="hero-circle"><span id="portal-logo-text">SED</span></div>
+    <div class="hero-circle"><img src="img/logo-sed.png" alt="SISTEPARD" style="width:54px;height:auto;border-radius:8px;"></div>
     <h1 id="portal-title">Portal Electoral SISTEPARD</h1>
     <p>Provincia Valverde · República Dominicana 2026</p>
   </div>
@@ -638,17 +639,17 @@
       <div class="pe-portal-section">
         <div class="pe-portal-section-title">Estructura del Partido</div>
         <div class="pe-role-grid">
-          <div class="pe-role-card" onclick="peEntrarRol('dirigente')"><div class="rc-icon" style="background:#dcfce7">🤝</div><div class="rc-text"><div class="rc-title">Dirigente de Base</div><div class="rc-sub">Comité de base y estructura zonal</div></div><div class="rc-arrow">›</div></div>
-          <div class="pe-role-card" onclick="peEntrarRol('zona')"><div class="rc-icon" style="background:#dbeafe">🏛️</div><div class="rc-text"><div class="rc-title">Portal Zonal</div><div class="rc-sub">Gestión de zona, dirigentes y planchas</div></div><div class="rc-arrow">›</div></div>
-          <div class="pe-role-card" onclick="peEntrarRol('delegado')"><div class="rc-icon" style="background:#fce7f3">📋</div><div class="rc-text"><div class="rc-title">Delegado</div><div class="rc-sub">Mesas, actas y votantes del día</div></div><div class="rc-arrow">›</div></div>
+          <div class="pe-role-card" onclick="peEntrarRol('dirigente')"><div class="rc-icon" style="background:linear-gradient(135deg,#dcfce7,#bbf7d0)">🤝</div><div class="rc-text"><div class="rc-title">Dirigente de Base</div><div class="rc-sub">Comité de base y estructura zonal</div></div><div class="rc-arrow">›</div></div>
+          <div class="pe-role-card" onclick="peEntrarRol('zona')"><div class="rc-icon" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">🏛️</div><div class="rc-text"><div class="rc-title">Portal Zonal</div><div class="rc-sub">Gestión de zona, dirigentes y planchas</div></div><div class="rc-arrow">›</div></div>
+          <div class="pe-role-card" onclick="peEntrarRol('delegado')"><div class="rc-icon" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8)">📋</div><div class="rc-text"><div class="rc-title">Delegado</div><div class="rc-sub">Mesas, actas y votantes del día</div></div><div class="rc-arrow">›</div></div>
         </div>
       </div>
       <div class="pe-portal-section">
         <div class="pe-portal-section-title">Candidaturas</div>
         <div class="pe-role-grid">
-          <div class="pe-role-card" onclick="peEntrarRol('candidato')"><div class="rc-icon" style="background:#dbeafe">🗳️</div><div class="rc-text"><div class="rc-title">Candidato / Pre-candidato</div><div class="rc-sub">Portal de candidatura y estructura</div></div><div class="rc-arrow">›</div></div>
-          <div class="pe-role-card" onclick="peEntrarRol('miembro')"><div class="rc-icon" style="background:#f3e8ff">👥</div><div class="rc-text"><div class="rc-title">Miembro de Estructura</div><div class="rc-sub">Parte de una estructura existente</div></div><div class="rc-arrow">›</div></div>
-          <div class="pe-role-card" onclick="peEntrarRol('coordinador')"><div class="rc-icon" style="background:#fef3c7">🔱</div><div class="rc-text"><div class="rc-title">Coordinador</div><div class="rc-sub">Coordinación de zona o candidatura</div></div><div class="rc-arrow">›</div></div>
+          <div class="pe-role-card" onclick="peEntrarRol('candidato')"><div class="rc-icon" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">🗳️</div><div class="rc-text"><div class="rc-title">Candidato / Pre-candidato</div><div class="rc-sub">Portal de candidatura y estructura</div></div><div class="rc-arrow">›</div></div>
+          <div class="pe-role-card" onclick="peEntrarRol('miembro')"><div class="rc-icon" style="background:linear-gradient(135deg,#f3e8ff,#e9d5ff)">👥</div><div class="rc-text"><div class="rc-title">Miembro de Estructura</div><div class="rc-sub">Parte de una estructura existente</div></div><div class="rc-arrow">›</div></div>
+          <div class="pe-role-card" onclick="peEntrarRol('coordinador')"><div class="rc-icon" style="background:linear-gradient(135deg,#fef3c7,#fde68a)">🔱</div><div class="rc-text"><div class="rc-title">Coordinador</div><div class="rc-sub">Coordinación de zona o candidatura</div></div><div class="rc-arrow">›</div></div>
         </div>
       </div>
       <div style="text-align:center;margin-bottom:12px">
@@ -869,8 +870,8 @@ async function peBuscarCedula() {
       const { data: padFoto } = await sb.from('padron_maestro')
         .select('foto_url, foto_base64').eq('cedula', cedFmt).maybeSingle();
       if (padFoto) { E.foto_url = padFoto.foto_url || null; E.foto = padFoto.foto_base64 || null; }
-      const { data: dir } = await sb.from('dirigentes').select('nombre, zona, municipio').eq('cedula', cedFmt).eq('activo', true).maybeSingle();
-      if (dir) { E.esDirigente = true; E.nombre = E.nombre || dir.nombre; E.zona = dir.zona; E.municipio = dir.municipio; }
+      const { data: dir } = await sb.from('dirigentes').select('nombre, zona, municipio, email').eq('cedula', cedFmt).eq('activo', true).maybeSingle();
+      if (dir) { E.esDirigente = true; E.nombre = E.nombre || dir.nombre; E.zona = dir.zona; E.municipio = dir.municipio; E.email = dir.email || null; }
       const { data: usr } = await sb.from('usuarios_sistema').select('rol, zona, municipio, pin_cambiado, nombre').eq('cedula', cedFmt).eq('activo', true).maybeSingle();
       if (usr) { E.rolSistema = usr.rol; E.zona = usr.zona || E.zona; E.municipio = usr.municipio || E.municipio; E.nombre = E.nombre || usr.nombre; }
     } catch(e) { console.error(e); }
@@ -888,7 +889,7 @@ async function peVerificarPin() {
   peHide('pe-err-pin');
   if (sb) {
     try {
-      const email = E.cedFmt + '@prm.local';
+      const email = (E.email && E.email.includes('@')) ? E.email : (E.cedFmt + '@prm.local');
       const password = pin + 'Prm#2026';
       const { data: authData, error: authErr } = await sb.auth.signInWithPassword({ email, password });
       if (authErr) {
@@ -1034,7 +1035,7 @@ async function peCompletarRegistro() {
     if (errDir && errDir.code === '23505') { peErr('pe-err-reg', 'Esta cédula ya está registrada'); return; }
     else if (errDir) { peErr('pe-err-reg', 'Error: ' + errDir.message); return; }
     const rolMap = { candidato: 'candidato', dirigente: 'dirigente_zonal', delegado: 'delegado' };
-    const authEmail = cedFmt + '@prm.local';
+    const authEmail = (email && email.includes('@')) ? email : (cedFmt + '@prm.local');
     const authPass = pin + 'Prm#2026';
     const { error: authErr } = await sb.auth.signUp({
       email: authEmail,
@@ -1077,20 +1078,33 @@ async function peCompletarRegistro() {
 async function peEnviarRecuperacion() {
   const email = document.getElementById('pe-rec-email').value.trim();
   if (!email) { peErr('pe-err-recuperar', 'Ingresa tu email'); return; }
-  if (sb) { const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + '/login.html' }); if (error) { peErr('pe-err-recuperar', 'Email no encontrado o error al enviar'); return; } }
+  if (sb) {
+    const { data: dir, error: dirErr } = await sb.from('dirigentes')
+      .select('cedula').eq('email', email).eq('activo', true).maybeSingle();
+    if (dirErr || !dir) { peErr('pe-err-recuperar', 'Este email no está registrado en el sistema'); return; }
+    const { error } = await sb.auth.signInWithOtp({
+      email: email,
+      options: { shouldCreateUser: true }
+    });
+    if (error) { peErr('pe-err-recuperar', 'No se pudo enviar el código: ' + error.message); return; }
+  }
   document.getElementById('pe-rec-email-box').style.display = 'none';
   document.getElementById('pe-rec-codigo-box').style.display = 'block';
 }
 async function peConfirmarRecuperacion() {
+  const email = document.getElementById('pe-rec-email').value.trim();
   const codigo = document.getElementById('pe-rec-codigo').value.trim();
   const pin = ['pe-rp0','pe-rp1','pe-rp2','pe-rp3'].map(id => document.getElementById(id).value).join('');
   if (codigo.length < 6) { peErr('pe-err-recuperar', 'Ingresa el código de 6 dígitos'); return; }
   if (pin.length < 4) { peErr('pe-err-recuperar', 'Ingresa tu nuevo PIN'); return; }
   if (sb) {
-    const { error } = await sb.auth.verifyOtp({ email: document.getElementById('pe-rec-email').value.trim(), token: codigo, type: 'recovery' });
+    const { error } = await sb.auth.verifyOtp({ email: email, token: codigo, type: 'magiclink' });
     if (error) { peErr('pe-err-recuperar', 'Código incorrecto o expirado'); return; }
-    const { data } = await sb.from('dirigentes').update({ pin_hash: peHashPin(pin) }).eq('email', document.getElementById('pe-rec-email').value.trim()).select('cedula');
-    if (!data || data.length === 0) { peErr('pe-err-recuperar', 'No se encontró tu cuenta'); return; }
+    const { error: upErr } = await sb.auth.updateUser({ password: pin + 'Prm#2026' });
+    if (upErr) { peErr('pe-err-recuperar', 'Error al actualizar el PIN'); return; }
+    const { data, error: updErr } = await sb.from('dirigentes').update({ pin_hash: pin }).eq('email', email).select('cedula');
+    if (updErr || !data || data.length === 0) { peErr('pe-err-recuperar', 'No se encontró tu cuenta'); return; }
+    E.cedFmt = data[0].cedula;
   }
   peToast('✅ PIN actualizado', 'ok');
   setTimeout(() => peIrStep('pe-step-portal'), 1500);
