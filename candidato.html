@@ -169,12 +169,12 @@ let chartZonas = null;
 function getSesion() {
   const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion';
   const raw = localStorage.getItem(sk);
-  if (!raw) { window.location.href = 'login.html'; return null; }
+  if (!raw) { window.location.href = 'index.html'; return null; }
   try {
     const s = JSON.parse(raw);
-    if (s.expires <= Date.now()) { localStorage.removeItem(sk); window.location.href = 'login.html'; return null; }
+    if (s.expires <= Date.now()) { localStorage.removeItem(sk); window.location.href = 'index.html'; return null; }
     return s;
-  } catch(e) { localStorage.removeItem(sk); window.location.href = 'login.html'; return null; }
+  } catch(e) { localStorage.removeItem(sk); window.location.href = 'index.html'; return null; }
 }
 
 // ═══════════ INICIALIZAR ═══════════
@@ -220,7 +220,7 @@ async function cargarDatos() {
       alert('⚠️ No estás registrado como candidato. Serás redirigido al portal para que te registres.');
       const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion';
       localStorage.removeItem(sk);
-      window.location.href = 'login.html';
+      window.location.href = 'index.html';
       return;
     }
 
@@ -356,7 +356,7 @@ async function cambiarPin() {
 function cerrarSesion() {
   const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion';
   localStorage.removeItem(sk);
-  window.location.href = 'login.html?from=logout';
+  window.location.href = 'index.html?from=logout';
 }
 }
 

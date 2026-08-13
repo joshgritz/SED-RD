@@ -2091,7 +2091,7 @@ async function cerrarSesion() {
   }
   localStorage.removeItem((typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion');
   sesion = null;
-  window.location.href = 'login.html?from=logout';
+  window.location.href = 'index.html?from=logout';
 }
 
 // ══════════════════════════════════════════════════════
@@ -2392,7 +2392,7 @@ window.addEventListener('DOMContentLoaded', async function() {
     irA('p-dashboard');
   } else {
     // Sin sesión → ir al login
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
     return;
   }
 

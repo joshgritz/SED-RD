@@ -737,61 +737,6 @@ function peErr(id, msg) { const el=document.getElementById(id); if(el){el.textCo
 function peHide(id) { const el=document.getElementById(id); if(el) el.style.display='none'; }
 let _tt; function peToast(msg, tipo) { const el=document.getElementById('toast'); clearTimeout(_tt); el.textContent=msg; el.className='toast toast-'+tipo; el.style.display='block'; _tt=setTimeout(()=>el.style.display='none',3000); }
 
-// ═══════════ AUTO-LOGIN ═══════════
-window.addEventListener('DOMContentLoaded', function() {
-  // Apply config branding
-  if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG) {
-    var b = APP_CONFIG.branding;
-    var u = APP_CONFIG.ui;
-    var root = document.documentElement;
-    root.style.setProperty('--color-primary', b.primaryColor);
-    root.style.setProperty('--color-secondary', b.secondaryColor);
-    root.style.setProperty('--color-accent', b.accentColor);
-    document.querySelector('meta[name="theme-color"]').content = b.primaryColor;
-    var logoText = b.logoText || b.initials || '';
-    if (document.getElementById('login-logo-text')) document.getElementById('login-logo-text').textContent = logoText;
-    if (document.getElementById('login-hero-title')) document.getElementById('login-hero-title').innerHTML = b.name + ' · ' + b.territorio.toUpperCase() + '<span>' + b.fullName + '</span>';
-    if (document.getElementById('login-footer-brand')) document.getElementById('login-footer-brand').textContent = b.name + ' ' + b.territorio;
-    if (document.getElementById('login-footer-copy')) document.getElementById('login-footer-copy').innerHTML = '&copy; ' + (u.anoElectoral || new Date().getFullYear()) + ' ' + b.name + ' ' + b.territorio + '. Todos los derechos reservados.';
-    if (document.getElementById('portal-logo-text')) document.getElementById('portal-logo-text').textContent = logoText;
-    if (document.getElementById('portal-title')) document.getElementById('portal-title').textContent = (u.tituloSistema || 'Portal Electoral') + ' ' + b.name;
-  }
-
-  const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('portal') === '1' || params.get('registro') === '1') {
-    abrirPortalElectoral(params.get('registro') === '1' ? 'registro' : undefined);
-    return;
-  }
-  if (params.get('from') === 'logout') {
-    if (_sb) _sb.auth.signOut();
-    // Audit: log logout before clearing
-    if (typeof auditLogger !== 'undefined' && _sb) {
-      const oldRaw = localStorage.getItem(sk);
-      if (oldRaw) {
-        try { const old = JSON.parse(oldRaw); auditLogger.init(_sb, old); auditLogger.logout(); } catch(e) {}
-      }
-    }
-    localStorage.removeItem(sk);
-    setTimeout(function() { abrirPortalElectoral(); }, 200);
-    return;
-  }
-  const raw = localStorage.getItem(sk);
-  if (raw) {
-    try {
-      const s = JSON.parse(raw);
-      if (s.expires > Date.now() && s.token && !s.token.startsWith('demo-')) {
-        E.rolDeseado = s.rolDeseado || null;
-        window.location.href = peGetDestino(s.rol);
-        return;
-      }
-      localStorage.removeItem(sk);
-    } catch(e) { localStorage.removeItem(sk); }
-  }
-  // Sin sesión activa: abrir el portal electoral automáticamente
-  setTimeout(function() { abrirPortalElectoral(); }, 200);
-});
-
 // Expose
 window.abrirPortalElectoral = abrirPortalElectoral;
 window.cerrarPortalElectoral = cerrarPortalElectoral;
@@ -820,6 +765,7 @@ function toggleTheme(){
 (function(){
   if(localStorage.getItem('prm_theme') === 'dark') document.body.classList.add('dark');
 })();
+setTimeout(function() { abrirPortalElectoral(); }, 200);
 </script>
 </body>
 </html>

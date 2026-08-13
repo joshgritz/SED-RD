@@ -757,19 +757,19 @@
 (function() {
     const sesionRaw = localStorage.getItem('app_sesion');
     if (!sesionRaw) {
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
         return;
     }
     try {
         const sesion = JSON.parse(sesionRaw);
         if (!sesion.expires || sesion.expires < Date.now()) {
             localStorage.removeItem('app_sesion');
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
             return;
         }
     } catch(e) {
         localStorage.removeItem('app_sesion');
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
         return;
     }
 })();
@@ -969,7 +969,7 @@ window.cerrarSesion           = cerrarSesion;
 function cerrarSesion() {
     if (!confirm('¿Cerrar sesión?')) return;
     localStorage.removeItem('app_sesion');
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
 }
 
 function tabZona(tabId) {

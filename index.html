@@ -1203,6 +1203,53 @@ window.peFmtCedula = peFmtCedula;
 window.peMover = peMover;
 window.peMoverN = peMoverN;
 window.peMoverR = peMoverR;
+
+// ═══════════ AUTO-LOGIN / LOGOUT ═══════════
+window.addEventListener('DOMContentLoaded', function() {
+  if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG) {
+    var b = APP_CONFIG.branding;
+    var u = APP_CONFIG.ui;
+    var root = document.documentElement;
+    root.style.setProperty('--color-primary', b.primaryColor);
+    root.style.setProperty('--color-secondary', b.secondaryColor);
+    root.style.setProperty('--color-accent', b.accentColor);
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.content = b.primaryColor;
+    if (document.getElementById('login-logo-text')) document.getElementById('login-logo-text').textContent = b.logoText || b.initials || '';
+    if (document.getElementById('portal-logo-text')) document.getElementById('portal-logo-text').textContent = b.logoText || b.initials || '';
+    if (document.getElementById('portal-title')) document.getElementById('portal-title').textContent = (u.tituloSistema || 'Portal Electoral') + ' ' + b.name;
+  }
+  const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('portal') === '1' || params.get('registro') === '1') {
+    abrirPortalElectoral(params.get('registro') === '1' ? 'registro' : undefined);
+    return;
+  }
+  if (params.get('from') === 'logout') {
+    if (_sb) _sb.auth.signOut();
+    if (typeof auditLogger !== 'undefined' && _sb) {
+      const oldRaw = localStorage.getItem(sk);
+      if (oldRaw) {
+        try { const old = JSON.parse(oldRaw); auditLogger.init(_sb, old); auditLogger.logout(); } catch(e) {}
+      }
+    }
+    localStorage.removeItem(sk);
+    setTimeout(function() { abrirPortalElectoral(); }, 200);
+    return;
+  }
+  const raw = localStorage.getItem(sk);
+  if (raw) {
+    try {
+      const s = JSON.parse(raw);
+      if (s.expires > Date.now() && s.token && !s.token.startsWith('demo-')) {
+        E.rolDeseado = s.rolDeseado || null;
+        window.location.href = peGetDestino(s.rol);
+        return;
+      }
+      localStorage.removeItem(sk);
+    } catch(e) { localStorage.removeItem(sk); }
+  }
+});
 </script>
 
 </body>

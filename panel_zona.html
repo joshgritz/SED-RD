@@ -323,11 +323,11 @@ let mapaZona = null;
 window.addEventListener('DOMContentLoaded', async function() {
   // Cargar sesión
   const raw = localStorage.getItem((window.APP_CONFIG?.client?.id || 'prm') + '_sesion');
-  if (!raw) { window.location.href = 'login.html'; return; }
+  if (!raw) { window.location.href = 'index.html'; return; }
   try {
     sesion = JSON.parse(raw);
-    if (sesion.expires < Date.now()) { window.location.href = 'login.html'; return; }
-  } catch(e) { window.location.href = 'login.html'; return; }
+    if (sesion.expires < Date.now()) { window.location.href = 'index.html'; return; }
+  } catch(e) { window.location.href = 'index.html'; return; }
 
   // Verificar rol
   const rolesPermitidos = ['SUPER_ADMIN','PRESIDENTE_ZONAL','SECRETARIO_GENERAL',
@@ -761,7 +761,7 @@ function cambiarTab(tab) {
 // ══════════════════════════════════════════════════════
 function cerrarSesion() {
   localStorage.removeItem((window.APP_CONFIG?.client?.id || 'prm') + '_sesion');
-  window.location.href = 'login.html';
+  window.location.href = 'index.html';
 }
 
 // Toast

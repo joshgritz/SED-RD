@@ -226,12 +226,12 @@ let actaFile = null;
 function getSesion() {
   const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion';
   const raw = localStorage.getItem(sk);
-  if (!raw) { window.location.href = 'login.html'; return null; }
+  if (!raw) { window.location.href = 'index.html'; return null; }
   try {
     const s = JSON.parse(raw);
-    if (s.expires <= Date.now()) { localStorage.removeItem(sk); window.location.href = 'login.html'; return null; }
+    if (s.expires <= Date.now()) { localStorage.removeItem(sk); window.location.href = 'index.html'; return null; }
     return s;
-  } catch(e) { localStorage.removeItem(sk); window.location.href = 'login.html'; return null; }
+  } catch(e) { localStorage.removeItem(sk); window.location.href = 'index.html'; return null; }
 }
 
 // ═══════════ INIT ═══════════
@@ -525,7 +525,7 @@ function cambiarTab(tab) {
 }
 
 function cerrarModal() { document.getElementById('modal-votante').classList.remove('activo'); }
-function cerrarSesion() { const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion'; localStorage.removeItem(sk); window.location.href = 'login.html'; }
+function cerrarSesion() { const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion'; localStorage.removeItem(sk); window.location.href = 'index.html?from=logout'; }
 
 let _tt;
 function toast(msg, tipo) {

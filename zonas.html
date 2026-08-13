@@ -261,12 +261,12 @@ const ROL_VER_COMITE = ['PRESIDENTE_ZONAL','SECRETARIO_GENERAL','VICEPRESIDENTE'
 function getSesion() {
   const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion';
   const raw = localStorage.getItem(sk);
-  if (!raw) { window.location.href = 'login.html'; return null; }
+  if (!raw) { window.location.href = 'index.html'; return null; }
   try {
     const s = JSON.parse(raw);
-    if (s.expires <= Date.now()) { localStorage.removeItem(sk); window.location.href = 'login.html'; return null; }
+    if (s.expires <= Date.now()) { localStorage.removeItem(sk); window.location.href = 'index.html'; return null; }
     return s;
-  } catch(e) { localStorage.removeItem(sk); window.location.href = 'login.html'; return null; }
+  } catch(e) { localStorage.removeItem(sk); window.location.href = 'index.html'; return null; }
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -534,7 +534,7 @@ function cambiarTab(tab, evt) {
   document.getElementById('tab-' + tab).classList.add('activo');
 }
 
-function cerrarSesion() { const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion'; localStorage.removeItem(sk); window.location.href = 'login.html?from=logout'; }
+function cerrarSesion() { const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion'; localStorage.removeItem(sk); window.location.href = 'index.html?from=logout'; }
 let _tt;
 function toast(msg, tipo) { const el=document.getElementById('toast'); clearTimeout(_tt); el.textContent=msg; el.className='toast toast-'+(tipo||'ok'); el.style.display='block'; _tt=setTimeout(()=>el.style.display='none',3000); }
 
