@@ -1353,11 +1353,15 @@ async function peConfirmarRecuperacion() {
   const pin = ['pe-rp0','pe-rp1','pe-rp2','pe-rp3'].map(id => document.getElementById(id).value).join('');
   if (codigo.length < 6) { peErr('pe-err-recuperar', 'Ingresa el código de 6 dígitos'); return; }
   if (pin.length < 4) { peErr('pe-err-recuperar', 'Ingresa tu nuevo PIN'); return; }
-  if (sb) {
-    const { error } = await sb.auth.verifyOtp({ email: email, token: codigo, type: 'magiclink' });
-    if (error) { peErr('pe-err-recuperar', 'Código incorrecto o expirado'); return; }
+if (sb) {
+    let vErr = null;
+    let res = await sb.auth.verifyOtp({ email: email, token: codigo, type: 'magiclink' });
+    if (res.error) res = await sb.auth.verifyOtp({ email: email, token: codigo, type: 'recovery' });
+    if (res.error) { peErr('pe-err-recuperar', 'Código incorrecto o expirado'); return; }
     const { error: upErr } = await sb.auth.updateUser({ password: pin + 'Prm#2026' });
-    if (upErr) { peErr('pe-err-recuperar', 'Error al actualizar el PIN'); return; }
+    if (upErr) { peErr('pe-err-recuperar', 'Error al actualizar el PIN: ' + upErr.message); return; }
+    const { error: checkErr } = await sb.auth.signInWithPassword({ email: email, password: pin + 'Prm#2026' });
+    if (checkErr) { peErr('pe-err-recuperar', 'El PIN no se pudo guardar, intenta de nuevo'); return; }
     const { data, error: updErr } = await sb.from('dirigentes').update({ pin_hash: pin }).eq('email', email).select('cedula');
     if (updErr || !data || data.length === 0) { peErr('pe-err-recuperar', 'No se encontró tu cuenta'); return; }
     E.cedFmt = data[0].cedula;
