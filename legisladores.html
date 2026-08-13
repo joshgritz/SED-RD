@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Legisladores de Valverde — SED-RD. Senador, diputados, síndicos, regidores y juntas distritales.">
+  <title>Legisladores de Valverde — SED-RD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1a365d;
+      --primary-light: #2a4a7f;
+      --primary-dark: #0f2240;
+      --accent: #d4af37;
+      --accent-light: #e6c65a;
+      --accent-dark: #b8941f;
+      --bg: #F7F9FC;
+      --surface: #FFFFFF;
+      --text: #2C3E50;
+      --muted: #7F8C9B;
+      --border: #E1E8EF;
+      --radius: 16px;
+      --shadow: 0 4px 24px rgba(26,54,93,0.08);
+      --shadow-lg: 0 8px 40px rgba(26,54,93,0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto; padding: 14px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--primary);
+    }
+    .nav-logo svg { width: 32px; height: 32px; }
+    .nav-logo span { font-weight: 800; font-size: 16px; }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 13px;
+      font-weight: 600; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-links a.active { color: var(--primary); font-weight: 800; }
+    .btn-nav {
+      background: var(--primary); color: white !important; padding: 8px 18px;
+      border-radius: 10px; font-size: 13px; font-weight: 700;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .btn-nav:hover { background: var(--primary-light); }
+
+    /* ── HERO PEQUEÑO ── */
+    .hero { padding: 56px 0 40px; text-align: center; }
+    .hero .subtitle {
+      font-size: 13px; font-weight: 700; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;
+    }
+    .hero h1 { font-size: 34px; font-weight: 800; color: var(--primary); letter-spacing: -1px; margin-bottom: 10px; }
+    .hero .tagline {
+      font-size: 15px; color: var(--muted); max-width: 560px;
+      margin: 0 auto; line-height: 1.7;
+    }
+
+    /* ── SECTION ── */
+    .section { padding: 64px 0; }
+    .section-label {
+      font-size: 12px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--accent); margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 26px; font-weight: 800; color: var(--primary);
+      margin-bottom: 12px; letter-spacing: -0.5px;
+    }
+    .accent { color: var(--accent-dark); }
+
+    /* ── SECCIÓN OSCURA (Legisladores) ── */
+    .section-dark { background: var(--primary); color: white; }
+    .section-dark .section-label { color: var(--accent-light); }
+    .section-dark .section-title { color: white; }
+    .dark-sub { color: rgba(255,255,255,0.7); font-size: 14px; margin-bottom: 28px; max-width: 560px; }
+    .person-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .person-card {
+      background: white; border-top: 4px solid var(--accent); border-radius: 20px;
+      padding: 28px 20px; text-align: center; transition: all .3s; position: relative;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .person-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+    .person-foto {
+      width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 16px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      background-size: cover; background-position: center;
+      border: 4px solid var(--accent); display: flex; align-items: center; justify-content: center;
+      font-size: 36px; font-weight: 900; color: white;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+    .person-nombre { font-size: 18px; font-weight: 900; color: #0f172a; line-height: 1.2; }
+    .person-cargo { font-size: 13px; color: var(--primary); font-weight: 700; margin-top: 6px; }
+    .person-partido {
+      display: inline-flex; align-items: center; gap: 4px; margin-top: 8px;
+      padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      background: #f0f4ff; color: var(--primary);
+    }
+    .person-partido img { width: 16px; height: 16px; border-radius: 3px; object-fit: contain; }
+    .person-muni { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+    .person-detail { font-size: 12px; color: #64748b; margin-top: 6px; font-style: italic; }
+    .person-demarcacion {
+      position: absolute; top: 12px; right: 12px; padding: 4px 12px;
+      border-radius: 12px; font-size: 10px; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .badge-municipio { background: #eff6ff; color: #2563eb; }
+    .badge-distrito { background: #f0fdf4; color: #16a34a; }
+    .badge-senador { background: #fff7ed; color: #b8941f; font-size: 11px; padding: 5px 14px; }
+    .badge-diputado { background: #eff6ff; color: var(--primary); font-size: 11px; padding: 5px 14px; }
+    .person-card.featured { grid-column: span 3; border-top-width: 6px; padding: 36px 28px; max-width: 420px; margin: 0 auto; }
+    .person-card.featured .person-foto { width: 140px; height: 140px; border-width: 5px; font-size: 42px; }
+    .person-card.featured .person-nombre { font-size: 22px; }
+    .person-card.featured .person-cargo { font-size: 15px; }
+    .est-subtitle {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+      color: white; margin: 36px 0 16px; padding-bottom: 10px;
+      border-bottom: 2px solid rgba(255,255,255,0.15);
+    }
+    .est-subtitle i { color: var(--accent); font-size: 15px; }
+
+    /* ── REGIDORES ── */
+    .muni-group { margin-bottom: 22px; }
+    .muni-group h4 {
+      font-size: 14px; font-weight: 800; color: white;
+      margin-bottom: 10px; padding-bottom: 8px;
+      border-bottom: 2px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .muni-group h4 i { color: var(--accent-light); font-size: 13px; }
+    .regidores-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 10px;
+    }
+    .regidor-row {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--surface); border-radius: 10px; padding: 10px 12px;
+      border: 1px solid var(--border);
+    }
+    .regidor-row .init {
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800;
+    }
+    .regidor-row .info { min-width: 0; }
+    .regidor-row h5 { font-size: 12px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .regidor-row .rol { font-size: 10px; color: var(--muted); font-weight: 600; }
+    .badge-partido {
+      margin-left: auto; flex-shrink: 0; font-size: 9px; font-weight: 800;
+      padding: 2px 8px; border-radius: 6px; letter-spacing: 0.5px;
+    }
+    .b-prm { background: #003da5; color: white; }
+    .b-pld { background: #7c1d3f; color: white; }
+    .b-fp { background: #1e7a34; color: white; }
+    .b-pasove { background: #c96f1f; color: white; }
+
+    /* ── FOOTER ── */
+    .footer { background: var(--primary); color: white; padding: 40px 0; text-align: center; }
+    .footer-brand { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+    .footer-sub { font-size: 12px; opacity: 0.6; margin-bottom: 20px; }
+    .footer-copy { font-size: 11px; opacity: 0.4; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) { .person-grid { grid-template-columns: repeat(2, 1fr); } .person-card.featured { grid-column: span 2; } }
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 26px; }
+      .regidores-grid { grid-template-columns: 1fr; }
+      .nav-links a.hide-mobile { display: none; }
+      .section-title { font-size: 22px; }
+    }
+    @media (max-width: 600px) { .person-grid { grid-template-columns: 1fr; } .person-card.featured { grid-column: span 1; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="10" fill="#1a365d"/><rect x="12" y="12" width="16" height="4" rx="1" fill="#d4af37"/><rect x="14" y="16" width="12" height="10" rx="2" fill="#2a4a7f"/><rect x="16" y="14" width="8" height="2" rx="1" fill="#1a365d"/><path d="M16 21l2 2 5-5" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>SED-RD</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="hide-mobile">Inicio</a>
+      <a href="legisladores.html" class="hide-mobile active">Legisladores de Valverde</a>
+      <a href="login.html" class="btn-nav">Acceder al Sistema</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="subtitle">SED-RD · Mandato 2024-2028</div>
+    <h1>Legisladores de Valverde</h1>
+    <p class="tagline">Representación legislativa y municipal de la provincia: senador, diputados, síndicos, regidores y juntas distritales.</p>
+  </div>
+</section>
+
+<section class="section section-dark" id="legisladores">
+  <div class="container">
+    <div class="section-label">Mandato 2024-2028</div>
+    <h2 class="section-title">Legisladores de <span class="accent">Valverde</span></h2>
+    <p class="dark-sub">
+      Representación legislativa y municipal de la provincia: senador, diputados, síndicos, regidores y juntas distritales.
+    </p>
+
+    <!-- SENADOR -->
+    <h3 class="est-subtitle"><i class="fa-solid fa-landmark"></i> Senado de la República</h3>
+    <div class="person-grid">
+      <div class="person-card featured">
+        <div class="person-demarcacion badge-senador">Senador</div>
+        <div class="person-foto" style="background-image:url('img/odalis.jpg')"></div>
+        <div class="person-nombre">Odalis Rodríguez</div>
+        <div class="person-cargo">Senador por Valverde</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-detail">Ex Alcalde de Mao (2006-2024)</div>
+      </div>
+    </div>
+
+    <!-- DIPUTADOS -->
+    <h3 class="est-subtitle"><i class="fa-solid fa-users"></i> Cámara de Diputados</h3>
+    <div class="person-grid">
+      <div class="person-card">
+        <div class="person-demarcacion badge-diputado">Diputada</div>
+        <div class="person-foto" style="background-image:url('img/angela.jpg')"></div>
+        <div class="person-nombre">María De Los Ángeles Rodríguez Bonseñor</div>
+        <div class="person-cargo">Diputada por Valverde</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-detail">18,258 votos</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-diputado">Diputado</div>
+        <div class="person-foto" style="background-image:url('img/valenzuela.jpg')"></div>
+        <div class="person-nombre">José Altagracia Valenzuela Arias</div>
+        <div class="person-cargo">Diputado por Valverde</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-detail">15,033 votos</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-diputado">Diputado</div>
+        <div class="person-foto" style="background-image:url('img/ruben.jpg')"></div>
+        <div class="person-nombre">Rubén Darío Peñalo Torres</div>
+        <div class="person-cargo">Diputado por Valverde</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-detail">10,703 votos</div>
+      </div>
+    </div>
+
+    <!-- SÍNDICOS -->
+    <h3 class="est-subtitle"><i class="fa-solid fa-user-tie"></i> Alcaldías (Síndicos)</h3>
+    <div class="person-grid">
+      <div class="person-card">
+        <div class="person-demarcacion badge-municipio">Mao</div>
+        <div class="person-foto" style="background-image:url('img/mao.png')"></div>
+        <div class="person-nombre">Yohendy Jiménez Bonilla</div>
+        <div class="person-cargo">Alcalde de Mao</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-municipio">Esperanza</div>
+        <div class="person-foto" style="background-image:url('img/esperanza.jpg')"></div>
+        <div class="person-nombre">Freddy de Jesús Rodríguez Jiménez</div>
+        <div class="person-cargo">Alcalde de Esperanza</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-municipio">L. Salada</div>
+        <div class="person-foto" style="background-image:url('img/laguna.jpg')"></div>
+        <div class="person-nombre">Germán Damián Rodríguez Saldaña</div>
+        <div class="person-cargo">Alcalde de Laguna Salada</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+      </div>
+    </div>
+
+    <!-- REGIDORES -->
+    <h3 class="est-subtitle"><i class="fa-solid fa-building-columns"></i> Concejos de Regidores</h3>
+
+    <div class="muni-group">
+      <h4><i class="fa-solid fa-city"></i> Mao — Concejo de Regidores (9)</h4>
+      <div class="regidores-grid">
+        <div class="regidor-row"><div class="init">JP</div><div class="info"><h5>José Miguel Peñalo Santana</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">WE</div><div class="info"><h5>Wilson Rafael Estévez Tavarez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">DR</div><div class="info"><h5>Dolores Ananhi Rodríguez Contrera</h5><div class="rol">Regidora</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">ND</div><div class="info"><h5>Néstor Antonio Duran Rodríguez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">JG</div><div class="info"><h5>Julio Wascar García Rodríguez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">AF</div><div class="info"><h5>Ana Confesora Fortuna</h5><div class="rol">Regidora</div></div><span class="badge-partido b-pld">PLD</span></div>
+        <div class="regidor-row"><div class="init">DG</div><div class="info"><h5>Diony Miguel Gómez Collado</h5><div class="rol">Regidor</div></div><span class="badge-partido b-pld">PLD</span></div>
+        <div class="regidor-row"><div class="init">JG</div><div class="info"><h5>Juan Luis Gómez Familia</h5><div class="rol">Regidor</div></div><span class="badge-partido b-fp">FP</span></div>
+        <div class="regidor-row"><div class="init">JR</div><div class="info"><h5>José Luis Rodríguez Contreras</h5><div class="rol">Regidor</div></div><span class="badge-partido b-pasove">PASOVE</span></div>
+      </div>
+    </div>
+
+    <div class="muni-group">
+      <h4><i class="fa-solid fa-city"></i> Esperanza — Concejo de Regidores (9)</h4>
+      <div class="regidores-grid">
+        <div class="regidor-row"><div class="init">PA</div><div class="info"><h5>Patricia Jamil Arias Santos</h5><div class="rol">Presidenta del Concejo</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">JM</div><div class="info"><h5>Joel Andrés Mendoza Pérez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">WQ</div><div class="info"><h5>Wildamy Gabriel Quiñones Moreta</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">CA</div><div class="info"><h5>Confesor Contreras Alcántara</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">JT</div><div class="info"><h5>Julio Tavárez Álvarez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">MG</div><div class="info"><h5>María Altagracia García Torres</h5><div class="rol">Regidora</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">MP</div><div class="info"><h5>María Elena Pérez Núñez</h5><div class="rol">Vicepresidenta del Concejo</div></div><span class="badge-partido b-pld">PLD</span></div>
+        <div class="regidor-row"><div class="init">JV</div><div class="info"><h5>José Alejandro Valdez Molina</h5><div class="rol">Regidor</div></div><span class="badge-partido b-pld">PLD</span></div>
+        <div class="regidor-row"><div class="init">ER</div><div class="info"><h5>Esmarlin Rodríguez Ulloa</h5><div class="rol">Regidora</div></div><span class="badge-partido b-fp">FP</span></div>
+      </div>
+    </div>
+
+    <div class="muni-group">
+      <h4><i class="fa-solid fa-city"></i> Laguna Salada — Concejo de Regidores (5)</h4>
+      <div class="regidores-grid">
+        <div class="regidor-row"><div class="init">LA</div><div class="info"><h5>Luis Carlos Acosta García</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">QA</div><div class="info"><h5>Quirino Alfredo Rosario Acosta</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">VA</div><div class="info"><h5>Víctor de Jesús Acosta</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">MP</div><div class="info"><h5>María Luisa Pérez Novo</h5><div class="rol">Regidora</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">MP</div><div class="info"><h5>Manuel de Jesús Peña Ureña</h5><div class="rol">Regidor</div></div><span class="badge-partido b-pld">PLD</span></div>
+      </div>
+    </div>
+
+    <!-- DISTRITOS -->
+    <h3 class="est-subtitle"><i class="fa-solid fa-map-location-dot"></i> Distritos Municipales</h3>
+    <div class="person-grid">
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">Amina</div>
+        <div class="person-foto" style="background-image:url('img/gabriel.jpg')"></div>
+        <div class="person-nombre">Gabriel Santana</div>
+        <div class="person-cargo">Pte. Junta Distrital de Amina</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Mao</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">Guatapanal</div>
+        <div class="person-foto" style="background-image:url('img/trejo.jpg')"></div>
+        <div class="person-nombre">Dr. Herminio Chávez Trejo</div>
+        <div class="person-cargo">Pte. Junta Distrital de Guatapanal</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Mao</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">Jib-P.N.</div>
+        <div class="person-foto" style="background-image:url('img/fernando.jpg')"></div>
+        <div class="person-nombre">Fernando Alfonso Rodríguez</div>
+        <div class="person-cargo">Pte. Junta Distrital de Jaibón-Pueblo Nuevo</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Mao</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">Boca Mao</div>
+        <div class="person-foto" style="background-image:url('img/felix.jpg')"></div>
+        <div class="person-nombre">Félix Santos Rodríguez</div>
+        <div class="person-cargo">Pte. Junta Distrital de Boca de Mao</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Esperanza</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">Maizal</div>
+        <div class="person-foto" style="background-image:url('img/jaime.jpg')"></div>
+        <div class="person-nombre">Jaime Sánchez</div>
+        <div class="person-cargo">Pte. Junta Distrital de Maizal</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Esperanza</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">Jicomé</div>
+        <div class="person-foto" style="background-image:url('img/domingo.jpg')"></div>
+        <div class="person-nombre">Domingo Antonio Ortega</div>
+        <div class="person-cargo">Pte. Junta Distrital de Jicomé</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Esperanza</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">Paradero</div>
+        <div class="person-foto" style="background-image:url('img/maximo.jpg')"></div>
+        <div class="person-nombre">Máximo Disla Polanco</div>
+        <div class="person-cargo">Pte. Junta Distrital de Paradero</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Esperanza</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">C. Guayacanes</div>
+        <div class="person-foto" style="background-image:url('img/luis.jpg')"></div>
+        <div class="person-nombre">Luis Rafael Valdez Cabrera</div>
+        <div class="person-cargo">Pte. Junta Distrital de Cruce de Guayacanes</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Laguna Salada</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">Jaibón</div>
+        <div class="person-foto" style="background-image:url('img/riki.jpg')"></div>
+        <div class="person-nombre">Ricki Ricardo Tejada Blanco</div>
+        <div class="person-cargo">Pte. Junta Distrital de Jaibón</div>
+        <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
+        <div class="person-muni">Municipio: Laguna Salada</div>
+      </div>
+      <div class="person-card">
+        <div class="person-demarcacion badge-distrito">La Caya</div>
+        <div class="person-foto" style="background-image:url('img/edward.jpg')"></div>
+        <div class="person-nombre">Edward Barrientos</div>
+        <div class="person-cargo">Pte. Junta Distrital de La Caya</div>
+        <div class="person-partido"><img src="img/logo-pld.jpg" alt="PLD"> PLD</div>
+        <div class="person-muni">Municipio: Laguna Salada</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-brand">SED-RD</div>
+    <div class="footer-sub">Sistema Electoral Dominicano</div>
+    <div class="footer-copy">&copy; 2026 SED-RD. Todos los derechos reservados.</div>
+  </div>
+</footer>
+
+</body>
+</html>
