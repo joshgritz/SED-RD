@@ -439,7 +439,7 @@ async function peBuscarCedula() {
       const { data: padFoto } = await sb.from('padron_maestro')
         .select('foto_url, foto_base64').eq('cedula', cedFmt).maybeSingle();
       if (padFoto) { E.foto_url = padFoto.foto_url || null; E.foto = padFoto.foto_base64 || null; }
-      const { data: dir } = await sb.from('dirigentes').select('nombre, zona, municipio, email').eq('cedula', cedFmt).eq('activo', true).maybeSingle();
+      const { data: dir } = await sb.rpc('dirigente_por_cedula', { p_cedula: cedFmt });
       if (dir) { E.esDirigente = true; E.nombre = E.nombre || dir.nombre; E.zona = dir.zona; E.municipio = dir.municipio; E.email = dir.email || null; }
       const { data: usr } = await sb.from('usuarios_sistema').select('rol, zona, municipio, pin_cambiado, nombre').eq('cedula', cedFmt).eq('activo', true).maybeSingle();
       if (usr) { E.rolSistema = usr.rol; E.zona = usr.zona || E.zona; E.municipio = usr.municipio || E.municipio; E.nombre = E.nombre || usr.nombre; }
