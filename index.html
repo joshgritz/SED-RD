@@ -1,1985 +1,548 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <title>Sistema Electoral — Valverde</title>
-    <script src="js/config_loader.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Supabase SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/fotos.js"></script>
-    <script>
-    // Inicializar Supabase inmediatamente después del CDN
-    var _sbClient = null;
-    var _sbUrl = 'https://ilivjaiexfqpioqrozlf.supabase.co';
-    var _sbKey = 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
-    if (window.supabase) {
-        _sbClient = window.supabase.createClient(_sbUrl, _sbKey);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SED-RD — Sistema Electoral Dominicano. Plataforma digital para la gestión electoral interna de partidos políticos en República Dominicana.">
+  <title>SED-RD — Sistema Electoral Dominicano</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1a365d;
+      --primary-light: #2a4a7f;
+      --primary-dark: #0f2240;
+      --accent: #d4af37;
+      --accent-light: #e6c65a;
+      --accent-dark: #b8941f;
+      --bg: #F7F9FC;
+      --surface: #FFFFFF;
+      --text: #2C3E50;
+      --muted: #7F8C9B;
+      --border: #E1E8EF;
+      --radius: 16px;
+      --shadow: 0 4px 24px rgba(26,54,93,0.08);
+      --shadow-lg: 0 8px 40px rgba(26,54,93,0.12);
     }
-    </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,900&family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@400;500;600;700;900&display=swap');
-        body     { font-family: 'Inter', sans-serif; }
-        .font-display { font-family: 'Barlow Condensed', sans-serif; }
-        .font-mono    { font-family: 'IBM Plex Mono', monospace; }
-        .modulo-vista { display: block; }
-        .modulo-vista.hidden { display: none !important; }
-        button, [onclick] { cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0.1); touch-action: manipulation; }
-        .tab-content  { display: none; }
-        .tab-content.active { display: block; }
-        /* Scroll suave */
-        html { scroll-behavior: smooth; }
-        /* Animación entrada */
-        @keyframes slideIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-        .cargo-item { animation: slideIn .2s ease both; }
-        /* Cuota barra */
-        #barra-mujeres, #barra-jovenes { transition: width .5s cubic-bezier(.4,0,.2,1); }
-    </style>
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto; padding: 14px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--primary);
+    }
+    .nav-logo svg { width: 32px; height: 32px; }
+    .nav-logo span { font-weight: 800; font-size: 16px; }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 13px;
+      font-weight: 600; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--primary); }
+    .btn-nav {
+      background: var(--primary); color: white !important; padding: 8px 18px;
+      border-radius: 10px; font-size: 13px; font-weight: 700;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .btn-nav:hover { background: var(--primary-light); }
+
+    /* ── HERO ── */
+    .hero { padding: 80px 0 60px; text-align: center; }
+    .hero-emblem { width: 100px; height: 100px; margin: 0 auto 24px; }
+    .hero .subtitle {
+      font-size: 13px; font-weight: 700; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;
+    }
+    .hero h1 {
+      font-size: 44px; font-weight: 800; color: var(--primary);
+      letter-spacing: -1px; margin-bottom: 12px;
+    }
+    .hero h1 .accent { color: var(--accent); }
+    .hero .tagline {
+      font-size: 16px; color: var(--muted); max-width: 520px;
+      margin: 0 auto 36px; line-height: 1.7;
+    }
+    .hero-ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 12px; font-size: 14px;
+      font-weight: 700; text-decoration: none; transition: all 0.2s;
+      border: none; cursor: pointer;
+    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-light); transform: translateY(-1px); box-shadow: var(--shadow); }
+    .btn-accent { background: var(--accent); color: var(--primary); }
+    .btn-accent:hover { background: var(--accent-light); transform: translateY(-1px); box-shadow: var(--shadow); }
+    .btn-secondary {
+      background: var(--surface); color: var(--primary);
+      border: 2px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── SECTION ── */
+    .section { padding: 64px 0; }
+    .section-label {
+      font-size: 12px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--accent); margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 28px; font-weight: 800; color: var(--primary);
+      margin-bottom: 32px; letter-spacing: -0.5px;
+    }
+
+    /* ── MISION / VISION / VALORES ── */
+    .mvv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .mvv-card {
+      background: var(--surface); border-radius: var(--radius); padding: 28px;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+      transition: transform 0.2s;
+    }
+    .mvv-card:hover { transform: translateY(-2px); }
+    .mvv-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 16px;
+    }
+    .mvv-icon.i-mision { background: rgba(26,54,93,0.08); color: var(--primary); }
+    .mvv-icon.i-vision { background: rgba(212,175,55,0.12); color: var(--accent-dark); }
+    .mvv-icon.i-valores { background: rgba(26,54,93,0.05); color: var(--primary-light); }
+    .mvv-card h3 {
+      font-size: 16px; font-weight: 800; color: var(--primary); margin-bottom: 8px;
+    }
+    .mvv-card p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+    .valores-list { list-style: none; margin-top: 12px; }
+    .valores-list li {
+      display: flex; align-items: center; gap: 8px; padding: 6px 0;
+      font-size: 13px; font-weight: 600; color: var(--text);
+    }
+    .valores-list li::before {
+      content: ''; width: 20px; height: 20px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 8l3 3 5-5' stroke='%231a365d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: center;
+      background-size: 12px;
+    }
+
+    /* ── LIDERAZGO ── */
+    .liderazgo-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 16px; margin-bottom: 24px;
+    }
+    .lider-card {
+      background: var(--surface); border-radius: var(--radius); padding: 24px 16px;
+      text-align: center; box-shadow: var(--shadow); border: 1px solid var(--border);
+      transition: transform 0.2s;
+    }
+    .lider-card:hover { transform: translateY(-2px); }
+    .lider-avatar {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 800; margin: 0 auto 12px;
+    }
+    .lider-card h4 { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
+    .lider-card .cargo { font-size: 11px; color: var(--muted); font-weight: 600; }
+    .section-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--accent-dark); font-size: 13px; font-weight: 700;
+      text-decoration: none; transition: gap 0.2s;
+    }
+    .section-link:hover { gap: 10px; color: var(--accent); }
+
+    /* ── GEOGRAFÍA ── */
+    .geo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+    .geo-card {
+      background: var(--surface); border-radius: var(--radius); padding: 24px;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+    }
+    .geo-card h3 { font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 4px; }
+    .geo-subtitle { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+    .geo-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+    }
+    .geo-item:last-child { border-bottom: none; }
+    .geo-item .nombre { font-size: 13px; font-weight: 600; }
+    .geo-item .tag {
+      font-size: 10px; padding: 2px 8px; border-radius: 6px;
+      font-weight: 700; background: rgba(26,54,93,0.06); color: var(--primary);
+    }
+    .geo-item .poblacion { font-size: 12px; color: var(--muted); font-weight: 600; }
+    .geo-map-placeholder {
+      background: var(--surface); border-radius: var(--radius); padding: 32px;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+      text-align: center; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; min-height: 260px;
+    }
+    .geo-map-placeholder svg { width: 100px; height: 100px; opacity: 0.2; }
+    .geo-map-placeholder p { color: var(--muted); font-size: 12px; margin-top: 12px; }
+
+    /* ── ORIGEN ── */
+    .origen-card {
+      background: var(--surface); border-radius: var(--radius);
+      box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+      padding: 40px; position: relative; overflow: hidden;
+    }
+    .origen-card::before {
+      content: '\201C'; position: absolute; top: -10px; left: 20px;
+      font-size: 120px; color: var(--border); font-family: Georgia, serif; line-height: 1;
+    }
+    .origen-text { position: relative; z-index: 1; }
+    .origen-text p {
+      font-size: 15px; color: var(--text); line-height: 1.8;
+      margin-bottom: 16px; font-style: italic;
+    }
+    .origen-text p:last-of-type { margin-bottom: 24px; }
+    .origen-author { display: flex; align-items: center; gap: 12px; }
+    .origen-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 800; flex-shrink: 0;
+    }
+    .origen-name { font-size: 14px; font-weight: 700; color: var(--primary); }
+    .origen-role { font-size: 12px; color: var(--muted); }
+
+    /* ── SOBRE EL CREADOR ── */
+    .creator-section { background: linear-gradient(160deg, var(--primary-dark) 0%, var(--primary) 60%, var(--primary-light) 100%); }
+    .creator-card {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(212,175,55,0.35);
+      border-radius: 24px; padding: 48px 40px; max-width: 720px; margin: 0 auto;
+      text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      backdrop-filter: blur(8px);
+    }
+    .creator-card .section-label { color: var(--accent-light); }
+    .creator-card .section-title { color: white; }
+    .creator-avatar {
+      width: 96px; height: 96px; border-radius: 50%; margin: 0 auto 20px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: var(--primary-dark); display: flex; align-items: center;
+      justify-content: center; font-size: 32px; font-weight: 800;
+      border: 3px solid rgba(255,255,255,0.25);
+      box-shadow: 0 8px 32px rgba(212,175,55,0.4);
+    }
+    .creator-name { font-size: 24px; font-weight: 800; color: white; margin-bottom: 4px; }
+    .creator-role {
+      font-size: 13px; font-weight: 700; color: var(--accent-light);
+      text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px;
+    }
+    .creator-bio { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.7; max-width: 520px; margin: 0 auto 28px; }
+    .creator-social { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .btn-social {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 22px; border-radius: 12px; font-size: 13px; font-weight: 700;
+      text-decoration: none; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-social.linkedin { background: #0A66C2; color: white; }
+    .btn-social.linkedin:hover { background: #084e96; transform: translateY(-1px); }
+    .btn-social.instagram {
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: white;
+    }
+    .btn-social.instagram:hover { transform: translateY(-1px); }
+    .btn-social.linktree { background: #39E09B; color: #0d2818; }
+    .btn-social.linktree:hover { transform: translateY(-1px); background: #2cc47f; }
+
+    /* ── FOOTER ── */
+    .footer { background: var(--primary); color: white; padding: 40px 0; text-align: center; }
+    .footer-brand { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+    .footer-sub { font-size: 12px; opacity: 0.6; margin-bottom: 20px; }
+    .footer-social { display: flex; justify-content: center; gap: 16px; margin-bottom: 20px; }
+    .footer-social a {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: rgba(255,255,255,0.1); color: white;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: 16px; transition: background 0.2s;
+    }
+    .footer-social a:hover { background: var(--accent); color: var(--primary); }
+    .footer-copy { font-size: 11px; opacity: 0.4; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 30px; }
+      .mvv-grid { grid-template-columns: 1fr; }
+      .geo-grid { grid-template-columns: 1fr; }
+      .liderazgo-grid { grid-template-columns: repeat(2, 1fr); }
+      .section-title { font-size: 22px; }
+      .nav-links a.hide-mobile { display: none; }
+      .origen-card { padding: 28px 20px; }
+    }
+    @media (max-width: 480px) {
+      .hero { padding: 48px 0 32px; }
+      .hero-emblem { width: 72px; height: 72px; }
+      .hero h1 { font-size: 26px; }
+      .hero-ctas { flex-direction: column; align-items: center; }
+      .btn { width: 100%; max-width: 280px; justify-content: center; }
+    }
+  </style>
 </head>
-<body class="bg-slate-50 min-h-screen">
+<body>
 
-<!-- ═══════════════════════════════════════
-     HEADER
-════════════════════════════════════════ -->
-<header class="bg-[#003da5] text-white shadow-lg border-b-4 border-[#efbc00]">
-    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-<div style="width:40px;height:40px;background:var(--color-primary);border-radius:50%;border:2px solid var(--color-secondary);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.3)">
-  <span style="font-family:Arial Black,sans-serif;font-weight:900;font-size:11px;color:white;letter-spacing:0.5px" id="index-logo-text">PRM</span>
-</div>
-            <div>
-                <p class="font-display font-black text-lg leading-none tracking-wider" id="index-title">PRM · VALVERDE</p>
-                <p class="text-[10px] font-bold text-blue-200 tracking-widest uppercase">Partido Revolucionario Moderno</p>
-            </div>
-        </div>
-        <span id="display-demarcacion" class="bg-white/15 border border-white/20 text-white px-4 py-1.5 rounded-full text-xs font-bold tracking-wide">
-            <i class="fa-solid fa-location-dot mr-1.5 text-[#efbc00]"></i> Cargando...
-        </span>
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="10" fill="#1a365d"/><rect x="12" y="12" width="16" height="4" rx="1" fill="#d4af37"/><rect x="14" y="16" width="12" height="10" rx="2" fill="#2a4a7f"/><rect x="16" y="14" width="8" height="2" rx="1" fill="#1a365d"/><path d="M16 21l2 2 5-5" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>SED-RD</span>
+    </a>
+    <div class="nav-links">
+      <a href="#mision" class="hide-mobile">Misión</a>
+      <a href="#producto" class="hide-mobile">Producto</a>
+      <a href="#geografia" class="hide-mobile">Geografía</a>
+      <a href="#creador" class="hide-mobile">Creador</a>
+      <a href="login.html" class="btn-nav">Acceder al Sistema</a>
     </div>
-</header>
-
-<!-- ═══════════════════════════════════════
-     NAVEGACIÓN
-════════════════════════════════════════ -->
-<nav class="bg-[#002d7a] text-white shadow-xl sticky top-0 z-50 border-b border-blue-800">
-    <div class="container mx-auto px-4 py-3 flex flex-wrap gap-2 items-center">
-        <button onclick="mostrarModulo('buscador')"
-            class="nav-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wide transition-all bg-white/10 hover:bg-white/20">
-            <i class="fa-solid fa-magnifying-glass"></i> Buscador
-        </button>
-        <button onclick="mostrarModulo('organismos')"
-            class="nav-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wide transition-all bg-white/10 hover:bg-white/20">
-            <i class="fa-solid fa-sitemap"></i> Planchas
-        </button>
-        <button onclick="mostrarModulo('dirigentes')"
-            class="nav-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wide transition-all bg-white/10 hover:bg-white/20">
-            <i class="fa-solid fa-list-check"></i> Registradas
-        </button>
-        <button onclick="mostrarModulo('reportes')"
-            class="nav-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wide transition-all bg-white/10 hover:bg-white/20">
-            <i class="fa-solid fa-file-pdf"></i> Reportes
-        </button>
-        <a href="dirigentes.html"
-            class="nav-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wide transition-all bg-yellow-500/80 hover:bg-yellow-400 text-white">
-            <i class="fa-solid fa-people-group"></i> Dirigentes
-        </a>
-        <a href="#" onclick="cerrarSesion()"
-            class="nav-btn flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wide transition-all bg-white/10 hover:bg-white/20 text-white">
-            <i class="fa-solid fa-right-from-bracket"></i> Salir
-        </a>
-    </div>
+  </div>
 </nav>
 
-<main class="container mx-auto px-4 pt-8 pb-24">
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <svg class="hero-emblem" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="5" y="5" width="90" height="90" rx="22" fill="#1a365d"/>
+      <rect x="8" y="8" width="84" height="84" rx="20" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.25"/>
+      <rect x="30" y="30" width="40" height="8" rx="2" fill="#d4af37"/>
+      <rect x="34" y="38" width="32" height="24" rx="3" fill="#2a4a7f"/>
+      <rect x="42" y="32" width="16" height="3" rx="1.5" fill="#1a365d"/>
+      <path d="M40 50l6 6 14-14" stroke="#d4af37" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="72" cy="28" r="2" fill="#d4af37" opacity="0.35"/>
+    </svg>
 
-<!-- ═══════════════════════════════════════
-     MÓDULO: BUSCADOR
-════════════════════════════════════════ -->
-<div id="mod-buscador" class="modulo-vista">
+    <div class="subtitle">Sistema Electoral Dominicano</div>
+    <h1>SED-<span class="accent">RD</span></h1>
+    <p class="tagline">Plataforma digital segura para la gestión electoral interna de partidos políticos — con trazabilidad completa en cada paso.</p>
 
-    <!-- Stats rápidas -->
-    <div class="grid grid-cols-3 gap-4 mb-8">
-        <div class="bg-white p-5 rounded-2xl shadow-sm border-l-4 border-blue-500">
-            <p class="text-slate-400 text-[10px] uppercase font-black tracking-wider">Total Inscritos</p>
-            <h3 id="total-inscritos" class="text-3xl font-display font-black text-slate-800 mt-1">—</h3>
-        </div>
-        <div class="bg-white p-5 rounded-2xl shadow-sm border-l-4 border-green-500">
-            <p class="text-slate-400 text-[10px] uppercase font-black tracking-wider">Votaron Hoy</p>
-            <h3 id="total-votaron" class="text-3xl font-display font-black text-slate-800 mt-1">—</h3>
-        </div>
-        <div class="bg-white p-5 rounded-2xl shadow-sm border-l-4 border-yellow-500">
-            <p class="text-slate-400 text-[10px] uppercase font-black tracking-wider">Proyección</p>
-            <h3 id="proyeccion" class="text-3xl font-display font-black text-slate-800 mt-1">—</h3>
-        </div>
+    <div class="hero-ctas">
+      <a href="login.html" class="btn btn-primary">
+        <i class="fa-solid fa-right-to-bracket"></i> Acceder al Sistema
+      </a>
+      <a href="#mision" class="btn btn-secondary">
+        <i class="fa-solid fa-arrow-down"></i> Conocer Más
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- MISIÓN / VISIÓN / VALORES -->
+<section class="section" id="mision">
+  <div class="container">
+    <div class="section-label">Nuestro Propósito</div>
+    <h2 class="section-title">Misión, Visión y Valores</h2>
+
+    <div class="mvv-grid">
+      <div class="mvv-card">
+        <div class="mvv-icon i-mision">🎯</div>
+        <h3>Misión</h3>
+        <p>SED-RD ofrece a los partidos políticos dominicanos una plataforma digital segura para gestionar su democracia interna — desde el padrón de militantes hasta el acta final, con trazabilidad completa en cada paso.</p>
+      </div>
+
+      <div class="mvv-card">
+        <div class="mvv-icon i-vision">🔭</div>
+        <h3>Visión</h3>
+        <p>Convertirse en el sistema de referencia para la gestión electoral interna de los partidos políticos en República Dominicana.</p>
+      </div>
+
+      <div class="mvv-card">
+        <div class="mvv-icon i-valores">💎</div>
+        <h3>Valores</h3>
+        <ul class="valores-list">
+          <li>Transparencia</li>
+          <li>Seguridad</li>
+          <li>Democracia Interna</li>
+          <li>Trazabilidad</li>
+          <li>Accesibilidad</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIDERAZGO -->
+<section class="section" id="producto" style="background: white;">
+  <div class="container">
+    <div class="section-label">Estructura de Liderazgo</div>
+    <h2 class="section-title">Representantes y Dirigentes</h2>
+
+    <div class="liderazgo-grid">
+      <div class="lider-card">
+        <div class="lider-avatar">JR</div>
+        <h4>Juan Rodríguez</h4>
+        <div class="cargo">Presidente</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">ML</div>
+        <h4>María López</h4>
+        <div class="cargo">Secretaria General</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">PC</div>
+        <h4>Pedro Castillo</h4>
+        <div class="cargo">Vicepresidente 1ro</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">AR</div>
+        <h4>Ana Ramírez</h4>
+        <div class="cargo">Vicepresidenta 2da</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">DM</div>
+        <h4>Diego Martínez</h4>
+        <div class="cargo">Tesorero</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">LS</div>
+        <h4>Laura Sánchez</h4>
+        <div class="cargo">Fiscal</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">CM</div>
+        <h4>Carlos Méndez</h4>
+        <div class="cargo">Regidor</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">RP</div>
+        <h4>Rosa Peña</h4>
+        <div class="cargo">Regidora</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">LF</div>
+        <h4>Luis Fernández</h4>
+        <div class="cargo">Regidor</div>
+      </div>
     </div>
 
-    <!-- Estado Supabase -->
-    <div class="max-w-4xl mx-auto mb-5 flex items-center gap-3 bg-white rounded-2xl px-5 py-3 shadow-sm border border-slate-200">
-        <div class="flex-1">
-            <div class="flex items-center gap-2">
-                <span class="text-sm font-black text-slate-700">☁️ Base de Datos</span>
-                <span id="padron-badge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black bg-green-100 text-green-700">
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse inline-block"></span> SUPABASE ACTIVO
-                </span>
-            </div>
-            <p id="padron-status" class="text-[11px] text-slate-400 mt-0.5">
-                Padrón electoral en la nube · <span id="padron-count" class="font-bold text-slate-600"></span>
-            </p>
+    <a href="#" class="section-link">
+      Ver Estructura Completa <i class="fa-solid fa-arrow-right"></i>
+    </a>
+  </div>
+</section>
+
+<!-- GEOGRAFÍA -->
+<section class="section" id="geografia">
+  <div class="container">
+    <div class="section-label">Cobertura Territorial</div>
+    <h2 class="section-title">Geografía</h2>
+
+    <div class="geo-grid">
+      <div class="geo-map-placeholder">
+        <svg viewBox="0 0 120 120" fill="none"><rect x="20" y="15" width="80" height="90" rx="12" fill="#E1E8EF"/><path d="M40 35Q60 25 80 35Q85 55 75 75Q60 85 45 75Q30 60 40 35Z" fill="#1a365d" opacity="0.2"/><circle cx="55" cy="50" r="4" fill="#1a365d"/><circle cx="45" cy="60" r="3" fill="#d4af37"/><circle cx="68" cy="58" r="3" fill="#d4af37"/></svg>
+        <p>Mapa de referencia — Provincia de ejemplo</p>
+      </div>
+
+      <div class="geo-card">
+        <h3>Provincia de Ejemplo</h3>
+        <div class="geo-subtitle">5 municipios · 8 zonas electorales</div>
+        <div class="geo-item">
+          <span class="nombre">Ciudad Central</span>
+          <span class="tag">Cabecera</span>
+          <span class="poblacion">95,000 hab.</span>
         </div>
+        <div class="geo-item">
+          <span class="nombre">Villa del Norte</span>
+          <span class="tag">Municipio</span>
+          <span class="poblacion">48,000 hab.</span>
+        </div>
+        <div class="geo-item">
+          <span class="nombre">San Rafael</span>
+          <span class="tag">Municipio</span>
+          <span class="poblacion">31,500 hab.</span>
+        </div>
+        <div class="geo-item">
+          <span class="nombre">Los Palmares</span>
+          <span class="tag">Distrito</span>
+          <span class="poblacion">14,200 hab.</span>
+        </div>
+        <div class="geo-item">
+          <span class="nombre">Puerto Viejo</span>
+          <span class="tag">Distrito</span>
+          <span class="poblacion">11,800 hab.</span>
+        </div>
+      </div>
     </div>
 
-    <!-- Buscador principal -->
-    <section class="bg-white rounded-3xl shadow-xl max-w-4xl mx-auto border-t-8 border-[#003da5] p-8">
-        <div class="text-center mb-6">
-            <h2 class="font-display font-black text-3xl text-slate-800 uppercase tracking-tight">Inteligencia Electoral Provincial</h2>
-            
-            <!-- Filtros territoriales -->
-            <div class="flex flex-wrap items-end justify-center gap-4 mt-5 bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                <div class="flex flex-col items-start">
-                    <label class="text-[9px] font-black text-blue-600 uppercase tracking-wider ml-1 mb-1">Municipio / Distrito</label>
-                    <select id="select-municipio" onchange="cargarZonas()"
-                        class="bg-white border-2 border-slate-200 rounded-xl px-3 py-2 text-xs font-bold outline-none focus:border-blue-500 transition-all">
-                        <option value="PROVINCIA">Toda la provincia</option>
-                        <option value="MAO">Mao (Cabecera)</option>
-                        <option value="ESPERANZA">Esperanza</option>
-                        <option value="LAGUNA_SALADA">Laguna Salada</option>
-                        <option value="AMINA">Amina (D.M.)</option>
-                        <option value="GUATAPANAL">Guatapanal (D.M.)</option>
-                        <option value="JAIBON">Jaibón (D.M.)</option>
-                    </select>
-                </div>
-                <div class="flex flex-col items-start">
-                    <label class="text-[9px] font-black text-blue-600 uppercase tracking-wider ml-1 mb-1">Zona Política</label>
-                    <select id="select-zona" class="bg-white border-2 border-slate-200 rounded-xl px-3 py-2 text-xs font-bold outline-none focus:border-blue-500 transition-all">
-                        <option value="TODAS">Todas las Zonas</option>
-                    </select>
-                </div>
-                <div class="flex flex-col items-start">
-                    <label class="text-[9px] font-black text-blue-600 uppercase tracking-wider ml-1 mb-1">Sector / Paraje</label>
-                    <select id="select-sector" class="bg-white border-2 border-slate-200 rounded-xl px-3 py-2 text-xs font-bold outline-none focus:border-blue-500 transition-all">
-                        <option value="TODOS">Todos los Sectores</option>
-                    </select>
-                </div>
-            </div>
-        </div>
+    <p style="font-size: 12px; color: var(--muted); margin-top: 16px; text-align: center;">
+      <i class="fa-solid fa-circle-info"></i> Datos ilustrativos — cada partido configura su propia geografía real al implementar SED-RD.
+    </p>
+  </div>
+</section>
 
-        <!-- Input búsqueda -->
-        <div class="flex gap-3">
-            <div class="flex-1 relative">
-                <i class="fa-solid fa-id-card absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 text-lg"></i>
-                <input type="text" id="input-cedula" placeholder="Cédula (000-0000000-0)"
-                    class="w-full pl-12 pr-4 py-4 border-2 border-slate-200 rounded-2xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none text-lg font-mono transition-all">
-            </div>
-            <button onclick="buscarPersona()"
-                class="bg-[#003da5] text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-wide hover:bg-blue-800 transition-all flex items-center gap-2 shadow-lg shadow-blue-200">
-                <i class="fa-solid fa-magnifying-glass"></i> Consultar
-            </button>
-        </div>
+<!-- ORIGEN -->
+<section class="section" id="historia" style="background: white;">
+  <div class="container">
+    <div class="section-label">Nuestra Historia</div>
+    <h2 class="section-title">Cómo Nació SED-RD</h2>
 
-        <!-- Resultado perfil -->
-        <div id="perfil-votante" class="hidden mt-8 grid grid-cols-1 md:grid-cols-12 gap-6 p-6 bg-slate-50 rounded-2xl border border-slate-200">
-            <div class="md:col-span-3">
-                <div class="aspect-square bg-white rounded-2xl overflow-hidden relative shadow-md border-4 border-white">
-                    <img id="res-foto" src="" alt="Foto" class="w-full h-full object-cover">
-                    <div id="tag-fidelidad" class="absolute top-2 right-2 px-2 py-1 rounded-lg text-[9px] font-black text-white bg-green-500">DURO</div>
-                </div>
-            </div>
-            <div class="md:col-span-9 space-y-4">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 id="res-nombre" class="font-display font-black text-2xl text-slate-900 leading-none"></h3>
-                        <p id="res-cedula-display" class="text-blue-600 font-mono text-sm mt-1"></p>
-                    </div>
-                    <span id="res-zona" class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-black uppercase"></span>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-white p-3 rounded-xl border border-slate-100">
-                        <p class="text-[9px] text-slate-400 uppercase font-black">Recinto</p>
-                        <p id="res-recinto" class="text-xs font-bold text-slate-700 mt-0.5"></p>
-                    </div>
-                    <div class="bg-white p-3 rounded-xl border border-slate-100">
-                        <p class="text-[9px] text-slate-400 uppercase font-black">Colegio</p>
-                        <p id="res-colegio" class="text-xs font-bold text-slate-700 mt-0.5 font-mono"></p>
-                    </div>
-                    <div class="bg-white p-3 rounded-xl border border-slate-100">
-                        <p class="text-[9px] text-slate-400 uppercase font-black">Teléfono</p>
-                        <p id="res-telefono" class="text-xs font-bold text-slate-700 mt-0.5"></p>
-                    </div>
-                    <div class="bg-white p-3 rounded-xl border border-slate-100">
-                        <p class="text-[9px] text-slate-400 uppercase font-black">Tipo de Voto</p>
-                        <p id="res-tipo-voto" class="text-xs font-bold text-slate-700 mt-0.5"></p>
-                    </div>
-                    <div class="bg-white p-3 rounded-xl border border-slate-100 col-span-2">
-                        <p class="text-[9px] text-slate-400 uppercase font-black">Dirección</p>
-                        <p id="res-direccion" class="text-xs font-bold text-slate-700 mt-0.5"></p>
-                    </div>
-                    <div class="bg-white p-3 rounded-xl border border-slate-100 col-span-2">
-                        <p class="text-[9px] text-slate-400 uppercase font-black mb-1">Concurrencia Electoral</p>
-                        <div id="res-concurrencia"></div>
-                    </div>
-                </div>
-                <div class="flex gap-2 pt-1">
-                    <div id="btn-marcar-voto" style="display:none" class="flex-1">
-                        <button class="w-full bg-green-600 text-white text-xs py-3 rounded-xl font-black hover:bg-green-700 transition-all">
-                            <i class="fa-solid fa-check-double mr-1"></i> Marcar Voto
-                        </button>
-                    </div>
-                    <button class="flex-1 bg-white border-2 border-slate-200 text-slate-700 text-xs py-3 rounded-xl font-black hover:bg-slate-50 transition-all"
-                        onclick="if(document.getElementById('res-direccion')?.textContent) alert(document.getElementById('res-direccion').textContent)">
-                        <i class="fa-solid fa-location-dot mr-1"></i> Ver Dirección
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Estadísticas por municipio -->
-    <section class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="bg-white p-5 rounded-2xl shadow-sm border-t-4 border-blue-600">
-            <h3 class="font-bold text-slate-700 mb-4 flex justify-between text-sm">
-                        <span><i class="fa-solid fa-map-location-dot mr-2 text-blue-500"></i> Cobertura territorial</span>
-                <span class="text-xs text-blue-500 font-medium">En vivo</span>
-            </h3>
-            <div id="mapa-electoral" class="bg-gradient-to-br from-blue-50 to-slate-100 h-56 rounded-xl flex items-center justify-center text-slate-400 italic text-sm border-2 border-dashed border-slate-200">
-                <div class="text-center">
-                    <i class="fa-solid fa-map text-3xl mb-2 text-slate-300"></i>
-                    <p class="text-xs">Mapa interactivo — próxima versión</p>
-                </div>
-            </div>
-        </div>
-        <div class="bg-white p-5 rounded-2xl shadow-sm border-t-4 border-yellow-500">
-            <h3 class="font-bold text-slate-700 mb-4 text-sm"><i class="fa-solid fa-chart-line mr-2 text-yellow-500"></i> Cobertura por Municipio</h3>
-            <div class="space-y-3">
-                <div>
-                    <div class="flex justify-between text-xs mb-1 font-medium"><span>Mao</span><span class="font-bold text-blue-600">75%</span></div>
-                    <div class="w-full bg-slate-100 rounded-full h-2"><div class="bg-blue-600 h-2 rounded-full" style="width:75%"></div></div>
-                </div>
-                <div>
-                    <div class="flex justify-between text-xs mb-1 font-medium"><span>Esperanza</span><span class="font-bold text-blue-400">40%</span></div>
-                    <div class="w-full bg-slate-100 rounded-full h-2"><div class="bg-blue-400 h-2 rounded-full" style="width:40%"></div></div>
-                </div>
-                <div>
-                    <div class="flex justify-between text-xs mb-1 font-medium"><span>Laguna Salada</span><span class="font-bold text-blue-300">25%</span></div>
-                    <div class="w-full bg-slate-100 rounded-full h-2"><div class="bg-blue-300 h-2 rounded-full" style="width:25%"></div></div>
-                </div>
-                <div>
-                    <div class="flex justify-between text-xs mb-1 font-medium"><span>Distritos Municipales</span><span class="font-bold text-slate-400">—</span></div>
-                    <div class="w-full bg-slate-100 rounded-full h-2"><div class="bg-slate-200 h-2 rounded-full" style="width:5%"></div></div>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
-
-<!-- ═══════════════════════════════════════
-     MÓDULO: PLANCHAS (Inscripción)
-════════════════════════════════════════ -->
-<div id="mod-organismos" class="modulo-vista hidden space-y-6">
-
-    <!-- Tabs de navegación interna -->
-    <div class="flex flex-wrap gap-2 bg-slate-200/70 p-2 rounded-2xl w-fit mx-auto">
-        <button data-tab="inscripcion" onclick="tabZona('inscripcion')"
-            class="btn-tab-zona bg-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase shadow-sm text-blue-600 border-2 border-blue-400 transition-all">
-            1. Inscripción
-        </button>
-        <button data-tab="configuracion" onclick="tabZona('configuracion')"
-            class="btn-tab-zona px-5 py-2.5 rounded-xl text-[10px] font-black uppercase text-slate-500 hover:bg-white/50 transition-all">
-            2. Configuración
-        </button>
-        <button data-tab="votacion" onclick="tabZona('votacion')"
-            class="btn-tab-zona px-5 py-2.5 rounded-xl text-[10px] font-black uppercase text-slate-500 hover:bg-white/50 transition-all">
-            3. Resultados
-        </button>
-        <button data-tab="oficial" onclick="tabZona('oficial')"
-            class="btn-tab-zona px-5 py-2.5 rounded-xl text-[10px] font-black uppercase text-slate-500 hover:bg-white/50 transition-all">
-            4. Acta Final
-        </button>
-    </div>
-
-    <!-- ── TAB 1: INSCRIPCIÓN DE PLANCHA ZONAL ── -->
-    <div id="zona-inscripcion" class="tab-content active">
-    <div class="max-w-[1300px] mx-auto space-y-8">
-
-        <!-- Header de la plancha -->
-        <div class="bg-white rounded-3xl border-2 border-blue-600 shadow-xl p-8 flex flex-wrap justify-between items-center gap-6">
-            <div>
-                <div class="flex items-center gap-3 mb-1">
-                        <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest">Elecciones Internas · Art. 117</span>
-                </div>
-                <h1 class="font-display font-black text-5xl text-blue-900 uppercase leading-none italic">
-                    Inscripción de Plancha
-                </h1>
-                <p class="text-[11px] font-black text-blue-500 tracking-[0.25em] uppercase mt-2">
-                    Comité Zonal · <span id="titulo-zona-plancha">Zona D — Mao</span>
-                </p>
-            </div>
-            <div class="flex gap-3">
-                <button onclick="limpiarPlancha()"
-                    class="bg-slate-100 text-slate-600 px-5 py-3 rounded-2xl font-black text-[10px] uppercase hover:bg-red-50 hover:text-red-600 transition-all">
-                    <i class="fa-solid fa-eraser mr-2"></i>Limpiar
-                </button>
-                <button id="btn-guardar-plancha" onclick="guardarPlancha()"
-                    class="bg-[#003da5] text-white px-8 py-3 rounded-2xl font-black text-[10px] uppercase shadow-xl hover:bg-blue-800 transition-all flex items-center gap-2">
-                    <i class="fa-solid fa-save mr-1"></i> Registrar Plancha
-                </button>
-            </div>
-        </div>
-
-        <!-- Layout: Formulario + Panel de Cuotas -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-            <!-- COLUMNA: FORMULARIO DE CARGOS -->
-            <div class="lg:col-span-2 space-y-8">
-
-                <!-- ALERTA CUOTA GÉNERO -->
-                <div id="alerta-cuota-genero" class="hidden bg-orange-50 border-2 border-orange-200 rounded-2xl p-4 flex items-center gap-3">
-                    <i class="fa-solid fa-triangle-exclamation text-orange-500 text-xl flex-shrink-0"></i>
-                    <p class="text-xs font-bold text-orange-700 mensaje-cuota">Verificando cuota de género...</p>
-                </div>
-
-                <!-- SECCIÓN: ALTA DIRECCIÓN -->
-                <section>
-                    <div class="flex items-center gap-3 mb-5">
-                        <div class="w-8 h-8 bg-blue-900 rounded-lg flex items-center justify-center">
-                            <i class="fa-solid fa-crown text-[#efbc00] text-xs"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-display font-black text-xl text-blue-900 uppercase leading-none">Alta Dirección Ejecutiva</h3>
-                            <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wide">Art. 117 · Presidente, Vicepresidentes, Sec. Gral., Subsec. Generales</p>
-                        </div>
-                    </div>
-                    <div id="alta-direccion-cargos" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Renderizado por JS -->
-                    </div>
-                </section>
-
-                <!-- SECCIÓN: SECRETARÍAS -->
-                <section>
-                    <div class="flex items-center gap-3 mb-5">
-                        <div class="w-8 h-8 bg-slate-700 rounded-lg flex items-center justify-center">
-                            <i class="fa-solid fa-gears text-white text-xs"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-display font-black text-xl text-slate-800 uppercase leading-none">Secretarías de Gestión</h3>
-                            <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wide">Art. 96 · Organización, Electoral, Educación, Finanzas y más</p>
-                        </div>
-                    </div>
-                    <div id="secretarias-cargos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <!-- Renderizado por JS -->
-                    </div>
-                </section>
-
-                <!-- SECCIÓN: FRENTES SECTORIALES -->
-                <section>
-                    <div class="flex items-center gap-3 mb-5">
-                        <div class="w-8 h-8 bg-[#003da5] rounded-lg flex items-center justify-center">
-                            <i class="fa-solid fa-people-group text-white text-xs"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-display font-black text-xl text-blue-800 uppercase leading-none">Frentes Sectoriales</h3>
-                            <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wide">Art. 77 · Mujeres, Juventud, Magisterial, Agropecuario, Salud</p>
-                        </div>
-                    </div>
-                    <div id="frentes-cargos" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Renderizado por JS -->
-                    </div>
-                </section>
-            </div>
-
-            <!-- COLUMNA: PANEL DE VALIDACIÓN ESTATUTARIA -->
-            <div class="space-y-6 lg:sticky lg:top-20 self-start">
-
-                <!-- Panel principal de cuotas -->
-                <div class="bg-slate-900 rounded-3xl p-7 text-white shadow-2xl">
-                    <h4 class="font-display font-black text-xl uppercase tracking-wide mb-1">Filtro Estatutario</h4>
-                    <p class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mb-6">Validación automática en tiempo real</p>
-
-                    <!-- Contadores -->
-                    <div class="grid grid-cols-2 gap-3 mb-6">
-                        <div class="bg-white/5 rounded-2xl p-4 text-center border border-white/10">
-                            <p class="text-3xl font-display font-black" id="cuota-total-count">0</p>
-                            <p class="text-[9px] text-slate-400 uppercase font-bold mt-1">Miembros</p>
-                        </div>
-                        <div class="bg-pink-500/10 rounded-2xl p-4 text-center border border-pink-500/20">
-                            <p class="text-3xl font-display font-black text-pink-300" id="cuota-mujeres-count">0</p>
-                            <p class="text-[9px] text-pink-400 uppercase font-bold mt-1">Mujeres</p>
-                        </div>
-                        <div class="bg-blue-500/10 rounded-2xl p-4 text-center border border-blue-500/20">
-                            <p class="text-3xl font-display font-black text-blue-300" id="cuota-hombres-count">0</p>
-                            <p class="text-[9px] text-blue-400 uppercase font-bold mt-1">Hombres</p>
-                        </div>
-                        <div class="bg-yellow-500/10 rounded-2xl p-4 text-center border border-yellow-500/20">
-                            <p class="text-3xl font-display font-black text-yellow-300" id="cuota-jovenes-count">0</p>
-                            <p class="text-[9px] text-yellow-400 uppercase font-bold mt-1">Jóvenes</p>
-                        </div>
-                    </div>
-
-                    <!-- Barra género -->
-                    <div class="mb-5">
-                        <div class="flex justify-between text-[10px] font-bold mb-2">
-                            <span class="text-slate-300 uppercase">Género <span class="text-slate-500">(Art. 155)</span></span>
-                            <span class="text-white font-mono" id="cuota-pct-mujeres">0%</span>
-                        </div>
-                        <div class="w-full bg-white/10 rounded-full h-3 overflow-hidden">
-                            <div id="barra-mujeres" class="h-full rounded-full bg-slate-400" style="width:0%"></div>
-                        </div>
-                        <p class="text-[8px] text-slate-500 mt-1.5 font-bold uppercase">Rango válido: 40% — 60% mujeres</p>
-                    </div>
-
-                    <!-- Barra juventud -->
-                    <div class="mb-6">
-                        <div class="flex justify-between text-[10px] font-bold mb-2">
-                            <span class="text-slate-300 uppercase">Juventud <span class="text-slate-500">(Art. 154)</span></span>
-                            <span class="text-white font-mono" id="cuota-pct-jovenes">0%</span>
-                        </div>
-                        <div class="w-full bg-white/10 rounded-full h-3 overflow-hidden">
-                            <div id="barra-jovenes" class="h-full rounded-full bg-slate-400" style="width:0%"></div>
-                        </div>
-                        <p class="text-[8px] text-slate-500 mt-1.5 font-bold uppercase">Mínimo requerido: 10% (18–35 años)</p>
-                    </div>
-
-                    <!-- Indicadores de cumplimiento -->
-                    <div class="space-y-2.5">
-                        <div id="indicador-genero" class="flex items-center gap-2 p-3 rounded-xl bg-red-900/30 border border-red-700/30">
-                            <div class="w-3 h-3 rounded-full flex-shrink-0 bg-red-500 animate-pulse"></div>
-                            <span class="text-[10px] font-black uppercase text-red-300">Art. 155: 40–60% género: PENDIENTE</span>
-                        </div>
-                        <div id="indicador-juventud" class="flex items-center gap-2 p-3 rounded-xl bg-red-900/30 border border-red-700/30">
-                            <div class="w-3 h-3 rounded-full flex-shrink-0 bg-red-500 animate-pulse"></div>
-                            <span class="text-[10px] font-black uppercase text-red-300">Art. 154: mín. 10% jóvenes: PENDIENTE</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Referencia estatutaria -->
-                <div class="bg-blue-50 rounded-2xl p-5 border-2 border-blue-100">
-                    <h5 class="font-black text-blue-900 text-xs uppercase mb-3 flex items-center gap-2">
-                        <i class="fa-solid fa-book-open text-blue-600"></i> Referencia Estatutaria
-                    </h5>
-                    <ul class="space-y-2 text-[10px] text-blue-800 font-bold">
-                        <li class="flex items-start gap-2"><span class="text-blue-400 flex-shrink-0">•</span>Art. 117: Composición del Comité Zonal</li>
-                        <li class="flex items-start gap-2"><span class="text-blue-400 flex-shrink-0">•</span>Art. 154: Cuota jóvenes mín. 10% (18–35)</li>
-                        <li class="flex items-start gap-2"><span class="text-blue-400 flex-shrink-0">•</span>Art. 155: Género 40–60% obligatorio</li>
-                        <li class="flex items-start gap-2"><span class="text-blue-400 flex-shrink-0">•</span>Art. 151: Militancia mín. 3 años locales</li>
-                        <li class="flex items-start gap-2"><span class="text-blue-400 flex-shrink-0">•</span>Art. 96: Secretarías de la Comisión Ejec.</li>
-                    </ul>
-                </div>
-
-                <!-- Botón Guardar (móvil) -->
-                <button id="btn-guardar-plancha-mobile" onclick="guardarPlancha()"
-                    class="lg:hidden w-full bg-[#003da5] text-white py-4 rounded-2xl font-black text-sm uppercase shadow-xl hover:bg-blue-800 transition-all">
-                    <i class="fa-solid fa-save mr-2"></i> Guardar Plancha
-                </button>
-            </div>
-
-        </div><!-- /grid -->
-    </div>
-    </div><!-- /zona-inscripcion -->
-
-    <!-- ── TAB 2: CONFIGURACIÓN ── -->
-    <div id="zona-configuracion" class="tab-content">
-        <div class="max-w-5xl mx-auto p-6 space-y-8">
-            <div class="bg-white rounded-3xl border-2 border-blue-600 p-8">
-                <h1 class="font-display font-black text-5xl text-blue-900 uppercase">Configuración de Elección</h1>
-                <p class="font-bold text-blue-500 tracking-widest uppercase text-sm mt-2">Provincia · Modalidades Art. 146</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <label class="relative flex flex-col p-7 border-4 border-slate-100 rounded-3xl cursor-pointer hover:border-blue-500 transition-all has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50">
-                    <input type="radio" name="modalidad" class="absolute top-5 right-5 w-6 h-6" checked>
-                    <i class="fa-solid fa-box-check text-4xl text-blue-600 mb-5"></i>
-                    <span class="font-display font-black text-2xl text-blue-900 uppercase">Voto Universal</span>
-                    <p class="text-xs text-slate-400 font-bold mt-2 uppercase">Voto directo y secreto de todos los afiliados inscritos.</p>
-                </label>
-                <label class="relative flex flex-col p-7 border-4 border-slate-100 rounded-3xl cursor-pointer hover:border-blue-500 transition-all has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50">
-                    <input type="radio" name="modalidad" class="absolute top-5 right-5 w-6 h-6">
-                    <i class="fa-solid fa-users-viewfinder text-4xl text-blue-600 mb-5"></i>
-                    <span class="font-display font-black text-2xl text-blue-900 uppercase">Delegados</span>
-                    <p class="text-xs text-slate-400 font-bold mt-2 uppercase">Votación restringida a dirigentes y representantes oficiales.</p>
-                </label>
-                <label class="relative flex flex-col p-7 border-4 border-slate-100 rounded-3xl cursor-pointer hover:border-blue-500 transition-all has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50">
-                    <input type="radio" name="modalidad" class="absolute top-5 right-5 w-6 h-6">
-                    <i class="fa-solid fa-chart-line text-4xl text-blue-600 mb-5"></i>
-                    <span class="font-display font-black text-2xl text-blue-900 uppercase">Encuestas</span>
-                    <p class="text-xs text-slate-400 font-bold mt-2 uppercase">Firma encuestadora avalada para medir simpatía.</p>
-                </label>
-                <label class="relative flex flex-col p-7 border-4 border-slate-100 rounded-3xl cursor-pointer hover:border-blue-500 transition-all has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50">
-                    <input type="radio" name="modalidad" class="absolute top-5 right-5 w-6 h-6">
-                    <i class="fa-solid fa-handshake-angle text-4xl text-blue-600 mb-5"></i>
-                    <span class="font-display font-black text-2xl text-blue-900 uppercase">Consenso</span>
-                    <p class="text-xs text-slate-400 font-bold mt-2 uppercase">Plancha única validada por aclamación en asamblea.</p>
-                </label>
-            </div>
-            <button class="bg-blue-600 text-white px-10 py-4 rounded-2xl font-black uppercase tracking-wide shadow-lg hover:bg-blue-800 transition-all">
-                <i class="fa-solid fa-rocket mr-2"></i> Aplicar Configuración
-            </button>
-        </div>
-    </div>
-
-    <!-- ── TAB 3: RESULTADOS ── -->
-    <div id="zona-votacion" class="tab-content">
-        <div class="max-w-5xl mx-auto p-6 space-y-8">
-            <div class="bg-white rounded-3xl border-2 border-blue-600 p-8 flex flex-wrap justify-between items-center gap-4">
-                <div>
-                    <h1 class="font-display font-black text-5xl text-blue-900 uppercase">Registro de Resultados</h1>
-                    <p class="font-bold text-blue-500 tracking-widest uppercase text-sm mt-2">Proceso Interno · Art. 51</p>
-                </div>
-                <button class="bg-green-600 text-white px-10 py-4 rounded-2xl font-black uppercase shadow-xl hover:bg-green-800 transition-all">
-                    <i class="fa-solid fa-check-double mr-2"></i> Validar Resultados
-                </button>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-blue-50 rounded-3xl p-7 border-2 border-blue-200">
-                    <label class="text-xs font-black text-blue-800 uppercase block mb-3">Votos / Apoyos Recibidos</label>
-                    <input type="number" placeholder="0" class="w-full bg-white p-5 rounded-2xl text-5xl font-display font-black text-blue-900 outline-none border-2 border-transparent focus:border-blue-600">
-                </div>
-                <div class="bg-slate-50 rounded-3xl p-7 border-2 border-slate-100">
-                    <label class="text-xs font-black text-slate-500 uppercase block mb-3">Observaciones</label>
-                    <textarea placeholder="Detalles de la asamblea o votación..." class="w-full bg-white p-4 rounded-2xl text-sm font-bold text-slate-700 outline-none h-[110px] resize-none"></textarea>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ── TAB 4: ACTA FINAL ── -->
-    <div id="zona-oficial" class="tab-content">
-        <div class="max-w-4xl mx-auto p-6 space-y-8">
-            <div class="bg-white rounded-3xl border-2 border-blue-600 p-8 flex flex-wrap justify-between items-center gap-4">
-                <div>
-                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-[9px] font-black uppercase">Estatus: Finalizado</span>
-                    <h1 class="font-display font-black text-4xl text-blue-900 uppercase mt-2">Certificación de Autoridades</h1>
-                </div>
-                <div class="flex gap-3">
-                    <button class="bg-slate-800 text-white px-5 py-3 rounded-xl font-black text-xs uppercase hover:bg-black transition-all">
-                        <i class="fa-solid fa-print mr-2"></i>Imprimir
-                    </button>
-                    <button class="bg-[#003da5] text-white px-7 py-3 rounded-xl font-black text-xs uppercase shadow-lg hover:bg-blue-800 transition-all">
-                        <i class="fa-solid fa-file-pdf mr-2"></i>Descargar Acta
-                    </button>
-                </div>
-            </div>
-            <div class="bg-slate-50 rounded-3xl border border-slate-200 p-10 relative overflow-hidden">
-                <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
-                    <span class="font-display font-black text-[300px] text-slate-400" id="index-bg-text">PRM</span>
-                </div>
-                <div class="relative z-10 space-y-6">
-                    <div class="text-center border-b-2 border-slate-100 pb-6">
-                        <h3 class="font-display font-black text-2xl text-blue-900 uppercase">Acta de Proclamación de Autoridades</h3>
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Comité Zonal — Mao</p>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-white p-4 rounded-2xl border border-slate-100">
-                            <p class="text-[9px] font-black text-blue-600 uppercase mb-1">Presidente Electo</p>
-                            <p class="font-display font-black text-xl text-slate-800 uppercase">Cargando...</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-2xl border border-slate-100">
-                            <p class="text-[9px] font-black text-blue-600 uppercase mb-1">Secretario General</p>
-                            <p class="font-display font-black text-xl text-slate-800 uppercase">Cargando...</p>
-                        </div>
-                    </div>
-                    <div class="pt-6 border-t-2 border-slate-100 flex justify-between text-[10px] font-black uppercase text-slate-400">
-                        <span>Mao, R.D.</span>
-                        <span>ID: 2026-VAL-001</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div><!-- /mod-organismos -->
-
-<!-- ═══════════════════════════════════════
-     MÓDULO: PLANCHAS REGISTRADAS
-════════════════════════════════════════ -->
-<div id="mod-dirigentes" class="modulo-vista hidden space-y-6">
-
-    <div class="bg-white rounded-3xl shadow-sm border-t-8 border-blue-800 p-8">
-        <div class="flex flex-wrap justify-between items-center gap-4 mb-8">
-            <div>
-                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest">Elecciones Internas</span>
-                <h2 class="font-display font-black text-3xl text-slate-800 uppercase mt-2">Planchas Zonales Registradas</h2>
-                <p class="text-xs font-bold text-slate-400 uppercase">Gestión de Candidaturas</p>
-            </div>
-            <button onclick="abrirInscripcionPlancha()"
-                class="bg-[#003da5] text-white px-7 py-3 rounded-2xl font-black text-xs uppercase shadow-lg hover:bg-blue-900 transition-all flex items-center gap-2">
-                <i class="fa-solid fa-plus"></i> Nueva Plancha
-            </button>
-        </div>
-
-        <div class="overflow-hidden rounded-2xl border border-slate-100">
-            <table class="w-full text-left">
-                <thead>
-                    <tr class="bg-slate-50 text-[9px] font-black text-slate-400 uppercase tracking-wider">
-                        <th class="p-4">Plancha / Zona</th>
-                        <th class="p-4">Estatus</th>
-                        <th class="p-4">Miembros</th>
-                        <th class="p-4">Estatutos</th>
-                        <th class="p-4 text-center">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="tabla-planchas-body" class="divide-y divide-slate-100 text-sm">
-                    <tr>
-                        <td colspan="5" class="p-8 text-center text-slate-400 text-sm">
-                            <i class="fa-solid fa-folder-open text-2xl mb-2 block text-slate-200"></i>
-                            No hay planchas registradas aún.
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Panel de comité efectivo -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="bg-slate-900 rounded-3xl p-9 text-white shadow-2xl relative overflow-hidden">
-            <div class="relative z-10">
-                <h3 class="font-display font-black text-2xl uppercase mb-2">Mi Comité Efectivo</h3>
-                <p class="text-xs text-slate-400 mb-7 leading-relaxed">Vincula ciudadanos de tu estructura para asegurar la victoria en el escrutinio interno.</p>
-                <button onclick="abrirRegistroVotante()"
-                    class="bg-[#efbc00] text-blue-900 px-8 py-3 rounded-xl font-black text-xs uppercase hover:bg-white transition-all">
-                    Registrar Votante
-                </button>
-            </div>
-            <i class="fa-solid fa-users-gear absolute right-[-20px] bottom-[-20px] text-9xl opacity-5"></i>
-        </div>
-        <div class="bg-white rounded-3xl p-9 border-2 border-slate-100 flex flex-col justify-center items-center text-center">
-            <p class="text-[9px] font-black text-blue-600 uppercase mb-3 tracking-widest">Progreso Estructura Zonal</p>
-            <div class="flex items-baseline gap-2 mb-4">
-                <span id="progreso-estructura" class="font-display font-black text-6xl text-slate-900">0</span>
-                <span class="text-slate-400 font-bold uppercase text-xs">Planchas</span>
-            </div>
-            <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
-                <div id="barra-progreso-estructura" class="bg-blue-600 h-full rounded-full transition-all duration-700" style="width: 0%"></div>
-            </div>
-            <p class="text-[9px] text-slate-400 font-bold mt-3" id="texto-progreso">Registra planchas para ver el progreso</p>
-        </div>
-    </div>
-</div>
-
-<!-- ═══════════════════════════════════════
-     MÓDULO: REPORTES
-════════════════════════════════════════ -->
-<div id="mod-reportes" class="modulo-vista hidden space-y-6">
-
-    <!-- Filtros -->
-    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="origen-card">
+      <div class="origen-text">
+        <p>Nadie me lo pidió. No había presupuesto, ni equipo, ni certeza de que fuera a funcionar. Solo la experiencia de estar en el terreno como dirigente de zona y ver, de cerca, todo lo que faltaba.</p>
+        <p>La idea llegó antes que las herramientas para construirla. Durante mucho tiempo existió solo en mi cabeza, dando vueltas, hasta que decidí que tenía que dejar de ser una idea y convertirse en algo real. Aprendí lo que hizo falta aprender. Encontré tiempo donde no lo había. Seguí cuando lo lógico hubiera sido parar.</p>
+        <p>SED-RD no nació en un laboratorio ni en una oficina central. Nació donde nace el trabajo político de verdad: en la base. Lo construyó alguien que conoce ese trabajo porque lo vivió primero, y que decidió que la militancia también merece herramientas hechas con la misma seriedad con la que se hacen las cosas importantes.</p>
+      </div>
+      <div class="origen-author">
+        <div class="origen-avatar">GV</div>
         <div>
-            <label class="text-[9px] font-black text-blue-600 uppercase block mb-1">Municipio</label>
-            <select class="w-full p-2.5 bg-slate-50 border-2 border-slate-200 rounded-xl text-sm font-bold">
-                <option>MAO</option><option>ESPERANZA</option><option>LAGUNA SALADA</option>
-            </select>
+          <div class="origen-name">Gritzewsky Ventura</div>
+          <div class="origen-role">Fundador, SED-RD</div>
         </div>
-        <div>
-            <label class="text-[9px] font-black text-blue-600 uppercase block mb-1">Tipo de Padrón</label>
-            <select class="w-full p-2.5 bg-slate-50 border-2 border-slate-200 rounded-xl text-sm font-bold">
-                <option>INTERNAS (PADRÓN CERRADO)</option>
-                <option>GENERALES (JCE)</option>
-            </select>
-        </div>
-        <div class="flex items-end">
-            <button class="w-full bg-[#003da5] text-white py-2.5 rounded-xl font-black text-xs uppercase hover:bg-blue-800 transition-all">
-                Generar Reporte
-            </button>
-        </div>
+      </div>
     </div>
+  </div>
+</section>
 
-    <!-- Grid de plancha activa -->
-    <div class="bg-white p-6 rounded-2xl border border-slate-100">
-        <h4 class="text-sm font-black text-slate-800 mb-5 uppercase flex items-center gap-2">
-            <i class="fa-solid fa-id-card text-blue-500"></i> Plancha Activa — Resumen
-        </h4>
-        <div id="reporte-grid-plancha" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <p class="col-span-3 text-center text-slate-400 text-sm py-6">
-                Inscribe una plancha para ver el reporte aquí.
-            </p>
-        </div>
+<!-- SOBRE EL CREADOR -->
+<section class="section creator-section" id="creador">
+  <div class="container">
+    <div class="creator-card">
+      <div class="creator-avatar">GV</div>
+      <h2 class="section-title">Sobre el Creador</h2>
+      <div class="creator-name">Gritzewsky Ventura</div>
+      <div class="creator-role">Fundador y Creador de SED-RD</div>
+      <p class="creator-bio">Ex dirigente de base con experiencia real en el terreno electoral dominicano. SED-RD nació de esa vivencia: la de ver lo que falta y decidir construirlo. Sigo trabajando en la base mientras desarrollo herramientas que dignifiquen el trabajo político.</p>
+      <div class="creator-social">
+        <a href="#" class="btn-social linkedin" target="_blank" title="LinkedIn">
+          <i class="fa-brands fa-linkedin-in"></i> LinkedIn
+        </a>
+        <a href="#" class="btn-social instagram" target="_blank" title="Instagram">
+          <i class="fa-brands fa-instagram"></i> Instagram
+        </a>
+        <a href="#" class="btn-social linktree" target="_blank" title="Linktree">
+          <i class="fa-solid fa-link"></i> Linktree
+        </a>
+      </div>
     </div>
+  </div>
+</section>
 
-    <!-- Rendimiento por colegios -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="bg-white p-6 rounded-2xl border border-slate-100">
-            <h4 class="text-sm font-black text-slate-800 mb-4 uppercase">Rendimiento por Colegio</h4>
-            <table class="w-full text-left text-xs">
-                <thead><tr class="border-b text-slate-400 font-bold uppercase text-[9px]">
-                    <th class="pb-2">Colegio</th><th class="pb-2">Votos</th><th class="pb-2">%</th>
-                </tr></thead>
-                <tbody>
-                    <tr class="border-b"><td class="py-3 font-mono text-slate-600">0045A</td><td class="text-blue-600 font-bold">—</td><td class="text-slate-400">—</td></tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="bg-white p-6 rounded-2xl border border-slate-100">
-            <h4 class="text-sm font-black text-slate-800 mb-4 uppercase">Efectividad de Dirigentes</h4>
-            <p class="text-xs text-slate-400">Sin datos aún. Conecta el padrón para ver estadísticas.</p>
-        </div>
-    </div>
-</div>
-
-</main>
-
-<!-- Footer -->
-<footer class="mt-16 border-t border-slate-200 py-8 text-center text-[10px] uppercase tracking-widest text-slate-400">
-    <p class="font-bold text-slate-300" id="index-footer-copy">© 2026 Sistema Electoral</p>
-    <p class="mt-1">Desarrollado bajo procesos estatutarios del Partido Revolucionario Moderno</p>
+<!-- FOOTER -->
+<footer class="footer" id="contacto">
+  <div class="container">
+    <div class="footer-brand">SED-RD</div>
+    <div class="footer-sub">Sistema Electoral Dominicano</div>
+    <div class="footer-copy">&copy; 2026 SED-RD. Todos los derechos reservados.</div>
+  </div>
 </footer>
 
-<!-- Contenedor de modales -->
-<div id="contenedor-modales"></div>
-
-<script>
-// ============================================================
-// SISTEMA ELECTORAL — app.js principal
-// ============================================================
-
-// ── CONFIG INIT ──
-(function() {
-  if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG) {
-    var b = APP_CONFIG.branding;
-    var u = APP_CONFIG.ui;
-    var root = document.documentElement;
-    root.style.setProperty('--color-primary', b.primaryColor);
-    root.style.setProperty('--color-secondary', b.secondaryColor);
-    root.style.setProperty('--color-accent', b.accentColor);
-    var logoText = b.logoText || b.initials || '';
-    var el;
-    el = document.getElementById('index-logo-text'); if (el) el.textContent = logoText;
-    el = document.getElementById('index-title'); if (el) el.textContent = b.name + ' · ' + b.territorio.toUpperCase();
-    el = document.getElementById('index-bg-text'); if (el) el.textContent = logoText;
-    el = document.getElementById('index-footer-copy'); if (el) el.innerHTML = '&copy; ' + (u.anoElectoral || new Date().getFullYear()) + ' ' + (u.tituloSistema || 'Sistema Electoral') + ' · ' + b.name + ' ' + b.territorio;
-  }
-})();
-
-// ── VERIFICAR SESIÓN: Si no hay sesión, redirigir al login ──
-(function() {
-    const sesionRaw = localStorage.getItem('app_sesion');
-    if (!sesionRaw) {
-        window.location.href = 'login.html';
-        return;
-    }
-    try {
-        const sesion = JSON.parse(sesionRaw);
-        if (!sesion.expires || sesion.expires < Date.now()) {
-            localStorage.removeItem('app_sesion');
-            window.location.href = 'login.html';
-            return;
-        }
-    } catch(e) {
-        localStorage.removeItem('app_sesion');
-        window.location.href = 'login.html';
-        return;
-    }
-})();
-
-// ─────────────────────────────────────────────
-// CONFIGURACIÓN SUPABASE
-// Reemplaza estos valores con los tuyos de:
-// supabaseClient.com → Tu proyecto → Settings → API
-// ─────────────────────────────────────────────
-const SUPABASE_URL  = 'https://ilivjaiexfqpioqrozlf.supabase.co';
-const SUPABASE_KEY  = 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
-
-// Cliente Supabase (se carga desde CDN en index.html)
-let supabaseClient = (typeof _sbClient !== "undefined" ? _sbClient : null);
-
-// ─────────────────────────────────────────────
-// ESTADO GLOBAL DE LA APLICACIÓN
-// ─────────────────────────────────────────────
-const estado = {
-    // Sesión del usuario
-    usuario: {
-        id: null,
-        nombre: 'Secretario Zonal',
-        cedula: null,
-        rol: 'SECRETARIO_ZONA',
-        zona_id: null,
-        zona_nombre: 'Zona D - Mao',
-        municipio_id: 1,
-        municipio_nombre: 'Mao',
-    },
-    // Plancha activa en edición
-    planchaActiva: {
-        id: null,
-        codigo: null,
-        zona_id: null,
-        zona_nombre: null,
-        nombre_plancha: '',
-        miembros: {}  // { cargo_id: { cedula, nombre, sexo, edad, validado } }
-    },
-    // Datos cargados desde DB
-    zonas: [],
-    municipios: [],
-    catalogoCargos: [],
-    planchas: [],
-    // UI
-    modoEdicion: false,
-    guardandoPlancha: false,
-    // ── PADRÓN ELECTORAL (cargado desde JSON) ──
-    padron: {
-        cargado: false,
-        totalMilitantes: 0,
-        colegiosCargados: [],
-        porCedula: {}   // índice: cedula → datos del militante con foto
-    }
-};
-
-// Estructura territorial (caché local)
-const territorioValverde = {
-    MAO: {
-        id: 1, tipo: 'MUNICIPIO',
-        zonas: [
-            { id:1, nombre:'Zona A', codigo:'MAO-ZA' },
-            { id:2, nombre:'Zona B', codigo:'MAO-ZB' },
-            { id:3, nombre:'Zona C', codigo:'MAO-ZC' },
-            { id:4, nombre:'Zona D', codigo:'MAO-ZD' },
-            { id:5, nombre:'Zona E', codigo:'MAO-ZE' },
-            { id:6, nombre:'Zona F', codigo:'MAO-ZF' },
-        ]
-    },
-    ESPERANZA: {
-        id: 2, tipo: 'MUNICIPIO',
-        zonas: [
-            { id:7, nombre:'Zona 1', codigo:'ESP-Z1' },
-            { id:8, nombre:'Zona 2', codigo:'ESP-Z2' },
-            { id:9, nombre:'Zona 3', codigo:'ESP-Z3' },
-        ]
-    },
-    LAGUNA_SALADA: {
-        id: 3, tipo: 'MUNICIPIO',
-        zonas: [{ id:10, nombre:'Zona Única', codigo:'LAG-ZU' }]
-    },
-    AMINA:       { id:4, tipo:'DISTRITO_MUNICIPAL', zonas:[] },
-    GUATAPANAL:  { id:5, tipo:'DISTRITO_MUNICIPAL', zonas:[] },
-    JAIBON:      { id:6, tipo:'DISTRITO_MUNICIPAL', zonas:[] },
-    POTRERO:     { id:7, tipo:'DISTRITO_MUNICIPAL', zonas:[] },
-};
-
-// Cargos del Comité Zonal — espejo del catálogo_cargos (Arts. 96 + 117)
-const cargosZonales = [
-    // Alta Dirección
-    { id:1,  nombre:'Presidente(a) de Zona',           categoria:'ALTA_DIRECCION',   obligatorio:true },
-    { id:2,  nombre:'1er Vicepresidente(a)',             categoria:'ALTA_DIRECCION',   obligatorio:true },
-    { id:3,  nombre:'2do Vicepresidente(a)',             categoria:'ALTA_DIRECCION',   obligatorio:true },
-    { id:4,  nombre:'3er Vicepresidente(a)',             categoria:'ALTA_DIRECCION',   obligatorio:true },
-    { id:5,  nombre:'Secretario(a) General',            categoria:'ALTA_DIRECCION',   obligatorio:true },
-    { id:6,  nombre:'1er Subsecretario(a) General',     categoria:'ALTA_DIRECCION',   obligatorio:true },
-    { id:7,  nombre:'2do Subsecretario(a) General',     categoria:'ALTA_DIRECCION',   obligatorio:true },
-    { id:8,  nombre:'3er Subsecretario(a) General',     categoria:'ALTA_DIRECCION',   obligatorio:true },
-    // Secretarías
-    { id:9,  nombre:'Secretario(a) de Organización',   categoria:'SECRETARIA',       obligatorio:true  },
-    { id:10, nombre:'Secretario(a) Electoral',          categoria:'SECRETARIA',       obligatorio:true  },
-    { id:11, nombre:'Secretario(a) de Educación',       categoria:'SECRETARIA',       obligatorio:true  },
-    { id:12, nombre:'Secretario(a) de Finanzas',        categoria:'SECRETARIA',       obligatorio:true  },
-    { id:13, nombre:'Secretario(a) de Comunicación',    categoria:'SECRETARIA',       obligatorio:true  },
-    { id:14, nombre:'Secretario(a) de Tecnología',      categoria:'SECRETARIA',       obligatorio:false },
-    { id:15, nombre:'Secretario(a) de Asuntos Munic.',  categoria:'SECRETARIA',       obligatorio:true  },
-    { id:16, nombre:'Secretario(a) de Actas',           categoria:'SECRETARIA',       obligatorio:true  },
-    // Frentes Sectoriales
-    { id:17, nombre:'Presidenta — Frente de Mujeres',   categoria:'FRENTE_SECTORIAL', obligatorio:true  },
-    { id:18, nombre:'Presidente — Frente de Juventud',  categoria:'FRENTE_SECTORIAL', obligatorio:true  },
-    { id:19, nombre:'Pdte. Frente Magisterial',         categoria:'FRENTE_SECTORIAL', obligatorio:false },
-    { id:20, nombre:'Pdte. Frente Agropecuario',        categoria:'FRENTE_SECTORIAL', obligatorio:false },
-    { id:21, nombre:'Pdte. Frente de Salud',            categoria:'FRENTE_SECTORIAL', obligatorio:false },
-];
-
-// ─────────────────────────────────────────────
-// INICIALIZACIÓN
-// ─────────────────────────────────────────────
-
-
-function inicializarSupabase() {
-    try {
-        if (typeof _sbClient !== "undefined" && _sbClient) {
-            supabaseClient = _sbClient;
-        } else if (window.supabase) {
-            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-            console.log('✅ Supabase conectado');
-        } else {
-            console.warn('⚠️ Supabase no cargado aún. Revisá el CDN en index.html.');
-        }
-    } catch(e) {
-        console.error('❌ Error al conectar Supabase:', e);
-    }
-}
-
-function inicializarInterfaz() {
-    const el = document.getElementById('display-demarcacion');
-    if (el) el.textContent = `${typeof APP_CONFIG !== 'undefined' && APP_CONFIG ? APP_CONFIG.branding?.territorio || '' : ''} · ${estado.usuario.zona_nombre}`;
-    cargarZonas();
-}
-
-// ─────────────────────────────────────────────
-// NAVEGACIÓN DE MÓDULOS Y TABS
-// ─────────────────────────────────────────────
-function mostrarModulo(nombre) {
-    document.querySelectorAll('.modulo-vista').forEach(m => m.classList.add('hidden'));
-    const mod = document.getElementById(`mod-${nombre}`);
-    if (mod) mod.classList.remove('hidden');
-
-    // Acciones al entrar a un módulo
-    if (nombre === 'dirigentes') {
-        cargarListaPlanchas();
-        renderTablaPlanchas();
-    }
-    if (nombre === 'reportes') {
-        renderReportes();
-    }
-}
-
-// Alias para el HTML existente
-const appElectoral = {
-    mostrarModulo,
-    tabZona,
-    formatearCedula,
-    cargarZonas,
-    buscar: buscarPersona,
-    limpiarPlancha,
-    guardarPlancha,
-    abrirInscripcionPlancha,
-    abrirRegistroVotante,
-    generarReportePlancha: renderReportes,
-};
-
-// ─────────────────────────────────────────────
-// EXPONER FUNCIONES AL SCOPE GLOBAL (window)
-// Necesario para botones generados dinámicamente
-// con onclick="..." en HTML y GitHub Pages
-// ─────────────────────────────────────────────
-window.mostrarModulo          = mostrarModulo;
-window.tabZona                = tabZona;
-window.formatearCedula        = formatearCedula;
-window.cargarZonas            = cargarZonas;
-window.buscarPersona          = buscarPersona;
-window.abrirCargadorPadron    = abrirCargadorPadron;
-window.cargarPadronJSON       = cargarPadronJSON;
-window.limpiarPlancha         = limpiarPlancha;
-window.guardarPlancha         = guardarPlancha;
-window.editarPlancha          = editarPlancha;
-window.eliminarPlancha        = eliminarPlancha;
-window.abrirInscripcionPlancha= abrirInscripcionPlancha;
-window.abrirRegistroVotante   = abrirRegistroVotante;
-window.autoValidarCargo       = autoValidarCargo;
-window.validarCargo           = validarCargo;
-window.renderReportes         = renderReportes;
-window.cerrarSesion           = cerrarSesion;
-
-function cerrarSesion() {
-    if (!confirm('¿Cerrar sesión?')) return;
-    localStorage.removeItem('app_sesion');
-    window.location.href = 'login.html';
-}
-
-function tabZona(tabId) {
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-    const target = document.getElementById(`zona-${tabId}`);
-    if (target) target.classList.remove('hidden');
-
-    // Actualizar estilos de botones tab
-    document.querySelectorAll('.btn-tab-zona').forEach(btn => {
-        const activo = btn.dataset.tab === tabId;
-        btn.className = activo
-            ? 'btn-tab-zona bg-white px-6 py-3 rounded-xl text-[10px] font-black uppercase shadow-sm text-blue-600 border-2 border-blue-400 transition-all'
-            : 'btn-tab-zona px-6 py-3 rounded-xl text-[10px] font-black uppercase text-slate-500 hover:bg-white/50 transition-all';
-    });
-
-    // Cargar contenido del tab
-    if (tabId === 'inscripcion') {
-        renderFormularioPlancha();
-    }
-}
-
-// ─────────────────────────────────────────────
-// CÉDULA — FORMATEO Y VALIDACIÓN
-// ─────────────────────────────────────────────
-function formatearCedula(input) {
-    let v = input.value.replace(/\D/g, '').slice(0, 11);
-    let f = '';
-    if (v.length > 0) f += v.slice(0, 3);
-    if (v.length > 3) f += '-' + v.slice(3, 10);
-    if (v.length > 10) f += '-' + v.slice(10, 11);
-    input.value = f;
-}
-
-function cedulaLimpia(cedula) {
-    return cedula.replace(/\D/g, '');
-}
-
-function cedulaValida(cedula) {
-    return cedulaLimpia(cedula).length === 11;
-}
-
-// ─────────────────────────────────────────────
-// SELECTORES TERRITORIALES
-// ─────────────────────────────────────────────
-function cargarZonas() {
-    const municipioKey = (document.getElementById('select-municipio')?.value) || 'MAO';
-    const zonaSelect   = document.getElementById('select-zona');
-    const sectorSelect = document.getElementById('select-sector');
-    if (!zonaSelect) return;
-
-    const muni = territorioValverde[municipioKey];
-    zonaSelect.innerHTML = '<option value="TODAS">Todas las Zonas</option>';
-    if (sectorSelect) sectorSelect.innerHTML = '<option value="TODOS">Todos los Sectores</option>';
-
-    if (muni && muni.zonas) {
-        muni.zonas.forEach(z => {
-            zonaSelect.innerHTML += `<option value="${z.id}">${z.nombre}</option>`;
-        });
-    }
-
-    const nombreMuni = municipioKey.replace('_', ' ');
-    const el = document.getElementById('display-demarcacion');
-    if (el) el.textContent = `${typeof APP_CONFIG !== 'undefined' && APP_CONFIG ? APP_CONFIG.branding?.territorio || '' : ''} · ${nombreMuni}`;
-}
-
-// ─────────────────────────────────────────────
-// BUSCADOR DE PADRÓN
-// ─────────────────────────────────────────────
-// ─────────────────────────────────────────────
-// MÓDULO: CARGA DE PADRÓN DESDE JSON
-// ─────────────────────────────────────────────
-
-function abrirCargadorPadron() {
-    document.getElementById('padron-file-input').click();
-}
-
-async function cargarPadronJSON(event) {
-    const files = event.target.files;
-    if (!files.length) return;
-
-    const btnCargar = document.getElementById('btn-cargar-padron');
-    const statusEl  = document.getElementById('padron-status');
-
-    if (btnCargar) btnCargar.disabled = true;
-    if (statusEl)  statusEl.textContent = 'Cargando...';
-
-    let totalNuevos = 0;
-
-    for (const file of files) {
-        try {
-            const text = await file.text();
-            const data = JSON.parse(text);
-            const militantes = data.militantes || [];
-
-            for (const m of militantes) {
-                if (m.cedula) {
-                    estado.padron.porCedula[m.cedula] = m;
-                    totalNuevos++;
-                }
-            }
-
-            const colegio = data.colegio_info?.colegio || file.name;
-            if (!estado.padron.colegiosCargados.includes(colegio)) {
-                estado.padron.colegiosCargados.push(colegio);
-            }
-        } catch(e) {
-            console.error('Error leyendo JSON:', file.name, e);
-        }
-    }
-
-    estado.padron.totalMilitantes = Object.keys(estado.padron.porCedula).length;
-    estado.padron.cargado = true;
-
-    // Actualizar UI
-    actualizarStatusPadron();
-    if (statusEl) statusEl.textContent = `✅ ${estado.padron.totalMilitantes.toLocaleString()} militantes cargados (${estado.padron.colegiosCargados.length} colegios)`;
-    if (btnCargar) btnCargar.disabled = false;
-
-    // Actualizar stat card
-    const totalEl = document.getElementById('total-inscritos');
-    if (totalEl) totalEl.textContent = estado.padron.totalMilitantes.toLocaleString();
-
-    // Reset input for re-use
-    event.target.value = '';
-}
-
-function buscarEnPadronLocal(cedula) {
-    const cedLimpia = cedula.replace(/\D/g, '');
-    // Búsqueda con guiones
-    const cedFormateada = cedLimpia.length === 11
-        ? `${cedLimpia.slice(0,3)}-${cedLimpia.slice(3,10)}-${cedLimpia.slice(10)}`
-        : cedula;
-    return estado.padron.porCedula[cedFormateada] || estado.padron.porCedula[cedula] || null;
-}
-
-// ─────────────────────────────────────────────
-// BÚSQUEDA DE PERSONA (con padrón real)
-// ─────────────────────────────────────────────
-
-// ─────────────────────────────────────────────
-// MÓDULO: INSCRIPCIÓN DE PLANCHAS ZONALES
-// ─────────────────────────────────────────────
-
-// Renderiza el formulario de plancha completo
-function renderFormularioPlancha() {
-    const zonaActual = estado.usuario.zona_nombre;
-
-    // Actualizar título con la zona
-    const tituloZona = document.getElementById('titulo-zona-plancha');
-    if (tituloZona) tituloZona.textContent = zonaActual;
-
-    // Renderizar secciones de cargos
-    renderSeccionCargos('alta-direccion-cargos', 'ALTA_DIRECCION');
-    renderSeccionCargos('secretarias-cargos',    'SECRETARIA');
-    renderSeccionCargos('frentes-cargos',         'FRENTE_SECTORIAL');
-
-    // Actualizar indicadores de cuotas
-    actualizarPanelCuotas();
-}
-
-function renderSeccionCargos(contenedorId, categoria) {
-    const contenedor = document.getElementById(contenedorId);
-    if (!contenedor) return;
-
-    const cargos = cargosZonales.filter(c => c.categoria === categoria);
-    contenedor.innerHTML = '';
-
-    cargos.forEach(cargo => {
-        const miembro = estado.planchaActiva.miembros[cargo.id];
-        const validado = miembro?.validado;
-        const nombre   = miembro?.nombre || '';
-
-        contenedor.innerHTML += `
-        <div class="cargo-item group relative bg-white rounded-2xl border-2 ${validado ? 'border-green-400 bg-green-50/30' : 'border-slate-200'} p-4 transition-all hover:border-blue-300"
-             data-cargo-id="${cargo.id}">
-            
-            <!-- Obligatorio badge -->
-            ${cargo.obligatorio ? '' : '<span class="absolute top-3 right-3 text-[8px] font-black text-slate-300 uppercase">Opcional</span>'}
-            
-            <!-- Label del cargo -->
-            <label class="block text-[9px] font-black uppercase tracking-wider mb-2 ${validado ? 'text-green-700' : 'text-blue-700'}">
-                ${cargo.nombre}
-            </label>
-            
-            <!-- Input de cédula + botón validar -->
-            <div class="flex gap-2 items-center">
-                <div class="relative flex-1">
-                    <input 
-                        type="text" 
-                        id="cedula-cargo-${cargo.id}"
-                        placeholder="000-0000000-0"
-                        value="${miembro?.cedula || ''}"
-                        oninput="formatearCedula(this); autoValidarCargo(${cargo.id})"
-                        class="w-full pl-3 pr-8 py-2.5 rounded-xl border-2 font-mono text-sm outline-none transition-all
-                               ${validado 
-                                 ? 'border-green-400 bg-green-50 text-green-800' 
-                                 : 'border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'}"
-                    >
-                    ${validado 
-                        ? '<i class="fa-solid fa-circle-check absolute right-2.5 top-1/2 -translate-y-1/2 text-green-500 text-sm"></i>'
-                        : ''}
-                </div>
-                <button 
-                    onclick="validarCargo(${cargo.id})"
-                    class="w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-xl text-white text-sm transition-all
-                           ${validado ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-600 hover:bg-blue-700'}">
-                    <i class="fa-solid ${validado ? 'fa-check' : 'fa-search'}"></i>
-                </button>
-            </div>
-            
-            <!-- Resultado de la validación -->
-            <div id="resultado-cargo-${cargo.id}" class="${nombre ? '' : 'hidden'} mt-3 flex items-center gap-3 p-2.5 rounded-xl bg-white border border-slate-100">
-                <img 
-                    src="${miembro?.foto || `https://ui-avatars.com/api/?name=${encodeURIComponent(nombre)}&background=003da5&color=fff&size=64`}"
-                    class="w-10 h-10 rounded-full object-cover border-2 border-slate-200 flex-shrink-0"
-                >
-                <div class="min-w-0">
-                    <p class="text-xs font-black text-slate-800 truncate">${nombre}</p>
-                    <p class="text-[9px] text-slate-400 font-bold">
-                        ${miembro?.sexo === 'F' ? '♀ Mujer' : miembro?.sexo === 'M' ? '♂ Hombre' : ''}
-                        ${miembro?.edad ? `· ${miembro.edad} años` : ''}
-                        ${miembro?.militancia ? `· ${miembro.militancia} años` : ''}
-                    </p>
-                </div>
-            </div>
-
-            <!-- Error de validación -->
-            <div id="error-cargo-${cargo.id}" class="hidden mt-2 text-[9px] font-bold text-red-600 flex items-center gap-1">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <span></span>
-            </div>
-        </div>`;
-    });
-}
-
-// Validación en tiempo real al escribir (auto-valida cuando la cédula está completa)
-function autoValidarCargo(cargoId) {
-    const input  = document.getElementById(`cedula-cargo-${cargoId}`);
-    if (cedulaValida(input.value)) {
-        validarCargo(cargoId);
-    } else {
-        // Limpiar resultado si borraron la cédula
-        const resultado = document.getElementById(`resultado-cargo-${cargoId}`);
-        const error     = document.getElementById(`error-cargo-${cargoId}`);
-        if (resultado) resultado.classList.add('hidden');
-        if (error)     error.classList.add('hidden');
-    }
-}
-
-async function validarCargo(cargoId) {
-    const input  = document.getElementById(`cedula-cargo-${cargoId}`);
-    const cedula = input?.value || '';
-
-    if (!cedulaValida(cedula)) {
-        mostrarErrorCargo(cargoId, 'Cédula incompleta (11 dígitos requeridos)');
-        return;
-    }
-
-    // Verificar duplicado en la misma plancha
-    const cedulaLimpiada = cedulaLimpia(cedula);
-    for (const [id, miembro] of Object.entries(estado.planchaActiva.miembros)) {
-        if (parseInt(id) !== cargoId && miembro.cedula_limpia === cedulaLimpiada && miembro.validado) {
-            mostrarErrorCargo(cargoId, `Esta cédula ya está inscrita como "${cargosZonales.find(c=>c.id===parseInt(id))?.nombre}"`);
-            return;
-        }
-    }
-
-    // Mostrar spinner
-    input.classList.add('opacity-50');
-
-    try {
-        let persona = null;
-
-        if (supabaseClient) {
-            const cedFmt = cedulaLimpiada.slice(0,3)+'-'+cedulaLimpiada.slice(3,10)+'-'+cedulaLimpiada.slice(10);
-            const { data } = await supabaseClient
-                .from('padron_maestro')
-                .select('cedula, nombre_completo, foto_url, foto_base64, telefono, direccion, voto_primaria, concurrencia_2016, concurrencia_2010')
-                .eq('cedula', cedFmt)
-                .maybeSingle();
-            if (data) {
-                const nc = data.nombre_completo || '';
-                const coma = nc.indexOf(',');
-                persona = {
-                    cedula:           data.cedula,
-                    nombre:           coma > -1 ? nc.slice(coma+1).trim().split(' ')[0] : nc.split(' ')[2] || '',
-                    apellido:         coma > -1 ? nc.slice(0,coma).trim() : nc.split(' ').slice(0,2).join(' '),
-                    nombre_completo:  nc,
-                    sexo:             null,
-                    fecha_nacimiento: null,
-                    anios_militancia: 99,
-                    estatus_militante:'ACTIVO',
-                    foto:             data.foto_url || data.foto_base64 || null,
-                    foto_url:         data.foto_url || null,
-                };
-            }
-        }
-
-        // Si no encontró en Supabase, mostrar error claro
-        if (!persona) {
-            mostrarErrorCargo(cargoId, supabaseClient 
-                ? 'Cédula no encontrada en el padrón electoral'
-                : 'Conectando con la base de datos... Intenta de nuevo en 3 segundos');
-            input.classList.remove('opacity-50');
-            return;
-        }
-
-        // Validar militancia mínima (Art. 151: 3 años en niveles locales)
-        const militanciaReq = 3;
-        if (persona.anios_militancia < militanciaReq && persona.estatus_militante !== 'ACTIVO_SIMULADO') {
-            mostrarErrorCargo(cargoId, `Militancia insuficiente: ${persona.anios_militancia} año(s). Se requieren ${militanciaReq} (Art. 151)`);
-            input.classList.remove('opacity-50');
-            return;
-        }
-
-        const edad = calcularEdad(persona.fecha_nacimiento);
-
-        // Guardar en estado
-        estado.planchaActiva.miembros[cargoId] = {
-            cedula:       cedulaLimpiada,
-            cedula_limpia: cedulaLimpiada,
-            nombre:       persona.nombre_completo || `${persona.nombre} ${persona.apellido}`,
-            sexo:         persona.sexo,
-            edad:         edad,
-            militancia:   null,
-            foto:         persona.foto || persona.foto_url || null,
-            foto_url:     persona.foto_url || null,
-            foto_b64:     (!persona.foto_url && persona.foto) ? persona.foto : null,
-            validado:     true,
-        };
-
-        // Actualizar UI del cargo
-        actualizarUICargo(cargoId, estado.planchaActiva.miembros[cargoId]);
-
-        // Recalcular cuotas en tiempo real
-        actualizarPanelCuotas();
-
-    } catch(e) {
-        console.error(e);
-        mostrarErrorCargo(cargoId, 'Error al consultar el padrón. Reintenta.');
-    } finally {
-        input.classList.remove('opacity-50');
-    }
-}
-
-function generarPersonaSimulada(cedula, cargoId) {
-    // Simulación realista para desarrollo sin DB conectada
-    const nombres = ['ROSA','JUAN','MARIA','PEDRO','ANA','LUIS','CARMEN','JOSE','FRANCISCA','RAFAEL'];
-    const apellidos = ['PEREZ','GARCIA','SANTOS','MARTINEZ','RODRIGUEZ','JIMENEZ','MARTE','FELIZ'];
-    const hash = cedulaLimpia(cedula).split('').reduce((a,b) => a + parseInt(b), 0);
-    const sexo = cargoId === 17 ? 'F' : (hash % 2 === 0 ? 'M' : 'F'); // Frente Mujeres = F
-    const nombre = nombres[hash % nombres.length];
-    const apellido = `${apellidos[hash % apellidos.length]} ${apellidos[(hash+3) % apellidos.length]}`;
-    const anioNac = 1970 + (hash % 30);
-    return {
-        cedula: cedulaLimpia(cedula),
-        nombre, apellido, sexo,
-        fecha_nacimiento: `${anioNac}-03-15`,
-        anios_militancia: 3 + (hash % 8),
-        estatus_militante: 'ACTIVO_SIMULADO',
-        foto_url: null
-    };
-}
-
-function calcularEdad(fechaNac) {
-    if (!fechaNac) return 35;
-    const hoy = new Date();
-    const nac = new Date(fechaNac);
-    return Math.floor((hoy - nac) / 31557600000);
-}
-
-function actualizarUICargo(cargoId, miembro) {
-    const item      = document.querySelector(`[data-cargo-id="${cargoId}"]`);
-    const resultado = document.getElementById(`resultado-cargo-${cargoId}`);
-    const error     = document.getElementById(`error-cargo-${cargoId}`);
-    const input     = document.getElementById(`cedula-cargo-${cargoId}`);
-
-    if (error) error.classList.add('hidden');
-
-    if (resultado) {
-        resultado.classList.remove('hidden');
-        const img  = resultado.querySelector('img');
-        const p1   = resultado.querySelectorAll('p')[0];
-        const p2   = resultado.querySelectorAll('p')[1];
-        if (img) {
-            const placeholder = `https://ui-avatars.com/api/?name=${encodeURIComponent(miembro.nombre)}&background=003da5&color=fff&size=64`;
-            if (miembro.foto_url || miembro.foto_b64) {
-                renderFotoAsync(supabaseClient, img, miembro.foto_url||null, miembro.foto_b64||null, placeholder);
-            } else {
-                img.src = placeholder;
-            }
-        }
-        if (p1) p1.textContent = miembro.nombre;
-        if (p2) {
-            const sexoStr = miembro.sexo === 'F' ? '♀ Mujer' : miembro.sexo === 'M' ? '♂ Hombre' : '👤';
-            const edadStr = miembro.edad ? `${miembro.edad} años` : '';
-            p2.textContent = [sexoStr, edadStr].filter(Boolean).join(' · ');
-        }
-    }
-
-    if (item) {
-        item.classList.remove('border-slate-200', 'border-red-300');
-        item.classList.add('border-green-400', 'bg-green-50/30');
-    }
-
-    if (input) {
-        input.classList.remove('border-slate-200', 'border-red-300', 'focus:border-blue-500');
-        input.classList.add('border-green-400', 'bg-green-50', 'text-green-800');
-        // Agregar ícono de check
-        const checkExistente = input.parentElement.querySelector('.fa-circle-check');
-        if (!checkExistente) {
-            const check = document.createElement('i');
-            check.className = 'fa-solid fa-circle-check absolute right-2.5 top-1/2 -translate-y-1/2 text-green-500 text-sm';
-            input.parentElement.appendChild(check);
-        }
-    }
-}
-
-function mostrarErrorCargo(cargoId, mensaje) {
-    const errorEl = document.getElementById(`error-cargo-${cargoId}`);
-    const item    = document.querySelector(`[data-cargo-id="${cargoId}"]`);
-    const input   = document.getElementById(`cedula-cargo-${cargoId}`);
-
-    if (errorEl) {
-        errorEl.classList.remove('hidden');
-        errorEl.querySelector('span').textContent = mensaje;
-    }
-    if (item) {
-        item.classList.remove('border-green-400');
-        item.classList.add('border-red-300');
-    }
-    if (input) {
-        input.classList.add('border-red-400');
-    }
-
-    // Eliminar del estado si estaba antes
-    delete estado.planchaActiva.miembros[cargoId];
-    actualizarPanelCuotas();
-}
-
-// ─────────────────────────────────────────────
-// PANEL DE CUOTAS — Validación estatutaria en vivo
-// ─────────────────────────────────────────────
-function actualizarPanelCuotas() {
-    const miembros = Object.values(estado.planchaActiva.miembros).filter(m => m.validado);
-    const total    = miembros.length;
-    const mujeres  = miembros.filter(m => m.sexo === 'F').length;
-    const hombres  = total - mujeres;
-    const jovenes  = miembros.filter(m => m.edad >= 18 && m.edad <= 35).length;
-
-    const pctMujeres = total > 0 ? Math.round((mujeres / total) * 100) : 0;
-    const pctJovenes = total > 0 ? Math.round((jovenes / total) * 100) : 0;
-
-    // Art. 155: ningún género < 40% ni > 60%
-    const generoOK = pctMujeres >= 40 && pctMujeres <= 60;
-    // Art. 154: mínimo 10% jóvenes (18-35)
-    const juventudOK = pctJovenes >= 10;
-
-    // Actualizar contadores
-    setTexto('cuota-total-count',   total);
-    setTexto('cuota-mujeres-count', mujeres);
-    setTexto('cuota-hombres-count', hombres);
-    setTexto('cuota-jovenes-count', jovenes);
-    setTexto('cuota-pct-mujeres',   `${pctMujeres}%`);
-    setTexto('cuota-pct-jovenes',   `${pctJovenes}%`);
-
-    // Barras de progreso
-    setBarra('barra-mujeres', pctMujeres, generoOK);
-    setBarra('barra-jovenes', pctJovenes >= 10 ? pctJovenes : pctJovenes, juventudOK);
-
-    // Indicadores de estado
-    setIndicador('indicador-genero',   generoOK,  'Art. 155: 40–60% género');
-    setIndicador('indicador-juventud', juventudOK,'Art. 154: mín. 10% jóvenes');
-
-    // Botón guardar habilitado solo si cuotas OK
-    const btnGuardar = document.getElementById('btn-guardar-plancha');
-    if (btnGuardar) {
-        const cargosObligatoriosOK = verificarCargosObligatorios();
-        const listo = generoOK && juventudOK && cargosObligatoriosOK;
-        btnGuardar.disabled = !listo;
-        btnGuardar.classList.toggle('opacity-50', !listo);
-        btnGuardar.classList.toggle('cursor-not-allowed', !listo);
-    }
-
-    // Panel de alerta de cuota
-    const alertaGenero = document.getElementById('alerta-cuota-genero');
-    if (alertaGenero) {
-        alertaGenero.classList.toggle('hidden', generoOK || total === 0);
-        const msgEl = alertaGenero.querySelector('.mensaje-cuota');
-        if (msgEl && !generoOK && total > 0) {
-            if (pctMujeres < 40) {
-                msgEl.textContent = `Faltan mujeres: tienes ${pctMujeres}%, necesitas mínimo 40% (Art. 155)`;
-            } else {
-                msgEl.textContent = `Demasiadas mujeres: tienes ${pctMujeres}%, máximo 60% (Art. 155)`;
-            }
-        }
-    }
-}
-
-function verificarCargosObligatorios() {
-    const obligatorios = cargosZonales.filter(c => c.obligatorio);
-    return obligatorios.every(c => estado.planchaActiva.miembros[c.id]?.validado);
-}
-
-function setTexto(id, texto) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = texto;
-}
-
-function setBarra(id, pct, ok) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.style.width = `${Math.min(pct, 100)}%`;
-    el.className = `h-full rounded-full transition-all duration-500 ${ok ? 'bg-green-500' : pct > 0 ? 'bg-yellow-400' : 'bg-slate-200'}`;
-}
-
-function setIndicador(id, ok, texto) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.className = `flex items-center gap-2 p-3 rounded-xl transition-all ${ok ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`;
-    el.innerHTML = `
-        <div class="w-3 h-3 rounded-full flex-shrink-0 ${ok ? 'bg-green-500' : 'bg-red-500 animate-pulse'}"></div>
-        <span class="text-[10px] font-black uppercase ${ok ? 'text-green-700' : 'text-red-700'}">${texto}: ${ok ? 'CUMPLIDO ✓' : 'INCUMPLIDO ✗'}</span>`;
-}
-
-function limpiarPlancha() {
-    if (!confirm('¿Seguro que quieres limpiar todos los campos?')) return;
-    estado.planchaActiva = { id: null, codigo: null, zona_id: null, zona_nombre: null, nombre_plancha: '', miembros: {} };
-    renderFormularioPlancha();
-    actualizarPanelCuotas();
-}
-
-function renderTablaPlanchas() {
-    const tbody = document.getElementById('tabla-planchas-body');
-    if (!tbody) return;
-
-    const planchas = estado.planchas;
-
-    if (planchas.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-400 text-sm">
-            <i class="fa-solid fa-folder-open text-3xl mb-3 block text-slate-200"></i>
-            <p class="font-bold">No hay planchas registradas aún.</p>
-            <p class="text-xs mt-1 text-slate-300">Crea una nueva plancha en el módulo "Planchas"</p>
-        </td></tr>`;
-        return;
-    }
-
-    tbody.innerHTML = planchas.map(p => {
-        const estatutosOK = p.cuota_genero_ok && p.cuota_juventud_ok;
-        const estatusBadge = {
-            BORRADOR:    'bg-slate-100 text-slate-600',
-            PENDIENTE:   'bg-yellow-100 text-yellow-700',
-            VALIDADA:    'bg-green-100 text-green-700',
-            RECHAZADA:   'bg-red-100 text-red-700',
-            PROCLAMADA:  'bg-blue-100 text-blue-700',
-        }[p.estatus] || 'bg-slate-100 text-slate-600';
-
-        const total = p.total_miembros || 0;
-        const mujeres = p.total_mujeres || 0;
-        const hombres = p.total_hombres || 0;
-        const jovenes = p.total_jovenes || 0;
-
-        return `<tr class="hover:bg-blue-50/30 transition-colors border-b border-slate-100">
-            <td class="p-4">
-                <div class="font-black text-slate-800 text-sm uppercase">${p.nombre_plancha || 'Sin nombre'}</div>
-                <div class="text-[9px] text-blue-600 font-bold font-mono">${p.codigo || p.id}</div>
-                <div class="text-[9px] text-slate-400 mt-0.5">${p.zona_nombre || p.zona || '—'} · ${p.municipio || 'Mao'}</div>
-            </td>
-            <td class="p-4">
-                <span class="px-3 py-1 rounded-full text-[9px] font-black uppercase ${estatusBadge}">${p.estatus}</span>
-                <div class="text-[8px] text-slate-400 mt-1">${p.creado_en ? new Date(p.creado_en).toLocaleDateString('es-DO') : '—'}</div>
-            </td>
-            <td class="p-4">
-                <div class="text-sm font-black text-slate-800">${total}</div>
-                <div class="text-[9px] text-slate-400">${mujeres}M / ${hombres}H · ${jovenes} jóvenes</div>
-                <div class="flex gap-1 mt-1">
-                    <span class="text-[8px] px-1.5 py-0.5 rounded bg-pink-100 text-pink-600 font-bold">${total > 0 ? Math.round(mujeres/total*100) : 0}% ♀</span>
-                    <span class="text-[8px] px-1.5 py-0.5 rounded bg-yellow-100 text-yellow-600 font-bold">${total > 0 ? Math.round(jovenes/total*100) : 0}% 🧑</span>
-                </div>
-            </td>
-            <td class="p-4">
-                ${estatutosOK
-                    ? '<span class="text-green-600 font-black text-[10px]"><i class="fa-solid fa-check-circle mr-1"></i>CUMPLE</span>'
-                    : '<span class="text-red-500 font-black text-[10px]"><i class="fa-solid fa-xmark-circle mr-1"></i>INCUMPLE</span>'}
-            </td>
-            <td class="p-4">
-                <div class="flex gap-1 justify-center">
-                    <button onclick="editarPlancha('${p.id}')" class="w-9 h-9 flex items-center justify-center text-blue-600 hover:bg-blue-100 rounded-xl transition-all" title="Editar plancha">
-                        <i class="fa-solid fa-pen-to-square text-sm"></i>
-                    </button>
-                    <button onclick="eliminarPlancha('${p.id}')" class="w-9 h-9 flex items-center justify-center text-red-500 hover:bg-red-100 rounded-xl transition-all" title="Eliminar plancha">
-                        <i class="fa-solid fa-trash-can text-sm"></i>
-                    </button>
-                </div>
-            </td>
-        </tr>`;
-    }).join('');
-}
-
-async function editarPlancha(id) {
-    const plancha = estado.planchas.find(p => p.id === id);
-    if (!plancha) {
-        mostrarAlerta('Plancha no encontrada', 'error');
-        return;
-    }
-
-    let miembros = {};
-
-    // Si hay Supabase, cargar miembros desde la tabla plancha_miembros
-    if (supabaseClient) {
-        try {
-            const { data: miembrosData, error } = await supabaseClient
-                .from('plancha_miembros')
-                .select('*')
-                .eq('plancha_id', id);
-            if (!error && miembrosData) {
-                miembrosData.forEach(m => {
-                    miembros[m.cargo_id] = {
-                        cedula: m.cedula_titular,
-                        cedula_limpia: (m.cedula_titular || '').replace(/\D/g, ''),
-                        nombre: m.nombre_titular,
-                        sexo: m.sexo_titular,
-                        edad: m.edad_titular,
-                        foto: null,
-                        foto_b64: null,
-                        validado: m.validado,
-                    };
-                });
-            }
-        } catch(e) {
-            console.error('Error cargando miembros:', e);
-        }
-    } else {
-        miembros = plancha.miembros || {};
-    }
-
-    estado.planchaActiva = {
-        id: plancha.id,
-        codigo: plancha.codigo,
-        nombre_plancha: plancha.nombre_plancha,
-        zona_id: plancha.zona_id,
-        zona_nombre: plancha.zona_nombre || plancha.zona,
-        miembros: miembros,
-    };
-
-    mostrarModulo('organismos');
-    setTimeout(() => {
-        tabZona('inscripcion');
-        renderFormularioPlancha();
-        mostrarAlerta(`Plancha "${plancha.nombre_plancha || plancha.codigo}" cargada para edición.`, 'info');
-    }, 100);
-}
-
-function abrirInscripcionPlancha() {
-    // Limpiar plancha activa y abrir en el tab de inscripcion
-    estado.planchaActiva = { id: null, codigo: null, nombre_plancha: '', miembros: {} };
-    mostrarModulo('organismos');
-    setTimeout(() => {
-        tabZona('inscripcion');
-        renderFormularioPlancha();
-    }, 100);
-}
-
-function abrirRegistroVotante() {
-    mostrarAlerta('Módulo de Registro de Votante — próximo paso del sistema.', 'info');
-}
-
-// ─────────────────────────────────────────────
-// REPORTES
-// ─────────────────────────────────────────────
-function renderReportes() {
-    // Placeholder funcional
-    const grid = document.getElementById('reporte-grid-plancha');
-    if (!grid) return;
-    grid.innerHTML = '';
-    const miembros = Object.entries(estado.planchaActiva.miembros).filter(([,m]) => m.validado);
-    if (miembros.length === 0) {
-        grid.innerHTML = '<p class="col-span-3 text-center text-slate-400 text-sm py-8">No hay plancha activa para reportar.</p>';
-        return;
-    }
-    miembros.forEach(([cargoId, m]) => {
-        const cargo = cargosZonales.find(c => c.id === parseInt(cargoId));
-        grid.innerHTML += `
-        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
-            <img src="${m.foto || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.nombre)}&background=003da5&color=fff&size=80`}"
-                 class="w-14 h-14 rounded-lg object-cover border-2 border-blue-200 flex-shrink-0">
-            <div>
-                <p class="text-[9px] font-black text-blue-600 uppercase">${cargo?.nombre || 'Cargo'}</p>
-                <p class="text-sm font-black text-slate-800">${m.nombre}</p>
-                <p class="text-[9px] text-slate-400 font-mono">${m.cedula}</p>
-            </div>
-        </div>`;
-    });
-}
-
-// ─────────────────────────────────────────────
-// ALERTAS GLOBALES
-// ─────────────────────────────────────────────
-function mostrarAlerta(mensaje, tipo = 'info') {
-    const colores = {
-        exito:       'bg-green-600 text-white',
-        error:       'bg-red-600 text-white',
-        advertencia: 'bg-yellow-500 text-white',
-        info:        'bg-blue-600 text-white',
-    };
-
-    // Remover alertas previas
-    document.querySelectorAll('.alerta-sistema').forEach(el => el.remove());
-
-    const alerta = document.createElement('div');
-    alerta.className = `alerta-sistema fixed bottom-6 right-6 z-[100] px-6 py-4 rounded-2xl shadow-2xl font-bold text-sm max-w-sm
-                        ${colores[tipo]} flex items-center gap-3 animate-bounce`;
-    alerta.innerHTML = `<i class="fa-solid fa-${tipo === 'exito' ? 'check' : tipo === 'error' ? 'xmark' : 'info'}-circle text-xl"></i><span>${mensaje}</span>`;
-    document.body.appendChild(alerta);
-    setTimeout(() => alerta.remove(), 4000);
-}
-
-// ─────────────────────────────────────────────
-// INICIALIZACIÓN AL CARGAR
-// ─────────────────────────────────────────────
-document.getElementById('input-cedula')?.addEventListener('input', function() {
-    formatearCedula(this);
-});
-
-window.onload = () => {
-    inicializarInterfaz();
-    mostrarModulo('buscador');
-};
-
-
-
-function renderPerfilVotante(dados) {
-    const perfil = document.getElementById('perfil-votante');
-    if (!perfil) return;
-    perfil.classList.remove('hidden');
-
-    document.getElementById('res-nombre').textContent  = dados.nombre_completo || (dados.nome + ' ' + dados.apellido);
-    document.getElementById('res-cedula-display').textContent = dados.cedula;
-    document.getElementById('res-zona').textContent    = dados.zonas?.nombre || '—';
-    document.getElementById('res-recinto').textContent = dados.recinto || '—';
-    document.getElementById('res-colegio').textContent = dados.colegio_electoral || '—';
-
-    const telEl = document.getElementById('res-telefono');
-    if (telEl) telEl.textContent = dados.telefono || '—';
-    const dirEl = document.getElementById('res-direccion');
-    if (dirEl) dirEl.textContent = dados.direccion || '—';
-    const votoEl = document.getElementById('res-tipo-voto');
-    if (votoEl) votoEl.textContent = dados.voto === 'PA' ? 'Primaria Abierta' : dados.voto === 'PC' ? 'Primaria Cerrada' : '—';
-
-    const concEl = document.getElementById('res-concurrencia');
-    if (concEl) {
-        const conc = dados.concurrencia || [];
-        concEl.innerHTML = conc.length
-            ? conc.map(y => `<span class="inline-block bg-blue-100 text-blue-700 text-[9px] font-black px-2 py-0.5 rounded-full mr-1">${y}</span>`).join('')
-            : '<span class="text-slate-400 text-xs">Sin historial</span>';
-    }
-
-    const foto = document.getElementById('res-foto');
-    if (foto) {
-        const placeholder = `https://ui-avatars.com/api/?name=${encodeURIComponent(dados.nombre_completo||dados.nombre||'?')}&background=003da5&color=fff&size=200`;
-        if (dados.foto_url || dados.foto_b64) {
-            renderFotoAsync(supabaseClient, foto, dados.foto_url||null, dados.foto_b64||null, placeholder);
-        } else {
-            foto.src = placeholder;
-        }
-    }
-
-    const tag = document.getElementById('tag-fidelidad');
-    if (tag) {
-        const colores = { DURO:'bg-green-500', BLANDO:'bg-yellow-500', INDECISO:'bg-orange-400', OPOSICION:'bg-red-500' };
-        tag.textContent = `VOTO ${dados.fidelidad || 'SIN DATOS'}`;
-        tag.className   = `absolute top-2 right-2 px-2 py-1 rounded text-[10px] font-black text-white ${colores[dados.fidelidad] || 'bg-slate-400'}`;
-    }
-}
-
-// ── BÚSQUEDA SUPABASE ─────────────────────────────────
-async function buscarPersona() {
-    const inputEl = document.getElementById('input-cedula');
-    const cedula  = inputEl?.value?.trim() || '';
-    const cedLimpia = cedula.replace(/\D/g,'');
-    if (cedLimpia.length < 11) { mostrarAlerta('Ingresa una cédula válida de 11 dígitos.', 'error'); return; }
-    const cedFmt = cedLimpia.slice(0,3)+'-'+cedLimpia.slice(3,10)+'-'+cedLimpia.slice(10);
-    const perfil = document.getElementById('perfil-votante');
-    if (perfil) perfil.classList.add('opacity-50');
-
-    // Si Supabase no está listo, intentar inicializar y esperar
-    if (!supabaseClient && window.supabase) {
-        inicializarSupabase();
-        await new Promise(r => setTimeout(r, 500));
-    }
-    if (!supabaseClient) {
-        mostrarAlerta('Conectando con la base de datos... Intenta de nuevo.', 'advertencia');
-        if (perfil) perfil.classList.remove('opacity-50');
-        return;
-    }
-
-    try {
-        let datos = null;
-        if (supabaseClient) {
-            const { data } = await supabaseClient.from('padron_maestro').select('*').eq('cedula', cedFmt).maybeSingle();
-            if (data) {
-                const nc = data.nombre_completo || '';
-                const coma = nc.indexOf(',');
-                datos = {
-                    cedula: data.cedula,
-                    nombre: coma > -1 ? nc.slice(coma+1).trim() : nc.split(' ').slice(2).join(' '),
-                    apellido: coma > -1 ? nc.slice(0,coma).trim() : nc.split(' ').slice(0,2).join(' '),
-                    nombre_completo: nc,
-                    telefono: data.telefono || '',
-                    direccion: data.direccion || '',
-                    foto_b64: data.foto_base64 || null,
-                    foto_url: data.foto_url || null,
-                    voto: data.voto_primaria || '',
-                    exterior: data.empadronado_exterior || false,
-                    concurrencia: [data.concurrencia_2016?'2016':null, data.concurrencia_2010?'2010':null].filter(Boolean),
-                    colegio_electoral: data.colegio_num || '',
-                    recinto: (data.recinto_nombre||'').replace(/^\d{4}\s+Rec:\s+\d+\s+-\s+/,''),
-                    zonas: { nombre: '—' },
-                    sectores: { nombre: data.direccion || '—' },
-                    fidelidad: data.concurrencia_2016 ? 'DURO' : 'BLANDO',
-                    estatus_militante: 'ACTIVO',
-                };
-            }
-        }
-        if (datos) { renderPerfilVotante(datos); }
-        else {
-            if (perfil) perfil.classList.add('hidden');
-            mostrarAlerta('Cédula no encontrada en el padrón.', 'advertencia');
-        }
-    } catch(e) { mostrarAlerta('Error al buscar. Intenta de nuevo.', 'error'); }
-    finally { if (perfil) perfil.classList.remove('opacity-50'); }
-}
-
-// ── GUARDAR PLANCHA EN SUPABASE ───────────────────────
-async function guardarPlancha() {
-    if (estado.guardandoPlancha) return;
-    const miembros = Object.values(estado.planchaActiva.miembros).filter(m => m.validado);
-    if (miembros.length === 0) { mostrarAlerta('Debes registrar al menos un miembro.', 'error'); return; }
-    estado.guardandoPlancha = true;
-    const btn = document.getElementById('btn-guardar-plancha');
-    const btnMobile = document.getElementById('btn-guardar-plancha-mobile');
-    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Guardando...'; }
-    if (btnMobile) { btnMobile.disabled = true; btnMobile.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Guardando...'; }
-
-    const total = miembros.length;
-    const mujeres = miembros.filter(m => m.sexo === 'F').length;
-    const jovenes = miembros.filter(m => m.edad && m.edad >= 18 && m.edad <= 35).length;
-    const pctM = total > 0 ? (mujeres/total*100) : 0;
-    const pctJ = total > 0 ? (jovenes/total*100) : 0;
-
-    const zonaId = estado.usuario.zona_id || 4;
-    const municipioId = estado.usuario.municipio_id || 1;
-    const codigo = `VAL-MAO-Z${zonaId}-${new Date().getFullYear()}-${String(Date.now()).slice(-4)}`;
-
-    const planchaData = {
-        codigo,
-        nombre_plancha: estado.planchaActiva.nombre_plancha || 'Plancha ' + estado.usuario.zona_nombre,
-        nivel: 'ZONA',
-        zona_id: zonaId,
-        municipio_id: municipioId,
-        provincia_id: 1,
-        zona_nombre: estado.usuario.zona_nombre,
-        municipio: estado.usuario.municipio_nombre || 'MAO',
-        estatus: 'BORRADOR',
-        total_miembros: total,
-        total_mujeres: mujeres,
-        total_hombres: total - mujeres,
-        total_jovenes: jovenes,
-        porcentaje_mujeres: pctM,
-        porcentaje_jovenes: pctJ,
-        cuota_genero_ok: pctM >= 40 && pctM <= 60,
-        cuota_juventud_ok: pctJ >= 10,
-        miembros: estado.planchaActiva.miembros,
-        actualizado_en: new Date().toISOString(),
-    };
-
-    try {
-        let planchaId = estado.planchaActiva.id;
-
-        if (supabaseClient) {
-            let res;
-            if (planchaId) {
-                res = await supabaseClient.from('planchas').update(planchaData).eq('id', planchaId).select().single();
-            } else {
-                res = await supabaseClient.from('planchas').insert(planchaData).select().single();
-            }
-            if (res.error) throw res.error;
-            planchaId = res.data.id;
-            estado.planchaActiva.id = planchaId;
-
-            // Guardar miembros en plancha_miembros
-            for (const [cargoId, miembro] of Object.entries(estado.planchaActiva.miembros)) {
-                if (!miembro.validado) continue;
-                await supabaseClient.from('plancha_miembros').upsert({
-                    plancha_id: planchaId,
-                    cargo_id: parseInt(cargoId),
-                    cedula_titular: miembro.cedula,
-                    nombre_titular: miembro.nombre,
-                    sexo_titular: miembro.sexo,
-                    edad_titular: miembro.edad,
-                    validado: true,
-                    posicion: parseInt(cargoId),
-                }, { onConflict: 'plancha_id,cargo_id' });
-            }
-
-            mostrarAlerta(`Plancha "${planchaData.nombre_plancha}" guardada correctamente`, 'exito');
-        } else {
-            if (!planchaId) planchaId = 'PL-' + Date.now();
-            const saved = JSON.parse(localStorage.getItem('app_planchas') || '[]');
-            const idx = saved.findIndex(p => p.id === planchaId);
-            const entry = { ...planchaData, id: planchaId };
-            if (idx > -1) saved[idx] = entry; else saved.push(entry);
-            localStorage.setItem('app_planchas', JSON.stringify(saved));
-            estado.planchaActiva.id = planchaId;
-            mostrarAlerta('Plancha guardada localmente', 'info');
-        }
-
-        await cargarListaPlanchas();
-        renderTablaPlanchas();
-    } catch(e) {
-        console.error('Error guardando plancha:', e);
-        mostrarAlerta('Error al guardar: ' + (e.message || e), 'error');
-    } finally {
-        estado.guardandoPlancha = false;
-        if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-save mr-1"></i> Registrar Plancha'; }
-        if (btnMobile) { btnMobile.disabled = false; btnMobile.innerHTML = '<i class="fa-solid fa-save mr-2"></i> Guardar Plancha'; }
-    }
-}
-
-// ── CARGAR PLANCHAS DESDE SUPABASE ───────────────────
-async function cargarListaPlanchas() {
-    try {
-        if (supabaseClient) {
-            const { data } = await supabaseClient.from('planchas').select('*').order('actualizado_en', {ascending:false});
-            if (data) { estado.planchas = data; actualizarProgresoEstructura(); return; }
-        }
-        estado.planchas = JSON.parse(localStorage.getItem('app_planchas')||'[]');
-        actualizarProgresoEstructura();
-    } catch(e) {
-        estado.planchas = JSON.parse(localStorage.getItem('app_planchas')||'[]');
-        actualizarProgresoEstructura();
-    }
-}
-
-function actualizarProgresoEstructura() {
-    const total = estado.planchas.length;
-    const validadas = estado.planchas.filter(p => p.estatus === 'VALIDADA' || p.estatus === 'PROCLAMADA').length;
-    const meta = 10; // Meta: 10 planchas zonales en Mao
-
-    const el = document.getElementById('progreso-estructura');
-    const barra = document.getElementById('barra-progreso-estructura');
-    const texto = document.getElementById('texto-progreso');
-
-    if (el) el.textContent = total;
-    if (barra) barra.style.width = `${Math.min((total / meta) * 100, 100)}%`;
-    if (texto) texto.textContent = total === 0
-        ? 'Registra planchas para ver el progreso'
-        : `${total} de ${meta} zonas · ${validadas} validadas`;
-}
-
-// ── ELIMINAR PLANCHA ──────────────────────────────────
-async function eliminarPlancha(id) {
-    if (!confirm('¿Eliminar esta plancha? Esta acción no se puede deshacer.')) return;
-    try {
-        if (supabaseClient) {
-            const { error } = await supabaseClient.from('planchas').delete().eq('id', id);
-            if (error) throw error;
-        } else {
-            const p = JSON.parse(localStorage.getItem('app_planchas')||'[]').filter(x => x.id !== id);
-            localStorage.setItem('app_planchas', JSON.stringify(p));
-        }
-        mostrarAlerta('Plancha eliminada correctamente', 'exito');
-        await cargarListaPlanchas();
-        renderTablaPlanchas();
-    } catch(e) {
-        mostrarAlerta('Error al eliminar: ' + e.message, 'error');
-    }
-}
-
-// ── STATUS SUPABASE ───────────────────────────────────
-async function actualizarStatusPadron() {
-    const badge = document.getElementById('padron-badge');
-    const count = document.getElementById('padron-count');
-    if (!supabaseClient) return;
-    const { count: total } = await supabaseClient.from('padron_maestro').select('*', {count:'exact',head:true});
-    if (count && total) count.textContent = total.toLocaleString() + ' militantes';
-    if (document.getElementById('total-inscritos') && total) {
-        document.getElementById('total-inscritos').textContent = total.toLocaleString();
-    }
-}
-
-// ── ARRANQUE ──────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-    inicializarInterfaz();
-    mostrarModulo('buscador');
-    
-    // Intentar conectar Supabase cada 500ms hasta lograrlo
-    let intentos = 0;
-    const conectarSB = setInterval(async () => {
-        intentos++;
-        if (window.supabase && !supabaseClient) {
-            inicializarSupabase();
-        }
-        if (supabaseClient || intentos > 20) {
-            clearInterval(conectarSB);
-            await actualizarStatusPadron();
-            await cargarListaPlanchas();
-        }
-    }, 500);
-});
-</script>
 </body>
 </html>

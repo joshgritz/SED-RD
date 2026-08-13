@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // SISTEMA ELECTORAL — app.js
 // Lógica principal · Configurable multi-partido
 // ============================================================
@@ -11,7 +11,7 @@
 const SUPABASE_URL  = 'https://TU-PROYECTO.supabase.co';
 const SUPABASE_KEY  = 'TU-ANON-PUBLIC-KEY';
 
-// Cliente Supabase (se carga desde CDN en index.html)
+// Cliente Supabase (se carga desde CDN en sistema-inicio.html)
 let supabase = null;
 
 // ─────────────────────────────────────────────
@@ -82,7 +82,7 @@ function inicializarSupabase() {
             supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             console.log('✅ Supabase conectado');
         } else {
-            console.warn('⚠️ Supabase no cargado aún. Revisá el CDN en index.html.');
+            console.warn('⚠️ Supabase no cargado aún. Revisá el CDN en sistema-inicio.html.');
         }
     } catch(e) {
         console.error('❌ Error al conectar Supabase:', e);

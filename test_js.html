@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -63,7 +63,7 @@ log('Cargando scripts del sistema...');
 const SUPABASE_URL  = 'https://ilivjaiexfqpioqrozlf.supabase.co';
 const SUPABASE_KEY  = 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
 
-// Cliente Supabase (se carga desde CDN en index.html)
+// Cliente Supabase (se carga desde CDN en sistema-inicio.html)
 let supabase = null;
 
 // ─────────────────────────────────────────────
@@ -177,7 +177,7 @@ function inicializarSupabase() {
             supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             console.log('✅ Supabase conectado');
         } else {
-            console.warn('⚠️ Supabase no cargado aún. Revisá el CDN en index.html.');
+            console.warn('⚠️ Supabase no cargado aún. Revisá el CDN en sistema-inicio.html.');
         }
     } catch(e) {
         console.error('❌ Error al conectar Supabase:', e);
