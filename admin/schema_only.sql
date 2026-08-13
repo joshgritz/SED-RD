@@ -278,6 +278,124 @@ CREATE TABLE IF NOT EXISTS colegios_electorales (
 );
 
 -- ============================================================
+-- BLOQUE 9b: TABLAS FALTANTES (extraídas de producción)
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS apoyos (
+    id SERIAL PRIMARY KEY,
+    cedula TEXT NOT NULL,
+    nombre TEXT,
+    candidato_id TEXT NOT NULL,
+    dirigente_cedula TEXT NOT NULL,
+    comite_miembro_id UUID,
+    tipo_apoyo TEXT DEFAULT 'POTENCIAL' CHECK (tipo_apoyo IN ('DIRECTO','INDIRECTO','POTENCIAL','CONFIRMADO')),
+    notas TEXT,
+    telefono TEXT,
+    direccion TEXT,
+    zona TEXT,
+    sector TEXT,
+    recinto TEXT,
+    colegio TEXT,
+    latitud DECIMAL(10,8),
+    longitud DECIMAL(11,8),
+    verificado BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS candidato_fases (
+    id SERIAL PRIMARY KEY,
+    candidato_id TEXT NOT NULL,
+    etapa_id INTEGER NOT NULL,
+    fecha_inicio TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    fecha_fin TIMESTAMP WITH TIME ZONE,
+    activa BOOLEAN DEFAULT TRUE,
+    notas TEXT
+);
+
+CREATE TABLE IF NOT EXISTS config_web (
+    id SERIAL PRIMARY KEY,
+    clave TEXT NOT NULL,
+    valor JSONB DEFAULT '{}'::jsonb NOT NULL,
+    categoria TEXT DEFAULT 'general',
+    descripcion TEXT,
+    modificado_en TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS dirigente_zona_asignacion (
+    id SERIAL PRIMARY KEY,
+    dirigente_cedula TEXT NOT NULL,
+    zona_id INTEGER NOT NULL,
+    candidato_id TEXT,
+    fecha_asignacion TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    activa BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE IF NOT EXISTS etapas_proceso (
+    id SERIAL PRIMARY KEY,
+    nombre TEXT NOT NULL,
+    descripcion TEXT,
+    fecha_inicio DATE,
+    fecha_fin DATE,
+    activa BOOLEAN DEFAULT TRUE,
+    orden INTEGER DEFAULT 0,
+    color TEXT DEFAULT '#003087'
+);
+
+CREATE TABLE IF NOT EXISTS historial_posiciones (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    zona TEXT NOT NULL,
+    cargo_id INTEGER NOT NULL,
+    cargo_nombre TEXT NOT NULL,
+    cedula TEXT NOT NULL,
+    nombre TEXT NOT NULL,
+    accion TEXT NOT NULL CHECK (accion IN ('ASIGNADO','REMOVIDO','RENUNCIO')),
+    motivo TEXT,
+    ejecutado_por TEXT,
+    fecha TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS posiciones_zonales (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    zona TEXT NOT NULL,
+    municipio TEXT DEFAULT 'MAO' NOT NULL,
+    cargo_id INTEGER NOT NULL,
+    cargo_nombre TEXT NOT NULL,
+    categoria TEXT NOT NULL,
+    cedula_titular TEXT,
+    nombre_titular TEXT,
+    estatus TEXT DEFAULT 'LIBRE' CHECK (estatus IN ('LIBRE','OCUPADA','PENDIENTE_REMOCION')),
+    fecha_ocupacion TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE IF NOT EXISTS solicitudes_remocion (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    zona TEXT NOT NULL,
+    municipio TEXT DEFAULT 'MAO' NOT NULL,
+    cargo_id INTEGER NOT NULL,
+    cargo_nombre TEXT NOT NULL,
+    cedula_titular TEXT NOT NULL,
+    nombre_titular TEXT NOT NULL,
+    motivo TEXT NOT NULL,
+    solicitado_por TEXT NOT NULL,
+    estatus TEXT DEFAULT 'PENDIENTE' CHECK (estatus IN ('PENDIENTE','APROBADA','RECHAZADA')),
+    revisado_por TEXT,
+    fecha_solicitud TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    fecha_resolucion TIMESTAMP WITH TIME ZONE,
+    notas_resolucion TEXT
+);
+
+CREATE TABLE IF NOT EXISTS zona_recintos (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    zona TEXT NOT NULL,
+    municipio TEXT DEFAULT 'MAO' NOT NULL,
+    recinto_num TEXT NOT NULL,
+    recinto_nombre TEXT NOT NULL,
+    colegios JSONB DEFAULT '[]'::jsonb,
+    activo BOOLEAN DEFAULT TRUE
+);
+
+-- ============================================================
 -- BLOQUE 10: VISTAS
 -- ============================================================
 
@@ -449,7 +567,7 @@ CREATE OR REPLACE FUNCTION fn_log_actividad(
   p_cedula TEXT,
   p_nombre TEXT,
   p_rol TEXT DEFAULT NULL,
-  p_accion TEXT,
+  p_accion TEXT DEFAULT NULL,
   p_tabla TEXT DEFAULT NULL,
   p_registro_id TEXT DEFAULT NULL,
   p_detalle JSONB DEFAULT '{}'
@@ -568,6 +686,48 @@ DO $$ BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'etapas_proceso' AND policyname = 'ep_select_auth') THEN
     CREATE POLICY ep_select_auth ON etapas_proceso FOR SELECT TO authenticated USING (true);
     CREATE POLICY ep_insert_auth ON etapas_proceso FOR INSERT TO authenticated WITH CHECK (true);
+  END IF;
+END $$;
+
+-- Nuevas tablas de producción: RLS con políticas reales
+ALTER TABLE IF EXISTS apoyos ENABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS config_web ENABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS historial_posiciones ENABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS posiciones_zonales ENABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS solicitudes_remocion ENABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS zona_recintos ENABLE ROW LEVEL SECURITY;
+
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'apoyos' AND policyname = 'apoyos_admin_all') THEN
+    CREATE POLICY apoyos_admin_all ON apoyos FOR ALL TO authenticated
+      USING ((auth.jwt() ->> 'role'::text) = 'ADMIN_SISTEMA')
+      WITH CHECK ((auth.jwt() ->> 'role'::text) = 'ADMIN_SISTEMA');
+    CREATE POLICY apoyos_dirigente_delete ON apoyos FOR DELETE TO authenticated
+      USING (((auth.jwt() ->> 'role'::text) = 'ADMIN_SISTEMA') OR (dirigente_cedula = (auth.jwt() ->> 'cedula'::text)));
+    CREATE POLICY apoyos_dirigente_insert ON apoyos FOR INSERT TO authenticated
+      WITH CHECK (((auth.jwt() ->> 'role'::text) = 'ADMIN_SISTEMA') OR (dirigente_cedula = (auth.jwt() ->> 'cedula'::text)));
+    CREATE POLICY apoyos_dirigente_update ON apoyos FOR UPDATE TO authenticated
+      USING (((auth.jwt() ->> 'role'::text) = 'ADMIN_SISTEMA') OR (dirigente_cedula = (auth.jwt() ->> 'cedula'::text)))
+      WITH CHECK (((auth.jwt() ->> 'role'::text) = 'ADMIN_SISTEMA') OR (dirigente_cedula = (auth.jwt() ->> 'cedula'::text)));
+    CREATE POLICY apoyos_select_own ON apoyos FOR SELECT TO authenticated
+      USING (((auth.jwt() ->> 'role'::text) = ANY (ARRAY['ADMIN_SISTEMA'::text, 'super_admin'::text]))
+        OR (candidato_id = (auth.jwt() ->> 'cedula'::text))
+        OR (dirigente_cedula = (auth.jwt() ->> 'cedula'::text)));
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'config_web' AND policyname = 'config_web_block_public') THEN
+    CREATE POLICY config_web_block_public ON config_web FOR ALL TO public USING (false) WITH CHECK (false);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'historial_posiciones' AND policyname = 'hist_select_auth') THEN
+    CREATE POLICY hist_select_auth ON historial_posiciones FOR SELECT TO authenticated USING (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'posiciones_zonales' AND policyname = 'pos_select_auth') THEN
+    CREATE POLICY pos_select_auth ON posiciones_zonales FOR SELECT TO authenticated USING (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'solicitudes_remocion' AND policyname = 'sol_select_auth') THEN
+    CREATE POLICY sol_select_auth ON solicitudes_remocion FOR SELECT TO authenticated USING (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'zona_recintos' AND policyname = 'zona_select_auth') THEN
+    CREATE POLICY zona_select_auth ON zona_recintos FOR SELECT TO authenticated USING (true);
   END IF;
 END $$;
 

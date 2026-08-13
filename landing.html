@@ -10,19 +10,20 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root {
+      --primary: #1a365d;
+      --primary-light: #2a4a7f;
+      --primary-dark: #0f2240;
+      --accent: #d4af37;
+      --accent-light: #e6c65a;
+      --accent-dark: #b8941f;
       --bg: #F7F9FC;
       --surface: #FFFFFF;
-      --primary: #1B365D;
-      --primary-light: #2A4A7F;
-      --secondary: #4A90D9;
-      --accent: #2ECC71;
-      --accent-dark: #27AE60;
       --text: #2C3E50;
       --muted: #7F8C9B;
       --border: #E1E8EF;
       --radius: 16px;
-      --shadow: 0 4px 24px rgba(27,54,93,0.08);
-      --shadow-lg: 0 8px 40px rgba(27,54,93,0.12);
+      --shadow: 0 4px 24px rgba(26,54,93,0.08);
+      --shadow-lg: 0 8px 40px rgba(26,54,93,0.12);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -71,7 +72,7 @@
     .hero { padding: 80px 0 60px; text-align: center; }
     .hero-emblem { width: 100px; height: 100px; margin: 0 auto 24px; }
     .hero .subtitle {
-      font-size: 13px; font-weight: 700; color: var(--secondary);
+      font-size: 13px; font-weight: 700; color: var(--accent);
       text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;
     }
     .hero h1 {
@@ -92,17 +93,19 @@
     }
     .btn-primary { background: var(--primary); color: white; }
     .btn-primary:hover { background: var(--primary-light); transform: translateY(-1px); box-shadow: var(--shadow); }
+    .btn-accent { background: var(--accent); color: var(--primary); }
+    .btn-accent:hover { background: var(--accent-light); transform: translateY(-1px); box-shadow: var(--shadow); }
     .btn-secondary {
       background: var(--surface); color: var(--primary);
       border: 2px solid var(--border);
     }
-    .btn-secondary:hover { border-color: var(--secondary); color: var(--secondary); }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
 
     /* ── SECTION ── */
     .section { padding: 64px 0; }
     .section-label {
       font-size: 12px; font-weight: 800; text-transform: uppercase;
-      letter-spacing: 1.5px; color: var(--secondary); margin-bottom: 8px;
+      letter-spacing: 1.5px; color: var(--accent); margin-bottom: 8px;
     }
     .section-title {
       font-size: 28px; font-weight: 800; color: var(--primary);
@@ -114,15 +117,17 @@
     .mvv-card {
       background: var(--surface); border-radius: var(--radius); padding: 28px;
       box-shadow: var(--shadow); border: 1px solid var(--border);
+      transition: transform 0.2s;
     }
+    .mvv-card:hover { transform: translateY(-2px); }
     .mvv-icon {
       width: 48px; height: 48px; border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
       font-size: 22px; margin-bottom: 16px;
     }
-    .mvv-icon.i-mision { background: #EBF5FB; color: var(--secondary); }
-    .mvv-icon.i-vision { background: #E8F8F0; color: var(--accent); }
-    .mvv-icon.i-valores { background: #FEF3E2; color: #E67E22; }
+    .mvv-icon.i-mision { background: rgba(26,54,93,0.08); color: var(--primary); }
+    .mvv-icon.i-vision { background: rgba(212,175,55,0.12); color: var(--accent-dark); }
+    .mvv-icon.i-valores { background: rgba(26,54,93,0.05); color: var(--primary-light); }
     .mvv-card h3 {
       font-size: 16px; font-weight: 800; color: var(--primary); margin-bottom: 8px;
     }
@@ -135,7 +140,7 @@
     .valores-list li::before {
       content: ''; width: 20px; height: 20px; border-radius: 50%;
       background: var(--accent); flex-shrink: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 8l3 3 5-5' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 8l3 3 5-5' stroke='%231a365d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: center;
       background-size: 12px;
     }
@@ -153,7 +158,7 @@
     .lider-card:hover { transform: translateY(-2px); }
     .lider-avatar {
       width: 56px; height: 56px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
       color: white; display: flex; align-items: center; justify-content: center;
       font-size: 18px; font-weight: 800; margin: 0 auto 12px;
     }
@@ -161,10 +166,10 @@
     .lider-card .cargo { font-size: 11px; color: var(--muted); font-weight: 600; }
     .section-link {
       display: inline-flex; align-items: center; gap: 6px;
-      color: var(--secondary); font-size: 13px; font-weight: 700;
+      color: var(--accent-dark); font-size: 13px; font-weight: 700;
       text-decoration: none; transition: gap 0.2s;
     }
-    .section-link:hover { gap: 10px; }
+    .section-link:hover { gap: 10px; color: var(--accent); }
 
     /* ── GEOGRAFÍA ── */
     .geo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
@@ -182,7 +187,7 @@
     .geo-item .nombre { font-size: 13px; font-weight: 600; }
     .geo-item .tag {
       font-size: 10px; padding: 2px 8px; border-radius: 6px;
-      font-weight: 700; background: #EBF5FB; color: var(--secondary);
+      font-weight: 700; background: rgba(26,54,93,0.06); color: var(--primary);
     }
     .geo-item .poblacion { font-size: 12px; color: var(--muted); font-weight: 600; }
     .geo-map-placeholder {
@@ -213,12 +218,52 @@
     .origen-author { display: flex; align-items: center; gap: 12px; }
     .origen-avatar {
       width: 44px; height: 44px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background: linear-gradient(135deg, var(--primary), var(--accent));
       color: white; display: flex; align-items: center; justify-content: center;
       font-size: 16px; font-weight: 800; flex-shrink: 0;
     }
     .origen-name { font-size: 14px; font-weight: 700; color: var(--primary); }
     .origen-role { font-size: 12px; color: var(--muted); }
+
+    /* ── SOBRE EL CREADOR ── */
+    .creator-section { background: linear-gradient(160deg, var(--primary-dark) 0%, var(--primary) 60%, var(--primary-light) 100%); }
+    .creator-card {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(212,175,55,0.35);
+      border-radius: 24px; padding: 48px 40px; max-width: 720px; margin: 0 auto;
+      text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      backdrop-filter: blur(8px);
+    }
+    .creator-card .section-label { color: var(--accent-light); }
+    .creator-card .section-title { color: white; }
+    .creator-avatar {
+      width: 96px; height: 96px; border-radius: 50%; margin: 0 auto 20px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: var(--primary-dark); display: flex; align-items: center;
+      justify-content: center; font-size: 32px; font-weight: 800;
+      border: 3px solid rgba(255,255,255,0.25);
+      box-shadow: 0 8px 32px rgba(212,175,55,0.4);
+    }
+    .creator-name { font-size: 24px; font-weight: 800; color: white; margin-bottom: 4px; }
+    .creator-role {
+      font-size: 13px; font-weight: 700; color: var(--accent-light);
+      text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px;
+    }
+    .creator-bio { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.7; max-width: 520px; margin: 0 auto 28px; }
+    .creator-social { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .btn-social {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 22px; border-radius: 12px; font-size: 13px; font-weight: 700;
+      text-decoration: none; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-social.linkedin { background: #0A66C2; color: white; }
+    .btn-social.linkedin:hover { background: #084e96; transform: translateY(-1px); }
+    .btn-social.instagram {
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: white;
+    }
+    .btn-social.instagram:hover { transform: translateY(-1px); }
+    .btn-social.linktree { background: #39E09B; color: #0d2818; }
+    .btn-social.linktree:hover { transform: translateY(-1px); background: #2cc47f; }
 
     /* ── FOOTER ── */
     .footer { background: var(--primary); color: white; padding: 40px 0; text-align: center; }
@@ -231,7 +276,7 @@
       display: flex; align-items: center; justify-content: center;
       text-decoration: none; font-size: 16px; transition: background 0.2s;
     }
-    .footer-social a:hover { background: rgba(255,255,255,0.2); }
+    .footer-social a:hover { background: var(--accent); color: var(--primary); }
     .footer-copy { font-size: 11px; opacity: 0.4; }
 
     /* ── RESPONSIVE ── */
@@ -255,33 +300,34 @@
 </head>
 <body>
 
-<!-- ═══ NAV ═══ -->
+<!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
     <a href="#" class="nav-logo">
-      <svg viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="10" fill="#1B365D"/><rect x="12" y="12" width="16" height="4" rx="1" fill="#4A90D9"/><rect x="14" y="16" width="12" height="10" rx="2" fill="#2A4A7F"/><rect x="16" y="14" width="8" height="2" rx="1" fill="#1B365D"/><path d="M16 21l2 2 5-5" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="10" fill="#1a365d"/><rect x="12" y="12" width="16" height="4" rx="1" fill="#d4af37"/><rect x="14" y="16" width="12" height="10" rx="2" fill="#2a4a7f"/><rect x="16" y="14" width="8" height="2" rx="1" fill="#1a365d"/><path d="M16 21l2 2 5-5" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span>SED-RD</span>
     </a>
     <div class="nav-links">
       <a href="#mision" class="hide-mobile">Misión</a>
       <a href="#producto" class="hide-mobile">Producto</a>
-      <a href="#contacto" class="hide-mobile">Contacto</a>
+      <a href="#geografia" class="hide-mobile">Geografía</a>
+      <a href="#creador" class="hide-mobile">Creador</a>
       <a href="login.html" class="btn-nav">Acceder al Sistema</a>
     </div>
   </div>
 </nav>
 
-<!-- ═══ HERO ═══ -->
+<!-- HERO -->
 <section class="hero">
   <div class="container">
     <svg class="hero-emblem" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="5" y="5" width="90" height="90" rx="22" fill="#1B365D"/>
-      <rect x="8" y="8" width="84" height="84" rx="20" fill="none" stroke="#4A90D9" stroke-width="1" opacity="0.25"/>
-      <rect x="30" y="30" width="40" height="8" rx="2" fill="#4A90D9"/>
-      <rect x="34" y="38" width="32" height="24" rx="3" fill="#2A4A7F"/>
-      <rect x="42" y="32" width="16" height="3" rx="1.5" fill="#1B365D"/>
-      <path d="M40 50l6 6 14-14" stroke="#2ECC71" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="72" cy="28" r="2" fill="#4A90D9" opacity="0.35"/>
+      <rect x="5" y="5" width="90" height="90" rx="22" fill="#1a365d"/>
+      <rect x="8" y="8" width="84" height="84" rx="20" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.25"/>
+      <rect x="30" y="30" width="40" height="8" rx="2" fill="#d4af37"/>
+      <rect x="34" y="38" width="32" height="24" rx="3" fill="#2a4a7f"/>
+      <rect x="42" y="32" width="16" height="3" rx="1.5" fill="#1a365d"/>
+      <path d="M40 50l6 6 14-14" stroke="#d4af37" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="72" cy="28" r="2" fill="#d4af37" opacity="0.35"/>
     </svg>
 
     <div class="subtitle">Sistema Electoral Dominicano</div>
@@ -299,7 +345,7 @@
   </div>
 </section>
 
-<!-- ═══ MISIÓN / VISIÓN / VALORES ═══ -->
+<!-- MISIÓN / VISIÓN / VALORES -->
 <section class="section" id="mision">
   <div class="container">
     <div class="section-label">Nuestro Propósito</div>
@@ -333,7 +379,7 @@
   </div>
 </section>
 
-<!-- ═══ LIDERAZGO ═══ -->
+<!-- LIDERAZGO -->
 <section class="section" id="producto" style="background: white;">
   <div class="container">
     <div class="section-label">Estructura de Liderazgo</div>
@@ -370,6 +416,21 @@
         <h4>Laura Sánchez</h4>
         <div class="cargo">Fiscal</div>
       </div>
+      <div class="lider-card">
+        <div class="lider-avatar">CM</div>
+        <h4>Carlos Méndez</h4>
+        <div class="cargo">Regidor</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">RP</div>
+        <h4>Rosa Peña</h4>
+        <div class="cargo">Regidora</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">LF</div>
+        <h4>Luis Fernández</h4>
+        <div class="cargo">Regidor</div>
+      </div>
     </div>
 
     <a href="#" class="section-link">
@@ -378,62 +439,56 @@
   </div>
 </section>
 
-<!-- ═══ GEOGRAFÍA ═══ -->
-<section class="section">
+<!-- GEOGRAFÍA -->
+<section class="section" id="geografia">
   <div class="container">
     <div class="section-label">Cobertura Territorial</div>
     <h2 class="section-title">Geografía</h2>
 
     <div class="geo-grid">
       <div class="geo-map-placeholder">
-        <svg viewBox="0 0 120 120" fill="none"><rect x="20" y="15" width="80" height="90" rx="12" fill="#E1E8EF"/><path d="M40 35Q60 25 80 35Q85 55 75 75Q60 85 45 75Q30 60 40 35Z" fill="#4A90D9" opacity="0.3"/><circle cx="55" cy="50" r="4" fill="#1B365D"/><circle cx="45" cy="60" r="3" fill="#4A90D9"/><circle cx="68" cy="58" r="3" fill="#4A90D9"/></svg>
+        <svg viewBox="0 0 120 120" fill="none"><rect x="20" y="15" width="80" height="90" rx="12" fill="#E1E8EF"/><path d="M40 35Q60 25 80 35Q85 55 75 75Q60 85 45 75Q30 60 40 35Z" fill="#1a365d" opacity="0.2"/><circle cx="55" cy="50" r="4" fill="#1a365d"/><circle cx="45" cy="60" r="3" fill="#d4af37"/><circle cx="68" cy="58" r="3" fill="#d4af37"/></svg>
         <p>Mapa de referencia — Provincia de ejemplo</p>
       </div>
 
       <div class="geo-card">
-        <h3>Provincia Valverde</h3>
-        <div class="geo-subtitle">7 municipios · 10 zonas electorales</div>
+        <h3>Provincia de Ejemplo</h3>
+        <div class="geo-subtitle">5 municipios · 8 zonas electorales</div>
         <div class="geo-item">
-          <span class="nombre">Mao</span>
+          <span class="nombre">Ciudad Central</span>
           <span class="tag">Cabecera</span>
-          <span class="poblacion">81,116 hab.</span>
+          <span class="poblacion">95,000 hab.</span>
         </div>
         <div class="geo-item">
-          <span class="nombre">Esperanza</span>
+          <span class="nombre">Villa del Norte</span>
           <span class="tag">Municipio</span>
-          <span class="poblacion">65,234 hab.</span>
+          <span class="poblacion">48,000 hab.</span>
         </div>
         <div class="geo-item">
-          <span class="nombre">Laguna Salada</span>
+          <span class="nombre">San Rafael</span>
           <span class="tag">Municipio</span>
-          <span class="poblacion">42,891 hab.</span>
+          <span class="poblacion">31,500 hab.</span>
         </div>
         <div class="geo-item">
-          <span class="nombre">Amina</span>
+          <span class="nombre">Los Palmares</span>
           <span class="tag">Distrito</span>
-          <span class="poblacion">18,432 hab.</span>
+          <span class="poblacion">14,200 hab.</span>
         </div>
         <div class="geo-item">
-          <span class="nombre">Guatapanal</span>
+          <span class="nombre">Puerto Viejo</span>
           <span class="tag">Distrito</span>
-          <span class="poblacion">15,678 hab.</span>
-        </div>
-        <div class="geo-item">
-          <span class="nombre">Jaibón</span>
-          <span class="tag">Distrito</span>
-          <span class="poblacion">12,345 hab.</span>
-        </div>
-        <div class="geo-item">
-          <span class="nombre">Potrero</span>
-          <span class="tag">Distrito</span>
-          <span class="poblacion">9,876 hab.</span>
+          <span class="poblacion">11,800 hab.</span>
         </div>
       </div>
     </div>
+
+    <p style="font-size: 12px; color: var(--muted); margin-top: 16px; text-align: center;">
+      <i class="fa-solid fa-circle-info"></i> Datos ilustrativos — cada partido configura su propia geografía real al implementar SED-RD.
+    </p>
   </div>
 </section>
 
-<!-- ═══ ORIGEN ═══ -->
+<!-- ORIGEN -->
 <section class="section" id="historia" style="background: white;">
   <div class="container">
     <div class="section-label">Nuestra Historia</div>
@@ -456,17 +511,36 @@
   </div>
 </section>
 
-<!-- ═══ FOOTER ═══ -->
+<!-- SOBRE EL CREADOR -->
+<section class="section creator-section" id="creador">
+  <div class="container">
+    <div class="creator-card">
+      <div class="creator-avatar">GV</div>
+      <h2 class="section-title">Sobre el Creador</h2>
+      <div class="creator-name">Gritzewsky Ventura</div>
+      <div class="creator-role">Fundador y Creador de SED-RD</div>
+      <p class="creator-bio">Ex dirigente de base con experiencia real en el terreno electoral dominicano. SED-RD nació de esa vivencia: la de ver lo que falta y decidir construirlo. Sigo trabajando en la base mientras desarrollo herramientas que dignifiquen el trabajo político.</p>
+      <div class="creator-social">
+        <a href="#" class="btn-social linkedin" target="_blank" title="LinkedIn">
+          <i class="fa-brands fa-linkedin-in"></i> LinkedIn
+        </a>
+        <a href="#" class="btn-social instagram" target="_blank" title="Instagram">
+          <i class="fa-brands fa-instagram"></i> Instagram
+        </a>
+        <a href="#" class="btn-social linktree" target="_blank" title="Linktree">
+          <i class="fa-solid fa-link"></i> Linktree
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer class="footer" id="contacto">
   <div class="container">
     <div class="footer-brand">SED-RD</div>
     <div class="footer-sub">Sistema Electoral Dominicano</div>
-    <div class="footer-social">
-      <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-      <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-      <a href="#" title="Linktree"><i class="fa-solid fa-link"></i></a>
-    </div>
-    <div class="footer-copy">© 2026 SED-RD. Todos los derechos reservados.</div>
+    <div class="footer-copy">&copy; 2026 SED-RD. Todos los derechos reservados.</div>
   </div>
 </footer>
 
