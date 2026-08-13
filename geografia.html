@@ -10,6 +10,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root {
+      --color-primary: #003087;
+      --color-secondary: #C8102E;
+      --color-accent: #F5A623;
+
       --primary: #1a365d;
       --primary-light: #2a4a7f;
       --primary-dark: #0f2240;
@@ -163,7 +167,72 @@
       .hero h1 { font-size: 28px; }
       .section-title { font-size: 22px; }
     }
+      /* ── PORTAL ELECTORAL (overlay) ── */
+    #portal-electoral{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;background:linear-gradient(160deg,var(--color-primary) 0%,#0a1f5c 35%,#001a40 100%);overflow-y:auto}
+    #portal-electoral.active{display:flex;flex-direction:column;align-items:center}
+    .portal-elec-hero{text-align:center;padding:32px 20px 24px;color:white;width:100%;max-width:480px}
+    .portal-elec-hero .hero-circle{width:64px;height:64px;border-radius:50%;border:3px solid #C5A864;background:white;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;box-shadow:0 0 30px rgba(197,168,100,0.25),0 4px 20px rgba(0,0,0,0.3)}
+    .portal-elec-hero .hero-circle span{font-weight:900;font-size:18px;color:var(--color-primary);letter-spacing:1px}
+    .portal-elec-hero h1{font-size:22px;font-weight:900;margin-bottom:2px}
+    .portal-elec-hero p{font-size:12px;opacity:0.7}
+    .portal-elec-wrap{width:100%;max-width:480px;padding:0 16px 24px}
+    .close-portal{position:fixed;top:16px;right:16px;z-index:1001;background:rgba(255,255,255,0.15);border:none;color:white;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;display:none;backdrop-filter:blur(8px);transition:all .2s;border:1px solid rgba(255,255,255,0.2)}
+    .close-portal:hover{background:rgba(255,255,255,0.25)}
+    #portal-electoral.active .close-portal{display:block}
+    .pe-step{display:none}.pe-step.active{display:block}
+    .pe-card{background:white;border-radius:20px;box-shadow:0 4px 24px rgba(0,0,0,0.08);overflow:hidden;margin-bottom:16px}
+    .pe-card-header{background:linear-gradient(135deg,var(--color-primary),#0a1f5c);padding:16px 20px;color:white}
+    .pe-card-header h2{font-size:16px;font-weight:800}.pe-card-header p{font-size:12px;opacity:0.7;margin-top:2px}
+    .pe-card-body{padding:20px}
+    .pe-campo{margin-bottom:12px}
+    .pe-campo label{display:block;font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:5px}
+    .pe-campo input,.pe-campo select{width:100%;padding:11px 14px;border:2px solid #e2e8f0;border-radius:12px;font-size:14px;outline:none;font-family:inherit;background:white;transition:border .2s}
+    .pe-campo input:focus{border-color:var(--color-primary)}
+    .pe-pin-row{display:flex;gap:10px;justify-content:center;margin-bottom:12px}
+    .pe-pin-row input{width:50px;height:56px;text-align:center;font-size:20px;font-weight:900;border-radius:12px;border:2px solid #e2e8f0;outline:none;font-family:inherit;transition:border .2s}
+    .pe-pin-row input:focus{border-color:var(--color-primary)}
+    .pe-btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;touch-action:manipulation;font-family:inherit;margin-bottom:8px;transition:all .15s}
+    .pe-btn:active{transform:scale(0.97)}
+    .pe-btn-azul{background:var(--color-primary);color:white}.pe-btn-verde{background:#16a34a;color:white}.pe-btn-gris{background:#f1f5f9;color:#64748b}.pe-btn-rojo{background:#dc2626;color:white}.pe-btn-oro{background:#C5A864;color:#001a40}
+    .pe-error-box{background:#fef2f2;border:2px solid #fecaca;border-radius:10px;padding:10px 12px;font-size:13px;color:#dc2626;font-weight:600;margin-bottom:10px;display:none}
+    .pe-info-box{background:#eff6ff;border:2px solid #bfdbfe;border-radius:10px;padding:10px 12px;font-size:12px;color:#1e40af;margin-bottom:12px}
+    .pe-role-grid{display:grid;gap:12px;margin-bottom:16px}
+    .pe-role-card{position:relative;display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid #e8edf5;border-radius:18px;background:linear-gradient(135deg,#ffffff 0%,#f8fafd 100%);cursor:pointer;transition:all .2s cubic-bezier(.4,0,.2,1);touch-action:manipulation;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+    .pe-role-card:active{transform:scale(0.98)}
+    .pe-role-card:hover{border-color:rgba(15,23,42,.18);background:linear-gradient(135deg,#ffffff 0%,#f1f5fb 100%);box-shadow:0 8px 24px rgba(15,23,42,.10);transform:translateY(-2px)}
+    .pe-role-card .rc-icon{font-size:24px;width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 2px 6px rgba(15,23,42,.08)}
+    .pe-role-card .rc-text{flex:1}.pe-role-card .rc-title{font-size:14px;font-weight:800;color:#0f172a;letter-spacing:-.01em}.pe-role-card .rc-sub{font-size:11px;color:#64748b;margin-top:2px;line-height:1.4}
+    .pe-role-card .rc-arrow{width:30px;height:30px;border-radius:50%;background:#eef2f8;color:#334155;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:all .2s}
+    .pe-role-card:hover .rc-arrow{background:var(--color-primary);color:#fff;transform:translateX(2px)}
+    .pe-portal-top{display:flex;gap:8px;margin-bottom:16px}
+    .pe-portal-top .pe-btn{flex:1}
+    .pe-portal-section{margin-bottom:14px}
+    .pe-portal-section-title{font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-left:4px;display:flex;align-items:center;gap:6px}
+    .pe-portal-section-title::after{content:'';flex:1;height:1px;background:#e2e8f0}
+    .pe-reg-options{display:grid;gap:8px}
+    .pe-reg-opt{display:flex;align-items:center;gap:10px;padding:14px;border:2px solid #e2e8f0;border-radius:14px;background:white;cursor:pointer;transition:all .15s;touch-action:manipulation;text-align:left}
+    .pe-reg-opt:active{transform:scale(0.97)}
+    .pe-reg-opt:hover{border-color:#16a34a;background:#f0fdf4}
+    .pe-reg-opt.selected{border-color:var(--color-primary);background:#eff6ff}
+    .pe-reg-opt .ro-icon{font-size:22px;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .pe-reg-opt .ro-text{flex:1}.pe-reg-opt .ro-title{font-size:13px;font-weight:800;color:#1e293b}.pe-reg-opt .ro-desc{font-size:10px;color:#64748b;margin-top:1px}
+    .toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:400px;margin:0 auto;padding:13px 18px;border-radius:14px;font-size:14px;font-weight:700;z-index:9999;text-align:center;display:none;font-family:'Plus Jakarta Sans',sans-serif}
+    .toast-ok{background:#16a34a;color:white}.toast-error{background:#dc2626;color:white}.toast-info{background:var(--color-primary);color:white}
+    @media(min-width:480px){.pe-card{box-shadow:0 8px 40px rgba(0,0,0,0.1)}}
   </style>
+  <script src="js/config_loader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/fotos.js"></script>
+  <script src="js/audit.js"></script>
+  <script>
+  var _sb = null;
+  if (window.supabase) {
+    _sb = window.supabase.createClient(
+      'https://ilivjaiexfqpioqrozlf.supabase.co',
+      'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
+    );
+  }
+  </script>
 </head>
 <body>
 
@@ -177,8 +246,8 @@
       <a href="index.html" class="hide-mobile">Inicio</a>
       <a href="legisladores.html" class="hide-mobile">Legisladores de Valverde</a>
       <a href="geografia.html" class="hide-mobile active">Geografía</a>
-      <button class="btn-nav" onclick="window.location.href='login.html?portal=1&v=2'" style="border:none;cursor:pointer;font-family:inherit">Iniciar</button>
-      <button class="btn-nav" onclick="window.location.href='login.html?portal=1&registro=1&v=2'" style="border:none;cursor:pointer;font-family:inherit;background:var(--accent);color:var(--primary-dark)">Registrarse</button>
+      <button class="btn-nav" onclick="abrirPortalElectoral()" style="border:none;cursor:pointer;font-family:inherit">Iniciar</button>
+      <button class="btn-nav" onclick="abrirPortalElectoral('registro')" style="border:none;cursor:pointer;font-family:inherit;background:var(--accent);color:var(--primary-dark)">Registrarse</button>
     </div>
   </div>
 </nav>
@@ -370,5 +439,557 @@
   </div>
 </footer>
 
+
+
+<!-- PORTAL ELECTORAL (overlay) -->
+<div id="portal-electoral">
+  <button class="close-portal" onclick="cerrarPortalElectoral()"><i class="fa-solid fa-xmark"></i></button>
+  <div class="portal-elec-hero">
+    <div class="hero-circle"><img src="img/logo-sed.png" alt="SISTEPARD" style="width:54px;height:auto;border-radius:8px;"></div>
+    <h1 id="portal-title">Portal Electoral SISTEPARD</h1>
+    <p>Provincia Valverde · República Dominicana 2026</p>
+  </div>
+  <div class="portal-elec-wrap">
+
+    <!-- STEP PORTAL -->
+    <div id="pe-step-portal" class="pe-step active">
+      <div class="pe-portal-top">
+        <button class="pe-btn pe-btn-azul" onclick="peIrStep('pe-step-cedula')">🔑 Iniciar</button>
+        <button class="pe-btn pe-btn-verde" onclick="peIrStep('pe-step-registro-rol')">📝 Registrarse</button>
+        <button class="pe-btn pe-btn-gris" onclick="peEntrarRol('admin')" style="flex:0 0 auto;padding:13px 16px"><i class="fa-solid fa-gear"></i></button>
+      </div>
+      <div class="pe-portal-section">
+        <div class="pe-portal-section-title">Estructura del Partido</div>
+        <div class="pe-role-grid">
+          <div class="pe-role-card" onclick="peEntrarRol('dirigente')"><div class="rc-icon" style="background:linear-gradient(135deg,#dcfce7,#bbf7d0)">🤝</div><div class="rc-text"><div class="rc-title">Dirigente de Base</div><div class="rc-sub">Comité de base y estructura zonal</div></div><div class="rc-arrow">›</div></div>
+          <div class="pe-role-card" onclick="peEntrarRol('zona')"><div class="rc-icon" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">🏛️</div><div class="rc-text"><div class="rc-title">Portal Zonal</div><div class="rc-sub">Gestión de zona, dirigentes y planchas</div></div><div class="rc-arrow">›</div></div>
+          <div class="pe-role-card" onclick="peEntrarRol('delegado')"><div class="rc-icon" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8)">📋</div><div class="rc-text"><div class="rc-title">Delegado</div><div class="rc-sub">Mesas, actas y votantes del día</div></div><div class="rc-arrow">›</div></div>
+        </div>
+      </div>
+      <div class="pe-portal-section">
+        <div class="pe-portal-section-title">Candidaturas</div>
+        <div class="pe-role-grid">
+          <div class="pe-role-card" onclick="peEntrarRol('candidato')"><div class="rc-icon" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">🗳️</div><div class="rc-text"><div class="rc-title">Candidato / Pre-candidato</div><div class="rc-sub">Portal de candidatura y estructura</div></div><div class="rc-arrow">›</div></div>
+          <div class="pe-role-card" onclick="peEntrarRol('miembro')"><div class="rc-icon" style="background:linear-gradient(135deg,#f3e8ff,#e9d5ff)">👥</div><div class="rc-text"><div class="rc-title">Miembro de Estructura</div><div class="rc-sub">Parte de una estructura existente</div></div><div class="rc-arrow">›</div></div>
+          <div class="pe-role-card" onclick="peEntrarRol('coordinador')"><div class="rc-icon" style="background:linear-gradient(135deg,#fef3c7,#fde68a)">🔱</div><div class="rc-text"><div class="rc-title">Coordinador</div><div class="rc-sub">Coordinación de zona o candidatura</div></div><div class="rc-arrow">›</div></div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-bottom:12px">
+        <button onclick="peIrStep('pe-step-recuperar')" style="background:none;border:none;color:#94a3b8;font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline">🔑 ¿Olvidaste tu PIN?</button>
+      </div>
+    </div>
+
+    <!-- STEP CEDULA -->
+    <div id="pe-step-cedula" class="pe-step">
+      <div class="pe-card">
+        <div class="pe-card-header"><h2 id="pe-ced-titulo">🔍 Identificación</h2><p id="pe-ced-sub">Ingresa tu cédula para continuar</p></div>
+        <div class="pe-card-body">
+          <div class="pe-error-box" id="pe-err-cedula"></div>
+          <div class="pe-campo"><label>Cédula de identidad</label><input type="tel" id="pe-inp-cedula" placeholder="000-0000000-0" maxlength="13" oninput="peFmtCedula(this)" onkeyup="if(event.key==='Enter')peBuscarCedula()" style="font-family:monospace;letter-spacing:1px"></div>
+          <button class="pe-btn pe-btn-azul" onclick="peBuscarCedula()">Continuar →</button>
+          <button class="pe-btn pe-btn-gris" onclick="peIrStep('pe-step-portal')">← Volver al portal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP PIN -->
+    <div id="pe-step-pin" class="pe-step">
+      <div class="pe-card">
+        <div class="pe-card-header"><h2>🔐 PIN de acceso</h2><p id="pe-pin-sub">Ingresa tu PIN de 4 dígitos</p></div>
+        <div class="pe-card-body">
+          <div class="pe-error-box" id="pe-err-pin"></div>
+          <div class="pe-pin-row">
+            <input type="tel" maxlength="1" id="pe-p0" oninput="peMover(this,1)">
+            <input type="tel" maxlength="1" id="pe-p1" oninput="peMover(this,2)">
+            <input type="tel" maxlength="1" id="pe-p2" oninput="peMover(this,3)">
+            <input type="tel" maxlength="1" id="pe-p3" oninput="peMover(this,null)" onkeyup="if(event.key==='Enter')peVerificarPin()">
+          </div>
+          <button class="pe-btn pe-btn-azul" onclick="peVerificarPin()">Entrar al sistema</button>
+          <div style="text-align:center;margin:4px 0 8px"><button onclick="peIrStep('pe-step-recuperar')" style="background:none;border:none;color:#94a3b8;font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline">¿Olvidaste tu PIN?</button></div>
+          <button class="pe-btn pe-btn-gris" onclick="peIrStep('pe-step-cedula')">← Cambiar cédula</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP DESTINO DESPUÉS DE LOGIN -->
+    <div id="pe-step-destino" class="pe-step">
+      <div class="pe-card">
+        <div class="pe-card-header"><h2>👋 Bienvenido</h2><p id="pe-destino-nombre">¿A dónde quieres ir?</p></div>
+        <div class="pe-card-body">
+          <div class="pe-error-box" id="pe-err-destino"></div>
+          <div class="pe-role-grid">
+            <div class="pe-role-card" onclick="peIrA('perfil')"><div class="rc-icon" style="background:#dbeafe">👤</div><div class="rc-text"><div class="rc-title">Mi Perfil</div><div class="rc-sub">Ver y editar mi información personal</div></div><div class="rc-arrow">›</div></div>
+            <div class="pe-role-card" onclick="peIrA('candidatos')"><div class="rc-icon" style="background:#fef3c7">🗳️</div><div class="rc-text"><div class="rc-title">Candidatos</div><div class="rc-sub">Portal de candidaturas y estructura</div></div><div class="rc-arrow">›</div></div>
+            <div class="pe-role-card" onclick="peIrA('zona')"><div class="rc-icon" style="background:#dcfce7">🏛️</div><div class="rc-text"><div class="rc-title">Mi Zona</div><div class="rc-sub">Gestión zonal, dirigentes y planchas</div></div><div class="rc-arrow">›</div></div>
+          </div>
+          <div style="text-align:center;margin-top:8px">
+            <button onclick="cerrarPortalElectoral()" style="background:none;border:none;color:#94a3b8;font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline">Cerrar y volver al portal</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP CREAR PIN -->
+    <div id="pe-step-cambiar-pin" class="pe-step">
+      <div class="pe-card">
+        <div class="pe-card-header" style="background:linear-gradient(135deg,#92400e,#b45309)"><h2>🔑 Crear tu PIN</h2><p>Crea tu PIN personal de acceso</p></div>
+        <div class="pe-card-body">
+          <div class="pe-info-box">Crea un PIN de 4 dígitos para acceder al sistema.</div>
+          <div class="pe-error-box" id="pe-err-nuevo-pin"></div>
+          <div class="pe-campo"><label>Nuevo PIN</label><div class="pe-pin-row"><input type="tel" maxlength="1" id="pe-np0" oninput="peMoverN(this,1)"><input type="tel" maxlength="1" id="pe-np1" oninput="peMoverN(this,2)"><input type="tel" maxlength="1" id="pe-np2" oninput="peMoverN(this,3)"><input type="tel" maxlength="1" id="pe-np3" oninput="peMoverN(this,null)"></div></div>
+          <div class="pe-campo"><label>Confirmar PIN</label><div class="pe-pin-row"><input type="tel" maxlength="1" id="pe-np4" oninput="peMoverN(this,5)"><input type="tel" maxlength="1" id="pe-np5" oninput="peMoverN(this,6)"><input type="tel" maxlength="1" id="pe-np6" oninput="peMoverN(this,7)"><input type="tel" maxlength="1" id="pe-np7" oninput="peMoverN(this,null)"></div></div>
+          <button class="pe-btn pe-btn-verde" onclick="peGuardarNuevoPin()">✅ Guardar y entrar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP RECUPERAR PIN -->
+    <div id="pe-step-recuperar" class="pe-step">
+      <div class="pe-card">
+        <div class="pe-card-header" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)"><h2>🔑 Recuperar PIN</h2><p>Te enviaremos un código a tu email</p></div>
+        <div class="pe-card-body">
+          <div class="pe-error-box" id="pe-err-recuperar"></div>
+          <div id="pe-rec-email-box">
+            <div class="pe-info-box">Ingresa el email que registraste en tu cuenta.</div>
+            <div class="pe-campo"><label>Tu email</label><input type="email" id="pe-rec-email" placeholder="tucorreo@email.com"></div>
+            <button class="pe-btn pe-btn-azul" onclick="peEnviarRecuperacion()">📧 Enviar código</button>
+          </div>
+          <div id="pe-rec-codigo-box" style="display:none">
+            <div style="background:#f0fdf4;border:2px solid #bbf7d0;border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:#166534">✅ Código enviado. Revisa tu bandeja.</div>
+            <div class="pe-campo"><label>Código recibido</label><input type="tel" id="pe-rec-codigo" placeholder="000000" maxlength="6" style="font-size:22px;font-family:monospace;text-align:center;letter-spacing:6px"></div>
+            <div class="pe-campo"><label>Nuevo PIN</label><div class="pe-pin-row"><input type="tel" maxlength="1" id="pe-rp0"><input type="tel" maxlength="1" id="pe-rp1"><input type="tel" maxlength="1" id="pe-rp2"><input type="tel" maxlength="1" id="pe-rp3"></div></div>
+            <button class="pe-btn pe-btn-verde" onclick="peConfirmarRecuperacion()">✅ Cambiar PIN</button>
+          </div>
+          <button class="pe-btn pe-btn-gris" onclick="peIrStep('pe-step-portal')">← Volver al portal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP REGISTRO ROL -->
+    <div id="pe-step-registro-rol" class="pe-step">
+      <div class="pe-card">
+        <div class="pe-card-header" style="background:linear-gradient(135deg,#16a34a,#15803d)"><h2>📝 Crear Cuenta</h2><p>¿En qué rol quieres participar?</p></div>
+        <div class="pe-card-body">
+          <div class="pe-reg-options">
+            <button class="pe-reg-opt" onclick="peSeleccionarRolReg('candidato',this)"><div class="ro-icon" style="background:#dbeafe">🗳️</div><div class="ro-text"><div class="ro-title">Candidato / Pre-candidato</div><div class="ro-desc">Postularme para un cargo electivo</div></div></button>
+            <button class="pe-reg-opt" onclick="peSeleccionarRolReg('dirigente',this)"><div class="ro-icon" style="background:#dcfce7">🤝</div><div class="ro-text"><div class="ro-title">Dirigente de Base</div><div class="ro-desc">Liderar un comité de base</div></div></button>
+            <button class="pe-reg-opt" onclick="peSeleccionarRolReg('delegado',this)"><div class="ro-icon" style="background:#fce7f3">📋</div><div class="ro-text"><div class="ro-title">Delegado</div><div class="ro-desc">Mesas, actas y votantes del día</div></div></button>
+          </div>
+          <button class="pe-btn pe-btn-gris" style="margin-top:10px" onclick="peIrStep('pe-step-portal')">← Volver</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP FORMULARIO REGISTRO -->
+    <div id="pe-step-registro" class="pe-step">
+      <div class="pe-card">
+        <div class="pe-card-header" style="background:linear-gradient(135deg,#16a34a,#15803d)"><h2 id="pe-reg-titulo">📝 Registro</h2><p id="pe-reg-sub">Completa tu información</p></div>
+        <div class="pe-card-body">
+          <div class="pe-error-box" id="pe-err-reg"></div>
+          <div class="pe-campo"><label>Nombre completo</label><input type="text" id="pe-reg-nombre" placeholder="Tu nombre completo"></div>
+          <div class="pe-campo"><label>Cédula de identidad</label><input type="tel" id="pe-reg-cedula" placeholder="000-0000000-0" maxlength="13" oninput="peFmtCedula(this)" style="font-family:monospace;letter-spacing:1px"></div>
+          <div class="pe-campo" id="pe-reg-campo-municipio"><label>Municipio</label><select id="pe-reg-municipio" onchange="peCargarZonasReg()"><option value="">Selecciona municipio...</option><option value="MAO">Mao (Cabecera)</option><option value="ESPERANZA">Esperanza</option><option value="LAGUNA_SALADA">Laguna Salada</option><option value="AMINA">Amina (D.M.)</option><option value="GUATAPANAL">Guatapanal (D.M.)</option><option value="JAIBON">Jaibón (D.M.)</option><option value="POTRERO">Potrero (D.M.)</option></select></div>
+          <div class="pe-campo" id="pe-reg-campo-zona"><label>Zona Política</label><select id="pe-reg-zona"><option value="">Primero selecciona municipio</option></select></div>
+          <div class="pe-campo" id="pe-reg-campo-sector" style="display:none"><label>Sector / Barrio</label><input type="text" id="pe-reg-sector" placeholder="Ej: Los Multis, El Centro..."></div>
+          <div id="pe-reg-campos-candidato" style="display:none"><div class="pe-campo"><label>Tipo</label><select id="pe-reg-tipo"><option value="precandidato">Pre-candidato</option><option value="candidato">Candidato inscrito</option></select></div><div class="pe-campo"><label>Cargo que busca</label><select id="pe-reg-cargo"><option value="">Selecciona cargo...</option><option value="SENADOR">Senador por Valverde</option><option value="DIPUTADO">Diputado Distrito Valverde</option><option value="ALCALDE">Alcalde</option><option value="REGIDOR">Regidor</option><option value="DIRIGENTE_ZONAL">Dirigente Zonal</option></select></div></div>
+          <div id="pe-reg-campos-coordinador" style="display:none"><div class="pe-campo"><label>Candidato que apoyas</label><select id="pe-reg-candidato-apoyo"><option value="">Cargando candidatos...</option></select></div></div>
+          <div id="pe-reg-campos-miembro" style="display:none"><div class="pe-campo"><label>Estructura / Candidato a unirse</label><select id="pe-reg-estructura-miembro"><option value="">Cargando estructuras...</option></select></div><div class="pe-campo"><label>¿Quién te invitó?</label><input type="tel" id="pe-reg-invitador" placeholder="Cédula del dirigente que te invita"></div></div>
+          <div class="pe-campo"><label>Teléfono</label><input type="tel" id="pe-reg-telefono" placeholder="809-000-0000"></div>
+          <div class="pe-campo"><label>Email (para recuperar PIN)</label><input type="email" id="pe-reg-email" placeholder="tucorreo@email.com"></div>
+          <div class="pe-campo"><label>Crear PIN (4 dígitos)</label><div class="pe-pin-row"><input type="tel" maxlength="1" id="pe-rpin0" oninput="peMoverR(this,1)"><input type="tel" maxlength="1" id="pe-rpin1" oninput="peMoverR(this,2)"><input type="tel" maxlength="1" id="pe-rpin2" oninput="peMoverR(this,3)"><input type="tel" maxlength="1" id="pe-rpin3" oninput="peMoverR(this,null)"></div></div>
+          <button class="pe-btn pe-btn-verde" onclick="peCompletarRegistro()">✅ Registrarme</button>
+          <button class="pe-btn pe-btn-gris" onclick="peIrStep('pe-step-registro-rol')">← Volver</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// ═══════════ PORTAL PÚBLICO ═══════════
+function abrirPortalElectoral(modo) {
+  document.getElementById('portal-electoral').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  if (modo === 'registro') {
+    peIrStep('pe-step-registro-rol');
+  } else {
+    E.rolDeseado = null;
+    document.getElementById('pe-ced-titulo').textContent = '🔍 Identificación';
+    document.getElementById('pe-ced-sub').textContent = 'Ingresa tu cédula para continuar';
+    peIrStep('pe-step-cedula');
+    setTimeout(() => document.getElementById('pe-inp-cedula').focus(), 300);
+  }
+}
+function cerrarPortalElectoral() {
+  document.getElementById('portal-electoral').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// ═══════════ SUPABASE ═══════════
+let sb = _sb;
+if (!sb && window.supabase) {
+  sb = window.supabase.createClient(
+    'https://ilivjaiexfqpioqrozlf.supabase.co',
+    'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
+  );
+}
+
+// ═══════════ ESTADO ═══════════
+let E = {
+  cedula: null, cedFmt: null, nombre: null, foto: null,
+  enPadron: false, esDirigente: false, rolSistema: null,
+  zona: null, municipio: null,
+  rolDeseado: null, accionPendiente: null
+};
+
+const ZONAS = {
+  MAO: ['Zona A','Zona B','Zona C','Zona D','Zona E','Zona F'],
+  ESPERANZA: ['Zona 1','Zona 2','Zona 3'],
+  LAGUNA_SALADA: ['Zona Única'], AMINA: ['Zona Única'],
+  GUATAPANAL: ['Zona Única'], JAIBON: ['Zona Única'], POTRERO: ['Zona Única']
+};
+
+// ═══════════ NAVEGACIÓN ═══════════
+function peIrStep(id) {
+  document.querySelectorAll('.pe-step').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelector('.portal-elec-wrap').scrollTop = 0;
+}
+
+// ═══════════ ENTRAR POR ROL ═══════════
+function peEntrarRol(rol) {
+  if (rol === 'admin') {
+    window.location.href = 'admin.html';
+    return;
+  }
+  E.rolDeseado = rol;
+  const titulos = {
+    candidato: '🗳️ Portal de Candidato', dirigente: '🤝 Portal de Dirigente',
+    coordinador: '🔱 Portal de Coordinador', miembro: '👥 Portal de Miembro',
+    zona: '🏛️ Portal Zonal', delegado: '📋 Portal de Delegado'
+  };
+  document.getElementById('pe-ced-titulo').textContent = titulos[rol] || '🔍 Identificación';
+  document.getElementById('pe-ced-sub').textContent = 'Identifícate con tu cédula';
+  peIrStep('pe-step-cedula');
+  setTimeout(() => document.getElementById('pe-inp-cedula').focus(), 300);
+}
+
+// ═══════════ BUSCAR CÉDULA ═══════════
+async function peBuscarCedula() {
+  const raw = document.getElementById('pe-inp-cedula').value;
+  const limpia = raw.replace(/\D/g, '');
+  if (limpia.length < 11) { peErr('pe-err-cedula', 'Ingresa tu cédula completa (11 dígitos)'); return; }
+  const cedFmt = limpia.slice(0,3)+'-'+limpia.slice(3,10)+'-'+limpia.slice(10);
+  E.cedula = limpia; E.cedFmt = cedFmt;
+  peHide('pe-err-cedula');
+  if (sb) {
+    try {
+      const { data: pad } = await sb.rpc('lookup_cedula', { p_cedula: cedFmt });
+      if (pad) { E.nombre = pad.nombre_completo; E.enPadron = true; }
+      const { data: padFoto } = await sb.from('padron_maestro')
+        .select('foto_url, foto_base64').eq('cedula', cedFmt).maybeSingle();
+      if (padFoto) { E.foto_url = padFoto.foto_url || null; E.foto = padFoto.foto_base64 || null; }
+      const { data: dir } = await sb.from('dirigentes').select('nombre, zona, municipio, email').eq('cedula', cedFmt).eq('activo', true).maybeSingle();
+      if (dir) { E.esDirigente = true; E.nombre = E.nombre || dir.nombre; E.zona = dir.zona; E.municipio = dir.municipio; E.email = dir.email || null; }
+      const { data: usr } = await sb.from('usuarios_sistema').select('rol, zona, municipio, pin_cambiado, nombre').eq('cedula', cedFmt).eq('activo', true).maybeSingle();
+      if (usr) { E.rolSistema = usr.rol; E.zona = usr.zona || E.zona; E.municipio = usr.municipio || E.municipio; E.nombre = E.nombre || usr.nombre; }
+    } catch(e) { console.error(e); }
+  }
+  if (!E.nombre) E.nombre = 'Militante · ' + cedFmt;
+  peIrStep('pe-step-pin');
+  document.getElementById('pe-pin-sub').textContent = 'Hola ' + E.nombre.split(',')[0] + ' — ingresa tu PIN';
+  setTimeout(() => document.getElementById('pe-p0').focus(), 300);
+}
+
+// ═══════════ VERIFICAR PIN ═══════════
+async function peVerificarPin() {
+  const pin = ['pe-p0','pe-p1','pe-p2','pe-p3'].map(id => document.getElementById(id).value).join('');
+  if (pin.length < 4) { peErr('pe-err-pin', 'Ingresa los 4 dígitos'); return; }
+  peHide('pe-err-pin');
+  if (sb) {
+    try {
+      const email = (E.email && E.email.includes('@')) ? E.email : (E.cedFmt + '@prm.local');
+      const password = pin + 'Prm#2026';
+      const { data: authData, error: authErr } = await sb.auth.signInWithPassword({ email, password });
+      if (authErr) {
+        if (authErr.message.includes('Invalid login')) {
+          peErr('pe-err-pin', 'PIN incorrecto o cuenta no registrada');
+        } else {
+          peErr('pe-err-pin', 'Error: ' + authErr.message);
+        }
+        ['pe-p0','pe-p1','pe-p2','pe-p3'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('pe-p0').focus();
+        return;
+      }
+      const claims = authData.user.app_metadata || {};
+      const sess = {
+        cedula: E.cedFmt,
+        nombre: E.nombre,
+        zona: claims.zona || E.zona,
+        municipio: claims.municipio || E.municipio,
+        rol: claims.role || E.rolSistema || 'dirigente_base',
+        token: authData.session.access_token,
+        auth_user_id: authData.user.id,
+        foto_url: E.foto_url || null,
+        foto_base64: E.foto || null
+      };
+      peGuardarSesion(sess);
+      peRedirigir(sess);
+      return;
+    } catch(e) {
+      console.error('Auth error:', e);
+      peErr('pe-err-pin', 'Error de conexión');
+      return;
+    }
+  }
+  peGuardarSesion({ cedula: E.cedFmt, nombre: E.nombre, zona: E.zona, municipio: E.municipio, rol: E.rolSistema || 'dirigente_base', token: 'demo-'+Date.now(), foto_url: E.foto_url || null, foto_base64: E.foto || null });
+  peRedirigir({ rol: E.rolSistema || 'dirigente_base' });
+}
+
+// ═══════════ GUARDAR NUEVO PIN ═══════════
+async function peGuardarNuevoPin() {
+  const p1 = ['pe-np0','pe-np1','pe-np2','pe-np3'].map(id => document.getElementById(id).value).join('');
+  const p2 = ['pe-np4','pe-np5','pe-np6','pe-np7'].map(id => document.getElementById(id).value).join('');
+  if (p1.length < 4) { peErr('pe-err-nuevo-pin', 'Ingresa tu nuevo PIN'); return; }
+  if (p1 !== p2) { peErr('pe-err-nuevo-pin', 'Los PINs no coinciden'); return; }
+  if (sb) {
+    const newPass = p1 + 'Prm#2026';
+    const { error } = await sb.auth.updateUser({ password: newPass });
+    if (error) { peErr('pe-err-nuevo-pin', 'Error: ' + error.message); return; }
+    await sb.from('dirigentes').update({ pin_hash: p1 }).eq('cedula', E.cedFmt);
+  }
+  peToast('✅ PIN guardado', 'ok');
+  setTimeout(() => peRedirigir({ rol: E.rolSistema }), 1000);
+}
+
+// ═══════════ REDIRECCIÓN ═══════════
+function peRedirigir(data) {
+  document.getElementById('pe-destino-nombre').textContent = 'Hola ' + (E.nombre || '').split(',')[0] + ' — ¿A dónde quieres ir?';
+  peIrStep('pe-step-destino');
+}
+
+function peIrA(destino) {
+  if (destino === 'perfil') {
+    window.location.href = 'dirigentes.html';
+  } else if (destino === 'candidatos') {
+    peAccederCandidato();
+  } else if (destino === 'zona') {
+    window.location.href = 'zonas.html';
+  }
+}
+
+async function peAccederCandidato() {
+  if (!sb || !E.cedFmt) { window.location.href = 'candidato.html'; return; }
+  try {
+    const { data: existente } = await sb.from('candidatos')
+      .select('id, tipo, nombre')
+      .eq('id', E.cedFmt)
+      .maybeSingle();
+
+    if (existente) {
+      peToast('Accediendo...', 'info');
+      setTimeout(() => { window.location.href = 'candidato.html'; }, 600);
+      return;
+    }
+
+    peErr('pe-err-destino', '⚠️ No estás registrado como candidato. Regístrate primero con el botón "Registrarse".');
+
+  } catch(e) {
+    console.error(e);
+    window.location.href = 'candidato.html';
+  }
+}
+function peGetDestino(rol) {
+  const map = { ADMIN_SISTEMA: 'admin.html', super_admin: 'admin.html', dirigente_zonal: 'admin.html', admin: 'admin.html' };
+  if (map[rol]) return map[rol];
+  if (E.rolDeseado === 'candidato') return 'candidato.html';
+  if (E.rolDeseado === 'delegado') return 'delegados.html';
+  if (E.rolDeseado === 'zona') return 'zonas.html';
+  return 'dirigentes.html';
+}
+
+// ═══════════ REGISTRO ═══════════
+function peSeleccionarRolReg(rol, el) {
+  document.querySelectorAll('.pe-reg-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  E.rolDeseado = rol;
+  const titulos = { candidato: '🗳️ Registro de Candidato', dirigente: '🤝 Registro de Dirigente', delegado: '📋 Registro de Delegado' };
+  document.getElementById('pe-reg-titulo').textContent = titulos[rol] || '📝 Registro';
+  document.getElementById('pe-reg-sub').textContent = 'Crea tu cuenta en el sistema';
+  document.getElementById('pe-reg-campos-candidato').style.display = rol === 'candidato' ? 'block' : 'none';
+  document.getElementById('pe-reg-campos-coordinador').style.display = 'none';
+  document.getElementById('pe-reg-campos-miembro').style.display = 'none';
+  document.getElementById('pe-reg-campo-sector').style.display = 'none';
+  document.getElementById('pe-reg-campo-zona').style.display = 'block';
+  document.getElementById('pe-reg-campo-municipio').style.display = 'block';
+  if (rol === 'coordinador' || rol === 'miembro') peCargarCandidatosReg();
+  peIrStep('pe-step-registro');
+}
+
+async function peCargarCandidatosReg() {
+  const sel = document.getElementById(E.rolDeseado === 'coordinador' ? 'pe-reg-candidato-apoyo' : 'pe-reg-estructura-miembro');
+  if (!sb) { sel.innerHTML = '<option value="">Sin conexión</option>'; return; }
+  const { data } = await sb.from('candidatos').select('id, nombre, cargo, tipo').eq('activo', true).order('nombre');
+  sel.innerHTML = '<option value="">Selecciona...</option>';
+  (data || []).forEach(c => { const op = document.createElement('option'); op.value = c.id; op.textContent = c.nombre + ' — ' + c.cargo + ' (' + c.tipo + ')'; sel.appendChild(op); });
+}
+
+async function peCompletarRegistro() {
+  const nombre = document.getElementById('pe-reg-nombre').value.trim();
+  const cedula = document.getElementById('pe-reg-cedula').value.replace(/\D/g, '');
+  const mun = document.getElementById('pe-reg-municipio').value;
+  const zona = document.getElementById('pe-reg-zona').value;
+  const sector = document.getElementById('pe-reg-sector').value.trim();
+  const tel = document.getElementById('pe-reg-telefono').value.trim();
+  const email = document.getElementById('pe-reg-email').value.trim();
+  const pin = ['pe-rpin0','pe-rpin1','pe-rpin2','pe-rpin3'].map(id => document.getElementById(id).value).join('');
+  if (!nombre) { peErr('pe-err-reg', 'Ingresa tu nombre'); return; }
+  if (cedula.length < 11) { peErr('pe-err-reg', 'Ingresa tu cédula completa'); return; }
+  if (!mun && E.rolDeseado !== 'miembro') { peErr('pe-err-reg', 'Selecciona tu municipio'); return; }
+  if (!zona && E.rolDeseado !== 'miembro') { peErr('pe-err-reg', 'Selecciona tu zona'); return; }
+  if (pin.length < 4) { peErr('pe-err-reg', 'Crea tu PIN de 4 dígitos'); return; }
+  const cedFmt = cedula.slice(0,3)+'-'+cedula.slice(3,10)+'-'+cedula.slice(10);
+  if (sb) {
+    const { error: errDir } = await sb.from('dirigentes').insert({ cedula: cedFmt, nombre, municipio: mun || null, zona: zona || null, sector, telefono: tel, email, pin_hash: pin, activo: true });
+    if (errDir && errDir.code === '23505') { peErr('pe-err-reg', 'Esta cédula ya está registrada'); return; }
+    else if (errDir) { peErr('pe-err-reg', 'Error: ' + errDir.message); return; }
+    const rolMap = { candidato: 'candidato', dirigente: 'dirigente_zonal', delegado: 'delegado' };
+    const authEmail = (email && email.includes('@')) ? email : (cedFmt + '@prm.local');
+    const authPass = pin + 'Prm#2026';
+    const { error: authErr } = await sb.auth.signUp({
+      email: authEmail,
+      password: authPass,
+      options: {
+        data: { cedula: cedFmt, nombre },
+      }
+    });
+    if (authErr && !authErr.message.includes('already registered')) {
+      console.warn('Auth signup warning:', authErr.message);
+    }
+    if (!authErr || authErr.message.includes('already registered')) {
+      try {
+        await sb.functions.invoke('register-dirigente', {
+          body: {
+            email: authEmail,
+            cedula: cedFmt,
+            nombre,
+            role: rolMap[E.rolDeseado] || 'dirigente_zonal',
+            zona: zona || null,
+            municipio: mun || null,
+          }
+        });
+      } catch (e) {
+        console.warn('register-dirigente warning:', e.message);
+      }
+    }
+    if (E.rolDeseado === 'candidato') {
+      const tipo = document.getElementById('pe-reg-tipo').value;
+      const cargo = document.getElementById('pe-reg-cargo').value;
+      if (!cargo) { peErr('pe-err-reg', 'Selecciona el cargo que buscas'); return; }
+      await sb.from('candidatos').insert({ id: cedFmt, nombre, cargo, tipo, activo: true });
+    }
+  }
+  peToast('✅ Registro completado', 'ok');
+  setTimeout(() => { E.rolDeseado = null; peIrStep('pe-step-cedula'); document.getElementById('pe-inp-cedula').value = ''; }, 1500);
+}
+
+// ═══════════ RECUPERAR PIN ═══════════
+async function peEnviarRecuperacion() {
+  const email = document.getElementById('pe-rec-email').value.trim();
+  if (!email) { peErr('pe-err-recuperar', 'Ingresa tu email'); return; }
+  if (sb) {
+    const { data: dir, error: dirErr } = await sb.rpc('recuperar_por_email', { p_email: email });
+    if (dirErr || !dir || dir.length === 0) { peErr('pe-err-recuperar', 'Este email no está registrado en el sistema'); return; }
+    const { error } = await sb.auth.signInWithOtp({
+      email: email,
+      options: { shouldCreateUser: true }
+    });
+    if (error) { peErr('pe-err-recuperar', 'No se pudo enviar el código: ' + error.message); return; }
+  }
+  document.getElementById('pe-rec-email-box').style.display = 'none';
+  document.getElementById('pe-rec-codigo-box').style.display = 'block';
+}
+async function peConfirmarRecuperacion() {
+  const email = document.getElementById('pe-rec-email').value.trim();
+  const codigo = document.getElementById('pe-rec-codigo').value.trim();
+  const pin = ['pe-rp0','pe-rp1','pe-rp2','pe-rp3'].map(id => document.getElementById(id).value).join('');
+  if (codigo.length < 6) { peErr('pe-err-recuperar', 'Ingresa el código de 6 dígitos'); return; }
+  if (pin.length < 4) { peErr('pe-err-recuperar', 'Ingresa tu nuevo PIN'); return; }
+  if (sb) {
+    const { error } = await sb.auth.verifyOtp({ email: email, token: codigo, type: 'magiclink' });
+    if (error) { peErr('pe-err-recuperar', 'Código incorrecto o expirado'); return; }
+    const { error: upErr } = await sb.auth.updateUser({ password: pin + 'Prm#2026' });
+    if (upErr) { peErr('pe-err-recuperar', 'Error al actualizar el PIN'); return; }
+    const { data, error: updErr } = await sb.from('dirigentes').update({ pin_hash: pin }).eq('email', email).select('cedula');
+    if (updErr || !data || data.length === 0) { peErr('pe-err-recuperar', 'No se encontró tu cuenta'); return; }
+    E.cedFmt = data[0].cedula;
+  }
+  peToast('✅ PIN actualizado', 'ok');
+  setTimeout(() => peIrStep('pe-step-portal'), 1500);
+}
+
+// ═══════════ SESIÓN ═══════════
+function peGuardarSesion(data) {
+  const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
+  localStorage.setItem(sk, JSON.stringify({ cedula: data.cedula, nombre: data.nombre, zona: data.zona, municipio: data.municipio, rol: data.rol, token: data.token, auth_user_id: data.auth_user_id || null, foto_url: data.foto_url || null, foto_base64: data.foto_base64 || null, rolDeseado: E.rolDeseado || null, expires: Date.now() + 86400000 }));
+  if (typeof auditLogger !== 'undefined' && _sb) {
+    auditLogger.init(_sb, { cedula: data.cedula, nombre: data.nombre, rol: data.rol });
+    auditLogger.login(data.token?.startsWith('demo-') ? 'demo' : 'auth');
+  }
+}
+
+// ═══════════ ZONAS ═══════════
+function peCargarZonasReg() {
+  const mun = document.getElementById('pe-reg-municipio').value;
+  const sel = document.getElementById('pe-reg-zona');
+  sel.innerHTML = '<option value="">Selecciona zona...</option>';
+  if (ZONAS[mun]) ZONAS[mun].forEach(z => { const op = document.createElement('option'); op.value = z; op.textContent = z; sel.appendChild(op); });
+}
+
+// ═══════════ UTILS ═══════════
+function peFmtCedula(input) {
+  let v = input.value.replace(/\D/g, '');
+  if (v.length > 11) v = v.slice(0, 11);
+  if (v.length > 10) v = v.slice(0,3)+'-'+v.slice(3,10)+'-'+v.slice(10);
+  else if (v.length > 3) v = v.slice(0,3)+'-'+v.slice(3);
+  input.value = v;
+}
+function peMover(el, n) { if (el.value && n !== null) document.getElementById('pe-p'+n)?.focus(); }
+function peMoverN(el, n) { if (el.value && n !== null) { const ids=['pe-np0','pe-np1','pe-np2','pe-np3','pe-np4','pe-np5','pe-np6','pe-np7']; document.getElementById(ids[n])?.focus(); } }
+function peMoverR(el, n) { if (el.value && n !== null) document.getElementById('pe-rp'+n)?.focus(); }
+function peHashPin(pin) { let h=0; for(let i=0;i<pin.length;i++) h=Math.imul(31,h)+pin.charCodeAt(i)|0; return h.toString(36); }
+function peErr(id, msg) { const el=document.getElementById(id); if(el){el.textContent=msg;el.style.display='block';} }
+function peHide(id) { const el=document.getElementById(id); if(el) el.style.display='none'; }
+let _tt; function peToast(msg, tipo) { const el=document.getElementById('toast'); clearTimeout(_tt); el.textContent=msg; el.className='toast toast-'+tipo; el.style.display='block'; _tt=setTimeout(()=>el.style.display='none',3000); }
+
+// Expose
+window.abrirPortalElectoral = abrirPortalElectoral;
+window.cerrarPortalElectoral = cerrarPortalElectoral;
+window.peIrStep = peIrStep;
+window.peEntrarRol = peEntrarRol;
+window.peBuscarCedula = peBuscarCedula;
+window.peVerificarPin = peVerificarPin;
+window.peGuardarNuevoPin = peGuardarNuevoPin;
+window.peCompletarRegistro = peCompletarRegistro;
+window.peSeleccionarRolReg = peSeleccionarRolReg;
+window.peEnviarRecuperacion = peEnviarRecuperacion;
+window.peConfirmarRecuperacion = peConfirmarRecuperacion;
+window.peCargarZonasReg = peCargarZonasReg;
+window.peIrA = peIrA;
+window.peAccederCandidato = peAccederCandidato;
+window.peFmtCedula = peFmtCedula;
+window.peMover = peMover;
+window.peMoverN = peMoverN;
+window.peMoverR = peMoverR;
+
+// Auto-abrir portal si llega con ?portal=1 (enlaces externos)
+window.addEventListener('DOMContentLoaded', function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('portal') === '1') abrirPortalElectoral(params.get('registro') === '1' ? 'registro' : undefined);
+});
+</script>
 </body>
 </html>
