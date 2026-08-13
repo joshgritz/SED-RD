@@ -73,7 +73,11 @@
     }
     .nav-logo svg { width: 32px; height: 32px; }
     .nav-logo span { font-weight: 800; font-size: 16px; }
-    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-sistema {
+      margin-left: auto; font-size: 14px; font-weight: 800;
+      color: var(--primary); letter-spacing: -0.2px; white-space: nowrap;
+    }
+    .nav-links { display: flex; align-items: center; gap: 24px; margin-left: 24px; }
     .nav-links a {
       color: var(--muted); text-decoration: none; font-size: 13px;
       font-weight: 600; transition: color 0.2s;
@@ -416,6 +420,7 @@
       .liderazgo-grid { grid-template-columns: repeat(2, 1fr); }
       .section-title { font-size: 22px; }
       .nav-links a.hide-mobile { display: none; }
+      .nav-sistema { display: none; }
       .origen-card { padding: 28px 20px; }
     }
     @media (max-width: 480px) {
@@ -485,8 +490,9 @@
 <nav class="nav">
   <div class="nav-inner">
     <a href="#" class="nav-logo">
-      <img src="img/logo-sed.png" alt="SED-RD" style="height:36px;width:auto;border-radius:8px;">
+      <img src="img/logo-sed2.png" alt="SED-RD" style="height:36px;width:auto;border-radius:8px;">
     </a>
+    <span class="nav-sistema">Sistema Electoral Dominicano</span>
     <div class="nav-links">
       <a href="legisladores.html" class="hide-mobile">Legisladores de Valverde</a>
       <a href="#geografia" class="hide-mobile">Geografía</a>
@@ -499,7 +505,7 @@
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <img class="hero-emblem" src="img/logo-sed.png" alt="SED-RD" style="border-radius:24px;">
+    <img class="hero-emblem" src="img/logo-sed2.png" alt="SED-RD" style="border-radius:24px;">
 
     <div class="subtitle">SED-RD</div>
     <h1>Sistema Electoral <span class="accent">Dominicano</span></h1>
