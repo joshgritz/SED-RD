@@ -88,14 +88,14 @@
 
     /* ── HERO ── */
     .hero { padding: 80px 0 60px; text-align: center; }
-    .hero-emblem { width: 100px; height: 100px; margin: 0 auto 24px; }
+    .hero-emblem { width: 320px; max-width: 80%; height: auto; margin: 0 auto 24px; display: block; }
     .hero .subtitle {
       font-size: 13px; font-weight: 700; color: var(--accent);
       text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;
     }
     .hero h1 {
-      font-size: 44px; font-weight: 800; color: var(--primary);
-      letter-spacing: -1px; margin-bottom: 12px;
+      font-size: 36px; font-weight: 800; color: var(--primary);
+      letter-spacing: -0.5px; margin-bottom: 12px;
     }
     .hero h1 .accent { color: var(--accent); }
     .hero .tagline {
@@ -420,8 +420,8 @@
     }
     @media (max-width: 480px) {
       .hero { padding: 48px 0 32px; }
-      .hero-emblem { width: 72px; height: 72px; }
-      .hero h1 { font-size: 26px; }
+      .hero-emblem { width: 220px; }
+      .hero h1 { font-size: 24px; }
       .hero-ctas { flex-direction: column; align-items: center; }
       .btn { width: 100%; max-width: 280px; justify-content: center; }
     }
@@ -485,8 +485,7 @@
 <nav class="nav">
   <div class="nav-inner">
     <a href="#" class="nav-logo">
-      <svg viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="10" fill="#1a365d"/><rect x="12" y="12" width="16" height="4" rx="1" fill="#d4af37"/><rect x="14" y="16" width="12" height="10" rx="2" fill="#2a4a7f"/><rect x="16" y="14" width="8" height="2" rx="1" fill="#1a365d"/><path d="M16 21l2 2 5-5" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>SED-RD</span>
+      <img src="img/logo-sed.png" alt="SED-RD" style="height:36px;width:auto;border-radius:8px;">
     </a>
     <div class="nav-links">
       <a href="legisladores.html" class="hide-mobile">Legisladores de Valverde</a>
@@ -500,18 +499,10 @@
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <svg class="hero-emblem" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="5" y="5" width="90" height="90" rx="22" fill="#1a365d"/>
-      <rect x="8" y="8" width="84" height="84" rx="20" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.25"/>
-      <rect x="30" y="30" width="40" height="8" rx="2" fill="#d4af37"/>
-      <rect x="34" y="38" width="32" height="24" rx="3" fill="#2a4a7f"/>
-      <rect x="42" y="32" width="16" height="3" rx="1.5" fill="#1a365d"/>
-      <path d="M40 50l6 6 14-14" stroke="#d4af37" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="72" cy="28" r="2" fill="#d4af37" opacity="0.35"/>
-    </svg>
+    <img class="hero-emblem" src="img/logo-sed.png" alt="SED-RD" style="border-radius:24px;">
 
-    <div class="subtitle">Sistema Electoral Dominicano</div>
-    <h1>SED-<span class="accent">RD</span></h1>
+    <div class="subtitle">SED-RD</div>
+    <h1>Sistema Electoral <span class="accent">Dominicano</span></h1>
     <p class="tagline">Plataforma digital segura para la gestión electoral interna de partidos políticos — con trazabilidad completa en cada paso.</p>
 
     <div class="hero-ctas">
