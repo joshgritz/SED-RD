@@ -52,6 +52,7 @@
     .nav-inner {
       max-width: 1100px; margin: 0 auto; padding: 14px 20px;
       display: flex; justify-content: space-between; align-items: center;
+      position: relative;
     }
     .nav-logo {
       display: flex; align-items: center; gap: 10px;
@@ -72,6 +73,28 @@
       text-decoration: none; transition: all 0.2s;
     }
     .btn-nav:hover { background: var(--primary-light); }
+    .nav-burger {
+      display: none; margin-left: auto;
+      background: none; border: 2px solid var(--border); border-radius: 10px;
+      width: 42px; height: 42px; font-size: 17px; color: var(--primary);
+      cursor: pointer; align-items: center; justify-content: center;
+    }
+    .nav-burger:active { transform: scale(0.95); }
+    .nav-dropdown {
+      display: none; position: absolute; top: 100%; left: 0; right: 0;
+      background: white; border-bottom: 1px solid var(--border);
+      box-shadow: 0 12px 32px rgba(26,54,93,0.12);
+      padding: 10px 20px 18px; z-index: 99;
+    }
+    .nav-dropdown.open { display: block; }
+    .nav-dropdown a {
+      display: block; padding: 13px 4px; color: var(--text);
+      text-decoration: none; font-size: 14px; font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-dropdown a:hover { color: var(--primary); }
+    .nav-dropdown .dd-btns { display: flex; gap: 10px; margin-top: 14px; }
+    .nav-dropdown .dd-btns .btn { flex: 1; justify-content: center; padding: 13px 14px; }
 
     /* ── HERO PEQUEÑO ── */
     .hero { padding: 56px 0 40px; text-align: center; }
@@ -280,7 +303,8 @@
     @media (max-width: 768px) {
       .hero h1 { font-size: 26px; }
       .regidores-grid { grid-template-columns: 1fr; }
-      .nav-links a.hide-mobile { display: none; }
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
       .section-title { font-size: 22px; }
     }
     @media (max-width: 600px) { .person-grid { grid-template-columns: 1fr; } .person-card.featured { grid-column: span 1; } }
@@ -365,6 +389,16 @@
       <a href="legisladores.html" class="hide-mobile active">Legisladores de Valverde</a>
       <button class="btn-nav" onclick="abrirPortalElectoral()" style="border:none;cursor:pointer;font-family:inherit">Iniciar</button>
       <button class="btn-nav" onclick="abrirPortalElectoral('registro')" style="border:none;cursor:pointer;font-family:inherit;background:var(--accent);color:var(--primary-dark)">Registrarse</button>
+    </div>
+    <button class="nav-burger" onclick="toggleNavMenu()" aria-label="Menú"><i class="fa-solid fa-bars"></i></button>
+    <div class="nav-dropdown" id="nav-dropdown">
+      <a href="index.html">Inicio</a>
+      <a href="legisladores.html">Legisladores de Valverde</a>
+      <a href="geografia.html">Geografía</a>
+      <div class="dd-btns">
+        <button class="btn btn-primary" onclick="abrirPortalElectoral()" style="border:none;cursor:pointer;font-family:inherit">Iniciar</button>
+        <button class="btn btn-accent" onclick="abrirPortalElectoral('registro')" style="border:none;cursor:pointer;font-family:inherit">Registrarse</button>
+      </div>
     </div>
   </div>
 </nav>
@@ -1061,6 +1095,9 @@ function abrirPortalElectoral(modo) {
 function cerrarPortalElectoral() {
   document.getElementById('portal-electoral').classList.remove('active');
   document.body.style.overflow = '';
+}
+function toggleNavMenu() {
+  document.getElementById('nav-dropdown').classList.toggle('open');
 }
 
 // ═══════════ SUPABASE ═══════════
