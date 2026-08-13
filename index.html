@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="SED-RD â€” Sistema Electoral Dominicano. Plataforma digital para la gestiÃ³n electoral interna de partidos polÃ­ticos en RepÃºblica Dominicana.">
-  <title>SED-RD â€” Sistema Electoral Dominicano</title>
+  <meta name="description" content="SED-RD — Sistema Electoral Dominicano. Plataforma digital para la gestión electoral interna de partidos políticos en República Dominicana.">
+  <title>SED-RD — Sistema Electoral Dominicano</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -38,7 +38,7 @@
 
     .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-    /* â”€â”€ NAV â”€â”€ */
+    /* ── NAV ── */
     .nav {
       position: sticky; top: 0; z-index: 100;
       background: rgba(255,255,255,0.92);
@@ -68,7 +68,7 @@
     }
     .btn-nav:hover { background: var(--primary-light); }
 
-    /* â”€â”€ HERO â”€â”€ */
+    /* ── HERO ── */
     .hero { padding: 80px 0 60px; text-align: center; }
     .hero-emblem { width: 100px; height: 100px; margin: 0 auto 24px; }
     .hero .subtitle {
@@ -106,7 +106,7 @@
     }
     .btn-ghost:hover { border-color: var(--accent); color: var(--primary); }
 
-    /* â”€â”€ SECTION â”€â”€ */
+    /* ── SECTION ── */
     .section { padding: 64px 0; }
     .section-label {
       font-size: 12px; font-weight: 800; text-transform: uppercase;
@@ -117,7 +117,7 @@
       margin-bottom: 32px; letter-spacing: -0.5px;
     }
 
-    /* â”€â”€ MISION / VISION / VALORES â”€â”€ */
+    /* ── MISION / VISION / VALORES ── */
     .mvv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .mvv-card {
       background: var(--surface); border-radius: var(--radius); padding: 28px;
@@ -150,7 +150,7 @@
       background-size: 12px;
     }
 
-    /* â”€â”€ LIDERAZGO â”€â”€ */
+    /* ── LIDERAZGO ── */
     .liderazgo-grid {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
       gap: 16px; margin-bottom: 24px;
@@ -226,7 +226,11 @@
     }
     .section-link:hover { gap: 10px; color: var(--accent); }
 
-    /* â”€â”€ LEGISLADORES (estilo login) â”€â”€ */
+    /* ── LEGISLADORES (estilo login) ── */
+    .section-dark { background: var(--primary); color: white; }
+    .section-dark .section-label { color: var(--accent-light); }
+    .section-dark .section-title { color: white; }
+    .dark-sub { color: rgba(255,255,255,0.7); font-size: 14px; margin-bottom: 28px; max-width: 560px; }
     .person-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
     .person-card {
       background: white; border-top: 4px solid var(--accent); border-radius: 20px;
@@ -262,21 +266,23 @@
     .badge-distrito { background: #f0fdf4; color: #16a34a; }
     .badge-senador { background: #fff7ed; color: #b8941f; font-size: 11px; padding: 5px 14px; }
     .badge-diputado { background: #eff6ff; color: var(--primary); font-size: 11px; padding: 5px 14px; }
-.person-card.featured { grid-column: span 3; border-top-width: 6px; padding: 36px 28px; max-width: 420px; margin: 0 auto; }
+    .person-card.featured { grid-column: span 3; border-top-width: 6px; padding: 36px 28px; max-width: 420px; margin: 0 auto; }
     .person-card.featured .person-foto { width: 140px; height: 140px; border-width: 5px; font-size: 42px; }
     .person-card.featured .person-nombre { font-size: 22px; }
     .person-card.featured .person-cargo { font-size: 15px; }
     .est-subtitle {
       display: flex; align-items: center; gap: 10px;
       font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
-      color: var(--primary); margin: 36px 0 16px; padding-bottom: 10px;
-      border-bottom: 2px solid var(--border);
+      color: white; margin: 36px 0 16px; padding-bottom: 10px;
+      border-bottom: 2px solid rgba(255,255,255,0.15);
     }
     .est-subtitle i { color: var(--accent); font-size: 15px; }
+    .section-dark .muni-group h4 { color: white; border-bottom-color: rgba(255,255,255,0.15); }
+    .section-dark .muni-group h4 i { color: var(--accent-light); }
     @media (max-width: 900px) { .person-grid { grid-template-columns: repeat(2, 1fr); } .person-card.featured { grid-column: span 2; } }
     @media (max-width: 600px) { .person-grid { grid-template-columns: 1fr; } .person-card.featured { grid-column: span 1; } }
 
-    /* â”€â”€ GEOGRAFÃA â”€â”€ */
+    /* ── GEOGRAFÍA ── */
     .geo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
     .geo-card {
       background: var(--surface); border-radius: var(--radius); padding: 24px;
@@ -304,7 +310,7 @@
     .geo-map-placeholder svg { width: 100px; height: 100px; opacity: 0.2; }
     .geo-map-placeholder p { color: var(--muted); font-size: 12px; margin-top: 12px; }
 
-    /* â”€â”€ ORIGEN â”€â”€ */
+    /* ── ORIGEN ── */
     .origen-card {
       background: var(--surface); border-radius: var(--radius);
       box-shadow: var(--shadow-lg); border: 1px solid var(--border);
@@ -330,7 +336,7 @@
     .origen-name { font-size: 14px; font-weight: 700; color: var(--primary); }
     .origen-role { font-size: 12px; color: var(--muted); }
 
-    /* â”€â”€ SOBRE EL CREADOR â”€â”€ */
+    /* ── SOBRE EL CREADOR ── */
     .creator-section { background: linear-gradient(160deg, var(--primary-dark) 0%, var(--primary) 60%, var(--primary-light) 100%); }
     .creator-card {
       background: rgba(255,255,255,0.06); border: 1px solid rgba(212,175,55,0.35);
@@ -370,7 +376,7 @@
     .btn-social.linktree { background: #39E09B; color: #0d2818; }
     .btn-social.linktree:hover { transform: translateY(-1px); background: #2cc47f; }
 
-    /* â”€â”€ FOOTER â”€â”€ */
+    /* ── FOOTER ── */
     .footer { background: var(--primary); color: white; padding: 40px 0; text-align: center; }
     .footer-brand { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
     .footer-sub { font-size: 12px; opacity: 0.6; margin-bottom: 20px; }
@@ -384,7 +390,7 @@
     .footer-social a:hover { background: var(--accent); color: var(--primary); }
     .footer-copy { font-size: 11px; opacity: 0.4; }
 
-    /* â”€â”€ RESPONSIVE â”€â”€ */
+    /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       .hero h1 { font-size: 30px; }
       .mvv-grid { grid-template-columns: 1fr; }
@@ -413,8 +419,8 @@
       <span>SED-RD</span>
     </a>
     <div class="nav-links">
-      <a href="#legisladores" class="hide-mobile">Legisladores de Valverde</a>
-      <a href="#geografia" class="hide-mobile">GeografÃ­a</a>
+      <a href="#legisladores" class="hide-mobile">Representación</a>
+      <a href="#geografia" class="hide-mobile">Geografía</a>
       <a href="login.html" class="btn-nav">Acceder al Sistema</a>
     </div>
   </div>
@@ -435,35 +441,35 @@
 
     <div class="subtitle">Sistema Electoral Dominicano</div>
     <h1>SED-<span class="accent">RD</span></h1>
-    <p class="tagline">Plataforma digital segura para la gestiÃ³n electoral interna de partidos polÃ­ticos â€” con trazabilidad completa en cada paso.</p>
+    <p class="tagline">Plataforma digital segura para la gestión electoral interna de partidos políticos — con trazabilidad completa en cada paso.</p>
 
     <div class="hero-ctas">
       <a href="login.html" class="btn btn-primary">
         <i class="fa-solid fa-right-to-bracket"></i> Acceder al Sistema
       </a>
       <a href="#historia" class="btn btn-secondary">
-        <i class="fa-solid fa-arrow-down"></i> Conocer MÃ¡s
+        <i class="fa-solid fa-arrow-down"></i> Conocer Más
       </a>
     </div>
     <div class="hero-ctas" style="margin-top: 10px;">
       <a href="#legisladores" class="btn btn-ghost">
-        <i class="fa-solid fa-sitemap"></i> Ver Legisladores de Valverde
+        <i class="fa-solid fa-sitemap"></i> Ver Representación
       </a>
     </div>
   </div>
 </section>
 
-<!-- CÃ“MO NACIÃ“ SED-RD -->
+<!-- CÓMO NACIÓ SED-RD -->
 <section class="section" id="historia" style="background: white;">
   <div class="container">
     <div class="section-label">Nuestra Historia</div>
-    <h2 class="section-title">CÃ³mo NaciÃ³ SED-RD</h2>
+    <h2 class="section-title">Cómo Nació SED-RD</h2>
 
     <div class="origen-card">
       <div class="origen-text">
-        <p>Nadie me lo pidiÃ³. No habÃ­a presupuesto, ni equipo, ni certeza de que fuera a funcionar. Solo la experiencia de estar en el terreno como dirigente de zona y ver, de cerca, todo lo que faltaba.</p>
-        <p>La idea llegÃ³ antes que las herramientas para construirla. Durante mucho tiempo existiÃ³ solo en mi cabeza, dando vueltas, hasta que decidÃ­ que tenÃ­a que dejar de ser una idea y convertirse en algo real. AprendÃ­ lo que hizo falta aprender. EncontrÃ© tiempo donde no lo habÃ­a. SeguÃ­ cuando lo lÃ³gico hubiera sido parar.</p>
-        <p>SED-RD no naciÃ³ en un laboratorio ni en una oficina central. NaciÃ³ donde nace el trabajo polÃ­tico de verdad: en la base. Lo construyÃ³ alguien que conoce ese trabajo porque lo viviÃ³ primero, y que decidiÃ³ que la militancia tambiÃ©n merece herramientas hechas con la misma seriedad con la que se hacen las cosas importantes.</p>
+        <p>Nadie me lo pidió. No había presupuesto, ni equipo, ni certeza de que fuera a funcionar. Solo la experiencia de estar en el terreno como dirigente de zona y ver, de cerca, todo lo que faltaba.</p>
+        <p>La idea llegó antes que las herramientas para construirla. Durante mucho tiempo existió solo en mi cabeza, dando vueltas, hasta que decidí que tenía que dejar de ser una idea y convertirse en algo real. Aprendí lo que hizo falta aprender. Encontré tiempo donde no lo había. Seguí cuando lo lógico hubiera sido parar.</p>
+        <p>SED-RD no nació en un laboratorio ni en una oficina central. Nació donde nace el trabajo político de verdad: en la base. Lo construyó alguien que conoce ese trabajo porque lo vivió primero, y que decidió que la militancia también merece herramientas hechas con la misma seriedad con la que se hacen las cosas importantes.</p>
       </div>
       <div class="origen-author">
         <div class="origen-avatar">GV</div>
@@ -476,27 +482,27 @@
   </div>
 </section>
 
-<!-- MISIÃ“N / VISIÃ“N / VALORES -->
+<!-- MISIÓN / VISIÓN / VALORES -->
 <section class="section" id="mision">
   <div class="container">
-    <div class="section-label">Nuestro PropÃ³sito</div>
-    <h2 class="section-title">MisiÃ³n, VisiÃ³n y Valores</h2>
+    <div class="section-label">Nuestro Propósito</div>
+    <h2 class="section-title">Misión, Visión y Valores</h2>
 
     <div class="mvv-grid">
       <div class="mvv-card">
-        <div class="mvv-icon i-mision">ðŸŽ¯</div>
-        <h3>MisiÃ³n</h3>
-        <p>SED-RD ofrece a los partidos polÃ­ticos dominicanos una plataforma digital segura para gestionar su democracia interna â€” desde el padrÃ³n de militantes hasta el acta final, con trazabilidad completa en cada paso.</p>
+        <div class="mvv-icon i-mision">🎯</div>
+        <h3>Misión</h3>
+        <p>SED-RD ofrece a los partidos políticos dominicanos una plataforma digital segura para gestionar su democracia interna — desde el padrón de militantes hasta el acta final, con trazabilidad completa en cada paso.</p>
       </div>
 
       <div class="mvv-card">
-        <div class="mvv-icon i-vision">ðŸ”­</div>
-        <h3>VisiÃ³n</h3>
-        <p>Convertirse en el sistema de referencia para la gestiÃ³n electoral interna de los partidos polÃ­ticos en RepÃºblica Dominicana.</p>
+        <div class="mvv-icon i-vision">🔭</div>
+        <h3>Visión</h3>
+        <p>Convertirse en el sistema de referencia para la gestión electoral interna de los partidos políticos en República Dominicana.</p>
       </div>
 
       <div class="mvv-card">
-        <div class="mvv-icon i-valores">ðŸ’Ž</div>
+        <div class="mvv-icon i-valores">💎</div>
         <h3>Valores</h3>
         <ul class="valores-list">
           <li>Transparencia</li>
@@ -518,7 +524,7 @@
       <h2 class="section-title">Sobre el Creador</h2>
       <div class="creator-name">Gritzewsky Ventura</div>
       <div class="creator-role">Fundador y Creador de SED-RD</div>
-      <p class="creator-bio">Ex dirigente de base con experiencia real en el terreno electoral dominicano. SED-RD naciÃ³ de esa vivencia: la de ver lo que falta y decidir construirlo. Sigo trabajando en la base mientras desarrollo herramientas que dignifiquen el trabajo polÃ­tico.</p>
+      <p class="creator-bio">Ex dirigente de base con experiencia real en el terreno electoral dominicano. SED-RD nació de esa vivencia: la de ver lo que falta y decidir construirlo. Sigo trabajando en la base mientras desarrollo herramientas que dignifiquen el trabajo político.</p>
       <div class="creator-social">
         <a href="#" class="btn-social linkedin" target="_blank" title="LinkedIn">
           <i class="fa-brands fa-linkedin-in"></i> LinkedIn
@@ -535,21 +541,21 @@
 </section>
 
 <!-- LEGISLADORES DE VALVERDE -->
-<section class="section" id="legisladores" style="background: white;">
+<section class="section section-dark" id="legisladores">
   <div class="container">
     <div class="section-label">Mandato 2024-2028</div>
     <h2 class="section-title">Legisladores de <span class="accent">Valverde</span></h2>
-    <p style="color: var(--muted); font-size: 14px; margin-bottom: 32px; max-width: 560px;">
-      RepresentaciÃ³n legislativa y municipal de la provincia: senador, diputados, sÃ­ndicos, regidores y juntas distritales.
+    <p class="dark-sub">
+      Representación legislativa y municipal de la provincia: senador, diputados, síndicos, regidores y juntas distritales.
     </p>
 
     <!-- SENADOR -->
-    <h3 class="est-subtitle"><i class="fa-solid fa-landmark"></i> Senado de la RepÃºblica</h3>
+    <h3 class="est-subtitle"><i class="fa-solid fa-landmark"></i> Senado de la República</h3>
     <div class="person-grid">
       <div class="person-card featured">
         <div class="person-demarcacion badge-senador">Senador</div>
         <div class="person-foto" style="background-image:url('img/odalis.jpg')"></div>
-        <div class="person-nombre">Odalis RodrÃ­guez</div>
+        <div class="person-nombre">Odalis Rodríguez</div>
         <div class="person-cargo">Senador por Valverde</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-detail">Ex Alcalde de Mao (2006-2024)</div>
@@ -557,12 +563,12 @@
     </div>
 
     <!-- DIPUTADOS -->
-    <h3 class="est-subtitle"><i class="fa-solid fa-users"></i> CÃ¡mara de Diputados</h3>
+    <h3 class="est-subtitle"><i class="fa-solid fa-users"></i> Cámara de Diputados</h3>
     <div class="person-grid">
       <div class="person-card">
         <div class="person-demarcacion badge-diputado">Diputada</div>
         <div class="person-foto" style="background-image:url('img/angela.jpg')"></div>
-        <div class="person-nombre">MarÃ­a De Los Ãngeles RodrÃ­guez BonseÃ±or</div>
+        <div class="person-nombre">María De Los Ángeles Rodríguez Bonseñor</div>
         <div class="person-cargo">Diputada por Valverde</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-detail">18,258 votos</div>
@@ -570,7 +576,7 @@
       <div class="person-card">
         <div class="person-demarcacion badge-diputado">Diputado</div>
         <div class="person-foto" style="background-image:url('img/valenzuela.jpg')"></div>
-        <div class="person-nombre">JosÃ© Altagracia Valenzuela Arias</div>
+        <div class="person-nombre">José Altagracia Valenzuela Arias</div>
         <div class="person-cargo">Diputado por Valverde</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-detail">15,033 votos</div>
@@ -578,34 +584,34 @@
       <div class="person-card">
         <div class="person-demarcacion badge-diputado">Diputado</div>
         <div class="person-foto" style="background-image:url('img/ruben.jpg')"></div>
-        <div class="person-nombre">RubÃ©n DarÃ­o PeÃ±alo Torres</div>
+        <div class="person-nombre">Rubén Darío Peñalo Torres</div>
         <div class="person-cargo">Diputado por Valverde</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-detail">10,703 votos</div>
       </div>
     </div>
 
-    <!-- SÃNDICOS -->
-    <h3 class="est-subtitle"><i class="fa-solid fa-user-tie"></i> AlcaldÃ­as (SÃ­ndicos)</h3>
+    <!-- SÍNDICOS -->
+    <h3 class="est-subtitle"><i class="fa-solid fa-user-tie"></i> Alcaldías (Síndicos)</h3>
     <div class="person-grid">
       <div class="person-card">
         <div class="person-demarcacion badge-municipio">Mao</div>
         <div class="person-foto" style="background-image:url('img/mao.png')"></div>
-        <div class="person-nombre">Yohendy JimÃ©nez Bonilla</div>
+        <div class="person-nombre">Yohendy Jiménez Bonilla</div>
         <div class="person-cargo">Alcalde de Mao</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-municipio">Esperanza</div>
         <div class="person-foto" style="background-image:url('img/esperanza.jpg')"></div>
-        <div class="person-nombre">Freddy de JesÃºs RodrÃ­guez JimÃ©nez</div>
+        <div class="person-nombre">Freddy de Jesús Rodríguez Jiménez</div>
         <div class="person-cargo">Alcalde de Esperanza</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-municipio">L. Salada</div>
         <div class="person-foto" style="background-image:url('img/laguna.jpg')"></div>
-        <div class="person-nombre">GermÃ¡n DamiÃ¡n RodrÃ­guez SaldaÃ±a</div>
+        <div class="person-nombre">Germán Damián Rodríguez Saldaña</div>
         <div class="person-cargo">Alcalde de Laguna Salada</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
       </div>
@@ -615,43 +621,43 @@
     <h3 class="est-subtitle"><i class="fa-solid fa-building-columns"></i> Concejos de Regidores</h3>
 
     <div class="muni-group">
-      <h4><i class="fa-solid fa-city"></i> Mao â€” Concejo de Regidores (9)</h4>
+      <h4><i class="fa-solid fa-city"></i> Mao — Concejo de Regidores (9)</h4>
       <div class="regidores-grid">
-        <div class="regidor-row"><div class="init">JP</div><div class="info"><h5>JosÃ© Miguel PeÃ±alo Santana</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
-        <div class="regidor-row"><div class="init">WE</div><div class="info"><h5>Wilson Rafael EstÃ©vez Tavarez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
-        <div class="regidor-row"><div class="init">DR</div><div class="info"><h5>Dolores Ananhi RodrÃ­guez Contrera</h5><div class="rol">Regidora</div></div><span class="badge-partido b-prm">PRM</span></div>
-        <div class="regidor-row"><div class="init">ND</div><div class="info"><h5>NÃ©stor Antonio Duran RodrÃ­guez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
-        <div class="regidor-row"><div class="init">JG</div><div class="info"><h5>Julio Wascar GarcÃ­a RodrÃ­guez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">JP</div><div class="info"><h5>José Miguel Peñalo Santana</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">WE</div><div class="info"><h5>Wilson Rafael Estévez Tavarez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">DR</div><div class="info"><h5>Dolores Ananhi Rodríguez Contrera</h5><div class="rol">Regidora</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">ND</div><div class="info"><h5>Néstor Antonio Duran Rodríguez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">JG</div><div class="info"><h5>Julio Wascar García Rodríguez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
         <div class="regidor-row"><div class="init">AF</div><div class="info"><h5>Ana Confesora Fortuna</h5><div class="rol">Regidora</div></div><span class="badge-partido b-pld">PLD</span></div>
-        <div class="regidor-row"><div class="init">DG</div><div class="info"><h5>Diony Miguel GÃ³mez Collado</h5><div class="rol">Regidor</div></div><span class="badge-partido b-pld">PLD</span></div>
-        <div class="regidor-row"><div class="init">JG</div><div class="info"><h5>Juan Luis GÃ³mez Familia</h5><div class="rol">Regidor</div></div><span class="badge-partido b-fp">FP</span></div>
-        <div class="regidor-row"><div class="init">JR</div><div class="info"><h5>JosÃ© Luis RodrÃ­guez Contreras</h5><div class="rol">Regidor</div></div><span class="badge-partido b-pasove">PASOVE</span></div>
+        <div class="regidor-row"><div class="init">DG</div><div class="info"><h5>Diony Miguel Gómez Collado</h5><div class="rol">Regidor</div></div><span class="badge-partido b-pld">PLD</span></div>
+        <div class="regidor-row"><div class="init">JG</div><div class="info"><h5>Juan Luis Gómez Familia</h5><div class="rol">Regidor</div></div><span class="badge-partido b-fp">FP</span></div>
+        <div class="regidor-row"><div class="init">JR</div><div class="info"><h5>José Luis Rodríguez Contreras</h5><div class="rol">Regidor</div></div><span class="badge-partido b-pasove">PASOVE</span></div>
       </div>
     </div>
 
     <div class="muni-group">
-      <h4><i class="fa-solid fa-city"></i> Esperanza â€” Concejo de Regidores (9)</h4>
+      <h4><i class="fa-solid fa-city"></i> Esperanza — Concejo de Regidores (9)</h4>
       <div class="regidores-grid">
         <div class="regidor-row"><div class="init">PA</div><div class="info"><h5>Patricia Jamil Arias Santos</h5><div class="rol">Presidenta del Concejo</div></div><span class="badge-partido b-prm">PRM</span></div>
-        <div class="regidor-row"><div class="init">JM</div><div class="info"><h5>Joel AndrÃ©s Mendoza PÃ©rez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
-        <div class="regidor-row"><div class="init">WQ</div><div class="info"><h5>Wildamy Gabriel QuiÃ±ones Moreta</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
-        <div class="regidor-row"><div class="init">CA</div><div class="info"><h5>Confesor Contreras AlcÃ¡ntara</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
-        <div class="regidor-row"><div class="init">JT</div><div class="info"><h5>Julio TavÃ¡rez Ãlvarez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
-        <div class="regidor-row"><div class="init">MG</div><div class="info"><h5>MarÃ­a Altagracia GarcÃ­a Torres</h5><div class="rol">Regidora</div></div><span class="badge-partido b-prm">PRM</span></div>
-        <div class="regidor-row"><div class="init">MP</div><div class="info"><h5>MarÃ­a Elena PÃ©rez NÃºÃ±ez</h5><div class="rol">Vicepresidenta del Concejo</div></div><span class="badge-partido b-pld">PLD</span></div>
-        <div class="regidor-row"><div class="init">JV</div><div class="info"><h5>JosÃ© Alejandro Valdez Molina</h5><div class="rol">Regidor</div></div><span class="badge-partido b-pld">PLD</span></div>
-        <div class="regidor-row"><div class="init">ER</div><div class="info"><h5>Esmarlin RodrÃ­guez Ulloa</h5><div class="rol">Regidora</div></div><span class="badge-partido b-fp">FP</span></div>
+        <div class="regidor-row"><div class="init">JM</div><div class="info"><h5>Joel Andrés Mendoza Pérez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">WQ</div><div class="info"><h5>Wildamy Gabriel Quiñones Moreta</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">CA</div><div class="info"><h5>Confesor Contreras Alcántara</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">JT</div><div class="info"><h5>Julio Tavárez Álvarez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">MG</div><div class="info"><h5>María Altagracia García Torres</h5><div class="rol">Regidora</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">MP</div><div class="info"><h5>María Elena Pérez Núñez</h5><div class="rol">Vicepresidenta del Concejo</div></div><span class="badge-partido b-pld">PLD</span></div>
+        <div class="regidor-row"><div class="init">JV</div><div class="info"><h5>José Alejandro Valdez Molina</h5><div class="rol">Regidor</div></div><span class="badge-partido b-pld">PLD</span></div>
+        <div class="regidor-row"><div class="init">ER</div><div class="info"><h5>Esmarlin Rodríguez Ulloa</h5><div class="rol">Regidora</div></div><span class="badge-partido b-fp">FP</span></div>
       </div>
     </div>
 
     <div class="muni-group">
-      <h4><i class="fa-solid fa-city"></i> Laguna Salada â€” Concejo de Regidores (5)</h4>
+      <h4><i class="fa-solid fa-city"></i> Laguna Salada — Concejo de Regidores (5)</h4>
       <div class="regidores-grid">
-        <div class="regidor-row"><div class="init">LA</div><div class="info"><h5>Luis Carlos Acosta GarcÃ­a</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">LA</div><div class="info"><h5>Luis Carlos Acosta García</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
         <div class="regidor-row"><div class="init">QA</div><div class="info"><h5>Quirino Alfredo Rosario Acosta</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
-        <div class="regidor-row"><div class="init">VA</div><div class="info"><h5>VÃ­ctor de JesÃºs Acosta</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
-        <div class="regidor-row"><div class="init">MP</div><div class="info"><h5>MarÃ­a Luisa PÃ©rez Novo</h5><div class="rol">Regidora</div></div><span class="badge-partido b-prm">PRM</span></div>
-        <div class="regidor-row"><div class="init">MP</div><div class="info"><h5>Manuel de JesÃºs PeÃ±a UreÃ±a</h5><div class="rol">Regidor</div></div><span class="badge-partido b-pld">PLD</span></div>
+        <div class="regidor-row"><div class="init">VA</div><div class="info"><h5>Víctor de Jesús Acosta</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">MP</div><div class="info"><h5>María Luisa Pérez Novo</h5><div class="rol">Regidora</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">MP</div><div class="info"><h5>Manuel de Jesús Peña Ureña</h5><div class="rol">Regidor</div></div><span class="badge-partido b-pld">PLD</span></div>
       </div>
     </div>
 
@@ -669,7 +675,7 @@
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Guatapanal</div>
         <div class="person-foto" style="background-image:url('img/trejo.jpg')"></div>
-        <div class="person-nombre">Dr. Herminio ChÃ¡vez Trejo</div>
+        <div class="person-nombre">Dr. Herminio Chávez Trejo</div>
         <div class="person-cargo">Pte. Junta Distrital de Guatapanal</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-muni">Municipio: Mao</div>
@@ -677,15 +683,15 @@
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Jib-P.N.</div>
         <div class="person-foto" style="background-image:url('img/fernando.jpg')"></div>
-        <div class="person-nombre">Fernando Alfonso RodrÃ­guez</div>
-        <div class="person-cargo">Pte. Junta Distrital de JaibÃ³n-Pueblo Nuevo</div>
+        <div class="person-nombre">Fernando Alfonso Rodríguez</div>
+        <div class="person-cargo">Pte. Junta Distrital de Jaibón-Pueblo Nuevo</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-muni">Municipio: Mao</div>
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Boca Mao</div>
         <div class="person-foto" style="background-image:url('img/felix.jpg')"></div>
-        <div class="person-nombre">FÃ©lix Santos RodrÃ­guez</div>
+        <div class="person-nombre">Félix Santos Rodríguez</div>
         <div class="person-cargo">Pte. Junta Distrital de Boca de Mao</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-muni">Municipio: Esperanza</div>
@@ -693,23 +699,23 @@
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Maizal</div>
         <div class="person-foto" style="background-image:url('img/jaime.jpg')"></div>
-        <div class="person-nombre">Jaime SÃ¡nchez</div>
+        <div class="person-nombre">Jaime Sánchez</div>
         <div class="person-cargo">Pte. Junta Distrital de Maizal</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-muni">Municipio: Esperanza</div>
       </div>
       <div class="person-card">
-        <div class="person-demarcacion badge-distrito">JicomÃ©</div>
+        <div class="person-demarcacion badge-distrito">Jicomé</div>
         <div class="person-foto" style="background-image:url('img/domingo.jpg')"></div>
         <div class="person-nombre">Domingo Antonio Ortega</div>
-        <div class="person-cargo">Pte. Junta Distrital de JicomÃ©</div>
+        <div class="person-cargo">Pte. Junta Distrital de Jicomé</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-muni">Municipio: Esperanza</div>
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Paradero</div>
         <div class="person-foto" style="background-image:url('img/maximo.jpg')"></div>
-        <div class="person-nombre">MÃ¡ximo Disla Polanco</div>
+        <div class="person-nombre">Máximo Disla Polanco</div>
         <div class="person-cargo">Pte. Junta Distrital de Paradero</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-muni">Municipio: Esperanza</div>
@@ -723,10 +729,10 @@
         <div class="person-muni">Municipio: Laguna Salada</div>
       </div>
       <div class="person-card">
-        <div class="person-demarcacion badge-distrito">JaibÃ³n</div>
+        <div class="person-demarcacion badge-distrito">Jaibón</div>
         <div class="person-foto" style="background-image:url('img/riki.jpg')"></div>
         <div class="person-nombre">Ricki Ricardo Tejada Blanco</div>
-        <div class="person-cargo">Pte. Junta Distrital de JaibÃ³n</div>
+        <div class="person-cargo">Pte. Junta Distrital de Jaibón</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-muni">Municipio: Laguna Salada</div>
       </div>
@@ -741,21 +747,21 @@
     </div>
   </div>
 </section>
-<!-- GEOGRAFÃA -->
+<!-- GEOGRAFÍA -->
 <section class="section" id="geografia">
   <div class="container">
     <div class="section-label">Cobertura Territorial</div>
-    <h2 class="section-title">GeografÃ­a</h2>
+    <h2 class="section-title">Geografía</h2>
 
     <div class="geo-grid">
       <div class="geo-map-placeholder">
         <svg viewBox="0 0 120 120" fill="none"><rect x="20" y="15" width="80" height="90" rx="12" fill="#E1E8EF"/><path d="M40 35Q60 25 80 35Q85 55 75 75Q60 85 45 75Q30 60 40 35Z" fill="#1a365d" opacity="0.2"/><circle cx="55" cy="50" r="4" fill="#1a365d"/><circle cx="45" cy="60" r="3" fill="#d4af37"/><circle cx="68" cy="58" r="3" fill="#d4af37"/></svg>
-        <p>Mapa de referencia â€” Provincia de ejemplo</p>
+        <p>Mapa de referencia — Provincia de ejemplo</p>
       </div>
 
       <div class="geo-card">
         <h3>Provincia de Ejemplo</h3>
-        <div class="geo-subtitle">5 municipios Â· 8 zonas electorales</div>
+        <div class="geo-subtitle">5 municipios · 8 zonas electorales</div>
         <div class="geo-item">
           <span class="nombre">Ciudad Central</span>
           <span class="tag">Cabecera</span>
@@ -785,7 +791,7 @@
     </div>
 
     <p style="font-size: 12px; color: var(--muted); margin-top: 16px; text-align: center;">
-      <i class="fa-solid fa-circle-info"></i> Datos ilustrativos â€” cada partido configura su propia geografÃ­a real al implementar SED-RD.
+      <i class="fa-solid fa-circle-info"></i> Datos ilustrativos — cada partido configura su propia geografía real al implementar SED-RD.
     </p>
   </div>
 </section>
