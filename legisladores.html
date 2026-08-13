@@ -187,6 +187,65 @@
     .footer-sub { font-size: 12px; opacity: 0.6; margin-bottom: 20px; }
     .footer-copy { font-size: 11px; opacity: 0.4; }
 
+    /* ── DASHBOARD Y TABLA ── */
+    .dash-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 28px; }
+    .dash-card {
+      background: var(--surface); border-radius: var(--radius); padding: 20px 14px;
+      box-shadow: var(--shadow); border: 1px solid var(--border); text-align: center;
+    }
+    .dash-card .dash-icon {
+      width: 44px; height: 44px; border-radius: 12px; margin: 0 auto 10px;
+      display: flex; align-items: center; justify-content: center; font-size: 20px;
+    }
+    .dash-card .dash-num { font-size: 28px; font-weight: 800; color: var(--primary); line-height: 1; }
+    .dash-card .dash-label { font-size: 10px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 6px; }
+    .dash-card.c-prm { border-top: 4px solid #d91a21; }
+    .dash-card.c-pld { border-top: 4px solid #003da5; }
+    .dash-card.c-fp { border-top: 4px solid #7a1fa2; }
+    .dash-card.c-otros { border-top: 4px solid #d4af37; }
+
+    .votes-card {
+      background: var(--surface); border-radius: var(--radius); padding: 24px;
+      box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 28px;
+    }
+    .votes-card h3 { font-size: 15px; font-weight: 800; color: var(--primary); margin-bottom: 18px; }
+    .vote-row { display: grid; grid-template-columns: 220px 1fr 90px; gap: 12px; align-items: center; margin-bottom: 12px; }
+    .vote-name { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .vote-track { height: 12px; background: #eef2f7; border-radius: 8px; overflow: hidden; }
+    .vote-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 8px; }
+    .vote-num { font-size: 13px; font-weight: 800; color: var(--primary); text-align: right; }
+
+    .table-wrap { overflow-x: auto; background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); }
+    .leg-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 680px; }
+    .leg-table th {
+      background: var(--primary); color: white; text-align: left; padding: 12px 14px;
+      font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .leg-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .leg-table tr:last-child td { border-bottom: none; }
+    .leg-table tr:hover td { background: #f6f8fc; }
+    .leg-table .cargo-cell { font-weight: 700; color: var(--text); }
+    .leg-table .dem-cell { color: var(--muted); }
+    .leg-table .num-cell { font-weight: 800; color: var(--primary); text-align: right; white-space: nowrap; }
+    .p-badge {
+      display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 10px;
+      font-size: 10px; font-weight: 800; letter-spacing: 0.5px; white-space: nowrap;
+    }
+    .p-badge img { width: 14px; height: 14px; border-radius: 3px; object-fit: contain; }
+    .p-badge.b-prm { background: #fdecec; color: #b91c1c; }
+    .p-badge.b-pld { background: #e8efff; color: #1e40af; }
+    .p-badge.b-fp { background: #f5eafa; color: #7a1fa2; }
+    .p-badge.b-otros { background: #fdf6e3; color: #92600a; }
+    .votos-nd { color: #b0b9c4; font-weight: 600; }
+
+    @media (max-width: 900px) { .dash-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 600px) {
+      .dash-grid { grid-template-columns: repeat(2, 1fr); }
+      .vote-row { grid-template-columns: 1fr; gap: 4px; }
+      .vote-num { text-align: left; }
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) { .person-grid { grid-template-columns: repeat(2, 1fr); } .person-card.featured { grid-column: span 2; } }
     @media (max-width: 768px) {
@@ -210,7 +269,8 @@
     <div class="nav-links">
       <a href="index.html" class="hide-mobile">Inicio</a>
       <a href="legisladores.html" class="hide-mobile active">Legisladores de Valverde</a>
-      <a href="login.html" class="btn-nav">Acceder al Sistema</a>
+      <button class="btn-nav" onclick="window.location.href='index.html'" style="border:none;cursor:pointer;font-family:inherit">Iniciar</button>
+      <button class="btn-nav" onclick="window.location.href='index.html'" style="border:none;cursor:pointer;font-family:inherit;background:var(--accent);color:var(--primary-dark)">Registrarse</button>
     </div>
   </div>
 </nav>
@@ -565,6 +625,124 @@
         <div class="person-partido"><img src="img/logo-pld.jpg" alt="PLD"> PLD</div>
         <div class="person-muni">Municipio: Laguna Salada</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD Y TABLA DE INFORMACIÓN -->
+<section class="section" id="informacion">
+  <div class="container">
+    <div class="section-label">Datos Electorales · Mandato 2024-2028</div>
+    <h2 class="section-title">Información de la <span class="accent">Representación</span></h2>
+    <p class="dark-sub">
+      Resumen por partido, votos registrados y clasificación completa de cada autoridad de la provincia.
+    </p>
+
+    <!-- KPIs POR PARTIDO -->
+    <div class="dash-grid">
+      <div class="dash-card c-prm">
+        <div class="dash-icon" style="background:#fdecec">🔴</div>
+        <div class="dash-num">31</div>
+        <div class="dash-label">Autoridades PRM</div>
+      </div>
+      <div class="dash-card c-pld">
+        <div class="dash-icon" style="background:#e8efff">🔵</div>
+        <div class="dash-num">6</div>
+        <div class="dash-label">Autoridades PLD</div>
+      </div>
+      <div class="dash-card c-fp">
+        <div class="dash-icon" style="background:#f5eafa">🟣</div>
+        <div class="dash-num">2</div>
+        <div class="dash-label">Autoridades FP</div>
+      </div>
+      <div class="dash-card c-otros">
+        <div class="dash-icon" style="background:#fdf6e3">🟡</div>
+        <div class="dash-num">1</div>
+        <div class="dash-label">Autoridad PASOVE</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-icon" style="background:#e8f0fe">🏛️</div>
+        <div class="dash-num">40</div>
+        <div class="dash-label">Autoridades Totales</div>
+      </div>
+    </div>
+
+    <!-- INDICADORES DE VOTOS -->
+    <div class="votes-card">
+      <h3><i class="fa-solid fa-chart-column"></i> Votos Registrados — Diputaciones</h3>
+      <div class="vote-row">
+        <span class="vote-name">María De Los Ángeles Rodríguez Bonseñor</span>
+        <div class="vote-track"><div class="vote-fill" style="width:100%"></div></div>
+        <span class="vote-num">18,258</span>
+      </div>
+      <div class="vote-row">
+        <span class="vote-name">José Altagracia Valenzuela Arias</span>
+        <div class="vote-track"><div class="vote-fill" style="width:82%"></div></div>
+        <span class="vote-num">15,033</span>
+      </div>
+      <div class="vote-row">
+        <span class="vote-name">Rubén Darío Peñalo Torres</span>
+        <div class="vote-track"><div class="vote-fill" style="width:59%"></div></div>
+        <span class="vote-num">10,703</span>
+      </div>
+    </div>
+
+    <!-- TABLA COMPLETA -->
+    <div class="table-wrap">
+      <table class="leg-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Autoridad</th>
+            <th>Cargo</th>
+            <th>Demarcación</th>
+            <th>Partido</th>
+            <th>Votos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td class="cargo-cell">Odalis Rodríguez</td><td>Senador</td><td class="dem-cell">Provincia Valverde</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>2</td><td class="cargo-cell">María De Los Ángeles Rodríguez Bonseñor</td><td>Diputada</td><td class="dem-cell">Provincia Valverde</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell">18,258</td></tr>
+          <tr><td>3</td><td class="cargo-cell">José Altagracia Valenzuela Arias</td><td>Diputado</td><td class="dem-cell">Provincia Valverde</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell">15,033</td></tr>
+          <tr><td>4</td><td class="cargo-cell">Rubén Darío Peñalo Torres</td><td>Diputado</td><td class="dem-cell">Provincia Valverde</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell">10,703</td></tr>
+          <tr><td>5</td><td class="cargo-cell">Yohendy Jiménez Bonilla</td><td>Alcalde</td><td class="dem-cell">Mao</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>6</td><td class="cargo-cell">Freddy de Jesús Rodríguez Jiménez</td><td>Alcalde</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>7</td><td class="cargo-cell">Germán Damián Rodríguez Saldaña</td><td>Alcalde</td><td class="dem-cell">Laguna Salada</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>8</td><td class="cargo-cell">José Miguel Peñalo Santana</td><td>Regidor</td><td class="dem-cell">Mao</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>9</td><td class="cargo-cell">Wilson Rafael Estévez Tavarez</td><td>Regidor</td><td class="dem-cell">Mao</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>10</td><td class="cargo-cell">Dolores Ananhi Rodríguez Contrera</td><td>Regidora</td><td class="dem-cell">Mao</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>11</td><td class="cargo-cell">Néstor Antonio Duran Rodríguez</td><td>Regidor</td><td class="dem-cell">Mao</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>12</td><td class="cargo-cell">Julio Wascar García Rodríguez</td><td>Regidor</td><td class="dem-cell">Mao</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>13</td><td class="cargo-cell">Ana Confesora Fortuna</td><td>Regidora</td><td class="dem-cell">Mao</td><td><span class="p-badge b-pld"><img src="img/logo-pld.jpg" alt=""> PLD</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>14</td><td class="cargo-cell">Diony Miguel Gómez Collado</td><td>Regidor</td><td class="dem-cell">Mao</td><td><span class="p-badge b-pld"><img src="img/logo-pld.jpg" alt=""> PLD</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>15</td><td class="cargo-cell">Juan Luis Gómez Familia</td><td>Regidor</td><td class="dem-cell">Mao</td><td><span class="p-badge b-fp"><img src="img/logo-fp.jpg" alt=""> FP</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>16</td><td class="cargo-cell">José Luis Rodríguez Contreras</td><td>Regidor</td><td class="dem-cell">Mao</td><td><span class="p-badge b-otros"><img src="img/logo-prsc.png" alt=""> PASOVE</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>17</td><td class="cargo-cell">Joel Andrés Mendoza Pérez</td><td>Regidor</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>18</td><td class="cargo-cell">Wildamy Gabriel Quiñones Moreta</td><td>Regidor</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>19</td><td class="cargo-cell">Patricia Jamil Arias Santos</td><td>Presidenta del Concejo</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>20</td><td class="cargo-cell">Confesor Contreras Alcántara</td><td>Regidor</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>21</td><td class="cargo-cell">Julio Tavárez Álvarez</td><td>Regidor</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>22</td><td class="cargo-cell">María Altagracia García Torres</td><td>Regidora</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>23</td><td class="cargo-cell">María Elena Pérez Núñez</td><td>Vicepresidenta del Concejo</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-pld"><img src="img/logo-pld.jpg" alt=""> PLD</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>24</td><td class="cargo-cell">José Alejandro Valdez Molina</td><td>Regidor</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-pld"><img src="img/logo-pld.jpg" alt=""> PLD</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>25</td><td class="cargo-cell">Esmarlin Rodríguez Ulloa</td><td>Regidora</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-fp"><img src="img/logo-fp.jpg" alt=""> FP</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>26</td><td class="cargo-cell">Luis Carlos Acosta García</td><td>Regidor</td><td class="dem-cell">Laguna Salada</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>27</td><td class="cargo-cell">Quirino Alfredo Rosario Acosta</td><td>Regidor</td><td class="dem-cell">Laguna Salada</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>28</td><td class="cargo-cell">Víctor de Jesús Acosta</td><td>Regidor</td><td class="dem-cell">Laguna Salada</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>29</td><td class="cargo-cell">María Luisa Pérez Novo</td><td>Regidora</td><td class="dem-cell">Laguna Salada</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>30</td><td class="cargo-cell">Manuel de Jesús Peña Ureña</td><td>Regidor</td><td class="dem-cell">Laguna Salada</td><td><span class="p-badge b-pld"><img src="img/logo-pld.jpg" alt=""> PLD</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>31</td><td class="cargo-cell">Gabriel Santana</td><td>Pte. Junta Distrital</td><td class="dem-cell">Amina (Mao)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>32</td><td class="cargo-cell">Dr. Herminio Chávez Trejo</td><td>Pte. Junta Distrital</td><td class="dem-cell">Guatapanal (Mao)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>33</td><td class="cargo-cell">Fernando Alfonso Rodríguez</td><td>Pte. Junta Distrital</td><td class="dem-cell">Jaibón-Pueblo Nuevo (Mao)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>34</td><td class="cargo-cell">Félix Santos Rodríguez</td><td>Pte. Junta Distrital</td><td class="dem-cell">Boca de Mao (Esperanza)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>35</td><td class="cargo-cell">Jaime Sánchez</td><td>Pte. Junta Distrital</td><td class="dem-cell">Maizal (Esperanza)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>36</td><td class="cargo-cell">Domingo Antonio Ortega</td><td>Pte. Junta Distrital</td><td class="dem-cell">Jicomé (Esperanza)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>37</td><td class="cargo-cell">Máximo Disla Polanco</td><td>Pte. Junta Distrital</td><td class="dem-cell">Paradero (Esperanza)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>38</td><td class="cargo-cell">Luis Rafael Valdez Cabrera</td><td>Pte. Junta Distrital</td><td class="dem-cell">Cruce de Guayacanes (Laguna Salada)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>39</td><td class="cargo-cell">Ricki Ricardo Tejada Blanco</td><td>Pte. Junta Distrital</td><td class="dem-cell">Jaibón (Laguna Salada)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
+          <tr><td>40</td><td class="cargo-cell">Edward Barrientos</td><td>Pte. Junta Distrital</td><td class="dem-cell">La Caya (Laguna Salada)</td><td><span class="p-badge b-pld"><img src="img/logo-pld.jpg" alt=""> PLD</span></td><td class="num-cell votos-nd">—</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
