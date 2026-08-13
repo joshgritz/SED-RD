@@ -736,8 +736,9 @@ window.addEventListener('DOMContentLoaded', function() {
 
   const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
   const params = new URLSearchParams(window.location.search);
-  if (params.get('registro') === '1') {
-    setTimeout(function() { abrirPortalElectoral('registro'); }, 200);
+  if (params.get('portal') === '1' || params.get('registro') === '1') {
+    document.querySelectorAll('.lc-nav, .lc-hero, .lc-footer').forEach(el => { if (el) el.style.display = 'none'; });
+    abrirPortalElectoral(params.get('registro') === '1' ? 'registro' : undefined);
     return;
   }
   if (params.get('from') === 'logout') {
@@ -750,6 +751,7 @@ window.addEventListener('DOMContentLoaded', function() {
       }
     }
     localStorage.removeItem(sk);
+    document.querySelectorAll('.lc-nav, .lc-hero, .lc-footer').forEach(el => { if (el) el.style.display = 'none'; });
     setTimeout(function() { abrirPortalElectoral(); }, 200);
     return;
   }
@@ -765,7 +767,8 @@ window.addEventListener('DOMContentLoaded', function() {
       localStorage.removeItem(sk);
     } catch(e) { localStorage.removeItem(sk); }
   }
-  // Sin sesión activa: abrir el portal electoral automáticamente
+  // Sin sesión activa: ocultar landing y abrir el portal electoral automáticamente
+  document.querySelectorAll('.lc-nav, .lc-hero, .lc-footer').forEach(el => { if (el) el.style.display = 'none'; });
   setTimeout(function() { abrirPortalElectoral(); }, 200);
 });
 
