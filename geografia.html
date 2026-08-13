@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Geografía de Valverde — SISTEPARD. Historia, población y distritos municipales de Mao, Esperanza y Laguna Salada.">
+  <title>Geografía de Valverde — SISTEPARD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1a365d;
+      --primary-light: #2a4a7f;
+      --primary-dark: #0f2240;
+      --accent: #d4af37;
+      --accent-light: #e6c65a;
+      --accent-dark: #b8941f;
+      --bg: #F7F9FC;
+      --surface: #FFFFFF;
+      --text: #2C3E50;
+      --muted: #7F8C9B;
+      --border: #E1E8EF;
+      --radius: 16px;
+      --shadow: 0 4px 24px rgba(26,54,93,0.08);
+      --shadow-lg: 0 8px 40px rgba(26,54,93,0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto; padding: 14px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--primary);
+    }
+    .nav-logo img { height: 36px; width: auto; border-radius: 8px; }
+    .nav-links { display: flex; align-items: center; gap: 24px; margin-left: auto; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 13px;
+      font-weight: 600; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-links a.active { color: var(--primary); font-weight: 800; }
+    .btn-nav {
+      background: var(--primary); color: white !important; padding: 8px 18px;
+      border-radius: 10px; font-size: 13px; font-weight: 700;
+      text-decoration: none; transition: all 0.2s;
+    }
+    .btn-nav:hover { background: var(--primary-light); }
+
+    /* ── HERO PEQUEÑO ── */
+    .hero { padding: 56px 0 40px; text-align: center; }
+    .hero .subtitle {
+      font-size: 13px; font-weight: 700; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;
+    }
+    .hero h1 { font-size: 34px; font-weight: 800; color: var(--primary); letter-spacing: -1px; margin-bottom: 10px; }
+    .hero .tagline {
+      font-size: 15px; color: var(--muted); max-width: 560px;
+      margin: 0 auto; line-height: 1.7;
+    }
+
+    /* ── SECTION ── */
+    .section { padding: 64px 0; }
+    .section-label {
+      font-size: 12px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--accent); margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 26px; font-weight: 800; color: var(--primary);
+      margin-bottom: 12px; letter-spacing: -0.5px;
+    }
+    .accent { color: var(--accent-dark); }
+
+    /* ── HISTORIA ── */
+    .hist-card {
+      background: var(--surface); border-radius: var(--radius);
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+      padding: 28px; margin-bottom: 22px; border-top: 4px solid var(--primary);
+    }
+    .hist-card h3 {
+      font-size: 18px; font-weight: 800; color: var(--primary);
+      display: flex; align-items: center; gap: 10px; margin-bottom: 4px;
+    }
+    .hist-card h3 i { color: var(--accent-dark); font-size: 17px; }
+    .hist-sub { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+    .hist-card p { font-size: 14px; color: var(--text); line-height: 1.75; margin-bottom: 12px; }
+    .hist-facts {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px; margin-top: 14px;
+    }
+    .hist-fact {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .hist-fact .k { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .hist-fact .v { font-size: 14px; font-weight: 800; color: var(--primary); margin-top: 2px; }
+
+    /* ── DATOS / DEMOGRAFÍA ── */
+    .geo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+    .geo-card {
+      background: var(--surface); border-radius: var(--radius); padding: 24px;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+    }
+    .geo-card h3 { font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 4px; }
+    .geo-subtitle { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+    .geo-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+    }
+    .geo-item:last-child { border-bottom: none; }
+    .geo-item .nombre { font-size: 13px; font-weight: 600; }
+    .geo-item .tag {
+      font-size: 10px; padding: 2px 8px; border-radius: 6px;
+      font-weight: 700; background: rgba(26,54,93,0.06); color: var(--primary);
+    }
+    .geo-item .poblacion { font-size: 12px; color: var(--muted); font-weight: 600; }
+
+    /* ── MAPA ── */
+    .geo-map-placeholder {
+      background: var(--surface); border-radius: var(--radius); padding: 32px;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+      text-align: center; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; min-height: 260px;
+    }
+    .geo-map-placeholder p { color: var(--muted); font-size: 12px; margin-top: 12px; }
+
+    .data-note {
+      margin-top: 24px; padding: 14px 18px; border-radius: 12px;
+      background: #fdf6e3; border: 1px solid #f0e0b0; color: #8a6d1a;
+      font-size: 12px; font-weight: 600; text-align: center;
+    }
+
+    /* ── FOOTER ── */
+    .footer { background: var(--primary); color: white; padding: 40px 0; text-align: center; }
+    .footer-brand { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+    .footer-sub { font-size: 12px; opacity: 0.6; margin-bottom: 20px; }
+    .footer-copy { font-size: 11px; opacity: 0.4; }
+
+    @media (max-width: 768px) {
+      .geo-grid { grid-template-columns: 1fr; }
+      .nav-links a.hide-mobile { display: none; }
+      .hero h1 { font-size: 28px; }
+      .section-title { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="img/logo-sed.png" alt="SISTEPARD">
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="hide-mobile">Inicio</a>
+      <a href="legisladores.html" class="hide-mobile">Legisladores de Valverde</a>
+      <a href="geografia.html" class="hide-mobile active">Geografía</a>
+      <button class="btn-nav" onclick="window.location.href='index.html'" style="border:none;cursor:pointer;font-family:inherit">Iniciar</button>
+      <button class="btn-nav" onclick="window.location.href='index.html'" style="border:none;cursor:pointer;font-family:inherit;background:var(--accent);color:var(--primary-dark)">Registrarse</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="subtitle">SISTEPARD · Provincia Valverde</div>
+    <h1>Geografía de Valverde</h1>
+    <p class="tagline">Historia, población y demarcaciones de la provincia: Mao, Esperanza y Laguna Salada, con sus distritos municipales.</p>
+  </div>
+</section>
+
+<!-- HISTORIA -->
+<section class="section" id="historia">
+  <div class="container">
+    <div class="section-label">Historia</div>
+    <h2 class="section-title">Historia de los <span class="accent">Municipios</span></h2>
+
+    <div class="hist-card">
+      <h3><i class="fa-solid fa-city"></i> Santa Cruz de Mao — Capital de la Línea Noroeste</h3>
+      <div class="hist-sub">Municipio cabecera de la provincia Valverde</div>
+      <p>El nombre "Mao" o "Maho" proviene de un vocablo taíno que significa <strong>"tierra entre ríos"</strong>, pues la ciudad está rodeada por el río Mao, el río Yaque del Norte y el río Gurabo. Su origen se remonta a las devastaciones de Osorio (1605–1606), cuando habitantes de las villas destruidas de Monte Cristi y Puerto Plata se adentraron en la isla y fundaron hatos, entre ellos el hato de Maho a orillas del río de su nombre.</p>
+      <p>En 1844, durante la Guerra de Independencia, los habitantes de la sección formaron el batallón "Entre Ríos" y lucharon con bravura; también prestaron servicios en la Guerra de Restauración (1863). La primera iglesia de madera se construyó en 1869, y el caserío fue elevado a puesto cantonal en 1875 y a municipio el 10 de julio de 1882, instalándose el primer ayuntamiento.</p>
+      <p>En 1904, un decreto del presidente Carlos F. Morales L. cambió el nombre de Mao por el de "Valverde" en honor al prócer José Desiderio Valverde, pero en 1967 (Ley 148) fue restituido a su nombre original. Al crearse la provincia Valverde en 1958, Mao quedó como su cabecera y se convirtió en sede de las instituciones estatales de la región Noroeste, de ahí su título de "capital de la Línea Noroeste".</p>
+      <div class="hist-facts">
+        <div class="hist-fact"><div class="k">Población (2022)</div><div class="v">86,659 hab.</div></div>
+        <div class="hist-fact"><div class="k">Superficie</div><div class="v">~424 km²</div></div>
+        <div class="hist-fact"><div class="k">Municipio desde</div><div class="v">1882</div></div>
+        <div class="hist-fact"><div class="k">Distritos</div><div class="v">3</div></div>
+      </div>
+    </div>
+
+    <div class="hist-card">
+      <h3><i class="fa-solid fa-flag"></i> Esperanza</h3>
+      <div class="hist-sub">Segundo municipio de Valverde</div>
+      <p>La historia de Esperanza se remonta a la llegada de Cristóbal Colón en su segundo viaje (1494), cuando al contemplar el caudal de los ríos Yaque del Norte, Mao y Amina creyó haber encontrado oro y mandó levantar una fortaleza que llamó <strong>"La Esperanza"</strong>. Al año siguiente, Bartolomé Colón fundó al pie de la fortaleza una aldea del mismo nombre, que desapareció hacia 1500–1504 cuando sus moradores emigraron a La Isabela y Santiago.</p>
+      <p>Volvió a renacer a inicios del siglo XVII, cuando las devastaciones de Osorio obligaron a las poblaciones de Guajaba, Puerto Real de Bayajá, Monte Cristi y Puerto Plata a emigrar al sur; quienes desafiaron la orden establecieron el <strong>Hato Esperanza</strong> (1607), dando origen a la ciudad actual. El hato fue elevado a puesto cantonal el 19 de junio de 1875 (Decreto 1433) y a municipio el 9 de septiembre de 1907 (Ley 4803), instalándose su primer ayuntamiento el 10 de julio de 1910 con el síndico Lorenzo Fernández.</p>
+      <p>El establecimiento del ingenio azucarero de Esperanza a mediados del siglo XX consolidó la comunidad, dividida históricamente en "Esperanza Caña" y "Esperanza Pueblo". Al crearse la provincia Valverde (1958), el municipio quedó segregado de Santiago y pasó a la nueva provincia desde el 1 de enero de 1959.</p>
+      <div class="hist-facts">
+        <div class="hist-fact"><div class="k">Población (2022)</div><div class="v">69,803 hab.</div></div>
+        <div class="hist-fact"><div class="k">Superficie</div><div class="v">~222 km²</div></div>
+        <div class="hist-fact"><div class="k">Municipio desde</div><div class="v">1907</div></div>
+        <div class="hist-fact"><div class="k">Distritos</div><div class="v">4</div></div>
+      </div>
+    </div>
+
+    <div class="hist-card">
+      <h3><i class="fa-solid fa-droplet"></i> Laguna Salada</h3>
+      <div class="hist-sub">Tercer municipio de Valverde</div>
+      <p>El antiguo poblado que dio origen al municipio se llamaba <strong>"El Guabay"</strong>, en las proximidades del río Yaque del Norte. Próximo al caserío había una laguna de aguas saladas, y se contaba que al paso de los animales la gente preguntaba "¿dónde van a beber agua?" y la respuesta era: "en la laguna salada". Poco a poco, el lugar adoptó ese nombre.</p>
+      <p>Laguna Salada, como los demás pueblos de la Línea Noroeste, tuvo participación en la lucha restauradora: en La Barranquita, ubicada en el distrito de Cruce de Guayacanes, el 3 de julio de 1916 unos 80 hombres de las comunidades vecinas, bajo las órdenes del general Carlos Daniel, hicieron frente a los marines norteamericanos. El general Máximo Gómez vivió en el lugar y allí se reunió con José Martí y Antonio Maceo antes de partir a Monte Cristi.</p>
+      <p>Pertenecía al municipio de Guayubín, provincia Monte Cristi, hasta que la Ley 4882 del 27 de marzo de 1958 lo elevó a distrito municipal como parte del municipio de Esperanza. El 12 de agosto de 1978 fue elevado a municipio mediante la Ley 916, siendo su primera síndica Ursulina Tejada de García.</p>
+      <div class="hist-facts">
+        <div class="hist-fact"><div class="k">Población (2022)</div><div class="v">27,607 hab.</div></div>
+        <div class="hist-fact"><div class="k">Superficie</div><div class="v">~186 km²</div></div>
+        <div class="hist-fact"><div class="k">Municipio desde</div><div class="v">1978</div></div>
+        <div class="hist-fact"><div class="k">Distritos</div><div class="v">3</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATOS DEMOGRÁFICOS -->
+<section class="section" id="datos">
+  <div class="container">
+    <div class="section-label">Demografía · Censo 2022</div>
+    <h2 class="section-title">Datos de la <span class="accent">Provincia</span></h2>
+
+    <div class="geo-grid">
+      <div class="geo-card">
+        <h3>Provincia de Valverde</h3>
+        <div class="geo-subtitle">Región Cibao Noroeste · Capital: Santa Cruz de Mao</div>
+        <div class="geo-item"><span class="nombre">Población total</span><span class="tag">184,069 hab.</span></div>
+        <div class="geo-item"><span class="nombre">Hombres / Mujeres</span><span class="tag">93,042 / 91,027</span></div>
+        <div class="geo-item"><span class="nombre">Superficie</span><span class="tag">823 km²</span></div>
+        <div class="geo-item"><span class="nombre">Municipios</span><span class="tag">3</span></div>
+        <div class="geo-item"><span class="nombre">Distritos Municipales</span><span class="tag">10</span></div>
+        <div class="geo-item"><span class="nombre">Población urbana</span><span class="tag">141,929</span></div>
+        <div class="geo-item"><span class="nombre">Población rural</span><span class="tag">42,140</span></div>
+      </div>
+
+      <div class="geo-card">
+        <h3>Distritos Municipales</h3>
+        <div class="geo-subtitle">Los 10 distritos de la provincia</div>
+        <div class="geo-item"><span class="nombre">Amina (Mao)</span><span class="poblacion">8,270</span></div>
+        <div class="geo-item"><span class="nombre">Guatapanal (Mao)</span><span class="poblacion">8,637</span></div>
+        <div class="geo-item"><span class="nombre">Jaibón-P.N. (Mao)</span><span class="poblacion">7,754</span></div>
+        <div class="geo-item"><span class="nombre">Maizal (Esperanza)</span><span class="poblacion">10,074</span></div>
+        <div class="geo-item"><span class="nombre">Jicomé (Esperanza)</span><span class="poblacion">4,312</span></div>
+        <div class="geo-item"><span class="nombre">Boca de Mao (Esperanza)</span><span class="poblacion">7,450</span></div>
+        <div class="geo-item"><span class="nombre">Paradero (Esperanza)</span><span class="poblacion">755</span></div>
+        <div class="geo-item"><span class="nombre">C. Guayacanes (Laguna Salada)</span><span class="poblacion">6,112</span></div>
+        <div class="geo-item"><span class="nombre">Jaibón (Laguna Salada)</span><span class="poblacion">5,967</span></div>
+        <div class="geo-item"><span class="nombre">La Caya (Laguna Salada)</span><span class="poblacion">1,458</span></div>
+      </div>
+    </div>
+
+    <div class="geo-grid" style="margin-top:20px">
+      <div class="geo-card">
+        <h3>Mao — Municipio Cabecera</h3>
+        <div class="geo-subtitle">Capital de la Línea Noroeste</div>
+        <div class="geo-item"><span class="nombre">Población total</span><span class="tag">86,659 hab.</span></div>
+        <div class="geo-item"><span class="nombre">Urbana / Rural</span><span class="tag">68,900 / 17,759</span></div>
+        <div class="geo-item"><span class="nombre">Distritos</span><span class="tag">Amina · Guatapanal · Jaibón-P.N.</span></div>
+      </div>
+
+      <div class="geo-card">
+        <h3>Esperanza</h3>
+        <div class="geo-subtitle">Segundo municipio de la provincia</div>
+        <div class="geo-item"><span class="nombre">Población total</span><span class="tag">69,803 hab.</span></div>
+        <div class="geo-item"><span class="nombre">Urbana / Rural</span><span class="tag">51,947 / 17,856</span></div>
+        <div class="geo-item"><span class="nombre">Distritos</span><span class="tag">Maizal · Jicomé · Boca de Mao · Paradero</span></div>
+      </div>
+
+      <div class="geo-card">
+        <h3>Laguna Salada</h3>
+        <div class="geo-subtitle">Tercer municipio de la provincia</div>
+        <div class="geo-item"><span class="nombre">Población total</span><span class="tag">27,607 hab.</span></div>
+        <div class="geo-item"><span class="nombre">Urbana / Rural</span><span class="tag">21,082 / 6,525</span></div>
+        <div class="geo-item"><span class="nombre">Distritos</span><span class="tag">C. Guayacanes · Jaibón · La Caya</span></div>
+      </div>
+
+      <div class="geo-card">
+        <h3>Origen de la Provincia</h3>
+        <div class="geo-subtitle">División político-administrativa</div>
+        <div class="geo-item"><span class="nombre">Creación</span><span class="tag">Ley 4882 · 1958</span></div>
+        <div class="geo-item"><span class="nombre">Antes</span><span class="poblacion">Parte de Santiago y Montecristi</span></div>
+        <div class="geo-item"><span class="nombre">Gentilicio</span><span class="poblacion">Valverdense / Maeño(a)</span></div>
+      </div>
+    </div>
+
+    <p class="data-note">
+      <i class="fa-solid fa-circle-info"></i> Datos del X Censo Nacional de Población y Vivienda 2022 (ONE) y cifras de referencia de distritos municipales (Censo 2010).
+    </p>
+  </div>
+</section>
+
+<!-- MAPA -->
+<section class="section" id="mapa">
+  <div class="container">
+    <div class="section-label">Cobertura Territorial</div>
+    <h2 class="section-title">Mapa de la <span class="accent">Provincia</span></h2>
+
+    <div class="geo-grid">
+      <div class="geo-map-placeholder">
+        <img src="img/mapa-valverde.gif" alt="Mapa de la provincia de Valverde" style="width:100%; max-width:340px; height:auto;">
+        <p>Mapa de referencia — Provincia de Valverde</p>
+      </div>
+
+      <div class="geo-card">
+        <h3>División Territorial</h3>
+        <div class="geo-subtitle">3 municipios · 10 distritos municipales</div>
+        <div class="geo-item">
+          <span class="nombre">Mao</span>
+          <span class="tag">Cabecera Provincial</span>
+        </div>
+        <div class="geo-item">
+          <span class="nombre">Esperanza</span>
+          <span class="tag">Municipio</span>
+        </div>
+        <div class="geo-item">
+          <span class="nombre">Laguna Salada</span>
+          <span class="tag">Municipio</span>
+        </div>
+        <div class="geo-item">
+          <span class="nombre">Amina · Guatapanal · Jaibón-P.N.</span>
+          <span class="poblacion">Distritos de Mao</span>
+        </div>
+        <div class="geo-item">
+          <span class="nombre">Maizal · Jicomé · Boca de Mao · Paradero</span>
+          <span class="poblacion">Distritos de Esperanza</span>
+        </div>
+        <div class="geo-item">
+          <span class="nombre">C. Guayacanes · Jaibón · La Caya</span>
+          <span class="poblacion">Distritos de Laguna Salada</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-brand">SISTEPARD</div>
+    <div class="footer-sub">Sistema Electoral de Partidos RD</div>
+    <div class="footer-copy">&copy; 2026 SISTEPARD. Todos los derechos reservados.</div>
+  </div>
+</footer>
+
+</body>
+</html>
