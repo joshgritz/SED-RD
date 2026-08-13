@@ -991,9 +991,8 @@ async function peEnviarRecuperacion() {
   const email = document.getElementById('pe-rec-email').value.trim();
   if (!email) { peErr('pe-err-recuperar', 'Ingresa tu email'); return; }
   if (sb) {
-    const { data: dir, error: dirErr } = await sb.from('dirigentes')
-      .select('cedula').eq('email', email).eq('activo', true).maybeSingle();
-    if (dirErr || !dir) { peErr('pe-err-recuperar', 'Este email no está registrado en el sistema'); return; }
+    const { data: dir, error: dirErr } = await sb.rpc('recuperar_por_email', { p_email: email });
+    if (dirErr || !dir || dir.length === 0) { peErr('pe-err-recuperar', 'Este email no está registrado en el sistema'); return; }
     const { error } = await sb.auth.signInWithOtp({
       email: email,
       options: { shouldCreateUser: true }
@@ -1109,6 +1108,8 @@ window.addEventListener('DOMContentLoaded', function() {
       localStorage.removeItem(sk);
     } catch(e) { localStorage.removeItem(sk); }
   }
+  // Sin sesión activa: abrir el portal electoral automáticamente
+  setTimeout(function() { abrirPortalElectoral(); }, 200);
 });
 
 // Expose
