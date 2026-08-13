@@ -169,6 +169,56 @@
     }
     .lider-card h4 { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
     .lider-card .cargo { font-size: 11px; color: var(--muted); font-weight: 600; }
+    .lider-card .nota { font-size: 10px; color: var(--muted); margin-top: 6px; font-style: italic; }
+    .lider-destacado { max-width: 360px; margin: 0 auto; border: 2px solid var(--accent); background: linear-gradient(160deg, #fff, #fdf8ea); }
+    .lider-destacado .cargo { color: var(--accent-dark); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+    .lider-destacado .nota { color: var(--accent-dark); }
+    .regidores-title {
+      font-size: 11px; font-weight: 800; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 1px; margin: 18px 0 8px;
+    }
+    .regidores-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 10px;
+    }
+    .regidor-row {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--surface); border-radius: 10px; padding: 10px 12px;
+      border: 1px solid var(--border);
+    }
+    .regidor-row .init {
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800;
+    }
+    .regidor-row .info { min-width: 0; }
+    .regidor-row h5 { font-size: 12px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .regidor-row .rol { font-size: 10px; color: var(--muted); font-weight: 600; }
+    .badge-partido {
+      margin-left: auto; flex-shrink: 0; font-size: 9px; font-weight: 800;
+      padding: 2px 8px; border-radius: 6px; letter-spacing: 0.5px;
+    }
+    .b-prm { background: #003da5; color: white; }
+    .b-pld { background: #7c1d3f; color: white; }
+    .b-fp { background: #1e7a34; color: white; }
+    .b-pasove { background: #c96f1f; color: white; }
+    .sub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+    .muni-group { margin-bottom: 22px; }
+    .muni-group h4 {
+      font-size: 14px; font-weight: 800; color: var(--primary);
+      margin-bottom: 10px; padding-bottom: 8px;
+      border-bottom: 2px solid var(--accent);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .muni-group h4 i { color: var(--accent); font-size: 13px; }
+    .distrito-card {
+      background: var(--surface); border-radius: 12px; padding: 16px;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+    }
+    .distrito-card .muni-ori { font-size: 10px; color: var(--muted); font-weight: 700; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .distrito-card h5 { font-size: 13px; font-weight: 800; color: var(--primary); margin-bottom: 2px; }
+    .distrito-card .cargo { font-size: 11px; color: var(--muted); font-weight: 600; }
     .section-link {
       display: inline-flex; align-items: center; gap: 6px;
       color: var(--accent-dark); font-size: 13px; font-weight: 700;
@@ -313,10 +363,8 @@
       <span>SED-RD</span>
     </a>
     <div class="nav-links">
-      <a href="#historia" class="hide-mobile">Historia</a>
-      <a href="#mision" class="hide-mobile">Propósito</a>
-      <a href="#creador" class="hide-mobile">Creador</a>
-      <a href="estructura.html" class="hide-mobile">Estructura</a>
+      <a href="#legisladores" class="hide-mobile">Representación</a>
+      <a href="#geografia" class="hide-mobile">Geografía</a>
       <a href="login.html" class="btn-nav">Acceder al Sistema</a>
     </div>
   </div>
@@ -348,8 +396,8 @@
       </a>
     </div>
     <div class="hero-ctas" style="margin-top: 10px;">
-      <a href="estructura.html" class="btn btn-ghost">
-        <i class="fa-solid fa-sitemap"></i> Ver Estructura Completa
+      <a href="#legisladores" class="btn btn-ghost">
+        <i class="fa-solid fa-sitemap"></i> Ver Representación
       </a>
     </div>
   </div>
@@ -431,6 +479,183 @@
         <a href="#" class="btn-social linktree" target="_blank" title="Linktree">
           <i class="fa-solid fa-link"></i> Linktree
         </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SENADOR -->
+<section class="section" id="legisladores" style="background: white;">
+  <div class="container">
+    <div class="section-label">Senado de la República</div>
+    <h2 class="section-title">Senador <span style="font-size: 13px; color: var(--muted); font-weight: 600;">(Mandato 2024-2028)</span></h2>
+    <div class="lider-card lider-destacado">
+      <div class="lider-avatar">OR</div>
+      <h4>Odalis Rodríguez</h4>
+      <div class="cargo">Senador por Valverde</div>
+      <div class="nota">Ex Alcalde de Mao (2006-2024)</div>
+    </div>
+  </div>
+</section>
+
+<!-- SÍNDICOS -->
+<section class="section" id="sindicos">
+  <div class="container">
+    <div class="section-label">Alcaldías</div>
+    <h2 class="section-title">Síndicos <span style="font-size: 13px; color: var(--muted); font-weight: 600;">(Mandato 2024-2028)</span></h2>
+    <div class="liderazgo-grid">
+      <div class="lider-card">
+        <div class="lider-avatar">YJ</div>
+        <h4>Yohendy Jiménez Bonilla</h4>
+        <div class="cargo">Alcalde de Mao</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">FR</div>
+        <h4>Freddy de Jesús Rodríguez Jiménez</h4>
+        <div class="cargo">Alcalde de Esperanza</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">GR</div>
+        <h4>Germán Damián Rodríguez Saldaña</h4>
+        <div class="cargo">Alcalde de Laguna Salada</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIPUTADOS -->
+<section class="section" id="diputados" style="background: white;">
+  <div class="container">
+    <div class="section-label">Cámara de Diputados</div>
+    <h2 class="section-title">Diputados <span style="font-size: 13px; color: var(--muted); font-weight: 600;">(Mandato 2024-2028)</span></h2>
+    <div class="liderazgo-grid">
+      <div class="lider-card">
+        <div class="lider-avatar">MR</div>
+        <h4>María De Los Ángeles Rodríguez Bonseñor</h4>
+        <div class="cargo">Diputada por Valverde</div>
+        <div class="nota">18,258 votos</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">JV</div>
+        <h4>José Altagracia Valenzuela Arias</h4>
+        <div class="cargo">Diputado por Valverde</div>
+        <div class="nota">15,033 votos</div>
+      </div>
+      <div class="lider-card">
+        <div class="lider-avatar">RP</div>
+        <h4>Rubén Darío Peñalo Torres</h4>
+        <div class="cargo">Diputado por Valverde</div>
+        <div class="nota">10,703 votos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REGIDORES -->
+<section class="section" id="regidores">
+  <div class="container">
+    <div class="section-label">Concejos Municipales</div>
+    <h2 class="section-title">Regidores por Alcaldía <span style="font-size: 13px; color: var(--muted); font-weight: 600;">(Mandato 2024-2028)</span></h2>
+
+    <div class="muni-group">
+      <h4><i class="fa-solid fa-city"></i> Mao — Concejo de Regidores (9)</h4>
+      <div class="regidores-grid">
+        <div class="regidor-row"><div class="init">JP</div><div class="info"><h5>José Miguel Peñalo Santana</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">WE</div><div class="info"><h5>Wilson Rafael Estévez Tavarez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">DR</div><div class="info"><h5>Dolores Ananhi Rodríguez Contrera</h5><div class="rol">Regidora</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">ND</div><div class="info"><h5>Néstor Antonio Duran Rodríguez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">JG</div><div class="info"><h5>Julio Wascar García Rodríguez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">AF</div><div class="info"><h5>Ana Confesora Fortuna</h5><div class="rol">Regidora</div></div><span class="badge-partido b-pld">PLD</span></div>
+        <div class="regidor-row"><div class="init">DG</div><div class="info"><h5>Diony Miguel Gómez Collado</h5><div class="rol">Regidor</div></div><span class="badge-partido b-pld">PLD</span></div>
+        <div class="regidor-row"><div class="init">JG</div><div class="info"><h5>Juan Luis Gómez Familia</h5><div class="rol">Regidor</div></div><span class="badge-partido b-fp">FP</span></div>
+        <div class="regidor-row"><div class="init">JR</div><div class="info"><h5>José Luis Rodríguez Contreras</h5><div class="rol">Regidor</div></div><span class="badge-partido b-pasove">PASOVE</span></div>
+      </div>
+    </div>
+
+    <div class="muni-group">
+      <h4><i class="fa-solid fa-city"></i> Esperanza — Concejo de Regidores (9)</h4>
+      <div class="regidores-grid">
+        <div class="regidor-row"><div class="init">PA</div><div class="info"><h5>Patricia Jamil Arias Santos</h5><div class="rol">Presidenta del Concejo</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">JM</div><div class="info"><h5>Joel Andrés Mendoza Pérez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">WQ</div><div class="info"><h5>Wildamy Gabriel Quiñones Moreta</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">CA</div><div class="info"><h5>Confesor Contreras Alcántara</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">JT</div><div class="info"><h5>Julio Tavárez Álvarez</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">MG</div><div class="info"><h5>María Altagracia García Torres</h5><div class="rol">Regidora</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">MP</div><div class="info"><h5>María Elena Pérez Núñez</h5><div class="rol">Vicepresidenta del Concejo</div></div><span class="badge-partido b-pld">PLD</span></div>
+        <div class="regidor-row"><div class="init">JV</div><div class="info"><h5>José Alejandro Valdez Molina</h5><div class="rol">Regidor</div></div><span class="badge-partido b-pld">PLD</span></div>
+        <div class="regidor-row"><div class="init">ER</div><div class="info"><h5>Esmarlin Rodríguez Ulloa</h5><div class="rol">Regidora</div></div><span class="badge-partido b-fp">FP</span></div>
+      </div>
+    </div>
+
+    <div class="muni-group">
+      <h4><i class="fa-solid fa-city"></i> Laguna Salada — Concejo de Regidores (5)</h4>
+      <div class="regidores-grid">
+        <div class="regidor-row"><div class="init">LA</div><div class="info"><h5>Luis Carlos Acosta García</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">QA</div><div class="info"><h5>Quirino Alfredo Rosario Acosta</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">VA</div><div class="info"><h5>Víctor de Jesús Acosta</h5><div class="rol">Regidor</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">MP</div><div class="info"><h5>María Luisa Pérez Novo</h5><div class="rol">Regidora</div></div><span class="badge-partido b-prm">PRM</span></div>
+        <div class="regidor-row"><div class="init">MP</div><div class="info"><h5>Manuel de Jesús Peña Ureña</h5><div class="rol">Regidor</div></div><span class="badge-partido b-pld">PLD</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DISTRITOS -->
+<section class="section" id="distritos" style="background: white;">
+  <div class="container">
+    <div class="section-label">Distritos Municipales</div>
+    <h2 class="section-title">Presidentes de Juntas Distritales <span style="font-size: 13px; color: var(--muted); font-weight: 600;">(Mandato 2024-2028)</span></h2>
+
+    <div class="sub-grid">
+      <div class="distrito-card">
+        <div class="muni-ori">Municipio: Mao</div>
+        <h5>Gabriel Santana</h5>
+        <div class="cargo">Pte. Junta Distrital de Amina</div>
+      </div>
+      <div class="distrito-card">
+        <div class="muni-ori">Municipio: Mao</div>
+        <h5>Dr. Herminio Chávez Trejo</h5>
+        <div class="cargo">Pte. Junta Distrital de Guatapanal</div>
+      </div>
+      <div class="distrito-card">
+        <div class="muni-ori">Municipio: Mao</div>
+        <h5>Fernando Alfonso Rodríguez</h5>
+        <div class="cargo">Pte. Junta Distrital de Jaibón-Pueblo Nuevo</div>
+      </div>
+      <div class="distrito-card">
+        <div class="muni-ori">Municipio: Esperanza</div>
+        <h5>Félix Santos Rodríguez</h5>
+        <div class="cargo">Pte. Junta Distrital de Boca de Mao</div>
+      </div>
+      <div class="distrito-card">
+        <div class="muni-ori">Municipio: Esperanza</div>
+        <h5>Jaime Sánchez</h5>
+        <div class="cargo">Pte. Junta Distrital de Maizal</div>
+      </div>
+      <div class="distrito-card">
+        <div class="muni-ori">Municipio: Esperanza</div>
+        <h5>Domingo Antonio Ortega</h5>
+        <div class="cargo">Pte. Junta Distrital de Jicomé</div>
+      </div>
+      <div class="distrito-card">
+        <div class="muni-ori">Municipio: Esperanza</div>
+        <h5>Máximo Disla Polanco</h5>
+        <div class="cargo">Pte. Junta Distrital de Paradero</div>
+      </div>
+      <div class="distrito-card">
+        <div class="muni-ori">Municipio: Laguna Salada</div>
+        <h5>Luis Rafael Valdez Cabrera</h5>
+        <div class="cargo">Pte. Junta Distrital de Cruce de Guayacanes</div>
+      </div>
+      <div class="distrito-card">
+        <div class="muni-ori">Municipio: Laguna Salada</div>
+        <h5>Ricki Ricardo Tejada Blanco</h5>
+        <div class="cargo">Pte. Junta Distrital de Jaibón</div>
+      </div>
+      <div class="distrito-card">
+        <div class="muni-ori">Municipio: Laguna Salada</div>
+        <h5>Edward Barrientos</h5>
+        <div class="cargo">Pte. Junta Distrital de La Caya</div>
       </div>
     </div>
   </div>
