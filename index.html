@@ -100,6 +100,11 @@
       border: 2px solid var(--border);
     }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-ghost {
+      background: transparent; color: var(--muted);
+      border: 1.5px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--primary); }
 
     /* ── SECTION ── */
     .section { padding: 64px 0; }
@@ -308,10 +313,10 @@
       <span>SED-RD</span>
     </a>
     <div class="nav-links">
-      <a href="#mision" class="hide-mobile">Misión</a>
-      <a href="#producto" class="hide-mobile">Producto</a>
-      <a href="#geografia" class="hide-mobile">Geografía</a>
+      <a href="#historia" class="hide-mobile">Historia</a>
+      <a href="#mision" class="hide-mobile">Propósito</a>
       <a href="#creador" class="hide-mobile">Creador</a>
+      <a href="estructura.html" class="hide-mobile">Estructura</a>
       <a href="login.html" class="btn-nav">Acceder al Sistema</a>
     </div>
   </div>
@@ -338,9 +343,37 @@
       <a href="login.html" class="btn btn-primary">
         <i class="fa-solid fa-right-to-bracket"></i> Acceder al Sistema
       </a>
-      <a href="#mision" class="btn btn-secondary">
+      <a href="#historia" class="btn btn-secondary">
         <i class="fa-solid fa-arrow-down"></i> Conocer Más
       </a>
+    </div>
+    <div class="hero-ctas" style="margin-top: 10px;">
+      <a href="estructura.html" class="btn btn-ghost">
+        <i class="fa-solid fa-sitemap"></i> Ver Estructura Completa
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO NACIÓ SED-RD -->
+<section class="section" id="historia" style="background: white;">
+  <div class="container">
+    <div class="section-label">Nuestra Historia</div>
+    <h2 class="section-title">Cómo Nació SED-RD</h2>
+
+    <div class="origen-card">
+      <div class="origen-text">
+        <p>Nadie me lo pidió. No había presupuesto, ni equipo, ni certeza de que fuera a funcionar. Solo la experiencia de estar en el terreno como dirigente de zona y ver, de cerca, todo lo que faltaba.</p>
+        <p>La idea llegó antes que las herramientas para construirla. Durante mucho tiempo existió solo en mi cabeza, dando vueltas, hasta que decidí que tenía que dejar de ser una idea y convertirse en algo real. Aprendí lo que hizo falta aprender. Encontré tiempo donde no lo había. Seguí cuando lo lógico hubiera sido parar.</p>
+        <p>SED-RD no nació en un laboratorio ni en una oficina central. Nació donde nace el trabajo político de verdad: en la base. Lo construyó alguien que conoce ese trabajo porque lo vivió primero, y que decidió que la militancia también merece herramientas hechas con la misma seriedad con la que se hacen las cosas importantes.</p>
+      </div>
+      <div class="origen-author">
+        <div class="origen-avatar">GV</div>
+        <div>
+          <div class="origen-name">Gritzewsky Ventura</div>
+          <div class="origen-role">Fundador, SED-RD</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -379,63 +412,27 @@
   </div>
 </section>
 
-<!-- LIDERAZGO -->
-<section class="section" id="producto" style="background: white;">
+<!-- SOBRE EL CREADOR -->
+<section class="section creator-section" id="creador">
   <div class="container">
-    <div class="section-label">Estructura de Liderazgo</div>
-    <h2 class="section-title">Representantes y Dirigentes</h2>
-
-    <div class="liderazgo-grid">
-      <div class="lider-card">
-        <div class="lider-avatar">JR</div>
-        <h4>Juan Rodríguez</h4>
-        <div class="cargo">Presidente</div>
-      </div>
-      <div class="lider-card">
-        <div class="lider-avatar">ML</div>
-        <h4>María López</h4>
-        <div class="cargo">Secretaria General</div>
-      </div>
-      <div class="lider-card">
-        <div class="lider-avatar">PC</div>
-        <h4>Pedro Castillo</h4>
-        <div class="cargo">Vicepresidente 1ro</div>
-      </div>
-      <div class="lider-card">
-        <div class="lider-avatar">AR</div>
-        <h4>Ana Ramírez</h4>
-        <div class="cargo">Vicepresidenta 2da</div>
-      </div>
-      <div class="lider-card">
-        <div class="lider-avatar">DM</div>
-        <h4>Diego Martínez</h4>
-        <div class="cargo">Tesorero</div>
-      </div>
-      <div class="lider-card">
-        <div class="lider-avatar">LS</div>
-        <h4>Laura Sánchez</h4>
-        <div class="cargo">Fiscal</div>
-      </div>
-      <div class="lider-card">
-        <div class="lider-avatar">CM</div>
-        <h4>Carlos Méndez</h4>
-        <div class="cargo">Regidor</div>
-      </div>
-      <div class="lider-card">
-        <div class="lider-avatar">RP</div>
-        <h4>Rosa Peña</h4>
-        <div class="cargo">Regidora</div>
-      </div>
-      <div class="lider-card">
-        <div class="lider-avatar">LF</div>
-        <h4>Luis Fernández</h4>
-        <div class="cargo">Regidor</div>
+    <div class="creator-card">
+      <div class="creator-avatar">GV</div>
+      <h2 class="section-title">Sobre el Creador</h2>
+      <div class="creator-name">Gritzewsky Ventura</div>
+      <div class="creator-role">Fundador y Creador de SED-RD</div>
+      <p class="creator-bio">Ex dirigente de base con experiencia real en el terreno electoral dominicano. SED-RD nació de esa vivencia: la de ver lo que falta y decidir construirlo. Sigo trabajando en la base mientras desarrollo herramientas que dignifiquen el trabajo político.</p>
+      <div class="creator-social">
+        <a href="#" class="btn-social linkedin" target="_blank" title="LinkedIn">
+          <i class="fa-brands fa-linkedin-in"></i> LinkedIn
+        </a>
+        <a href="#" class="btn-social instagram" target="_blank" title="Instagram">
+          <i class="fa-brands fa-instagram"></i> Instagram
+        </a>
+        <a href="#" class="btn-social linktree" target="_blank" title="Linktree">
+          <i class="fa-solid fa-link"></i> Linktree
+        </a>
       </div>
     </div>
-
-    <a href="#" class="section-link">
-      Ver Estructura Completa <i class="fa-solid fa-arrow-right"></i>
-    </a>
   </div>
 </section>
 
@@ -485,53 +482,6 @@
     <p style="font-size: 12px; color: var(--muted); margin-top: 16px; text-align: center;">
       <i class="fa-solid fa-circle-info"></i> Datos ilustrativos — cada partido configura su propia geografía real al implementar SED-RD.
     </p>
-  </div>
-</section>
-
-<!-- ORIGEN -->
-<section class="section" id="historia" style="background: white;">
-  <div class="container">
-    <div class="section-label">Nuestra Historia</div>
-    <h2 class="section-title">Cómo Nació SED-RD</h2>
-
-    <div class="origen-card">
-      <div class="origen-text">
-        <p>Nadie me lo pidió. No había presupuesto, ni equipo, ni certeza de que fuera a funcionar. Solo la experiencia de estar en el terreno como dirigente de zona y ver, de cerca, todo lo que faltaba.</p>
-        <p>La idea llegó antes que las herramientas para construirla. Durante mucho tiempo existió solo en mi cabeza, dando vueltas, hasta que decidí que tenía que dejar de ser una idea y convertirse en algo real. Aprendí lo que hizo falta aprender. Encontré tiempo donde no lo había. Seguí cuando lo lógico hubiera sido parar.</p>
-        <p>SED-RD no nació en un laboratorio ni en una oficina central. Nació donde nace el trabajo político de verdad: en la base. Lo construyó alguien que conoce ese trabajo porque lo vivió primero, y que decidió que la militancia también merece herramientas hechas con la misma seriedad con la que se hacen las cosas importantes.</p>
-      </div>
-      <div class="origen-author">
-        <div class="origen-avatar">GV</div>
-        <div>
-          <div class="origen-name">Gritzewsky Ventura</div>
-          <div class="origen-role">Fundador, SED-RD</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SOBRE EL CREADOR -->
-<section class="section creator-section" id="creador">
-  <div class="container">
-    <div class="creator-card">
-      <div class="creator-avatar">GV</div>
-      <h2 class="section-title">Sobre el Creador</h2>
-      <div class="creator-name">Gritzewsky Ventura</div>
-      <div class="creator-role">Fundador y Creador de SED-RD</div>
-      <p class="creator-bio">Ex dirigente de base con experiencia real en el terreno electoral dominicano. SED-RD nació de esa vivencia: la de ver lo que falta y decidir construirlo. Sigo trabajando en la base mientras desarrollo herramientas que dignifiquen el trabajo político.</p>
-      <div class="creator-social">
-        <a href="#" class="btn-social linkedin" target="_blank" title="LinkedIn">
-          <i class="fa-brands fa-linkedin-in"></i> LinkedIn
-        </a>
-        <a href="#" class="btn-social instagram" target="_blank" title="Instagram">
-          <i class="fa-brands fa-instagram"></i> Instagram
-        </a>
-        <a href="#" class="btn-social linktree" target="_blank" title="Linktree">
-          <i class="fa-solid fa-link"></i> Linktree
-        </a>
-      </div>
-    </div>
   </div>
 </section>
 
