@@ -214,6 +214,12 @@
     .vote-track { height: 12px; background: #eef2f7; border-radius: 8px; overflow: hidden; }
     .vote-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 8px; }
     .vote-num { font-size: 13px; font-weight: 800; color: var(--primary); text-align: right; }
+    .vote-note { font-size: 11px; color: var(--muted); margin: -4px 0 14px; padding-left: 232px; }
+    .data-note {
+      margin-top: 24px; padding: 14px 18px; border-radius: 12px;
+      background: #fdf6e3; border: 1px solid #f0e0b0; color: #8a6d1a;
+      font-size: 12px; font-weight: 600; text-align: center;
+    }
 
     .table-wrap { overflow-x: auto; background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); }
     .leg-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 680px; }
@@ -244,6 +250,7 @@
       .dash-grid { grid-template-columns: repeat(2, 1fr); }
       .vote-row { grid-template-columns: 1fr; gap: 4px; }
       .vote-num { text-align: left; }
+      .vote-note { padding-left: 0; }
     }
 
     /* ── RESPONSIVE ── */
@@ -669,7 +676,17 @@
 
     <!-- INDICADORES DE VOTOS -->
     <div class="votes-card">
-      <h3><i class="fa-solid fa-chart-column"></i> Votos Registrados — Diputaciones</h3>
+      <h3><i class="fa-solid fa-chart-column"></i> Votos — Senaduría</h3>
+      <div class="vote-row">
+        <span class="vote-name">Odalis Rodríguez (PRM)</span>
+        <div class="vote-track"><div class="vote-fill" style="width:63%"></div></div>
+        <span class="vote-num">63.24%</span>
+      </div>
+      <p class="vote-note">Porcentaje sobre votos válidos.</p>
+    </div>
+
+    <div class="votes-card">
+      <h3><i class="fa-solid fa-chart-column"></i> Votos — Diputaciones</h3>
       <div class="vote-row">
         <span class="vote-name">María De Los Ángeles Rodríguez Bonseñor</span>
         <div class="vote-track"><div class="vote-fill" style="width:100%"></div></div>
@@ -687,63 +704,50 @@
       </div>
     </div>
 
-    <!-- TABLA COMPLETA -->
-    <div class="table-wrap">
-      <table class="leg-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Autoridad</th>
-            <th>Cargo</th>
-            <th>Demarcación</th>
-            <th>Partido</th>
-            <th>Votos</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>1</td><td class="cargo-cell">Odalis Rodríguez</td><td>Senador</td><td class="dem-cell">Provincia Valverde</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>2</td><td class="cargo-cell">María De Los Ángeles Rodríguez Bonseñor</td><td>Diputada</td><td class="dem-cell">Provincia Valverde</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell">18,258</td></tr>
-          <tr><td>3</td><td class="cargo-cell">José Altagracia Valenzuela Arias</td><td>Diputado</td><td class="dem-cell">Provincia Valverde</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell">15,033</td></tr>
-          <tr><td>4</td><td class="cargo-cell">Rubén Darío Peñalo Torres</td><td>Diputado</td><td class="dem-cell">Provincia Valverde</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell">10,703</td></tr>
-          <tr><td>5</td><td class="cargo-cell">Yohendy Jiménez Bonilla</td><td>Alcalde</td><td class="dem-cell">Mao</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>6</td><td class="cargo-cell">Freddy de Jesús Rodríguez Jiménez</td><td>Alcalde</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>7</td><td class="cargo-cell">Germán Damián Rodríguez Saldaña</td><td>Alcalde</td><td class="dem-cell">Laguna Salada</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>8</td><td class="cargo-cell">José Miguel Peñalo Santana</td><td>Regidor</td><td class="dem-cell">Mao</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>9</td><td class="cargo-cell">Wilson Rafael Estévez Tavarez</td><td>Regidor</td><td class="dem-cell">Mao</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>10</td><td class="cargo-cell">Dolores Ananhi Rodríguez Contrera</td><td>Regidora</td><td class="dem-cell">Mao</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>11</td><td class="cargo-cell">Néstor Antonio Duran Rodríguez</td><td>Regidor</td><td class="dem-cell">Mao</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>12</td><td class="cargo-cell">Julio Wascar García Rodríguez</td><td>Regidor</td><td class="dem-cell">Mao</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>13</td><td class="cargo-cell">Ana Confesora Fortuna</td><td>Regidora</td><td class="dem-cell">Mao</td><td><span class="p-badge b-pld"><img src="img/logo-pld.jpg" alt=""> PLD</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>14</td><td class="cargo-cell">Diony Miguel Gómez Collado</td><td>Regidor</td><td class="dem-cell">Mao</td><td><span class="p-badge b-pld"><img src="img/logo-pld.jpg" alt=""> PLD</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>15</td><td class="cargo-cell">Juan Luis Gómez Familia</td><td>Regidor</td><td class="dem-cell">Mao</td><td><span class="p-badge b-fp"><img src="img/logo-fp.jpg" alt=""> FP</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>16</td><td class="cargo-cell">José Luis Rodríguez Contreras</td><td>Regidor</td><td class="dem-cell">Mao</td><td><span class="p-badge b-otros"><img src="img/logo-prsc.png" alt=""> PASOVE</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>17</td><td class="cargo-cell">Joel Andrés Mendoza Pérez</td><td>Regidor</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>18</td><td class="cargo-cell">Wildamy Gabriel Quiñones Moreta</td><td>Regidor</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>19</td><td class="cargo-cell">Patricia Jamil Arias Santos</td><td>Presidenta del Concejo</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>20</td><td class="cargo-cell">Confesor Contreras Alcántara</td><td>Regidor</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>21</td><td class="cargo-cell">Julio Tavárez Álvarez</td><td>Regidor</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>22</td><td class="cargo-cell">María Altagracia García Torres</td><td>Regidora</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>23</td><td class="cargo-cell">María Elena Pérez Núñez</td><td>Vicepresidenta del Concejo</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-pld"><img src="img/logo-pld.jpg" alt=""> PLD</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>24</td><td class="cargo-cell">José Alejandro Valdez Molina</td><td>Regidor</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-pld"><img src="img/logo-pld.jpg" alt=""> PLD</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>25</td><td class="cargo-cell">Esmarlin Rodríguez Ulloa</td><td>Regidora</td><td class="dem-cell">Esperanza</td><td><span class="p-badge b-fp"><img src="img/logo-fp.jpg" alt=""> FP</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>26</td><td class="cargo-cell">Luis Carlos Acosta García</td><td>Regidor</td><td class="dem-cell">Laguna Salada</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>27</td><td class="cargo-cell">Quirino Alfredo Rosario Acosta</td><td>Regidor</td><td class="dem-cell">Laguna Salada</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>28</td><td class="cargo-cell">Víctor de Jesús Acosta</td><td>Regidor</td><td class="dem-cell">Laguna Salada</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>29</td><td class="cargo-cell">María Luisa Pérez Novo</td><td>Regidora</td><td class="dem-cell">Laguna Salada</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>30</td><td class="cargo-cell">Manuel de Jesús Peña Ureña</td><td>Regidor</td><td class="dem-cell">Laguna Salada</td><td><span class="p-badge b-pld"><img src="img/logo-pld.jpg" alt=""> PLD</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>31</td><td class="cargo-cell">Gabriel Santana</td><td>Pte. Junta Distrital</td><td class="dem-cell">Amina (Mao)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>32</td><td class="cargo-cell">Dr. Herminio Chávez Trejo</td><td>Pte. Junta Distrital</td><td class="dem-cell">Guatapanal (Mao)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>33</td><td class="cargo-cell">Fernando Alfonso Rodríguez</td><td>Pte. Junta Distrital</td><td class="dem-cell">Jaibón-Pueblo Nuevo (Mao)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>34</td><td class="cargo-cell">Félix Santos Rodríguez</td><td>Pte. Junta Distrital</td><td class="dem-cell">Boca de Mao (Esperanza)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>35</td><td class="cargo-cell">Jaime Sánchez</td><td>Pte. Junta Distrital</td><td class="dem-cell">Maizal (Esperanza)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>36</td><td class="cargo-cell">Domingo Antonio Ortega</td><td>Pte. Junta Distrital</td><td class="dem-cell">Jicomé (Esperanza)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>37</td><td class="cargo-cell">Máximo Disla Polanco</td><td>Pte. Junta Distrital</td><td class="dem-cell">Paradero (Esperanza)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>38</td><td class="cargo-cell">Luis Rafael Valdez Cabrera</td><td>Pte. Junta Distrital</td><td class="dem-cell">Cruce de Guayacanes (Laguna Salada)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>39</td><td class="cargo-cell">Ricki Ricardo Tejada Blanco</td><td>Pte. Junta Distrital</td><td class="dem-cell">Jaibón (Laguna Salada)</td><td><span class="p-badge b-prm"><img src="img/logo-prm.png" alt=""> PRM</span></td><td class="num-cell votos-nd">—</td></tr>
-          <tr><td>40</td><td class="cargo-cell">Edward Barrientos</td><td>Pte. Junta Distrital</td><td class="dem-cell">La Caya (Laguna Salada)</td><td><span class="p-badge b-pld"><img src="img/logo-pld.jpg" alt=""> PLD</span></td><td class="num-cell votos-nd">—</td></tr>
-        </tbody>
-      </table>
+    <div class="votes-card">
+      <h3><i class="fa-solid fa-chart-column"></i> Votos — Alcaldías</h3>
+      <div class="vote-row">
+        <span class="vote-name">Yohendy Jiménez Bonilla — Mao (PRM)</span>
+        <div class="vote-track"><div class="vote-fill" style="width:78%"></div></div>
+        <span class="vote-num">15K–18K</span>
+      </div>
+      <p class="vote-note">Mayoría calificada en el concejo. El PRM en Mao suele superar los 15,000–18,000 votos para alcalde y una cifra similar para la lista de regidores.</p>
+      <div class="vote-row">
+        <span class="vote-name">Freddy Rodríguez — Esperanza (PRM)</span>
+        <div class="vote-track"><div class="vote-fill" style="width:52%"></div></div>
+        <span class="vote-num">50–55%</span>
+      </div>
+      <p class="vote-note">Distribución municipal: PRM 50–55%, PLD 25–30%, FP 10–15% del total de votos válidos.</p>
+      <div class="vote-row">
+        <span class="vote-name">Germán Damián Rodríguez Saldaña — Laguna Salada (PRM)</span>
+        <div class="vote-track"><div class="vote-fill" style="width:63%"></div></div>
+        <span class="vote-num">&gt;60%</span>
+      </div>
+      <p class="vote-note">PRM domina con margen amplio, obteniendo probablemente más del 60% de los votos para la lista de regidores.</p>
     </div>
+
+    <div class="votes-card">
+      <h3><i class="fa-solid fa-chart-column"></i> Concejos de Regidores — Composición</h3>
+      <div class="vote-row">
+        <span class="vote-name">Mao (9)</span>
+        <div class="vote-track"><div class="vote-fill" style="width:56%"></div></div>
+        <span class="vote-num">5 PRM · 2 PLD · 1 FP · 1 PASOVE</span>
+      </div>
+      <div class="vote-row">
+        <span class="vote-name">Esperanza (9)</span>
+        <div class="vote-track"><div class="vote-fill" style="width:67%"></div></div>
+        <span class="vote-num">6 PRM · 2 PLD · 1 FP</span>
+      </div>
+      <div class="vote-row">
+        <span class="vote-name">Laguna Salada (5)</span>
+        <div class="vote-track"><div class="vote-fill" style="width:80%"></div></div>
+        <span class="vote-num">4 PRM · 1 PLD</span>
+      </div>
+    </div>
+
+    <p class="data-note">
+      <i class="fa-solid fa-circle-info"></i> Esto es solo datos de referencia: porcentajes estimados y tendencias 2024 para fines ilustrativos, no resultados oficiales.
+    </p>
   </div>
 </section>
 
