@@ -98,6 +98,8 @@
       text-decoration: none; transition: all 0.25s ease;
     }
     .btn-nav:hover { background: var(--primary-light); transform: translateY(-1px); box-shadow: var(--shadow); }
+    .btn-nav-ghost { background: transparent; color: var(--primary) !important; border: 1.5px solid var(--border) !important; }
+    .btn-nav-ghost:hover { border-color: var(--accent) !important; color: var(--accent-dark) !important; background: rgba(212,175,55,0.06); }
     .nav-burger {
       display: none; margin-left: auto;
       background: none; border: 2px solid var(--border); border-radius: 10px;
@@ -402,6 +404,45 @@
     }
     .footer-social a:hover { background: var(--accent); color: var(--primary-dark); }
 
+    /* ── MODAL "MÁS" ── */
+    .modal-mas-overlay {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15,34,64,0.5); backdrop-filter: blur(4px);
+      z-index: 200; align-items: center; justify-content: center;
+    }
+    .modal-mas-overlay.active { display: flex; }
+    .modal-mas {
+      background: white; border-radius: 20px; padding: 36px 32px;
+      max-width: 380px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      position: relative;
+    }
+    .modal-mas-close {
+      position: absolute; top: 14px; right: 14px;
+      background: none; border: none; font-size: 18px; color: var(--muted);
+      cursor: pointer; width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .modal-mas-close:hover { background: var(--bg); color: var(--text); }
+    .modal-mas h3 {
+      font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 20px;
+    }
+    .modal-mas-item {
+      display: flex; align-items: center; gap: 14px; padding: 14px 16px;
+      border-radius: 12px; text-decoration: none; color: var(--text);
+      transition: all 0.2s; border: 1px solid transparent;
+    }
+    .modal-mas-item:hover { background: var(--bg); border-color: var(--border); }
+    .modal-mas-item .mm-icon {
+      width: 42px; height: 42px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+    }
+    .modal-mas-item .mm-text h4 { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
+    .modal-mas-item .mm-text p { font-size: 12px; color: var(--muted); }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       .trust-grid { grid-template-columns: repeat(2, 1fr); }
@@ -498,6 +539,7 @@
       <a href="#seguridad" class="hide-mobile">Seguridad</a>
       <a href="#como-funciona" class="hide-mobile">Cómo Funciona</a>
       <a href="#producto" class="hide-mobile">Producto</a>
+      <button class="btn-nav btn-nav-ghost" onclick="abrirModalMas()" style="cursor:pointer;font-family:inherit">Más <i class="fa-solid fa-chevron-down" style="font-size:10px;margin-left:2px"></i></button>
       <button class="btn-nav" onclick="abrirPortalElectoral()" style="border:none;cursor:pointer;font-family:inherit">Iniciar Sesión</button>
     </div>
     <button class="nav-burger" onclick="toggleNavMenu()" aria-label="Menú"><i class="fa-solid fa-bars"></i></button>
@@ -507,6 +549,9 @@
       <a href="#como-funciona">Cómo Funciona</a>
       <a href="#producto">Producto</a>
       <a href="#creador">Sobre el Creador</a>
+      <div style="border-top:1px solid var(--border);margin:8px 0"></div>
+      <a href="legisladores.html">Representantes</a>
+      <a href="geografia.html">Geografía</a>
       <div class="dd-btns">
         <button class="btn btn-primary" onclick="abrirPortalElectoral()" style="border:none;cursor:pointer;font-family:inherit">Iniciar Sesión</button>
       </div>
@@ -914,6 +959,22 @@
 
 <div id="toast" class="toast"></div>
 
+<!-- MODAL "MÁS" -->
+<div class="modal-mas-overlay" id="modal-mas" onclick="if(event.target===this)cerrarModalMas()">
+  <div class="modal-mas">
+    <button class="modal-mas-close" onclick="cerrarModalMas()" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+    <h3>Explora SISTEPARD</h3>
+    <a href="legisladores.html" class="modal-mas-item">
+      <div class="mm-icon"><i class="fa-solid fa-landmark"></i></div>
+      <div class="mm-text"><h4>Representantes</h4><p>Estructura de liderazgo y candidaturas</p></div>
+    </a>
+    <a href="geografia.html" class="modal-mas-item">
+      <div class="mm-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+      <div class="mm-text"><h4>Geografía</h4><p>Municipios y estructura territorial</p></div>
+    </a>
+  </div>
+</div>
+
 <script>
 // ═══════════ PORTAL PÚBLICO ═══════════
 function abrirPortalElectoral(modo) {
@@ -935,6 +996,14 @@ function cerrarPortalElectoral() {
 }
 function toggleNavMenu() {
   document.getElementById('nav-dropdown').classList.toggle('open');
+}
+function abrirModalMas() {
+  document.getElementById('modal-mas').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function cerrarModalMas() {
+  document.getElementById('modal-mas').classList.remove('active');
+  document.body.style.overflow = '';
 }
 
 // ═══════════ SUPABASE ═══════════
@@ -1296,6 +1365,8 @@ function initScrollReveal() {
 // Expose
 window.abrirPortalElectoral = abrirPortalElectoral;
 window.cerrarPortalElectoral = cerrarPortalElectoral;
+window.abrirModalMas = abrirModalMas;
+window.cerrarModalMas = cerrarModalMas;
 window.peIrStep = peIrStep;
 window.peEntrarRol = peEntrarRol;
 window.peBuscarCedula = peBuscarCedula;
