@@ -94,6 +94,7 @@
       <button class="nav-btn bg-slate-900 text-white" data-tab="resumen" onclick="mostrarTab('resumen')"><i class="fa-solid fa-chart-pie mr-1"></i> Resumen</button>
       <button class="nav-btn" data-tab="candidatos" onclick="mostrarTab('candidatos')"><i class="fa-solid fa-user-tie mr-1"></i> Candidatos</button>
       <button class="nav-btn" data-tab="dirigentes" onclick="mostrarTab('dirigentes')"><i class="fa-solid fa-people-group mr-1"></i> Dirigentes</button>
+      <button class="nav-btn" data-tab="solicitudes" onclick="mostrarTab('solicitudes')"><i class="fa-solid fa-clock mr-1"></i> Solicitudes <span id="badge-solicitudes" class="notif-badge hidden">0</span></button>
       <button class="nav-btn" data-tab="comite" onclick="mostrarTab('comite')"><i class="fa-solid fa-users mr-1"></i> Comité</button>
       <button class="nav-btn" data-tab="apoyos" onclick="mostrarTab('apoyos')"><i class="fa-solid fa-handshake mr-1"></i> Apoyos</button>
       <button class="nav-btn" data-tab="planchas" onclick="mostrarTab('planchas')"><i class="fa-solid fa-bullhorn mr-1"></i> Planchas</button>
@@ -190,7 +191,21 @@
       </div>
     </section>
 
-    <!-- ═══════════ COMITÉ ═══════════ -->
+    <!-- ═══════════ SOLICITUDES PENDIENTES ════════════ -->
+    <section id="tab-solicitudes" class="tab-panel">
+      <div class="bg-white rounded-2xl shadow-sm p-5">
+        <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+          <h3 class="font-black text-slate-700 text-sm"><i class="fa-solid fa-clock mr-2 text-amber-500"></i> Solicitudes Pendientes de Aprobación</h3>
+          <button onclick="cargarSolicitudes()" class="text-xs bg-slate-100 hover:bg-slate-200 px-3 py-1 rounded-lg font-bold"><i class="fa-solid fa-rotate mr-1"></i> Refrescar</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table><thead><tr><th>Cedula</th><th>Nombre</th><th>Zona</th><th>Municipio</th><th>Email</th><th>Fecha Registro</th><th>Acciones</th></tr></thead><tbody id="tbody-solicitudes"></tbody></table>
+        </div>
+        <p id="solicitudes-empty" class="text-slate-400 text-center py-8 hidden">No hay solicitudes pendientes</p>
+      </div>
+    </section>
+
+    <!-- ════════════ COMITÉ ═════════════ -->
     <section id="tab-comite" class="tab-panel">
       <div class="bg-white rounded-2xl shadow-sm p-5">
         <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
@@ -416,6 +431,7 @@ async function entrarAdmin() {
   localStorage.setItem('prm_admin_token', authData.session.access_token);
   mostrarPanel();
   mostrarTab('resumen');
+  cargarSolicitudes();
 }
 
 function cerrarSesionAdmin() {
@@ -869,7 +885,61 @@ async function toggleDirigente(cedula, activo) {
   renderDirigentes();
 }
 
-// ═══════════ COMITÉ ═══════════
+// ������������������������� SOLICITUDES PENDIENTES �������������������������
+async function cargarSolicitudes() {
+  const { data } = await sb.from('dirigentes')
+    .select('cedula, nombre, zona, municipio, email, created_at')
+    .eq('activo', false)
+    .order('created_at', { ascending: false });
+  const tb = document.getElementById('tbody-solicitudes');
+  const empty = document.getElementById('solicitudes-empty');
+  tb.innerHTML = '';
+  if (!data || data.length === 0) {
+    empty.classList.remove('hidden');
+    actualizarBadgeSolicitudes(0);
+    return;
+  }
+  empty.classList.add('hidden');
+  actualizarBadgeSolicitudes(data.length);
+  data.forEach(d => {
+    const tr = document.createElement('tr');
+    const fecha = d.created_at ? new Date(d.created_at).toLocaleDateString('es-DO', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' }) : '—';
+    tr.innerHTML = '<td class="font-mono">' + d.cedula + '</td><td class="font-semibold">' + d.nombre + '</td><td>' + (d.zona || '—') + '</td><td>' + (d.municipio || '—') + '</td><td>' + (d.email || '—') + '</td><td class="text-xs">' + fecha + '</td>' +
+      '<td class="whitespace-nowrap">' +
+        '<button onclick="aprobarSolicitud(\'' + d.cedula + '\')" class="text-green-600 hover:underline font-semibold mr-2">Aprobar</button>' +
+        '<button onclick="rechazarSolicitud(\'' + d.cedula + '\')" class="text-red-600 hover:underline font-semibold">Rechazar</button>' +
+      '</td>';
+    tb.appendChild(tr);
+  });
+}
+
+async function aprobarSolicitud(cedula) {
+  if (!confirm('¿Aprobar esta solicitud? El dirigente podrá acceder al sistema.')) return;
+  const { error } = await sb.from('dirigentes').update({ activo: true }).eq('cedula', cedula);
+  if (error) { alert('Error: ' + error.message); return; }
+  if (typeof auditLogger !== 'undefined') auditLogger.log('dirigente_aprobado', { tabla: 'dirigentes', registroId: cedula, detalle: { accion: 'aprobacion_manual' } });
+  cargarSolicitudes();
+  if (document.getElementById('tab-dirigentes').classList.contains('active')) renderDirigentes();
+}
+
+async function rechazarSolicitud(cedula) {
+  if (!confirm('¿Rechazar y ELIMINAR esta solicitud? Se borrará el registro del dirigente.')) return;
+  const { error } = await sb.from('dirigentes').delete().eq('cedula', cedula);
+  if (error) { alert('Error: ' + error.message); return; }
+  if (typeof auditLogger !== 'undefined') auditLogger.log('dirigente_rechazado', { tabla: 'dirigentes', registroId: cedula, detalle: { accion: 'rechazo_manual' } });
+  try { await sb.auth.admin.deleteUser(cedula); } catch(e) {}
+  cargarSolicitudes();
+  if (document.getElementById('tab-dirigentes').classList.contains('active')) renderDirigentes();
+}
+
+function actualizarBadgeSolicitudes(count) {
+  const badge = document.getElementById('badge-solicitudes');
+  if (!badge) return;
+  if (count > 0) { badge.textContent = count; badge.classList.remove('hidden'); }
+  else badge.classList.add('hidden');
+}
+
+// ������������������������� COMITÉ �������������������������
 async function renderComite() {
   const q = (document.getElementById('busqueda-comite').value || '').trim().toLowerCase();
   const { data } = await sb.from('comite_miembros').select('*, dirigentes(nombre, cedula)').order('created_at', { ascending: false });

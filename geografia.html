@@ -808,6 +808,14 @@ async function peVerificarPin() {
         document.getElementById('pe-p0').focus();
         return;
       }
+            // Verificar aprobación
+      const { data: dir } = await sb.from('dirigentes').select('activo').eq('cedula', E.cedFmt).maybeSingle();
+      if (dir && dir.activo === false) {
+        peErr('pe-err-pin', 'Tu cuenta está pendiente de aprobación. Un administrador la revisará pronto.');
+        ['pe-p0','pe-p1','pe-p2','pe-p3'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('pe-p0').focus();
+        return;
+      }
       const claims = authData.user.app_metadata || {};
       const sess = {
         cedula: E.cedFmt,
@@ -937,7 +945,7 @@ async function peCompletarRegistro() {
   if (pin.length < 4) { peErr('pe-err-reg', 'Crea tu PIN de 4 dígitos'); return; }
   const cedFmt = cedula.slice(0,3)+'-'+cedula.slice(3,10)+'-'+cedula.slice(10);
   if (sb) {
-    const { error: errDir } = await sb.from('dirigentes').insert({ cedula: cedFmt, nombre, municipio: mun || null, zona: zona || null, sector, telefono: tel, email, pin_hash: pin, activo: true });
+    const { error: errDir } = await sb.from('dirigentes').insert({ cedula: cedFmt, nombre, municipio: mun || null, zona: zona || null, sector, telefono: tel, email, pin_hash: pin, activo: false });
     if (errDir && errDir.code === '23505') { peErr('pe-err-reg', 'Esta cédula ya está registrada'); return; }
     else if (errDir) { peErr('pe-err-reg', 'Error: ' + errDir.message); return; }
     const rolMap = { candidato: 'candidato', dirigente: 'dirigente_zonal', delegado: 'delegado' };
@@ -973,14 +981,20 @@ async function peCompletarRegistro() {
       const tipo = document.getElementById('pe-reg-tipo').value;
       const cargo = document.getElementById('pe-reg-cargo').value;
       if (!cargo) { peErr('pe-err-reg', 'Selecciona el cargo que buscas'); return; }
-      await sb.from('candidatos').insert({ id: cedFmt, nombre, cargo, tipo, activo: true });
+      await sb.from('candidatos').insert({ id: cedFmt, nombre, cargo, tipo, activo: false });
     }
   }
-  peToast('✅ Registro completado', 'ok');
+  peToast('���� Solicitud enviada — pendiente de aprobación', 'info');
   setTimeout(() => { E.rolDeseado = null; peIrStep('pe-step-cedula'); document.getElementById('pe-inp-cedula').value = ''; }, 1500);
 }
 
-// ═══════════ RECUPERAR PIN ═══════════
+// ══════════════════════ VERIFICAR APROBACION ═══════════════════════
+async function peVerificarAprobacion(cedFmt) {
+  const { data } = await sb.from('dirigentes').select('activo').eq('cedula', cedFmt).maybeSingle();
+  return data?.activo === true;
+}
+
+// ══════════════════════════════ RECUPERAR PIN ══════════════════════════
 async function peEnviarRecuperacion() {
   const email = document.getElementById('pe-rec-email').value.trim();
   if (!email) { peErr('pe-err-recuperar', 'Ingresa tu email'); return; }
