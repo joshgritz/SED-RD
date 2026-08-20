@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1b2a"/>
+      <stop offset="100%" style="stop-color:#1b2838"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Fondo -->
+  <rect width="200" height="200" rx="20" fill="url(#bgGrad)"/>
+  
+  <!-- Caja de urna -->
+  <rect x="55" y="85" width="90" height="70" rx="6" fill="white"/>
+  
+  <!-- Ranura superior -->
+  <rect x="70" y="78" width="60" height="6" rx="3" fill="#0d1b2a"/>
+  
+  <!-- Documento entrando -->
+  <rect x="78" y="50" width="44" height="40" rx="3" fill="white" stroke="#ccc" stroke-width="1"/>
+  <line x1="85" y1="60" x2="115" y2="60" stroke="#ddd" stroke-width="2"/>
+  <line x1="85" y1="68" x2="115" y2="68" stroke="#ddd" stroke-width="2"/>
+  <line x1="85" y1="76" x2="105" y2="76" stroke="#ddd" stroke-width="2"/>
+  
+  <!-- Check mark -->
+  <path d="M88,62 L95,70 L112,52" fill="none" stroke="#4CAF50" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Texto -->
+  <text x="100" y="175" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-weight="700" font-size="16" fill="white" letter-spacing="3">SISTEPARD</text>
+</svg>

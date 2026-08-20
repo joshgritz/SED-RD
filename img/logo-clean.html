@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SISTEPARD Logo Clean</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #0d1b2a;
+    }
+    
+    .logo {
+      width: 200px;
+      height: 200px;
+      background: linear-gradient(135deg, #0d1b2a 0%, #1b2838 100%);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .urna {
+      position: relative;
+      width: 90px;
+      height: 70px;
+      background: white;
+      border-radius: 6px;
+      margin-top: 20px;
+    }
+    
+    .ranura {
+      position: absolute;
+      top: -7px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 6px;
+      background: #0d1b2a;
+      border-radius: 3px;
+    }
+    
+    .documento {
+      position: absolute;
+      top: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 40px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+    }
+    
+    .doc-line {
+      position: absolute;
+      left: 7px;
+      right: 7px;
+      height: 2px;
+      background: #e0e0e0;
+      border-radius: 1px;
+    }
+    
+    .doc-line:nth-child(1) { top: 8px; }
+    .doc-line:nth-child(2) { top: 16px; }
+    .doc-line:nth-child(3) { top: 24px; width: 50%; }
+    
+    .check {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 18px;
+      height: 10px;
+      border-left: 3px solid #4CAF50;
+      border-bottom: 3px solid #4CAF50;
+      transform: translateX(-50%) rotate(-45deg);
+    }
+    
+    .text {
+      margin-top: 60px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: white;
+      letter-spacing: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <div class="urna">
+      <div class="ranura"></div>
+      <div class="documento">
+        <div class="doc-line"></div>
+        <div class="doc-line"></div>
+        <div class="doc-line"></div>
+        <div class="check"></div>
+      </div>
+    </div>
+    <div class="text">SISTEPARD</div>
+  </div>
+</body>
+</html>
