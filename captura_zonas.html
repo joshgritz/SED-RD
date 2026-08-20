@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Captura de Zonas — PRM Valverde</title>
+<script src="js/config_loader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase_config.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{--p:#003087;--s:#C8102E;--a:#F5A623}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293b;min-height:100vh}
+.hdr{background:linear-gradient(135deg,var(--p),#1a4fa8);color:white;padding:16px;position:sticky;top:0;z-index:100}
+.hdr h1{font-size:16px;font-weight:900;margin:4px 0 2px}
+.hdr p{font-size:11px;opacity:0.7}
+.wrap{padding:12px;max-width:700px;margin:0 auto}
+.card{background:white;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06);padding:14px;margin-bottom:12px}
+.card-title{font-size:11px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+
+/* Provincia banner */
+.prov-banner{background:linear-gradient(135deg,#003087,#1a4fa8);color:white;border-radius:14px;padding:16px;margin-bottom:12px;text-align:center}
+.prov-banner h2{font-size:18px;font-weight:900}
+.prov-banner .stats{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-top:10px}
+.prov-banner .stat{background:rgba(255,255,255,0.15);border-radius:10px;padding:8px 4px}
+.prov-banner .stat-n{font-size:18px;font-weight:900}
+.prov-banner .stat-l{font-size:8px;opacity:0.8;text-transform:uppercase}
+
+/* Municipio selector */
+.muni-sel{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.muni-btn{padding:12px 8px;border:2px solid #e2e8f0;border-radius:12px;background:white;cursor:pointer;text-align:center;transition:all .15s;font-family:inherit}
+.muni-btn:active{transform:scale(0.97)}
+.muni-btn.activo{border-color:var(--p);background:#f0f4ff;box-shadow:0 2px 8px rgba(0,48,135,0.15)}
+.muni-btn .icon{font-size:20px}
+.muni-btn .name{font-size:12px;font-weight:800;margin-top:4px}
+.muni-btn .info{font-size:9px;color:#64748b}
+
+/* Zonas list */
+.zona-card{border:2px solid #e2e8f0;border-radius:12px;padding:12px;margin-bottom:8px;transition:all .15s}
+.zona-card:hover{border-color:var(--p)}
+.zona-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.zona-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.zona-nombre-input{flex:1;border:none;border-bottom:2px solid #e2e8f0;padding:4px 0;font-size:14px;font-weight:700;font-family:inherit;outline:none}
+.zona-nombre-input:focus{border-color:var(--p)}
+.zona-del{background:none;border:none;color:#dc2626;cursor:pointer;font-size:14px;padding:4px}
+.zona-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.field{display:flex;flex-direction:column}
+.field label{font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;margin-bottom:3px}
+.field input,.field textarea,.field select{border:1.5px solid #e2e8f0;border-radius:8px;padding:8px 10px;font-size:12px;font-family:inherit;outline:none;transition:border .15s}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--p)}
+.field-full{grid-column:1/-1}
+
+/* Colegios section */
+.colegios-section{background:#f8fafc;border-radius:10px;padding:10px;margin-top:8px}
+.colegios-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.colegios-header span{font-size:11px;font-weight:800;color:#64748b}
+.colegio-row{display:flex;align-items:center;gap:6px;padding:6px 8px;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:4px;background:white}
+.colegio-row input[type="text"]{flex:1;border:none;font-size:11px;font-family:inherit;outline:none}
+.colegio-row input[type="number"]{width:60px;border:none;border-left:1px solid #e2e8f0;font-size:11px;text-align:center;font-family:inherit;outline:none}
+.colegio-row .del-colegio{background:none;border:none;color:#dc2626;cursor:pointer;font-size:11px;padding:2px}
+.add-colegio{width:100%;padding:6px;border:1.5px dashed #cbd5e1;border-radius:8px;background:transparent;cursor:pointer;font-size:11px;font-weight:700;color:#64748b;font-family:inherit;transition:all .15s}
+.add-colegio:hover{border-color:var(--p);color:var(--p)}
+
+/* Distritos */
+.distritos-box{background:#f0f4ff;border-radius:10px;padding:10px;margin-top:8px}
+.distritos-box .card-title{color:var(--p)}
+.distrito-chip{display:inline-flex;align-items:center;gap:4px;background:white;border:1.5px solid #e2e8f0;border-radius:8px;padding:4px 8px;margin:2px;font-size:10px;font-weight:600}
+.distrito-chip.activo{border-color:var(--p);background:#dbeafe;color:var(--p)}
+.distrito-chip input[type="checkbox"]{display:none}
+.distrito-chip label{cursor:pointer}
+
+/* Buttons */
+.btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;margin-bottom:8px;transition:all .15s}
+.btn:active{transform:scale(0.97)}
+.btn-p{background:var(--p);color:white}
+.btn-g{background:#f1f5f9;color:#64748b}
+.btn-s{background:var(--s);color:white}
+.btn-success{background:#16a34a;color:white}
+
+/* Summary */
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.summary-item{background:#f8fafc;border-radius:10px;padding:10px;text-align:center}
+.summary-item .num{font-size:20px;font-weight:900;color:var(--p)}
+.summary-item .lbl{font-size:9px;color:#64748b;text-transform:uppercase;font-weight:700}
+
+/* Export area */
+.export-box{background:#1e293b;color:#e2e8f0;border-radius:12px;padding:14px;margin-top:12px}
+.export-box pre{background:#0f172a;border-radius:8px;padding:10px;font-size:10px;overflow-x:auto;max-height:300px;overflow-y:auto;color:#a5f3fc;margin-top:8px;white-space:pre-wrap}
+
+.toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:400px;margin:0 auto;padding:13px 18px;border-radius:14px;font-size:14px;font-weight:700;z-index:9999;text-align:center;display:none}
+.toast-ok{background:#16a34a;color:white}
+.toast-err{background:#dc2626;color:white}
+.toast-info{background:var(--p);color:white}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <span style="font-size:11px;opacity:0.6">Herramienta de Captura</span>
+    <a href="zonas.html" style="color:white;text-decoration:none;font-size:11px;font-weight:700;opacity:0.8">← Volver</a>
+  </div>
+  <h1><i class="fa-solid fa-map-location-dot"></i> Captura de Zonas PRM</h1>
+  <p>Define las zonas y asigna colegios electorales por municipio</p>
+</div>
+
+<div class="wrap">
+
+  <!-- Provincia -->
+  <div class="prov-banner">
+    <h2>Provincia Valverde</h2>
+    <div style="font-size:10px;opacity:0.8;margin-top:2px">Código DO-27 · Valle del Yaque · Línea Noroeste</div>
+    <div class="stats">
+      <div class="stat"><div class="stat-n">126,203</div><div class="stat-l">Electores</div></div>
+      <div class="stat"><div class="stat-n">3</div><div class="stat-l">Municipios</div></div>
+      <div class="stat"><div class="stat-n">10</div><div class="stat-l">Distritos</div></div>
+      <div class="stat"><div class="stat-n">271</div><div class="stat-l">Colegios</div></div>
+    </div>
+  </div>
+
+  <!-- Municipio selector -->
+  <div class="card">
+    <div class="card-title">1. Selecciona Municipio</div>
+    <div class="muni-sel" id="muni-sel"></div>
+  </div>
+
+  <!-- Distritos del municipio -->
+  <div class="card" id="card-distritos" style="display:none">
+    <div class="card-title">2. Distritos Municipales</div>
+    <div class="distritos-box" id="distritos-box">
+      <p style="font-size:11px;color:#64748b;margin-bottom:8px">Marca los distritos que pertenecen al municipio seleccionado:</p>
+      <div id="distritos-chips"></div>
+    </div>
+  </div>
+
+  <!-- Zonas -->
+  <div class="card" id="card-zonas" style="display:none">
+    <div class="card-title">3. Definir Zonas</div>
+    <p style="font-size:11px;color:#64748b;margin-bottom:10px">Agrega las zonas del partido para este municipio. Cada zona tiene un nombre, descripción y sus colegios electorales.</p>
+    <div id="zonas-list"></div>
+    <button class="btn btn-g" onclick="agregarZona()" style="margin-top:8px">
+      <i class="fa-solid fa-plus"></i> Agregar Zona
+    </button>
+  </div>
+
+  <!-- Resumen -->
+  <div class="card" id="card-resumen" style="display:none">
+    <div class="card-title">4. Resumen</div>
+    <div class="summary-grid" id="summary-grid"></div>
+    <button class="btn btn-p" onclick="exportarJSON()" style="margin-top:8px">
+      <i class="fa-solid fa-download"></i> Exportar JSON
+    </button>
+    <button class="btn btn-success" onclick="guardarSupabase()" style="margin-top:4px">
+      <i class="fa-solid fa-cloud-arrow-up"></i> Guardar en Supabase
+    </button>
+    <button class="btn btn-g" onclick="generarSQL()" style="margin-top:4px">
+      <i class="fa-solid fa-code"></i> Generar SQL
+    </button>
+  </div>
+
+  <!-- Export preview -->
+  <div class="card" id="card-export" style="display:none">
+    <div class="card-title">Vista Previa</div>
+    <div class="export-box">
+      <pre id="export-preview"></pre>
+    </div>
+    <button class="btn btn-g" onclick="copiarClipboard()" style="margin-top:8px">
+      <i class="fa-solid fa-copy"></i> Copiar al Portapapeles
+    </button>
+  </div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// ═══════════ DATA ═══════════
+const PROVINCIA = {
+  nombre: 'Valverde', codigo: 'DO-27',
+  electores: 126203, recintos: 80, colegios: 271
+};
+
+const MUNICIPIOS = [
+  {
+    id: 'mao', nombre: 'Mao', tipo: 'Cabecera Provincial',
+    poblacion: 86659, electores: 62712, recintos: 41, colegios: 133,
+    distritos: [
+      'Mao (DM)',
+      'Ámina (DM)',
+      'Jaibón/Pueblo Nuevo (DM)',
+      'Guatapanal (DM)'
+    ],
+    zonas: []
+  },
+  {
+    id: 'esperanza', nombre: 'Esperanza', tipo: '2do Municipio',
+    poblacion: 69803, electores: 46347, recintos: 25, colegios: 101,
+    distritos: [
+      'Esperanza (DM)',
+      'Boca de Mao (DM)',
+      'Maizal (DM)',
+      'Jicomé (DM)',
+      'Paradero (DM)'
+    ],
+    zonas: []
+  },
+  {
+    id: 'laguna', nombre: 'Laguna Salada', tipo: 'Municipio',
+    poblacion: 27607, electores: 17144, recintos: 14, colegios: 37,
+    distritos: [
+      'Laguna Salada (DM)',
+      'Cruce de Guayacanes (DM)',
+      'La Caya (DM)',
+      'Jaibón (DM)'
+    ],
+    zonas: []
+  }
+];
+
+const COLORES_ZONA = ['#003087','#C8102E','#16a34a','#f97316','#efbc00','#7c3aed','#0ea5e9','#ec4899','#14b8a6','#f43f5e','#84cc16','#6366f1'];
+
+let muniActual = null;
+let sb = null;
+
+// ═══════════ INIT ═══════════
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) {
+    sb = window.supabase.createClient(window.SUPABASE_CONFIG.URL, window.SUPABASE_CONFIG.ANON_KEY);
+  }
+  renderMunicipios();
+  renderResumen();
+});
+
+// ═══════════ RENDER MUNICIPIOS ═══════════
+function renderMunicipios() {
+  const el = document.getElementById('muni-sel');
+  el.innerHTML = MUNICIPIOS.map((m, i) => `
+    <div class="muni-btn ${muniActual === i ? 'activo' : ''}" onclick="seleccionarMunicipio(${i})">
+      <div class="icon">${i === 0 ? '🏙️' : i === 1 ? '🌾' : '💧'}</div>
+      <div class="name">${m.nombre}</div>
+      <div class="info">${m.electores.toLocaleString()} elect. · ${m.colegios} colegios</div>
+      <div class="info" style="margin-top:2px;color:var(--p);font-weight:700">${m.zonas.length} zonas definidas</div>
+    </div>
+  `).join('');
+}
+
+function seleccionarMunicipio(i) {
+  muniActual = i;
+  renderMunicipios();
+  renderDistritos();
+  renderZonas();
+  renderResumen();
+}
+
+// ═══════════ RENDER DISTRITOS ═══════════
+function renderDistritos() {
+  const m = MUNICIPIOS[muniActual];
+  document.getElementById('card-distritos').style.display = '';
+  document.getElementById('card-zonas').style.display = '';
+  document.getElementById('card-resumen').style.display = '';
+  
+  const el = document.getElementById('distritos-chips');
+  el.innerHTML = m.distritos.map((d, i) => {
+    const activo = m.distritosActivos && m.distritosActivos.includes(i);
+    return `
+      <label class="distrito-chip ${activo ? 'activo' : ''}" id="dist-chip-${i}">
+        <input type="checkbox" ${activo ? 'checked' : ''} onchange="toggleDistrito(${i}, this.checked)">
+        ${d}
+      </label>
+    `;
+  }).join('');
+  
+  if (!m.distritosActivos) m.distritosActivos = [];
+}
+
+function toggleDistrito(i, checked) {
+  const m = MUNICIPIOS[muniActual];
+  if (checked) {
+    if (!m.distritosActivos.includes(i)) m.distritosActivos.push(i);
+  } else {
+    m.distritosActivos = m.distritosActivos.filter(x => x !== i);
+  }
+  document.getElementById(`dist-chip-${i}`).classList.toggle('activo', checked);
+  renderResumen();
+}
+
+// ═══════════ RENDER ZONAS ═══════════
+function renderZonas() {
+  const m = MUNICIPIOS[muniActual];
+  const el = document.getElementById('zonas-list');
+  
+  if (m.zonas.length === 0) {
+    el.innerHTML = '<p style="text-align:center;color:#94a3b8;font-size:12px;padding:16px">No hay zonas definidas. Agrega una zona para comenzar.</p>';
+    return;
+  }
+  
+  el.innerHTML = m.zonas.map((z, zi) => `
+    <div class="zona-card" id="zona-${zi}">
+      <div class="zona-head">
+        <div class="zona-dot" style="background:${z.color}"></div>
+        <input class="zona-nombre-input" value="${z.nombre}" placeholder="Nombre de la zona" onchange="updateZona(${zi},'nombre',this.value)">
+        <select style="border:none;font-size:11px;color:#64748b;outline:none;cursor:pointer" onchange="updateZona(${zi},'color',this.value)">
+          ${COLORES_ZONA.map(c => `<option value="${c}" ${c===z.color?'selected':''} style="background:${c};color:white">${c}</option>`).join('')}
+        </select>
+        <button class="zona-del" onclick="eliminarZona(${zi})" title="Eliminar zona">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      
+      <div class="zona-fields">
+        <div class="field">
+          <label>Descripción</label>
+          <input type="text" value="${z.desc || ''}" placeholder="Ej: Centro urbano, barrios..." onchange="updateZona(${zi},'desc',this.value)">
+        </div>
+        <div class="field">
+          <label>Electores estimados</label>
+          <input type="number" value="${z.electores || ''}" placeholder="0" onchange="updateZona(${zi},'electores',parseInt(this.value)||0)">
+        </div>
+        <div class="field">
+          <label>Recintos</label>
+          <input type="number" value="${z.recintos || ''}" placeholder="0" onchange="updateZona(${zi},'recintos',parseInt(this.value)||0)">
+        </div>
+        <div class="field">
+          <label>Distrito(s) que cubre</label>
+          <select multiple style="min-height:60px" onchange="updateZonaDistritos(${zi}, this)">
+            ${(m.distritos || []).map((d,di) => `<option value="${di}" ${z.distritosIdx && z.distritosIdx.includes(di)?'selected':''}>${d}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      
+      <!-- Colegios -->
+      <div class="colegios-section">
+        <div class="colegios-header">
+          <span><i class="fa-solid fa-school"></i> Colegios Electorales (${z.colegios ? z.colegios.length : 0})</span>
+        </div>
+        <div id="colegios-${zi}">
+          ${(z.colegios || []).map((c, ci) => `
+            <div class="colegio-row">
+              <input type="text" value="${c.codigo || ''}" placeholder="Código (ej: 0071)" onchange="updateColegio(${zi},${ci},'codigo',this.value)" style="width:70px;flex:none">
+              <input type="text" value="${c.nombre || ''}" placeholder="Nombre del colegio" onchange="updateColegio(${zi},${ci},'nombre',this.value)">
+              <input type="number" value="${c.mesas || ''}" placeholder="Mesas" onchange="updateColegio(${zi},${ci},'mesas',parseInt(this.value)||0)" style="width:60px">
+              <button class="del-colegio" onclick="eliminarColegio(${zi},${ci})"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          `).join('')}
+        </div>
+        <button class="add-colegio" onclick="agregarColegio(${zi})">
+          <i class="fa-solid fa-plus"></i> Agregar Colegio
+        </button>
+      </div>
+    </div>
+  `).join('');
+  
+  renderResumen();
+}
+
+function agregarZona() {
+  const m = MUNICIPIOS[muniActual];
+  const numZona = m.zonas.length + 1;
+  const colorIdx = m.zonas.length % COLORES_ZONA.length;
+  m.zonas.push({
+    id: `zona_${String.fromCharCode(96 + numZona)}`,
+    nombre: `Zona ${String.fromCharCode(64 + numZona)}`,
+    color: COLORES_ZONA[colorIdx],
+    desc: '',
+    electores: 0,
+    recintos: 0,
+    distritosIdx: [],
+    colegios: []
+  });
+  renderZonas();
+  toast(`Zona ${String.fromCharCode(64 + numZona)} agregada`, 'ok');
+}
+
+function eliminarZona(zi) {
+  const m = MUNICIPIOS[muniActual];
+  if (!confirm(`¿Eliminar "${m.zonas[zi].nombre}"?`)) return;
+  m.zonas.splice(zi, 1);
+  renderZonas();
+}
+
+function updateZona(zi, field, val) {
+  MUNICIPIOS[muniActual].zonas[zi][field] = val;
+  renderResumen();
+}
+
+function updateZonaDistritos(zi, select) {
+  const m = MUNICIPIOS[muniActual];
+  const selected = Array.from(select.selectedOptions).map(o => parseInt(o.value));
+  m.zonas[zi].distritosIdx = selected;
+}
+
+// ═══════════ COLEGIOS ═══════════
+function agregarColegio(zi) {
+  const m = MUNICIPIOS[muniActual];
+  if (!m.zonas[zi].colegios) m.zonas[zi].colegios = [];
+  m.zonas[zi].colegios.push({ codigo: '', nombre: '', mesas: 0 });
+  renderZonas();
+}
+
+function eliminarColegio(zi, ci) {
+  MUNICIPIOS[muniActual].zonas[zi].colegios.splice(ci, 1);
+  renderZonas();
+}
+
+function updateColegio(zi, ci, field, val) {
+  MUNICIPIOS[muniActual].zonas[zi].colegios[ci][field] = val;
+}
+
+// ═══════════ RESUMEN ═══════════
+function renderResumen() {
+  const el = document.getElementById('summary-grid');
+  if (!el) return;
+  
+  let totalZonas = 0, totalColegios = 0, totalRecintos = 0;
+  MUNICIPIOS.forEach(m => {
+    totalZonas += m.zonas.length;
+    m.zonas.forEach(z => {
+      totalColegios += (z.colegios || []).length;
+      totalRecintos += z.recintos || 0;
+    });
+  });
+  
+  el.innerHTML = `
+    <div class="summary-item"><div class="num">${totalZonas}</div><div class="lbl">Zonas Totales</div></div>
+    <div class="summary-item"><div class="num">${totalColegios}</div><div class="lbl">Colegios Asignados</div></div>
+    <div class="summary-item"><div class="num">${totalRecintos}</div><div class="lbl">Recintos Estimados</div></div>
+    <div class="summary-item"><div class="num">${MUNICIPIOS.reduce((s,m) => s + m.zonas.reduce((sz,z) => sz + (z.colegios||[]).length, 0), 0)}</div><div class="lbl">Colegios en JSON</div></div>
+  `;
+}
+
+// ═══════════ EXPORTAR ═══════════
+function exportarJSON() {
+  const data = {
+    provincia: PROVINCIA,
+    municipios: MUNICIPIOS.map(m => ({
+      id: m.id, nombre: m.nombre, tipo: m.tipo,
+      electores: m.electores, recintos: m.recintos, colegios_total: m.colegios,
+      distritos: m.distritos,
+      zonas: m.zonas
+    })),
+    fecha_captura: new Date().toISOString()
+  };
+  
+  const json = JSON.stringify(data, null, 2);
+  document.getElementById('card-export').style.display = '';
+  document.getElementById('export-preview').textContent = json;
+  
+  // Download
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `zonas_prm_valverde_${Date.now()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  
+  toast('JSON exportado', 'ok');
+}
+
+function generarSQL() {
+  let sql = '-- ═══ ZONAS PRM VALVERDE ═══\n';
+  sql += `-- Generado: ${new Date().toISOString()}\n\n`;
+  
+  MUNICIPIOS.forEach(m => {
+    sql += `-- Municipio: ${m.nombre}\n`;
+    m.zonas.forEach(z => {
+      sql += `INSERT INTO zonas_prm (municipio, zona_nombre, zona_id, color, descripcion, electores, recintos, distritos)\n`;
+      sql += `VALUES ('${m.nombre}', '${z.nombre.replace(/'/g,"''")}', '${z.id}', '${z.color}', '${(z.desc||'').replace(/'/g,"''")}', ${z.electores||0}, ${z.recintos||0}, '${(z.distritosIdx||[]).map(di => m.distritos[di]).join('; ')}');\n\n`;
+      
+      (z.colegios || []).forEach(c => {
+        sql += `INSERT INTO colegios_zona (zona_id, municipio, codigo_colegio, nombre_colegio, mesas)\n`;
+        sql += `VALUES ('${z.id}', '${m.nombre}', '${c.codigo}', '${(c.nombre||'').replace(/'/g,"''")}', ${c.mesas||0});\n`;
+      });
+      sql += '\n';
+    });
+  });
+  
+  document.getElementById('card-export').style.display = '';
+  document.getElementById('export-preview').textContent = sql;
+  toast('SQL generado', 'ok');
+}
+
+async function guardarSupabase() {
+  if (!sb) { toast('Supabase no conectado', 'err'); return; }
+  
+  const data = {
+    provincia: 'Valverde',
+    municipios: MUNICIPIOS.map(m => ({
+      id: m.id, nombre: m.nombre,
+      zonas: m.zonas
+    })),
+    capturado_por: 'sistema',
+    fecha: new Date().toISOString()
+  };
+  
+  try {
+    const { error } = await sb.from('zonas_captura').upsert({
+      provincia: 'Valverde',
+      data: data,
+      actualizado_en: new Date().toISOString()
+    });
+    if (error) throw error;
+    toast('Guardado en Supabase', 'ok');
+  } catch(e) {
+    toast('Error: ' + e.message, 'err');
+    console.error(e);
+  }
+}
+
+function copiarClipboard() {
+  const text = document.getElementById('export-preview').textContent;
+  navigator.clipboard.writeText(text).then(() => toast('Copiado al portapapeles', 'ok'));
+}
+
+function toast(msg, type) {
+  const t = document.getElementById('toast');
+  t.className = 'toast toast-' + type;
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 2500);
+}
+</script>
+</body>
+</html>
