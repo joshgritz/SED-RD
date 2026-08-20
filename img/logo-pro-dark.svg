@@ -10,25 +10,25 @@
   <!-- Círculo exterior tricolor -->
   <circle cx="100" cy="100" r="95" fill="none" stroke="#1e88e5" stroke-width="4"/>
   <path d="M100,5 A95,95 0 0,1 182,52" fill="none" stroke="#e53935" stroke-width="4" stroke-linecap="round"/>
-  <path d="M182,52 A95,95 0 0,1 182,148" fill="none" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+  <path d="M182,52 A95,95 0 0,1 182,148" fill="none" stroke="white" stroke-width="4" stroke-linecap="round"/>
   <path d="M182,148 A95,95 0 0,1 100,195" fill="none" stroke="#1e88e5" stroke-width="4" stroke-linecap="round"/>
   <path d="M100,195 A95,95 0 0,1 18,148" fill="none" stroke="#e53935" stroke-width="4" stroke-linecap="round"/>
-  <path d="M18,148 A95,95 0 0,1 18,52" fill="none" stroke="#333" stroke-width="4" stroke-linecap="round"/>
+  <path d="M18,148 A95,95 0 0,1 18,52" fill="none" stroke="white" stroke-width="4" stroke-linecap="round"/>
   <path d="M18,52 A95,95 0 0,1 100,5" fill="none" stroke="#1e88e5" stroke-width="4" stroke-linecap="round"/>
   
   <!-- Urna -->
   <g transform="translate(100,90)">
     <!-- Sombra -->
-    <ellipse cx="0" cy="50" rx="38" ry="5" fill="black" opacity="0.15"/>
+    <ellipse cx="0" cy="50" rx="38" ry="5" fill="black" opacity="0.3"/>
     
     <!-- Cuerpo -->
-    <rect x="-35" y="-10" width="70" height="55" rx="4" fill="#f8f8f8" stroke="#ddd" stroke-width="1"/>
+    <rect x="-35" y="-10" width="70" height="55" rx="4" fill="white" stroke="#ddd" stroke-width="1"/>
     
     <!-- Borde superior -->
-    <rect x="-40" y="-18" width="80" height="10" rx="3" fill="#f8f8f8" stroke="#ddd" stroke-width="1"/>
+    <rect x="-40" y="-18" width="80" height="10" rx="3" fill="white" stroke="#ddd" stroke-width="1"/>
     
     <!-- Ranura -->
-    <rect x="-22" y="-15" width="44" height="5" rx="2.5" fill="#333"/>
+    <rect x="-22" y="-15" width="44" height="5" rx="2.5" fill="#0d1b2a"/>
     
     <!-- Documento -->
     <g transform="rotate(-12, 0, -28)">
@@ -43,5 +43,5 @@
   </g>
   
   <!-- Texto -->
-  <text x="100" y="170" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-weight="700" font-size="15" fill="#333" letter-spacing="2">SISTEPARD</text>
+  <text x="100" y="170" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-weight="700" font-size="15" fill="white" letter-spacing="2">SISTEPARD</text>
 </svg>
