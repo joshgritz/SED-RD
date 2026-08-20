@@ -41,8 +41,8 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 300px;
-      height: 300px;
+      width: 280px;
+      height: 280px;
       transform: translate(-50%, -55%);
       border-radius: 50%;
       border: 4px solid transparent;
@@ -61,48 +61,90 @@
       100% { box-shadow: 0 0 30px rgba(33, 150, 243, 0.5), 0 0 60px rgba(33, 150, 243, 0.3); }
     }
     
-    .urna {
+    /* Urna del v2 */
+    .urna-container {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -60%);
-      width: 140px;
-      height: 100px;
+      width: 180px;
+      height: 140px;
       transform-style: preserve-3d;
+      animation: float 3s ease-in-out infinite;
     }
     
-    .urna-face {
+    @keyframes float {
+      0%, 100% { transform: translate(-50%, -60%); }
+      50% { transform: translate(-50%, -65%); }
+    }
+    
+    /* Cuerpo de la urna */
+    .urna-body {
       position: absolute;
-      background: linear-gradient(180deg, #2196F3 0%, #1565C0 50%, #0D47A1 100%);
+      bottom: 0;
+      left: 10px;
+      width: 140px;
+      height: 100px;
+      background: linear-gradient(180deg, #2196F3 0%, #1976D2 30%, #1565C0 70%, #0D47A1 100%);
       border: 2px solid #0a4a8a;
-    }
-    
-    .urna-front {
-      width: 140px;
-      height: 100px;
+      border-radius: 4px;
       transform: translateZ(20px);
-      border-radius: 8px;
     }
     
-    .urna-top {
-      width: 140px;
-      height: 40px;
-      transform: rotateX(90deg) translateZ(20px);
-      background: linear-gradient(180deg, #42A5F5 0%, #2196F3 100%);
-      border-radius: 8px 8px 0 0;
-    }
-    
+    /* Lado derecho */
     .urna-right {
-      width: 40px;
+      position: absolute;
+      bottom: 0;
+      right: -15px;
+      width: 35px;
       height: 100px;
-      transform: rotateY(90deg) translateZ(70px) translateX(-20px);
       background: linear-gradient(180deg, #1976D2 0%, #0D47A1 100%);
-      border-radius: 0 8px 8px 0;
+      border: 2px solid #0a4a8a;
+      border-left: none;
+      border-radius: 0 4px 4px 0;
+      transform: rotateY(70deg) translateZ(10px);
     }
     
+    /* Superficie superior */
+    .urna-top {
+      position: absolute;
+      top: -15px;
+      left: 10px;
+      width: 140px;
+      height: 30px;
+      background: linear-gradient(180deg, #42A5F5 0%, #2196F3 100%);
+      border: 2px solid #0a4a8a;
+      border-radius: 4px 4px 0 0;
+      transform: rotateX(70deg) translateZ(10px);
+    }
+    
+    /* Reflejos metálicos */
+    .urna-body::before {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      width: 20px;
+      height: 80%;
+      background: linear-gradient(90deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+      border-radius: 4px;
+    }
+    
+    .urna-body::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 35px;
+      width: 10px;
+      height: 60%;
+      background: linear-gradient(90deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+      border-radius: 4px;
+    }
+    
+    /* Ranura */
     .ranura {
       position: absolute;
-      top: -5px;
+      top: -10px;
       left: 50%;
       transform: translateX(-50%) translateZ(25px);
       width: 80px;
@@ -112,57 +154,89 @@
       box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
     }
     
+    /* Líneas decorativas */
+    .linea-deco {
+      position: absolute;
+      left: 15px;
+      width: 130px;
+      height: 1px;
+      background: #42A5F5;
+      opacity: 0.4;
+      transform: translateZ(22px);
+    }
+    
+    .linea-deco:nth-child(1) { bottom: 70px; }
+    .linea-deco:nth-child(2) { bottom: 40px; }
+    .linea-deco:nth-child(3) { bottom: 10px; }
+    
+    /* Papel del v2 */
     .papel {
       position: absolute;
-      top: -80px;
+      top: -95px;
       left: 50%;
       transform: translateX(-50%) translateZ(30px) rotate(-20deg);
       width: 50px;
-      height: 70px;
+      height: 65px;
       background: white;
-      border-radius: 4px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
       animation: papelMove 4s ease-in-out infinite;
     }
     
     @keyframes papelMove {
-      0%, 100% { transform: translateX(-50%) translateZ(30px) rotate(-20deg) translateY(0); }
-      50% { transform: translateX(-50%) translateZ(30px) rotate(-10deg) translateY(15px); }
+      0%, 100% { transform: translateX(-50%) translateZ(30px) rotate(-20deg); }
+      50% { transform: translateX(-50%) translateZ(30px) rotate(-12deg) translateY(12px); }
     }
     
-    .papel::before {
-      content: '';
+    /* Líneas del papel */
+    .papel-line {
       position: absolute;
-      top: 10px;
       left: 8px;
       right: 8px;
-      height: 3px;
+      height: 2px;
       background: #e0e0e0;
-      border-radius: 2px;
-      box-shadow: 0 8px 0 #e0e0e0, 0 16px 0 #e0e0e0;
+      border-radius: 1px;
     }
     
+    .papel-line:nth-child(1) { top: 12px; }
+    .papel-line:nth-child(2) { top: 20px; }
+    .papel-line:nth-child(3) { top: 28px; width: 60%; }
+    
+    /* Check mark del v2 */
     .check {
       position: absolute;
-      top: 25px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 20px;
+      top: 38px;
+      left: 12px;
+      width: 22px;
       height: 12px;
-      border-left: 3px solid #2E7D32;
-      border-bottom: 3px solid #2E7D32;
-      transform: translateX(-50%) rotate(-45deg);
+      border-left: 3.5px solid #2E7D32;
+      border-bottom: 3.5px solid #2E7D32;
+      transform: rotate(-45deg);
       animation: checkPulse 2s ease-in-out infinite;
     }
     
     @keyframes checkPulse {
-      0%, 100% { filter: drop-shadow(0 0 3px #4CAF50); }
-      50% { filter: drop-shadow(0 0 10px #4CAF50) drop-shadow(0 0 20px #4CAF50); }
+      0%, 100% { filter: drop-shadow(0 0 2px #4CAF50); }
+      50% { filter: drop-shadow(0 0 8px #4CAF50) drop-shadow(0 0 15px #4CAF50); }
     }
     
+    /* Brillo superior */
+    .shine {
+      position: absolute;
+      top: -5px;
+      left: 15px;
+      right: 15px;
+      height: 15px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+      border-radius: 4px 4px 0 0;
+      transform: translateZ(23px);
+    }
+    
+    /* Texto */
     .text-container {
       position: absolute;
-      bottom: 40px;
+      bottom: 35px;
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
@@ -188,7 +262,7 @@
       font-weight: 300;
       color: #90CAF9;
       letter-spacing: 4px;
-      margin-top: 10px;
+      margin-top: 8px;
       opacity: 0.8;
     }
     
@@ -218,7 +292,7 @@
       width: 4px;
       height: 4px;
       border-radius: 50%;
-      animation: float 6s ease-in-out infinite;
+      animation: float-particle 6s ease-in-out infinite;
     }
     
     .particle:nth-child(1) { background: #2196F3; left: 10%; animation-delay: 0s; }
@@ -231,14 +305,13 @@
     .particle:nth-child(8) { background: #FFD54F; left: 80%; animation-delay: 1.8s; }
     .particle:nth-child(9) { background: #2196F3; left: 90%; animation-delay: 0.7s; }
     
-    @keyframes float {
+    @keyframes float-particle {
       0%, 100% { transform: translateY(100vh) scale(0); opacity: 0; }
       10% { opacity: 1; }
       90% { opacity: 1; }
       100% { transform: translateY(-100vh) scale(1); opacity: 0; }
     }
     
-    /* Instrucciones */
     .instructions {
       position: fixed;
       bottom: 20px;
@@ -267,13 +340,20 @@
     <div class="logo-3d">
       <div class="circle-outer"></div>
       
-      <div class="urna">
-        <div class="urna-face urna-front"></div>
-        <div class="urna-face urna-top"></div>
-        <div class="urna-face urna-right"></div>
+      <div class="urna-container">
+        <div class="urna-body"></div>
+        <div class="urna-right"></div>
+        <div class="urna-top"></div>
         <div class="ranura"></div>
+        <div class="linea-deco"></div>
+        <div class="linea-deco"></div>
+        <div class="linea-deco"></div>
+        <div class="shine"></div>
         
         <div class="papel">
+          <div class="papel-line"></div>
+          <div class="papel-line"></div>
+          <div class="papel-line"></div>
           <div class="check"></div>
         </div>
       </div>
