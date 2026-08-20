@@ -52,11 +52,14 @@ serve(async (req) => {
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const anonKey = Deno.env.get("ANON_KEY")!;
-    const supabase = createClient(supabaseUrl, anonKey);
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+
+    // Usar service_role para buscar email (RLS podría bloquear con anon)
+    const adminClient = createClient(supabaseUrl, serviceKey);
 
     // Buscar email real del usuario en dirigentes/user_profiles
     let email = `${cedula}@prm.local`; // fallback
-    const { data: dir } = await supabase
+    const { data: dir } = await adminClient
       .from("dirigentes")
       .select("email")
       .eq("cedula", cedula)
@@ -65,7 +68,7 @@ serve(async (req) => {
       email = dir.email;
     } else {
       // Buscar en user_profiles
-      const { data: profile } = await supabase
+      const { data: profile } = await adminClient
         .from("user_profiles")
         .select("email")
         .eq("cedula", cedula)
@@ -73,6 +76,8 @@ serve(async (req) => {
       if (profile?.email) email = profile.email;
     }
 
+    // Login con el email correcto
+    const supabase = createClient(supabaseUrl, anonKey);
     const password = `${pin}${PASSWORD_SUFFIX}`;
 
     // Intentar login
