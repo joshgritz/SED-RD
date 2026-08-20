@@ -48,12 +48,14 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 .muni-arrow.abierto{transform:rotate(180deg)}
 .muni-zonas{display:none;padding:8px 0 0 0}
 .muni-zonas.abierta{display:block}
-.zona-item{display:flex;align-items:center;gap:10px;padding:10px 14px;margin:4px 0;border:2px solid #f1f5f9;border-radius:10px;cursor:pointer;transition:all .15s}
+.zona-item{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;margin:4px 0;border:2px solid #f1f5f9;border-radius:12px;cursor:pointer;transition:all .15s}
 .zona-item:active{transform:scale(0.98)}
 .zona-item:hover{border-color:var(--color-primary);background:#f8faff}
-.zona-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.zona-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
 .zona-nombre{font-size:13px;font-weight:700;flex:1}
 .zona-dir-count{font-size:11px;color:#64748b;font-weight:700}
+.zona-barrios{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}
+.zona-barrio-tag{font-size:8px;background:#f1f5f9;color:#64748b;padding:1px 5px;border-radius:4px;font-weight:600}
 
 /* ── TABS ── */
 .tabs{display:flex;gap:4px;background:white;border-radius:14px;padding:4px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
@@ -130,6 +132,20 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 
 <!-- SELECCIÓN: MUNICIPIOS → ZONAS -->
 <div id="view-selector">
+  <!-- Resumen Provincial -->
+  <div class="card" style="background:linear-gradient(135deg,#003087,#1a4fa8);color:white;border:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div style="font-size:12px;font-weight:800;opacity:0.8">PROVINCIA VALVERDE</div>
+      <div style="font-size:10px;background:rgba(255,255,255,0.2);padding:3px 8px;border-radius:6px;font-weight:700">DO-27</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;text-align:center">
+      <div><div style="font-size:20px;font-weight:900">126K</div><div style="font-size:9px;opacity:0.7">ELECTORES</div></div>
+      <div><div style="font-size:20px;font-weight:900">3</div><div style="font-size:9px;opacity:0.7">MUNICIPIOS</div></div>
+      <div><div style="font-size:20px;font-weight:900">10</div><div style="font-size:9px;opacity:0.7">DISTRITOS</div></div>
+      <div><div style="font-size:20px;font-weight:900">80</div><div style="font-size:9px;opacity:0.7">RECINTOS</div></div>
+    </div>
+  </div>
+
   <div class="card">
     <div class="card-title">🗺️ Selecciona tu Zona</div>
     <div id="muni-lista"></div>
@@ -208,51 +224,31 @@ let dirigentesZona = [];
 const MUNICIPIOS = [
   {
     nombre: 'Mao', tipo: 'Cabecera Provincial', icon: '🏙️', color: '#003087',
+    poblacion: 86659, electores: 62712, recintos: 41, colegios: 133,
     zonas: [
-      { id: 'zona_a', nombre: 'Zona A', color: '#003087' },
-      { id: 'zona_b', nombre: 'Zona B', color: '#C8102E' },
-      { id: 'zona_c', nombre: 'Zona C', color: '#16a34a' },
-      { id: 'zona_d', nombre: 'Zona D', color: '#efbc00' },
-      { id: 'zona_e', nombre: 'Zona E', color: '#7c3aed' },
-      { id: 'zona_f', nombre: 'Zona F', color: '#0ea5e9' }
+      { id: 'zona_a', nombre: 'Zona A — Mao Centro', color: '#003087', desc: 'Centro urbano: Av. Desiderio Arias, Malecón, barrios centrales', barrios: ['Centro','Las Trescientas','Ensanche Quisqueya','Barrio Militar','Ensanche Olímpico','Villa Fontana','Los Manganitos','El Temple','La Isabela','Los Rieles','Bella Vista','San Carlos','El Florido','La Altagracia','La Mina','Los Arroceros','Villa Progreso','El Solito','Villa Adina','La Atravesada'], electores: 30000, recintos: 25 },
+      { id: 'zona_b', nombre: 'Zona B — Mao Rural', color: '#C8102E', desc: 'DM Ámina (4 secc.), DM Jaibón/Pueblo Nuevo (2 secc.), DM Guatapanal (3 secc.)', barrios: ['Ámina','Jaibón Pueblo Nuevo','Guatapanal'], electores: 15000, recintos: 10 }
     ]
   },
   {
     nombre: 'Esperanza', tipo: '2do Municipio', icon: '🌾', color: '#16a34a',
+    poblacion: 69803, electores: 46347, recintos: 25, colegios: 101,
     zonas: [
-      { id: 'zona_esp1', nombre: 'Zona 1', color: '#f97316' },
-      { id: 'zona_esp2', nombre: 'Zona 2', color: '#ec4899' },
-      { id: 'zona_esp3', nombre: 'Zona 3', color: '#14b8a6' }
+      { id: 'zona_g', nombre: 'Zona G — Esperanza Centro', color: '#16a34a', desc: '50+ barrios urbanos: José Francisco Peña Gómez, La Fe, Quisqueya, Las Flores, Duarte, Buenos Aires', barrios: ['José Francisco Peña Gómez','La Fe','Quisqueya','Las Flores','Sur','Cruce de Esperanza','Los Palitos','María Auxiliadora','Duarte','Buenos Aires','Enriquillo','Tito Cabrera','San Miguel','Paraíso','Salomé Muñoz','Villa La Flores','Nueva Esperanza','El Bolsillo','Villa Muñoz','La Altagracia','Barrio Norte'], electores: 35000, recintos: 18 },
+      { id: 'zona_c', nombre: 'Zona C — Boca de Mao', color: '#f97316', desc: 'DM Boca de Mao: El Batey, El Central, San Francisco, Juan Pablo Duarte, Los Parceleros', barrios: ['Boca de Mao','El Batey','El Central','San Francisco','Juan Pablo Duarte','Los Parceleros','La Huazumita','Los Coquitos'], electores: 5000, recintos: 3 },
+      { id: 'zona_d', nombre: 'Zona D — Maizal', color: '#efbc00', desc: 'DM Maizal: 5 secciones — Maizal, Loma de Maizal, Damajagua, Loma de Palma Picada, Línea A', barrios: ['Maizal','La Cajita','Los Guamachos','Loma del Aguacate','Bejucal','El Pozo de Maíz','Los Aguacaticos','Saltadero','El Mango','Buen Hombre','Vietnam'], electores: 7000, recintos: 4 },
+      { id: 'zona_e', nombre: 'Zona E — Jicomé', color: '#7c3aed', desc: 'DM Jicomé: zonas rurales agrícolas al noreste de Esperanza', barrios: ['Jicomé'], electores: 3000, recintos: 2 },
+      { id: 'zona_f', nombre: 'Zona F — Paradero', color: '#0ea5e9', desc: 'DM Paradero: La Cayota, Loma de Aguacate, La Cabirma, El Murazo, Los Higos', barrios: ['Paradero','La Cayota','Loma de Aguacate','La Cabirma','El Murazo','Los Higos','La Lomota'], electores: 1500, recintos: 1 }
     ]
   },
   {
     nombre: 'Laguna Salada', tipo: 'Municipio', icon: '💧', color: '#7c3aed',
+    poblacion: 27607, electores: 17144, recintos: 14, colegios: 37,
     zonas: [
-      { id: 'zona_ls', nombre: 'Zona Única', color: '#8b5cf6' }
-    ]
-  },
-  {
-    nombre: 'Amina', tipo: 'Distrito Municipal', icon: '🌿', color: '#0ea5e9',
-    zonas: [
-      { id: 'zona_am', nombre: 'Zona Única', color: '#06b6d4' }
-    ]
-  },
-  {
-    nombre: 'Guatapanal', tipo: 'Distrito Municipal', icon: '🐄', color: '#f97316',
-    zonas: [
-      { id: 'zona_gu', nombre: 'Zona Única', color: '#84cc16' }
-    ]
-  },
-  {
-    nombre: 'Jaibón', tipo: 'Distrito Municipal', icon: '🌻', color: '#ec4899',
-    zonas: [
-      { id: 'zona_ja', nombre: 'Zona Única', color: '#f43f5e' }
-    ]
-  },
-  {
-    nombre: 'Potrero', tipo: 'Distrito Municipal', icon: '⛰️', color: '#6366f1',
-    zonas: [
-      { id: 'zona_po', nombre: 'Zona Única', color: '#6366f1' }
+      { id: 'zona_h', nombre: 'Zona H — Laguna Centro', color: '#8b5cf6', desc: 'Centro urbano: ~15 sectores, Av. Duarte, Parroquia San Antonio de Padua', barrios: ['Centro','El Parque','La Esperanza','Villa Progreso','Los Manganitos','El Solito','San Antonio','La Altagracia','Villa Fontana','Los Arroceros','El Florido','La Atravesada'], electores: 8000, recintos: 7 },
+      { id: 'zona_i', nombre: 'Zona I — Cruce de Guayacanes', color: '#ec4899', desc: 'DM Cruce de Guayacanes: 4 secciones — Cruce, Ojo de Agua, Loma de Guayacanes, Ranchete', barrios: ['Cruce de Guayacanes','La Barranquita','El Barrio','Los Parceleros','El Puente San Rafael','La Cañita','Los Guamachos','El Moho','Los Pinos','Palo Amarillo','Pozo Prieto'], electores: 4500, recintos: 3 },
+      { id: 'zona_j', nombre: 'Zona J — La Caya', color: '#14b8a6', desc: 'DM La Caya: Pozo Prieto, Loma de Pozo Prieto, Palo Amarillo, Los Toros, Los Grayumbos', barrios: ['La Caya','Pozo Prieto','Loma de Pozo Prieto','Palo Amarillo','Los Toros','Los Grayumbos','Loma de La Caya'], electores: 1000, recintos: 1 },
+      { id: 'zona_k', nombre: 'Zona K — Jaibón', color: '#f43f5e', desc: 'DM Jaibón: El Cerro, Entrada de Pozo Prieto, La Sabana, San Roque', barrios: ['Jaibón','El Cerro','Entrada de Pozo Prieto','La Sabana','San Roque'], electores: 4000, recintos: 2 }
     ]
   }
 ];
@@ -323,17 +319,25 @@ function renderMunicipios() {
           <div class="muni-icon" style="background:${m.color}20;color:${m.color}">${m.icon}</div>
           <div style="flex:1">
             <div class="muni-nombre">${m.nombre}</div>
-            <div style="font-size:10px;color:#64748b">${m.tipo} · ${m.zonas.length} zona${m.zonas.length > 1 ? 's' : ''}</div>
+            <div style="font-size:10px;color:#64748b">${m.tipo} · ${m.electores ? m.electores.toLocaleString() + ' electores' : ''} · ${m.recintos || 0} recintos</div>
           </div>
-          <div class="muni-count">${totalDir} dirigente${totalDir !== 1 ? 's' : ''}</div>
+          <div class="muni-count">${totalDir} dir.</div>
           <div class="muni-arrow" id="muni-a-${i}">▼</div>
         </div>
         <div class="muni-zonas" id="muni-z-${i}">
           ${m.zonas.map(z => `
             <div class="zona-item" onclick="seleccionarZona('${m.nombre}','${z.nombre}')">
               <div class="zona-dot" style="background:${z.color}"></div>
-              <div class="zona-nombre">${z.nombre}</div>
-              <div class="zona-dir-count">${z.dirigentes || 0} dirigente${(z.dirigentes || 0) !== 1 ? 's' : ''}</div>
+              <div style="flex:1">
+                <div class="zona-nombre">${z.nombre}</div>
+                <div style="font-size:10px;color:#64748b;margin-top:2px">${z.desc || ''}</div>
+                <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap">
+                  ${z.electores ? '<span style="font-size:9px;background:#dbeafe;color:#1e40af;padding:2px 6px;border-radius:6px;font-weight:700">🗳️ ' + z.electores.toLocaleString() + ' elect.</span>' : ''}
+                  ${z.recintos ? '<span style="font-size:9px;background:#dcfce7;color:#166534;padding:2px 6px;border-radius:6px;font-weight:700">🏫 ' + z.recintos + ' recintos</span>' : ''}
+                  <span style="font-size:9px;background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:6px;font-weight:700">👤 ${z.dirigentes || 0} dir.</span>
+                </div>
+              </div>
+              <div style="font-size:12px;color:#94a3b8">›</div>
             </div>
           `).join('')}
         </div>
