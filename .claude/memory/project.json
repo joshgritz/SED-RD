@@ -1,0 +1,44 @@
+{
+  "last_updated": "2026-08-20T21:30:00Z",
+  "version": "2.1.0",
+  "status": "active",
+  "key_files": [
+    "index.html",
+    "admin.html",
+    "geografia.html",
+    "legisladores.html",
+    "js/supabase_config.js",
+    "js/auth.js",
+    "js/config_loader.js",
+    "supabase/functions/auth-login/index.ts",
+    "supabase/functions/auth-register/index.ts",
+    "supabase/functions/auth-change-pin/index.ts",
+    "supabase/functions/auth-recover-pin/index.ts",
+    "supabase/functions/migrate-users/index.ts",
+    "supabase/functions/sync-claims/index.ts",
+    "supabase/functions/register-dirigente/index.ts"
+  ],
+  "supabase_project": "ilivjaiexfqpioqrozlf",
+  "deployment": "github-pages",
+  "repo": "https://github.com/joshgritz/sistepard",
+  "tech_stack": ["html", "javascript", "supabase", "tailwindcss", "edge-functions"],
+  "active_issues": [],
+  "recent_changes": [
+    {
+      "date": "2026-08-20",
+      "description": "Auditoría de seguridad completa: auth server-side, CORS restrictivo, config centralizada",
+      "files_changed": 26,
+      "commits": ["a80c4fa", "f89c209", "ff12405"]
+    },
+    {
+      "date": "2026-08-19",
+      "description": "Fix Security Advisor: views con security_invoker=on",
+      "files_changed": 3
+    }
+  ],
+  "credentials_status": {
+    "postgres_password": "rotated_2026-08-20",
+    "supabase_anon_key": "deployed_as_env_var",
+    "edge_functions": "all_deployed_with_cors_and_auth"
+  }
+}
