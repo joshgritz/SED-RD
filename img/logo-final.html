@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SISTEPARD Logo Final</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #0d1b2a;
+    }
+    
+    .logo {
+      width: 400px;
+      height: 400px;
+      background: linear-gradient(135deg, #0d1b2a 0%, #1b2838 100%);
+      border-radius: 20px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* Anillo orbital */
+    .orbit {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 220px;
+      height: 60px;
+      transform: translate(-50%, -55%) rotateX(70deg);
+      transform-style: preserve-3d;
+      animation: orbitSpin 8s linear infinite;
+    }
+    
+    @keyframes orbitSpin {
+      from { transform: translate(-50%, -55%) rotateX(70deg) rotateZ(0deg); }
+      to { transform: translate(-50%, -55%) rotateX(70deg) rotateZ(360deg); }
+    }
+    
+    .orbit-seg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 4px solid transparent;
+      border-radius: 50%;
+    }
+    
+    .orbit-blue { border-top-color: #1e88e5; border-right-color: #1e88e5; }
+    .orbit-red { border-bottom-color: #e53935; border-left-color: #e53935; transform: rotate(120deg); }
+    .orbit-white { border-top-color: white; border-right-color: white; transform: rotate(240deg); }
+    
+    /* Urna */
+    .urna {
+      position: relative;
+      width: 110px;
+      height: 85px;
+      background: white;
+      border-radius: 8px;
+      margin-top: -20px;
+      z-index: 2;
+    }
+    
+    .ranura {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 8px;
+      background: #0d1b2a;
+      border-radius: 4px;
+    }
+    
+    /* Documento */
+    .doc {
+      position: absolute;
+      top: -55px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-15deg);
+      width: 44px;
+      height: 50px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      animation: docMove 4s ease-in-out infinite;
+    }
+    
+    @keyframes docMove {
+      0%, 100% { transform: translateX(-50%) rotate(-15deg); }
+      50% { transform: translateX(-50%) rotate(-8deg) translateY(8px); }
+    }
+    
+    .doc-line {
+      position: absolute;
+      left: 7px;
+      right: 7px;
+      height: 2px;
+      background: #e0e0e0;
+      border-radius: 1px;
+    }
+    
+    .doc-line:nth-child(1) { top: 10px; }
+    .doc-line:nth-child(2) { top: 18px; }
+    .doc-line:nth-child(3) { top: 26px; width: 50%; }
+    
+    .check-doc {
+      position: absolute;
+      top: 35px;
+      left: 10px;
+      width: 16px;
+      height: 8px;
+      border-left: 2.5px solid #1e88e5;
+      border-bottom: 2.5px solid #1e88e5;
+      transform: rotate(-45deg);
+    }
+    
+    /* Check en la urna */
+    .check-urna {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 35px;
+      height: 18px;
+      border-left: 5px solid #1e88e5;
+      border-bottom: 5px solid #1e88e5;
+      transform: translateX(-50%) rotate(-45deg);
+    }
+    
+    /* Texto */
+    .text {
+      position: absolute;
+      bottom: 50px;
+      text-align: center;
+    }
+    
+    .title {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-weight: 700;
+      font-size: 42px;
+      color: white;
+      letter-spacing: 6px;
+    }
+    
+    .lines {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 12px 0;
+    }
+    
+    .line {
+      height: 3px;
+      width: 50px;
+      border-radius: 2px;
+    }
+    
+    .line.blue { background: #1e88e5; }
+    .line.white { background: white; }
+    .line.red { background: #e53935; }
+    
+    .subtitle {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: #90CAF9;
+      letter-spacing: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <!-- Anillo orbital -->
+    <div class="orbit">
+      <div class="orbit-seg orbit-blue"></div>
+      <div class="orbit-seg orbit-red"></div>
+      <div class="orbit-seg orbit-white"></div>
+    </div>
+    
+    <!-- Urna -->
+    <div class="urna">
+      <div class="ranura"></div>
+      <div class="doc">
+        <div class="doc-line"></div>
+        <div class="doc-line"></div>
+        <div class="doc-line"></div>
+        <div class="check-doc"></div>
+      </div>
+      <div class="check-urna"></div>
+    </div>
+    
+    <!-- Texto -->
+    <div class="text">
+      <div class="title">SISTEPARD</div>
+      <div class="lines">
+        <div class="line blue"></div>
+        <div class="line white"></div>
+        <div class="line red"></div>
+      </div>
+      <div class="subtitle">SISTEMA ELECTORAL DIGITAL</div>
+    </div>
+  </div>
+</body>
+</html>
