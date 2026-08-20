@@ -59,33 +59,6 @@
       text-decoration: none; color: var(--primary);
     }
     .nav-logo img { height: 36px; width: auto; border-radius: 50%; }
-    
-    /* Logo animado */
-    .logo-animated {
-      position: relative;
-      display: inline-block;
-    }
-    .logo-animated .circle {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      border: 3px solid transparent;
-      background: linear-gradient(white, white) padding-box,
-                  linear-gradient(135deg, #1e88e5, #e53935, #333, #1e88e5) border-box;
-      animation: circleGlow 4s ease-in-out infinite;
-    }
-    @keyframes circleGlow {
-      0%, 100% { box-shadow: 0 0 15px rgba(30, 136, 229, 0.3); }
-      50% { box-shadow: 0 0 25px rgba(229, 57, 53, 0.4); }
-    }
-    .logo-animated img {
-      position: relative;
-      z-index: 2;
-    }
     .nav-links { display: flex; align-items: center; gap: 24px; margin-left: auto; }
     .nav-links a {
       color: var(--muted); text-decoration: none; font-size: 13px;
@@ -332,10 +305,7 @@
 <nav class="nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">
-      <div class="logo-animated">
-        <div class="circle"></div>
-        <img src="img/logo-pro.svg" alt="SISTEPARD">
-      </div>
+      <img src="img/logo-pro.svg" alt="SISTEPARD" style="height:36px;width:auto;border-radius:50%;">
     </a>
     <div class="nav-links">
       <a href="index.html" class="hide-mobile">Inicio</a>
@@ -550,7 +520,7 @@
 <div id="portal-electoral">
   <button class="close-portal" onclick="cerrarPortalElectoral()"><i class="fa-solid fa-xmark"></i></button>
   <div class="portal-elec-hero">
-    <div class="hero-circle"><div class="logo-animated"><div class="circle"></div><img src="img/logo-pro.svg" alt="SISTEPARD" style="width:54px;height:auto;border-radius:50%;"></div></div>
+    <div class="hero-circle"><img src="img/logo-pro.svg" alt="SISTEPARD" style="width:54px;height:auto;border-radius:50%;"></div>
     <h1 id="portal-title">Portal Electoral SISTEPARD</h1>
     <p>Provincia Valverde · República Dominicana 2026</p>
   </div>
