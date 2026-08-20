@@ -16,95 +16,283 @@
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <link rel="stylesheet" href="admin/acta_style.css">
 <script src="js/audit.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  body { font-family: 'Segoe UI', system-ui, sans-serif; }
+  :root {
+    --admin-primary: #003087;
+    --admin-primary-light: #0a4bc4;
+    --admin-primary-dark: #002060;
+    --admin-accent: #efbc00;
+    --admin-accent-light: #f5d04a;
+    --admin-red: #dc2626;
+    --admin-green: #16a34a;
+    --admin-bg: #f1f5f9;
+    --admin-surface: #ffffff;
+    --admin-text: #1e293b;
+    --admin-muted: #64748b;
+    --admin-border: #e2e8f0;
+    --admin-radius: 16px;
+    --admin-radius-sm: 10px;
+    --admin-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --admin-shadow-md: 0 4px 12px rgba(0,0,0,0.07);
+    --admin-shadow-lg: 0 10px 30px rgba(0,0,0,0.1);
+    --admin-transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+    background: var(--admin-bg);
+    color: var(--admin-text);
+    -webkit-font-smoothing: antialiased;
+  }
+
   .tab-panel { display:none; }
-  .tab-panel.active { display:block; }
+  .tab-panel.active { display:block; animation: fadeUp 0.3s ease; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
   table { border-collapse: collapse; width:100%; }
-  th, td { padding:8px 10px; font-size:13px; text-align:left; white-space:nowrap; }
-  th { background:#f1f5f9; color:#475569; font-size:11px; text-transform:uppercase; letter-spacing:.5px; }
-  tr:nth-child(even) td { background:#f8fafc; }
-  tr:hover td { background:#eef4ff; }
-  input, select, textarea { border:1.5px solid #e2e8f0; border-radius:8px; padding:8px 10px; font-size:13px; width:100%; outline:none; }
-  input:focus, select:focus, textarea:focus { border-color:#003087; }
-  ::-webkit-scrollbar { width:8px; height:8px; }
-  ::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:4px; }
-  .nav-btn { padding:6px 12px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer; transition:all .15s; white-space:nowrap; border:none; }
-  .nav-btn:not(.bg-slate-900):not(.bg-white):hover { background:#e2e8f0; }
-  .notif-badge { position:absolute; top:-6px; right:-6px; background:#dc2626; color:white; font-size:10px; font-weight:900; min-width:18px; height:18px; border-radius:9px; display:flex; align-items:center; justify-content:center; padding:0 4px; }
-  .notif-dropdown { position:absolute; top:100%; right:0; width:360px; max-height:400px; overflow-y:auto; background:white; border-radius:12px; box-shadow:0 12px 40px rgba(0,0,0,0.15); border:1px solid #e2e8f0; z-index:200; }
-  .activity-item { display:flex; gap:10px; padding:10px 14px; border-bottom:1px solid #f1f5f9; align-items:flex-start; }
+  th { padding:10px 12px; font-size:11px; font-weight:700; text-align:left; text-transform:uppercase; letter-spacing:.5px; color:var(--admin-muted); background:#f8fafc; border-bottom:2px solid var(--admin-border); white-space:nowrap; }
+  td { padding:10px 12px; font-size:13px; border-bottom:1px solid #f1f5f9; white-space:nowrap; }
+  tr:hover td { background:#f8fafc; }
+  tr:last-child td { border-bottom:none; }
+
+  input, select, textarea {
+    border:1.5px solid var(--admin-border); border-radius:var(--admin-radius-sm);
+    padding:9px 12px; font-size:13px; width:100%; outline:none;
+    transition: var(--admin-transition); font-family:inherit;
+  }
+  input:focus, select:focus, textarea:focus { border-color:var(--admin-primary); box-shadow:0 0 0 3px rgba(0,48,135,0.1); }
+  textarea { resize:vertical; min-height:80px; }
+
+  ::-webkit-scrollbar { width:6px; height:6px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:3px; }
+  ::-webkit-scrollbar-thumb:hover { background:#94a3b8; }
+
+  /* ── Nav tabs ── */
+  .nav-btn {
+    padding:7px 14px; border-radius:var(--admin-radius-sm); font-size:12px;
+    font-weight:700; cursor:pointer; transition:var(--admin-transition);
+    white-space:nowrap; border:none; display:inline-flex; align-items:center; gap:5px;
+  }
+  .nav-btn.active-tab { background:var(--admin-primary); color:white; box-shadow:var(--admin-shadow-md); }
+  .nav-btn:not(.active-tab):hover { background:#e2e8f0; color:var(--admin-text); }
+
+  /* ── Stat cards ── */
+  .stat-card {
+    background:var(--admin-surface); border-radius:var(--admin-radius);
+    padding:16px 18px; border-left:4px solid; transition:var(--admin-transition);
+    box-shadow:var(--admin-shadow);
+  }
+  .stat-card:hover { transform:translateY(-2px); box-shadow:var(--admin-shadow-md); }
+
+  /* ── Activity feed ── */
+  .activity-item { display:flex; gap:10px; padding:10px 14px; border-bottom:1px solid #f1f5f9; align-items:flex-start; transition:background 0.15s; }
   .activity-item:last-child { border-bottom:none; }
+  .activity-item:hover { background:#f8fafc; }
   .activity-icon { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:13px; }
-  .live-dot { width:8px; height:8px; background:#16a34a; border-radius:50%; animation:pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-  .stat-card { transition:all .2s; }
-  .stat-card:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,0.08); }
+
+  /* ── Live dot ── */
+  .live-dot { width:8px; height:8px; background:var(--admin-green); border-radius:50%; animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.85)} }
+
+  /* ── Notification badge ── */
+  .notif-badge {
+    position:absolute; top:-5px; right:-5px; background:var(--admin-red);
+    color:white; font-size:9px; font-weight:900; min-width:17px; height:17px;
+    border-radius:9px; display:flex; align-items:center; justify-content:center;
+    padding:0 4px; border:2px solid white;
+  }
+
+  /* ── Notif dropdown ── */
+  .notif-dropdown {
+    position:absolute; top:calc(100% + 8px); right:0; width:340px; max-height:380px;
+    overflow-y:auto; background:white; border-radius:var(--admin-radius);
+    box-shadow:var(--admin-shadow-lg); border:1px solid var(--admin-border); z-index:200;
+    animation: fadeUp 0.2s ease;
+  }
+
+  /* ── Buttons ── */
+  .btn { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; border-radius:var(--admin-radius-sm); font-size:12px; font-weight:700; cursor:pointer; border:none; transition:var(--admin-transition); }
+  .btn:active { transform:scale(0.97); }
+  .btn-primary { background:var(--admin-primary); color:white; }
+  .btn-primary:hover { background:var(--admin-primary-light); box-shadow:var(--admin-shadow-md); }
+  .btn-green { background:var(--admin-green); color:white; }
+  .btn-green:hover { background:#15803d; }
+  .btn-amber { background:#f59e0b; color:white; }
+  .btn-amber:hover { background:#d97706; }
+  .btn-red { background:var(--admin-red); color:white; }
+  .btn-red:hover { background:#b91c1c; }
+  .btn-purple { background:#7c3aed; color:white; }
+  .btn-purple:hover { background:#6d28d9; }
+  .btn-ghost { background:#f1f5f9; color:var(--admin-text); }
+  .btn-ghost:hover { background:#e2e8f0; }
+  .btn-sm { padding:5px 10px; font-size:11px; }
+  .btn-xs { padding:3px 8px; font-size:10px; border-radius:6px; }
+
+  /* ── Hamburger ── */
+  .hamburger { display:none; background:none; border:none; cursor:pointer; padding:8px; }
+  .hamburger span { display:block; width:20px; height:2px; background:white; margin:4px 0; border-radius:2px; transition:var(--admin-transition); }
+  @media (max-width:768px) {
+    .hamburger { display:block; }
+    .nav-tabs-wrapper { display:none; position:absolute; top:100%; left:0; right:0; background:var(--admin-primary); padding:8px 12px; z-index:49; box-shadow:var(--admin-shadow-lg); }
+    .nav-tabs-wrapper.open { display:flex; flex-wrap:wrap; gap:6px; }
+    .nav-tabs-wrapper .nav-btn { color:white; background:rgba(255,255,255,0.12); font-size:11px; padding:6px 10px; }
+    .nav-tabs-wrapper .nav-btn.active-tab { background:white; color:var(--admin-primary); }
+  }
+
+  /* ── Mobile cards for tables ── */
+  @media (max-width:640px) {
+    .table-responsive { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    table { min-width:600px; }
+    .grid-2col { grid-template-columns:1fr !important; }
+  }
+
+  /* ── Modal ── */
+  .modal-overlay {
+    position:fixed; inset:0; z-index:100; background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center;
+    padding:16px; animation: fadeIn 0.2s ease;
+  }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+  .modal-box {
+    background:white; border-radius:var(--admin-radius); box-shadow:var(--admin-shadow-lg);
+    width:100%; max-width:480px; max-height:90vh; overflow-y:auto;
+    animation: scaleIn 0.25s cubic-bezier(0.16,1,0.3,1);
+  }
+  @keyframes scaleIn { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
+  @media (max-width:480px) {
+    .modal-overlay { align-items:flex-end; padding:0; }
+    .modal-box { border-radius:var(--admin-radius) var(--admin-radius) 0 0; max-height:85vh; }
+  }
+
+  /* ── Section card ── */
+  .section-card {
+    background:var(--admin-surface); border-radius:var(--admin-radius);
+    padding:20px; box-shadow:var(--admin-shadow);
+  }
+
+  /* ── Header ── */
+  .admin-header {
+    background:var(--admin-primary); color:white;
+    box-shadow:0 2px 8px rgba(0,48,135,0.3);
+  }
+
+  /* ── Status badges ── */
+  .badge { display:inline-flex; align-items:center; gap:4px; padding:3px 8px; border-radius:6px; font-size:10px; font-weight:700; }
+  .badge-green { background:#dcfce7; color:#15803d; }
+  .badge-red { background:#fef2f2; color:#b91c1c; }
+  .badge-blue { background:#dbeafe; color:#1d4ed8; }
+  .badge-amber { background:#fef3c7; color:#b45309; }
+  .badge-purple { background:#f3e8ff; color:#7c3aed; }
+  .badge-slate { background:#f1f5f9; color:#475569; }
+
+  /* ── Form group ── */
+  .form-group { display:flex; flex-direction:column; gap:4px; }
+  .form-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--admin-muted); }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:480px) { .form-row { grid-template-columns:1fr; } }
+
+  /* ── Login ── */
+  .login-bg {
+    min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px;
+    background:linear-gradient(135deg, #002060 0%, #003087 50%, #0a4bc4 100%);
+    position:relative; overflow:hidden;
+  }
+  .login-bg::before {
+    content:''; position:absolute; width:400px; height:400px; border-radius:50%;
+    background:rgba(239,188,0,0.08); top:-100px; right:-100px;
+  }
+  .login-bg::after {
+    content:''; position:absolute; width:300px; height:300px; border-radius:50%;
+    background:rgba(239,188,0,0.05); bottom:-80px; left:-80px;
+  }
 </style>
 </head>
-<body class="bg-slate-100 min-h-screen">
+<body class="min-h-screen">
 
 <!-- ═══════════ LOGIN ═══════════ -->
-<div id="pantalla-login" class="min-h-screen flex items-center justify-center p-4">
-  <div class="w-full max-w-sm">
-    <div class="bg-[#003087] rounded-3xl shadow-2xl text-center p-6 mb-6 text-white">
-      <div class="w-16 h-16 mx-auto bg-white rounded-full flex items-center justify-center mb-3">
-        <span class="font-black text-[#C8102E] text-xl" id="admin-logo-text">PRM</span>
+<div id="pantalla-login" class="login-bg">
+  <div class="w-full max-w-sm relative z-10">
+    <div class="text-center mb-6">
+      <div class="w-18 h-18 mx-auto bg-white rounded-2xl flex items-center justify-center mb-4 shadow-lg" style="width:72px;height:72px;">
+        <span class="font-black text-[#003087] text-2xl" id="admin-logo-text">PRM</span>
       </div>
-      <h1 class="text-xl font-black tracking-wide">PANEL DE ADMINISTRACIÓN</h1>
-      <p class="text-xs text-blue-200 mt-1" id="admin-subtitle">Sistema Electoral</p>
+      <h1 class="text-white text-2xl font-extrabold tracking-tight">Panel de Administración</h1>
+      <p class="text-blue-200 text-sm mt-1" id="admin-subtitle">Sistema Electoral</p>
     </div>
-    <div class="bg-white rounded-2xl shadow-lg p-6">
-      <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Clave de acceso</label>
-      <input id="pin-admin" type="password" placeholder="••••••" class="border-2 border-slate-200 rounded-xl px-4 py-3 w-full text-center text-xl font-black tracking-[0.4em]"
-             onkeydown="if(event.key==='Enter') entrarAdmin()">
-      <button onclick="entrarAdmin()" class="mt-4 w-full bg-[#003087] hover:bg-[#002a70] text-white font-bold py-3 rounded-xl transition-all active:scale-95">
-        <i class="fa-solid fa-lock mr-2"></i> Entrar
+    <div class="bg-white rounded-2xl shadow-2xl p-6">
+      <div class="form-group mb-4">
+        <label class="form-label">Clave de acceso</label>
+        <input id="pin-admin" type="password" placeholder="••••••" class="text-center text-xl font-black tracking-[0.4em] py-3"
+               onkeydown="if(event.key==='Enter') entrarAdmin()">
+      </div>
+      <button onclick="entrarAdmin()" class="btn btn-primary w-full py-3 text-sm justify-center">
+        <i class="fa-solid fa-right-to-bracket"></i> Entrar
       </button>
-      <p id="login-error" class="text-red-600 text-xs font-bold mt-2 text-center hidden"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Clave incorrecta</p>
+      <p id="login-error" class="text-red-600 text-xs font-bold mt-3 text-center hidden">
+        <i class="fa-solid fa-circle-exclamation mr-1"></i> Clave incorrecta
+      </p>
     </div>
-    <a href="sistema-inicio.html" class="block text-center text-xs text-slate-500 mt-4 hover:underline"><i class="fa-solid fa-arrow-left mr-1"></i> Volver a la web</a>
+    <a href="index.html" class="block text-center text-blue-200 text-xs mt-5 hover:text-white transition-colors">
+      <i class="fa-solid fa-arrow-left mr-1"></i> Volver al sitio
+    </a>
   </div>
 </div>
 
 <!-- ═══════════ PANEL ═══════════ -->
 <div id="pantalla-panel" class="hidden">
 
-  <header class="bg-[#003087] text-white shadow-lg border-b-4 border-[#efbc00] sticky top-0 z-50">
+  <!-- Header -->
+  <header class="admin-header sticky top-0 z-50 border-b-4 border-[var(--admin-accent)]">
     <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center gap-3">
-        <span class="font-black tracking-wider text-lg" id="admin-header-title">PRM · VALVERDE <span class="text-[#efbc00] text-xs font-bold ml-2 bg-white/15 px-2 py-1 rounded-full">ADMIN</span></span>
+        <button class="hamburger" onclick="toggleMobileNav()">
+          <span></span><span></span><span></span>
+        </button>
+        <span class="font-extrabold tracking-wide text-lg" id="admin-header-title">
+          PRM · VALVERDE <span class="badge badge-amber ml-2">ADMIN</span>
+        </span>
       </div>
       <div class="flex items-center gap-2">
         <div class="relative">
-          <button onclick="toggleNotifDropdown()" class="relative w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center transition-all">
+          <button onclick="toggleNotifDropdown()" class="relative w-9 h-9 rounded-xl bg-white/15 hover:bg-white/25 flex items-center justify-center transition-all">
             <i class="fa-solid fa-bell text-sm"></i>
             <span id="notif-badge" class="notif-badge hidden">0</span>
           </button>
           <div id="notif-dropdown" class="notif-dropdown hidden">
-            <div class="p-3 border-b border-slate-100 font-black text-sm text-slate-700"><i class="fa-solid fa-bell mr-2 text-[#efbc00]"></i> Notificaciones</div>
+            <div class="p-3 border-b border-slate-100 font-extrabold text-sm text-slate-700">
+              <i class="fa-solid fa-bell mr-2 text-[var(--admin-accent)]"></i> Notificaciones
+            </div>
             <div id="notif-list" class="p-2 text-center text-slate-400 text-xs">Cargando...</div>
           </div>
         </div>
-        <button onclick="cerrarSesionAdmin()" class="text-xs bg-red-500/80 hover:bg-red-500 px-3 py-1.5 rounded-lg font-bold"><i class="fa-solid fa-right-from-bracket mr-1"></i> Salir</button>
+        <button onclick="cerrarSesionAdmin()" class="btn btn-red btn-sm">
+          <i class="fa-solid fa-right-from-bracket"></i> Salir
+        </button>
       </div>
     </div>
   </header>
 
-  <nav class="bg-white shadow sticky top-[61px] z-40 border-b border-slate-200 overflow-x-auto">
-    <div class="max-w-7xl mx-auto px-4 flex gap-1 py-2 min-w-max">
-      <button class="nav-btn bg-slate-900 text-white" data-tab="resumen" onclick="mostrarTab('resumen')"><i class="fa-solid fa-chart-pie mr-1"></i> Resumen</button>
-      <button class="nav-btn" data-tab="candidatos" onclick="mostrarTab('candidatos')"><i class="fa-solid fa-user-tie mr-1"></i> Candidatos</button>
-      <button class="nav-btn" data-tab="dirigentes" onclick="mostrarTab('dirigentes')"><i class="fa-solid fa-people-group mr-1"></i> Dirigentes</button>
-      <button class="nav-btn" data-tab="solicitudes" onclick="mostrarTab('solicitudes')"><i class="fa-solid fa-clock mr-1"></i> Solicitudes <span id="badge-solicitudes" class="notif-badge hidden">0</span></button>
-      <button class="nav-btn" data-tab="comite" onclick="mostrarTab('comite')"><i class="fa-solid fa-users mr-1"></i> Comité</button>
-      <button class="nav-btn" data-tab="apoyos" onclick="mostrarTab('apoyos')"><i class="fa-solid fa-handshake mr-1"></i> Apoyos</button>
-      <button class="nav-btn" data-tab="planchas" onclick="mostrarTab('planchas')"><i class="fa-solid fa-bullhorn mr-1"></i> Planchas</button>
-      <button class="nav-btn" data-tab="padron" onclick="mostrarTab('padron')"><i class="fa-solid fa-book mr-1"></i> Padrón</button>
-      <button class="nav-btn" data-tab="administradores" onclick="mostrarTab('administradores')"><i class="fa-solid fa-user-shield mr-1"></i> Admins</button>
-      <button class="nav-btn" data-tab="auditoria" onclick="mostrarTab('auditoria')"><i class="fa-solid fa-shield-halved mr-1"></i> Auditoría</button>
-      <button class="nav-btn" data-tab="config" onclick="mostrarTab('config')"><i class="fa-solid fa-gear mr-1"></i> Config</button>
-      <a href="importador_padron.html" class="nav-btn bg-white text-slate-600 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-100"><i class="fa-solid fa-file-import mr-1"></i> Importar</a>
+  <!-- Tabs nav -->
+  <nav class="bg-white shadow-sm sticky top-[61px] z-40 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 py-2">
+      <div class="nav-tabs-wrapper" id="nav-tabs">
+        <button class="nav-btn active-tab" data-tab="resumen" onclick="mostrarTab('resumen')"><i class="fa-solid fa-chart-pie"></i> Resumen</button>
+        <button class="nav-btn" data-tab="candidatos" onclick="mostrarTab('candidatos')"><i class="fa-solid fa-user-tie"></i> Candidatos</button>
+        <button class="nav-btn" data-tab="dirigentes" onclick="mostrarTab('dirigentes')"><i class="fa-solid fa-people-group"></i> Dirigentes</button>
+        <button class="nav-btn" data-tab="solicitudes" onclick="mostrarTab('solicitudes')"><i class="fa-solid fa-clock"></i> Solicitudes <span id="badge-solicitudes" class="notif-badge hidden">0</span></button>
+        <button class="nav-btn" data-tab="comite" onclick="mostrarTab('comite')"><i class="fa-solid fa-users"></i> Comité</button>
+        <button class="nav-btn" data-tab="apoyos" onclick="mostrarTab('apoyos')"><i class="fa-solid fa-handshake"></i> Apoyos</button>
+        <button class="nav-btn" data-tab="planchas" onclick="mostrarTab('planchas')"><i class="fa-solid fa-bullhorn"></i> Planchas</button>
+        <button class="nav-btn" data-tab="padron" onclick="mostrarTab('padron')"><i class="fa-solid fa-book"></i> Padrón</button>
+        <button class="nav-btn" data-tab="administradores" onclick="mostrarTab('administradores')"><i class="fa-solid fa-user-shield"></i> Admins</button>
+        <button class="nav-btn" data-tab="auditoria" onclick="mostrarTab('auditoria')"><i class="fa-solid fa-shield-halved"></i> Auditoría</button>
+        <button class="nav-btn" data-tab="config" onclick="mostrarTab('config')"><i class="fa-solid fa-gear"></i> Config</button>
+        <a href="importador_padron.html" class="nav-btn" style="background:var(--admin-primary);color:white;"><i class="fa-solid fa-file-import"></i> Importar</a>
+      </div>
     </div>
   </nav>
 
@@ -114,180 +302,209 @@
     <section id="tab-resumen" class="tab-panel active">
       <div id="kpis" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6"></div>
 
-      <!-- Actividad en vivo -->
+      <!-- Activity row -->
       <div class="grid md:grid-cols-3 gap-6 mb-6">
-        <div class="bg-white rounded-2xl shadow-sm p-5 border-l-4 border-green-500">
+        <div class="section-card border-l-4 border-green-500">
           <div class="flex items-center justify-between mb-3">
-            <h3 class="font-black text-slate-700 text-sm"><i class="fa-solid fa-signal mr-2 text-green-500"></i> Usuarios activos</h3>
+            <h3 class="font-extrabold text-sm text-slate-700"><i class="fa-solid fa-signal mr-2 text-green-500"></i> Usuarios activos</h3>
             <div class="live-dot"></div>
           </div>
-          <div id="kpi-en-linea" class="text-3xl font-black text-green-600">0</div>
+          <div id="kpi-en-linea" class="text-3xl font-extrabold text-green-600">0</div>
           <p class="text-[11px] text-slate-400 mt-1">Últimos 15 minutos</p>
         </div>
-        <div class="bg-white rounded-2xl shadow-sm p-5 border-l-4 border-blue-500">
-          <h3 class="font-black text-slate-700 text-sm mb-3"><i class="fa-solid fa-user-plus mr-2 text-blue-500"></i> Registrados hoy</h3>
-          <div id="kpi-reg-hoy" class="text-3xl font-black text-blue-600">0</div>
+        <div class="section-card border-l-4 border-blue-500">
+          <h3 class="font-extrabold text-sm text-slate-700 mb-3"><i class="fa-solid fa-user-plus mr-2 text-blue-500"></i> Registrados hoy</h3>
+          <div id="kpi-reg-hoy" class="text-3xl font-extrabold text-blue-600">0</div>
           <p class="text-[11px] text-slate-400 mt-1">Nuevos registros</p>
         </div>
-        <div class="bg-white rounded-2xl shadow-sm p-5">
-          <h3 class="font-black text-slate-700 text-sm mb-3"><i class="fa-solid fa-clock-rotate-left mr-2 text-[#efbc00]"></i> Última actividad</h3>
+        <div class="section-card">
+          <h3 class="font-extrabold text-sm text-slate-700 mb-3"><i class="fa-solid fa-clock-rotate-left mr-2 text-amber-500"></i> Última actividad</h3>
           <div id="kpi-ultima-actividad" class="text-sm font-bold text-slate-600">—</div>
           <p class="text-[11px] text-slate-400 mt-1">Última acción registrada</p>
         </div>
       </div>
 
       <div class="grid md:grid-cols-3 gap-6 mb-6">
-        <!-- Feed de actividad -->
-        <div class="bg-white rounded-2xl shadow-sm p-5 md:col-span-1">
-          <h3 class="font-black text-slate-700 mb-3 text-sm"><i class="fa-solid fa-list mr-2 text-purple-600"></i> Actividad en vivo</h3>
+        <!-- Activity feed -->
+        <div class="section-card md:col-span-1">
+          <h3 class="font-extrabold text-sm text-slate-700 mb-3"><i class="fa-solid fa-list mr-2 text-purple-600"></i> Actividad en vivo</h3>
           <div id="activity-feed" class="max-h-[360px] overflow-y-auto">
             <p class="text-slate-400 text-xs text-center py-4">Cargando actividad...</p>
           </div>
         </div>
         <!-- Charts -->
-        <div class="bg-white rounded-2xl shadow-sm p-5 md:col-span-2">
+        <div class="section-card md:col-span-2">
           <div class="grid md:grid-cols-2 gap-4">
             <div>
-              <h3 class="font-black text-slate-700 mb-4 text-sm"><i class="fa-solid fa-chart-simple mr-2 text-blue-700"></i> Apoyos por zona</h3>
+              <h3 class="font-extrabold text-sm text-slate-700 mb-4"><i class="fa-solid fa-chart-simple mr-2 text-blue-700"></i> Apoyos por zona</h3>
               <div style="height:220px"><canvas id="chart-zonas"></canvas></div>
             </div>
             <div>
-              <h3 class="font-black text-slate-700 mb-4 text-sm"><i class="fa-solid fa-users mr-2 text-green-600"></i> Estructura de candidatos</h3>
+              <h3 class="font-extrabold text-sm text-slate-700 mb-4"><i class="fa-solid fa-users mr-2 text-green-600"></i> Estructura de candidatos</h3>
               <div style="height:220px"><canvas id="chart-candidatos"></canvas></div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="bg-white rounded-2xl shadow-sm p-5">
+      <!-- Candidates table -->
+      <div class="section-card">
         <div class="flex justify-between items-center mb-4">
-          <h3 class="font-black text-slate-700 text-sm"><i class="fa-solid fa-user-tie mr-2 text-yellow-500"></i> Candidatos y pre-candidatos</h3>
-          <button onclick="nuevoCandidato()" class="bg-[#003087] hover:bg-[#002a70] text-white text-xs font-bold px-4 py-2 rounded-lg"><i class="fa-solid fa-plus mr-1"></i> Nuevo</button>
+          <h3 class="font-extrabold text-sm text-slate-700"><i class="fa-solid fa-user-tie mr-2 text-amber-500"></i> Candidatos y pre-candidatos</h3>
+          <button onclick="nuevoCandidato()" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Nuevo</button>
         </div>
-        <div class="overflow-x-auto"><table><thead><tr><th>ID</th><th>Nombre</th><th>Cargo</th><th>Tipo</th><th>Municipio</th><th>Activo</th><th>Acciones</th></tr></thead><tbody id="tbody-candidatos-resumen"></tbody></table></div>
+        <div class="table-responsive"><table><thead><tr><th>ID</th><th>Nombre</th><th>Cargo</th><th>Tipo</th><th>Municipio</th><th>Activo</th><th>Acciones</th></tr></thead><tbody id="tbody-candidatos-resumen"></tbody></table></div>
       </div>
     </section>
 
     <!-- ═══════════ CANDIDATOS ═══════════ -->
     <section id="tab-candidatos" class="tab-panel">
-      <div class="bg-white rounded-2xl shadow-sm p-5">
+      <div class="section-card">
         <div class="flex justify-between items-center mb-4">
-          <h3 class="font-black text-slate-700 text-sm"><i class="fa-solid fa-user-tie mr-2 text-blue-600"></i> Gestión de Candidatos</h3>
-          <button onclick="nuevoCandidato()" class="bg-[#003087] hover:bg-[#002a70] text-white text-xs font-bold px-4 py-2 rounded-lg"><i class="fa-solid fa-plus mr-1"></i> Nuevo Candidato</button>
+          <h3 class="font-extrabold text-sm text-slate-700"><i class="fa-solid fa-user-tie mr-2 text-blue-600"></i> Gestión de Candidatos</h3>
+          <button onclick="nuevoCandidato()" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Nuevo Candidato</button>
         </div>
-        <div class="overflow-x-auto"><table><thead><tr><th>ID</th><th>Nombre</th><th>Cargo</th><th>Tipo</th><th>Municipio</th><th>Zona</th><th>Activo</th><th>Acciones</th></tr></thead><tbody id="tbody-candidatos-full"></tbody></table></div>
+        <div class="table-responsive"><table><thead><tr><th>ID</th><th>Nombre</th><th>Cargo</th><th>Tipo</th><th>Municipio</th><th>Zona</th><th>Activo</th><th>Acciones</th></tr></thead><tbody id="tbody-candidatos-full"></tbody></table></div>
       </div>
     </section>
 
     <!-- ═══════════ DIRIGENTES ═══════════ -->
     <section id="tab-dirigentes" class="tab-panel">
-      <div class="bg-white rounded-2xl shadow-sm p-5">
+      <div class="section-card">
         <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
-          <h3 class="font-black text-slate-700 text-sm"><i class="fa-solid fa-people-group mr-2 text-green-600"></i> Dirigentes</h3>
+          <h3 class="font-extrabold text-sm text-slate-700"><i class="fa-solid fa-people-group mr-2 text-green-600"></i> Dirigentes</h3>
           <div class="flex gap-2">
             <input id="busq-dirigentes" placeholder="Buscar por nombre o cédula..." class="max-w-xs" oninput="renderDirigentes()">
-            <button onclick="nuevoDirigente()" class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-4 py-2 rounded-lg"><i class="fa-solid fa-plus mr-1"></i> Nuevo</button>
+            <button onclick="abrirModalDirigente()" class="btn btn-green"><i class="fa-solid fa-plus"></i> Nuevo</button>
           </div>
         </div>
-        <div class="overflow-x-auto"><table><thead><tr><th>Cédula</th><th>Nombre</th><th>Zona</th><th>Municipio</th><th>Sector</th><th>Teléfono</th><th>Activo</th><th>Acciones</th></tr></thead><tbody id="tbody-dirigentes"></tbody></table></div>
+        <div class="table-responsive"><table><thead><tr><th>Cédula</th><th>Nombre</th><th>Zona</th><th>Municipio</th><th>Sector</th><th>Teléfono</th><th>Activo</th><th>Acciones</th></tr></thead><tbody id="tbody-dirigentes"></tbody></table></div>
       </div>
     </section>
 
-    <!-- ═══════════ SOLICITUDES PENDIENTES ════════════ -->
+    <!-- ═══════════ SOLICITUDES ═══════════ -->
     <section id="tab-solicitudes" class="tab-panel">
-      <div class="bg-white rounded-2xl shadow-sm p-5">
+      <div class="section-card">
         <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
-          <h3 class="font-black text-slate-700 text-sm"><i class="fa-solid fa-clock mr-2 text-amber-500"></i> Solicitudes Pendientes de Aprobación</h3>
-          <button onclick="cargarSolicitudes()" class="text-xs bg-slate-100 hover:bg-slate-200 px-3 py-1 rounded-lg font-bold"><i class="fa-solid fa-rotate mr-1"></i> Refrescar</button>
+          <h3 class="font-extrabold text-sm text-slate-700"><i class="fa-solid fa-clock mr-2 text-amber-500"></i> Solicitudes Pendientes de Aprobación</h3>
+          <button onclick="cargarSolicitudes()" class="btn btn-ghost"><i class="fa-solid fa-rotate"></i> Refrescar</button>
         </div>
-        <div class="overflow-x-auto">
-          <table><thead><tr><th>Cedula</th><th>Nombre</th><th>Zona</th><th>Municipio</th><th>Email</th><th>Fecha Registro</th><th>Acciones</th></tr></thead><tbody id="tbody-solicitudes"></tbody></table>
+        <div class="table-responsive">
+          <table><thead><tr><th>Cédula</th><th>Nombre</th><th>Zona</th><th>Municipio</th><th>Email</th><th>Fecha</th><th>Acciones</th></tr></thead><tbody id="tbody-solicitudes"></tbody></table>
         </div>
         <p id="solicitudes-empty" class="text-slate-400 text-center py-8 hidden">No hay solicitudes pendientes</p>
       </div>
     </section>
 
-    <!-- ════════════ COMITÉ ═════════════ -->
+    <!-- ═══════════ COMITÉ ═══════════ -->
     <section id="tab-comite" class="tab-panel">
-      <div class="bg-white rounded-2xl shadow-sm p-5">
+      <div class="section-card">
         <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
-          <h3 class="font-black text-slate-700 text-sm"><i class="fa-solid fa-users mr-2 text-amber-500"></i> Miembros de Comité</h3>
+          <h3 class="font-extrabold text-sm text-slate-700"><i class="fa-solid fa-users mr-2 text-amber-500"></i> Miembros de Comité</h3>
           <div class="flex gap-2">
             <input id="busqueda-comite" placeholder="Buscar..." class="max-w-xs" oninput="renderComite()">
-            <button onclick="nuevoMiembroComite()" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-4 py-2 rounded-lg"><i class="fa-solid fa-plus mr-1"></i> Agregar</button>
+            <button onclick="abrirModalComite()" class="btn btn-amber"><i class="fa-solid fa-plus"></i> Agregar</button>
           </div>
         </div>
-        <div class="overflow-x-auto"><table><thead><tr><th>Dirigente</th><th>Cédula</th><th>Nombre</th><th>Género</th><th>Fidelidad</th><th>Recinto</th><th>Acciones</th></tr></thead><tbody id="tbody-comite"></tbody></table></div>
+        <div class="table-responsive"><table><thead><tr><th>Dirigente</th><th>Cédula</th><th>Nombre</th><th>Género</th><th>Fidelidad</th><th>Recinto</th><th>Acciones</th></tr></thead><tbody id="tbody-comite"></tbody></table></div>
       </div>
     </section>
 
     <!-- ═══════════ APOYOS ═══════════ -->
     <section id="tab-apoyos" class="tab-panel">
-      <div class="bg-white rounded-2xl shadow-sm p-5">
+      <div class="section-card">
         <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
-          <h3 class="font-black text-slate-700 text-sm"><i class="fa-solid fa-handshake mr-2 text-purple-600"></i> Apoyos (se verán en la web)</h3>
+          <h3 class="font-extrabold text-sm text-slate-700"><i class="fa-solid fa-handshake mr-2 text-purple-600"></i> Apoyos</h3>
           <div class="flex gap-2">
             <input id="busqueda-apoyos" placeholder="Buscar..." class="max-w-xs" oninput="renderApoyos()">
-            <button onclick="nuevoApoyo()" class="bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold px-4 py-2 rounded-lg"><i class="fa-solid fa-plus mr-1"></i> Agregar Apoyo</button>
+            <button onclick="abrirModalApoyo()" class="btn btn-purple"><i class="fa-solid fa-plus"></i> Agregar</button>
           </div>
         </div>
-        <div class="overflow-x-auto"><table><thead><tr><th>Cédula</th><th>Nombre</th><th>Candidato</th><th>Dirigente</th><th>Tipo</th><th>Verificado</th><th>Acciones</th></tr></thead><tbody id="tbody-apoyos"></tbody></table></div>
+        <div class="table-responsive"><table><thead><tr><th>Cédula</th><th>Nombre</th><th>Candidato</th><th>Dirigente</th><th>Tipo</th><th>Verificado</th><th>Acciones</th></tr></thead><tbody id="tbody-apoyos"></tbody></table></div>
       </div>
     </section>
 
     <!-- ═══════════ PLANCHAS ═══════════ -->
     <section id="tab-planchas" class="tab-panel">
-      <div class="bg-white rounded-2xl shadow-sm p-5">
-        <h3 class="font-black text-slate-700 mb-4 text-sm"><i class="fa-solid fa-bullhorn mr-2 text-blue-500"></i> Planchas</h3>
-        <div class="overflow-x-auto"><table><thead><tr><th>Código</th><th>Nombre</th><th>Nivel</th><th>Zona</th><th>Municipio</th><th>Estatus</th><th>Miembros</th><th>% Mujeres</th><th>% Jóvenes</th><th>Acciones</th></tr></thead><tbody id="tbody-planchas"></tbody></table></div>
+      <div class="section-card">
+        <h3 class="font-extrabold text-sm text-slate-700 mb-4"><i class="fa-solid fa-bullhorn mr-2 text-blue-500"></i> Planchas</h3>
+        <div class="table-responsive"><table><thead><tr><th>Código</th><th>Nombre</th><th>Nivel</th><th>Zona</th><th>Municipio</th><th>Estatus</th><th>Miembros</th><th>% Mujeres</th><th>% Jóvenes</th><th>Acciones</th></tr></thead><tbody id="tbody-planchas"></tbody></table></div>
       </div>
     </section>
 
     <!-- ═══════════ PADRÓN ═══════════ -->
     <section id="tab-padron" class="tab-panel">
-      <div class="bg-white rounded-2xl shadow-sm p-5">
+      <div class="section-card">
         <div class="flex justify-between items-center mb-4">
-          <h3 class="font-black text-slate-700 text-sm"><i class="fa-solid fa-book mr-2 text-sky-600"></i> Padrón Electoral (máx 200)</h3>
+          <h3 class="font-extrabold text-sm text-slate-700"><i class="fa-solid fa-book mr-2 text-sky-600"></i> Padrón Electoral (máx 200)</h3>
           <input id="busqueda-padron" placeholder="Buscar por cédula o nombre..." class="max-w-md" oninput="renderPadron()">
         </div>
-        <div class="overflow-x-auto"><table><thead><tr><th>Cédula</th><th>Nombre</th><th>Municipio</th><th>Recinto</th><th>Colegio</th><th>Voto Primaria</th><th>Militante</th><th>Creado</th></tr></thead><tbody id="tbody-padron"></tbody></table></div>
+        <div class="table-responsive"><table><thead><tr><th>Cédula</th><th>Nombre</th><th>Municipio</th><th>Recinto</th><th>Colegio</th><th>Voto Primaria</th><th>Militante</th><th>Creado</th></tr></thead><tbody id="tbody-padron"></tbody></table></div>
       </div>
     </section>
 
     <!-- ═══════════ ADMINISTRADORES ═══════════ -->
     <section id="tab-administradores" class="tab-panel">
-      <div class="bg-white rounded-2xl shadow-sm p-5">
+      <div class="section-card">
         <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
-          <h3 class="font-black text-slate-700 text-sm"><i class="fa-solid fa-user-shield mr-2 text-[#003087]"></i> Gestión de Administradores</h3>
-          <button onclick="nuevoAdmin()" class="bg-[#003087] hover:bg-[#002a70] text-white text-xs font-bold px-4 py-2 rounded-lg"><i class="fa-solid fa-plus mr-1"></i> Agregar Administrador</button>
+          <h3 class="font-extrabold text-sm text-slate-700"><i class="fa-solid fa-user-shield mr-2 text-[var(--admin-primary)]"></i> Gestión de Administradores</h3>
+          <button onclick="abrirModalAdmin()" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Agregar</button>
         </div>
         <p class="text-xs text-slate-400 mb-4">Solo los <strong>SUPER_ADMIN</strong> pueden agregar o desactivar administradores.</p>
-        <div class="overflow-x-auto"><table><thead><tr><th>Nombre</th><th>Cédula</th><th>Nivel</th><th>Estado</th><th>Agregado por</th><th>Acciones</th></tr></thead><tbody id="tbody-admins"></tbody></table></div>
+        <div class="table-responsive"><table><thead><tr><th>Nombre</th><th>Cédula</th><th>Nivel</th><th>Estado</th><th>Agregado por</th><th>Acciones</th></tr></thead><tbody id="tbody-admins"></tbody></table></div>
       </div>
     </section>
 
     <!-- ═══════════ CONFIG ═══════════ -->
     <section id="tab-config" class="tab-panel">
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="bg-white rounded-2xl shadow-sm p-5">
-          <h3 class="font-black text-slate-700 mb-4 text-sm"><i class="fa-solid fa-wrench mr-2 text-slate-500"></i> Módulos visibles en la web</h3>
+      <div class="grid md:grid-cols-2 gap-6 grid-2col">
+        <div class="section-card">
+          <h3 class="font-extrabold text-sm text-slate-700 mb-4"><i class="fa-solid fa-wrench mr-2 text-slate-500"></i> Módulos visibles en la web</h3>
           <div class="space-y-3">
-            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3"><span class="text-sm font-semibold text-slate-600">Buscador</span><input type="checkbox" id="cfg-buscador" onchange="guardarConfig()"></label>
-            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3"><span class="text-sm font-semibold text-slate-600">Planchas</span><input type="checkbox" id="cfg-planchas" onchange="guardarConfig()"></label>
-            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3"><span class="text-sm font-semibold text-slate-600">Dirigentes</span><input type="checkbox" id="cfg-dirigentes" onchange="guardarConfig()"></label>
-            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3"><span class="text-sm font-semibold text-slate-600">Reportes</span><input type="checkbox" id="cfg-reportes" onchange="guardarConfig()"></label>
-            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3"><span class="text-sm font-semibold text-slate-600">Mapa</span><input type="checkbox" id="cfg-mapa" onchange="guardarConfig()"></label>
+            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3 hover:bg-slate-50 transition-all">
+              <span class="text-sm font-semibold text-slate-600">Buscador</span><input type="checkbox" id="cfg-buscador" onchange="guardarConfig()" class="w-5 h-5 accent-[var(--admin-primary)]">
+            </label>
+            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3 hover:bg-slate-50 transition-all">
+              <span class="text-sm font-semibold text-slate-600">Planchas</span><input type="checkbox" id="cfg-planchas" onchange="guardarConfig()" class="w-5 h-5 accent-[var(--admin-primary)]">
+            </label>
+            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3 hover:bg-slate-50 transition-all">
+              <span class="text-sm font-semibold text-slate-600">Dirigentes</span><input type="checkbox" id="cfg-dirigentes" onchange="guardarConfig()" class="w-5 h-5 accent-[var(--admin-primary)]">
+            </label>
+            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3 hover:bg-slate-50 transition-all">
+              <span class="text-sm font-semibold text-slate-600">Reportes</span><input type="checkbox" id="cfg-reportes" onchange="guardarConfig()" class="w-5 h-5 accent-[var(--admin-primary)]">
+            </label>
+            <label class="flex items-center justify-between cursor-pointer border border-slate-200 rounded-xl p-3 hover:bg-slate-50 transition-all">
+              <span class="text-sm font-semibold text-slate-600">Mapa</span><input type="checkbox" id="cfg-mapa" onchange="guardarConfig()" class="w-5 h-5 accent-[var(--admin-primary)]">
+            </label>
           </div>
         </div>
-        <div class="bg-white rounded-2xl shadow-sm p-5">
-          <h3 class="font-black text-slate-700 mb-4 text-sm"><i class="fa-solid fa-palette mr-2 text-pink-500"></i> Apariencia y sistema</h3>
-          <div class="space-y-3">
-            <div><label class="text-xs font-bold text-slate-400 uppercase">Color principal</label><input type="color" id="cfg-color-primary" class="h-10" onchange="guardarConfigColor()"></div>
-            <div><label class="text-xs font-bold text-slate-400 uppercase">Color secundario</label><input type="color" id="cfg-color-secondary" class="h-10" onchange="guardarConfigColor()"></div>
-            <div><label class="text-xs font-bold text-slate-400 uppercase">Color acento</label><input type="color" id="cfg-color-accent" class="h-10" onchange="guardarConfigColor()"></div>
-            <div><label class="text-xs font-bold text-slate-400 uppercase">Nombre del sistema</label><input type="text" id="cfg-nombre-sistema" onchange="guardarConfig()"></div>
-            <div><label class="text-xs font-bold text-slate-400 uppercase">Texto del pie</label><input type="text" id="cfg-footer" onchange="guardarConfig()"></div>
-            <div><label class="text-xs font-bold text-slate-400 uppercase">Cambiar clave de acceso</label><input type="text" id="cfg-admin-pin" placeholder="Dejar vacío para no cambiar" onchange="cambiarClaveAdmin()"></div>
+        <div class="section-card">
+          <h3 class="font-extrabold text-sm text-slate-700 mb-4"><i class="fa-solid fa-palette mr-2 text-pink-500"></i> Apariencia y sistema</h3>
+          <div class="space-y-4">
+            <div class="form-group">
+              <label class="form-label">Color principal</label>
+              <input type="color" id="cfg-color-primary" onchange="guardarConfigColor()" class="h-10 cursor-pointer">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Color secundario</label>
+              <input type="color" id="cfg-color-secondary" onchange="guardarConfigColor()" class="h-10 cursor-pointer">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Color acento</label>
+              <input type="color" id="cfg-color-accent" onchange="guardarConfigColor()" class="h-10 cursor-pointer">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nombre del sistema</label>
+              <input type="text" id="cfg-nombre-sistema" onchange="guardarConfig()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Texto del pie</label>
+              <input type="text" id="cfg-footer" onchange="guardarConfig()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Cambiar clave de acceso</label>
+              <input type="text" id="cfg-admin-pin" placeholder="Dejar vacío para no cambiar" onchange="cambiarClaveAdmin()">
+            </div>
           </div>
         </div>
       </div>
@@ -295,11 +512,11 @@
 
     <!-- ═══════════ AUDITORÍA ═══════════ -->
     <section id="tab-auditoria" class="tab-panel">
-      <div class="bg-white rounded-2xl shadow-sm p-5 mb-4">
+      <div class="section-card mb-4">
         <div class="flex justify-between items-center mb-4">
-          <h3 class="font-black text-slate-700 text-sm"><i class="fa-solid fa-shield-halved mr-2 text-[#003087]"></i> Actividad del Sistema</h3>
+          <h3 class="font-extrabold text-sm text-slate-700"><i class="fa-solid fa-shield-halved mr-2 text-[var(--admin-primary)]"></i> Actividad del Sistema</h3>
           <div class="flex gap-2">
-            <select id="audit-filtro-accion" onchange="cargarAuditoria()" class="text-xs border rounded-lg px-2 py-1">
+            <select id="audit-filtro-accion" onchange="cargarAuditoria()" class="text-xs w-auto">
               <option value="">Todas las acciones</option>
               <option value="login">Logins</option>
               <option value="logout">Logouts</option>
@@ -309,13 +526,13 @@
               <option value="miembro_comite_agregado">Comité</option>
               <option value="acta_subida">Actas</option>
             </select>
-            <button onclick="cargarAuditoria()" class="text-xs bg-slate-100 hover:bg-slate-200 px-3 py-1 rounded-lg font-bold">Refrescar</button>
+            <button onclick="cargarAuditoria()" class="btn btn-ghost btn-sm"><i class="fa-solid fa-rotate"></i></button>
           </div>
         </div>
         <div id="audit-kpis" class="grid grid-cols-3 gap-3 mb-4"></div>
-        <div class="overflow-x-auto">
-          <table class="w-full text-xs">
-            <thead><tr class="border-b"><th class="text-left p-2">Fecha/Hora</th><th class="text-left p-2">Actor</th><th class="text-left p-2">Rol</th><th class="text-left p-2">Acción</th><th class="text-left p-2">Tabla</th><th class="text-left p-2">IP</th></tr></thead>
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>Fecha/Hora</th><th>Actor</th><th>Rol</th><th>Acción</th><th>Tabla</th><th>IP</th></tr></thead>
             <tbody id="tbody-audit"></tbody>
           </table>
         </div>
@@ -326,40 +543,195 @@
 </div>
 
 <!-- ═══════════ MODAL CANDIDATO ═══════════ -->
-<div id="modal-candidato" class="hidden fixed inset-0 z-[100] bg-black/60 flex items-center justify-center p-4">
-  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
-    <h3 id="modal-candidato-title" class="font-black text-slate-800 text-lg mb-4"><i class="fa-solid fa-user-tie mr-2 text-blue-700"></i> Candidato</h3>
+<div id="modal-candidato" class="modal-overlay hidden" onclick="if(event.target===this)cerrarModalCandidato()">
+  <div class="modal-box p-6">
+    <div class="flex items-center justify-between mb-5">
+      <h3 id="modal-candidato-title" class="font-extrabold text-slate-800 text-lg"><i class="fa-solid fa-user-tie mr-2 text-blue-700"></i> Candidato</h3>
+      <button onclick="cerrarModalCandidato()" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-all"><i class="fa-solid fa-xmark text-slate-500"></i></button>
+    </div>
     <input id="candidato-id-original" type="hidden">
-    <div class="space-y-3">
-      <div><label class="text-xs font-bold text-slate-400 uppercase">Nombre completo</label><input id="cand-nombre" placeholder="Ej: María Santos Cruz"></div>
-      <div class="grid grid-cols-2 gap-2">
-        <div><label class="text-xs font-bold text-slate-400 uppercase">Tipo</label><select id="cand-tipo"><option value="precandidato">Pre-candidato</option><option value="candidato">Candidato</option></select></div>
-        <div><label class="text-xs font-bold text-slate-400 uppercase">Cargo</label><select id="cand-cargo"><option value="Senador">Senador</option><option value="Diputado">Diputado</option><option value="Alcalde">Alcalde</option><option value="Regidor">Regidor</option><option value="Otro">Otro</option></select></div>
+    <div class="space-y-4">
+      <div class="form-group">
+        <label class="form-label">Nombre completo</label>
+        <input id="cand-nombre" placeholder="Ej: María Santos Cruz">
       </div>
-      <div class="grid grid-cols-2 gap-2">
-        <div><label class="text-xs font-bold text-slate-400 uppercase">Municipio</label><select id="cand-municipio"><option value="MAO">Mao</option><option value="ESPERANZA">Esperanza</option><option value="LAGUNA SALADA">Laguna Salada</option><option value="AMINA">Amina</option><option value="GUATAPANAL">Guatapanal</option><option value="JAIBON">Jaibón</option><option value="POTRERO">Potrero</option><option value="">—</option></select></div>
-        <div><label class="text-xs font-bold text-slate-400 uppercase">Zona</label><input id="cand-zona" placeholder="Ej: Zona A"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Tipo</label>
+          <select id="cand-tipo"><option value="precandidato">Pre-candidato</option><option value="candidato">Candidato</option></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cargo</label>
+          <select id="cand-cargo"><option value="Senador">Senador</option><option value="Diputado">Diputado</option><option value="Alcalde">Alcalde</option><option value="Regidor">Regidor</option><option value="Otro">Otro</option></select>
+        </div>
       </div>
-      <div><label class="text-xs font-bold text-slate-400 uppercase">ID interno</label><input id="cand-id" placeholder="c4"></div>
-      <div class="flex gap-2 pt-2">
-        <button onclick="guardarCandidatoModal()" class="flex-1 bg-[#003087] hover:bg-[#002a70] text-white font-bold py-2.5 rounded-xl"><i class="fa-solid fa-floppy-disk mr-1"></i> Guardar</button>
-        <button onclick="cerrarModalCandidato()" class="px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 rounded-xl">Cancelar</button>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Municipio</label>
+          <select id="cand-municipio"><option value="MAO">Mao</option><option value="ESPERANZA">Esperanza</option><option value="LAGUNA SALADA">Laguna Salada</option><option value="AMINA">Amina</option><option value="GUATAPANAL">Guatapanal</option><option value="JAIBON">Jaibón</option><option value="POTRERO">Potrero</option><option value="">—</option></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Zona</label>
+          <input id="cand-zona" placeholder="Ej: Zona A">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">ID interno</label>
+        <input id="cand-id" placeholder="c4">
+      </div>
+      <div class="flex gap-3 pt-2">
+        <button onclick="guardarCandidatoModal()" class="btn btn-primary flex-1 justify-center py-2.5"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+        <button onclick="cerrarModalCandidato()" class="btn btn-ghost py-2.5">Cancelar</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- ═══════════ MODAL ADMIN ═══════════ -->
-<div id="modal-admin" class="hidden fixed inset-0 z-[100] bg-black/60 flex items-center justify-center p-4">
-  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6">
-    <h3 class="font-black text-slate-800 text-lg mb-4"><i class="fa-solid fa-user-shield mr-2 text-[#003087]"></i> Nuevo Administrador</h3>
-    <div class="space-y-3">
-      <div><label class="text-xs font-bold text-slate-400 uppercase">Cédula</label><input id="adm-cedula" placeholder="001-1234567-8"></div>
-      <div><label class="text-xs font-bold text-slate-400 uppercase">Nombre completo</label><input id="adm-nombre" placeholder="Juan Pérez"></div>
-      <div><label class="text-xs font-bold text-slate-400 uppercase">Nivel</label><select id="adm-nivel"><option value="MODERADOR">Moderador</option><option value="ADMIN">Admin</option><option value="SUPER_ADMIN">Super Admin</option></select></div>
-      <div class="flex gap-2 pt-2">
-        <button onclick="guardarAdmin()" class="flex-1 bg-[#003087] hover:bg-[#002a70] text-white font-bold py-2.5 rounded-xl"><i class="fa-solid fa-floppy-disk mr-1"></i> Guardar</button>
-        <button onclick="cerrarModalAdmin()" class="px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 rounded-xl">Cancelar</button>
+<div id="modal-admin" class="modal-overlay hidden" onclick="if(event.target===this)cerrarModalAdmin()">
+  <div class="modal-box p-6">
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="font-extrabold text-slate-800 text-lg"><i class="fa-solid fa-user-shield mr-2 text-[var(--admin-primary)]"></i> Nuevo Administrador</h3>
+      <button onclick="cerrarModalAdmin()" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-all"><i class="fa-solid fa-xmark text-slate-500"></i></button>
+    </div>
+    <div class="space-y-4">
+      <div class="form-group">
+        <label class="form-label">Cédula</label>
+        <input id="adm-cedula" placeholder="001-1234567-8">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nombre completo</label>
+        <input id="adm-nombre" placeholder="Juan Pérez">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nivel</label>
+        <select id="adm-nivel"><option value="MODERADOR">Moderador</option><option value="ADMIN">Admin</option><option value="SUPER_ADMIN">Super Admin</option></select>
+      </div>
+      <div class="flex gap-3 pt-2">
+        <button onclick="guardarAdmin()" class="btn btn-primary flex-1 justify-center py-2.5"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+        <button onclick="cerrarModalAdmin()" class="btn btn-ghost py-2.5">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL DIRIGENTE ═══════════ -->
+<div id="modal-dirigente" class="modal-overlay hidden" onclick="if(event.target===this)cerrarModalDirigente()">
+  <div class="modal-box p-6">
+    <div class="flex items-center justify-between mb-5">
+      <h3 id="modal-dirigente-title" class="font-extrabold text-slate-800 text-lg"><i class="fa-solid fa-people-group mr-2 text-green-600"></i> Dirigente</h3>
+      <button onclick="cerrarModalDirigente()" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-all"><i class="fa-solid fa-xmark text-slate-500"></i></button>
+    </div>
+    <div class="space-y-4">
+      <div class="form-group">
+        <label class="form-label">Cédula</label>
+        <input id="dir-cedula" placeholder="001-1234567-8">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nombre completo</label>
+        <input id="dir-nombre" placeholder="Juan Pérez">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Zona</label>
+          <input id="dir-zona" placeholder="Zona 1">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Municipio</label>
+          <input id="dir-municipio" placeholder="Mao">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Sector</label>
+          <input id="dir-sector" placeholder="Centro">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Teléfono</label>
+          <input id="dir-telefono" placeholder="809-123-4567">
+        </div>
+      </div>
+      <div class="flex gap-3 pt-2">
+        <button onclick="guardarDirigenteModal()" class="btn btn-green flex-1 justify-center py-2.5"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+        <button onclick="cerrarModalDirigente()" class="btn btn-ghost py-2.5">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL COMITÉ ═══════════ -->
+<div id="modal-comite" class="modal-overlay hidden" onclick="if(event.target===this)cerrarModalComite()">
+  <div class="modal-box p-6">
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="font-extrabold text-slate-800 text-lg"><i class="fa-solid fa-users mr-2 text-amber-500"></i> Miembro de Comité</h3>
+      <button onclick="cerrarModalComite()" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-all"><i class="fa-solid fa-xmark text-slate-500"></i></button>
+    </div>
+    <div class="space-y-4">
+      <div class="form-group">
+        <label class="form-label">Cédula del dirigente base</label>
+        <input id="com-dirigente-cedula" placeholder="001-1234567-8">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nombre del miembro</label>
+        <input id="com-nombre" placeholder="Nombre completo">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Género</label>
+          <select id="com-genero"><option value="">—</option><option value="M">Masculino</option><option value="F">Femenino</option></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Fidelidad</label>
+          <input id="com-fidelidad" placeholder="Alta">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Recinto</label>
+        <input id="com-recinto" placeholder="Recinto electoral">
+      </div>
+      <div class="flex gap-3 pt-2">
+        <button onclick="guardarComiteModal()" class="btn btn-amber flex-1 justify-center py-2.5"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+        <button onclick="cerrarModalComite()" class="btn btn-ghost py-2.5">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL APOYO ═══════════ -->
+<div id="modal-apoyo" class="modal-overlay hidden" onclick="if(event.target===this)cerrarModalApoyo()">
+  <div class="modal-box p-6">
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="font-extrabold text-slate-800 text-lg"><i class="fa-solid fa-handshake mr-2 text-purple-600"></i> Nuevo Apoyo</h3>
+      <button onclick="cerrarModalApoyo()" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-all"><i class="fa-solid fa-xmark text-slate-500"></i></button>
+    </div>
+    <div class="space-y-4">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Cédula</label>
+          <input id="apo-cedula" placeholder="001-1234567-8">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nombre</label>
+          <input id="apo-nombre" placeholder="Nombre completo">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">ID Candidato</label>
+          <input id="apo-candidato" placeholder="Ej: c4">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cédula Dirigente</label>
+          <input id="apo-dirigente" placeholder="001-1234567-8">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tipo de apoyo</label>
+        <select id="apo-tipo"><option value="firma">Firma</option><option value="promesa">Promesa</option><option value="voto">Voto</option></select>
+      </div>
+      <div class="flex gap-3 pt-2">
+        <button onclick="guardarApoyoModal()" class="btn btn-purple flex-1 justify-center py-2.5"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+        <button onclick="cerrarModalApoyo()" class="btn btn-ghost py-2.5">Cancelar</button>
       </div>
     </div>
   </div>
@@ -373,14 +745,13 @@ let adminNivel = '';
 let realtimeChannel = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // Init config
   if (typeof APP_CONFIG !== 'undefined' && APP_CONFIG) {
     var b = APP_CONFIG.branding;
     var u = APP_CONFIG.ui;
     var logoText = b.logoText || b.initials || '';
     document.getElementById('admin-logo-text').textContent = logoText;
     document.getElementById('admin-subtitle').textContent = (u.tituloSistema || 'Sistema Electoral') + ' · ' + b.territorio;
-    document.getElementById('admin-header-title').innerHTML = logoText + ' · ' + b.territorio.toUpperCase() + ' <span class="text-[#efbc00] text-xs font-bold ml-2 bg-white/15 px-2 py-1 rounded-full">ADMIN</span>';
+    document.getElementById('admin-header-title').innerHTML = logoText + ' · ' + b.territorio.toUpperCase() + ' <span class="badge badge-amber ml-2">ADMIN</span>';
   }
 
   if (window.supabase) {
@@ -389,7 +760,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (localStorage.getItem('prm_admin') === '1') {
     const { data: { session } } = await sb.auth.getSession();
     if (session && (session.user.app_metadata?.role === 'ADMIN_SISTEMA' || session.user.app_metadata?.role === 'super_admin')) {
-      // Init audit
       if (typeof auditLogger !== 'undefined') {
         auditLogger.init(sb, {
           cedula: session.user.app_metadata.cedula || 'admin',
@@ -405,6 +775,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
+function toggleMobileNav() {
+  document.getElementById('nav-tabs').classList.toggle('open');
+}
+
 function mostrarPanel() {
   document.getElementById('pantalla-login').classList.add('hidden');
   document.getElementById('pantalla-panel').classList.remove('hidden');
@@ -416,7 +790,6 @@ function mostrarPanel() {
 async function entrarAdmin() {
   const pin = document.getElementById('pin-admin').value.trim();
   if (!pin) return;
-  // Login seguro via Edge Function (usando cédula 'admin' para admin)
   const result = await window.authHelper.login('admin', pin);
   if (!result.ok || !result.session) {
     document.getElementById('login-error').classList.remove('hidden');
@@ -450,11 +823,11 @@ function mostrarTab(name) {
   const panel = document.getElementById('tab-' + name);
   if (panel) panel.classList.add('active');
   document.querySelectorAll('.nav-btn[data-tab]').forEach(b => {
-    b.classList.remove('bg-slate-900', 'text-white');
-    b.classList.add('bg-white', 'text-slate-600');
+    b.classList.remove('active-tab');
   });
   const btn = document.querySelector('.nav-btn[data-tab="' + name + '"]');
-  if (btn) { btn.classList.add('bg-slate-900', 'text-white'); btn.classList.remove('bg-white', 'text-slate-600'); }
+  if (btn) btn.classList.add('active-tab');
+  document.getElementById('nav-tabs').classList.remove('open');
   cargarTab(name);
 }
 
@@ -488,9 +861,9 @@ async function cargarResumen() {
     { id: 'municipios', label: 'Municipios', color: '#f97316' },
   ];
   defs.forEach(d => {
-    kpis.innerHTML += `<div class="stat-card bg-white rounded-2xl shadow-sm p-4 border-l-4" style="border-left-color:${d.color}">
+    kpis.innerHTML += `<div class="stat-card" style="border-left-color:${d.color}">
       <p class="text-[11px] font-bold text-slate-400 uppercase">${d.label}</p>
-      <p id="kpi-${d.id}" class="text-3xl font-black text-slate-800 mt-1">…</p></div>`;
+      <p id="kpi-${d.id}" class="text-3xl font-extrabold text-slate-800 mt-1">…</p></div>`;
   });
 
   const { data: cand } = await sb.from('candidatos').select('tipo').eq('activo', true);
@@ -510,7 +883,6 @@ async function cargarResumen() {
   setKpi('zonas', zonas || 0);
   setKpi('municipios', municipios || 0);
 
-  // Charts
   const { data: apoyosData } = await sb.from('apoyos').select('zona');
   const zonasMap = {};
   (apoyosData || []).forEach(a => { const z = a.zona || 'Sin zona'; zonasMap[z] = (zonasMap[z] || 0) + 1; });
@@ -521,7 +893,6 @@ async function cargarResumen() {
   (estructura || []).forEach(e => { const n = e.candidato_nombre || 'Sin nombre'; candMap[n] = (candMap[n] || 0) + 1; });
   dibujarChartCandidatos(candMap);
 
-  // Actividad en vivo
   cargarActividad();
   cargarKpisActividad();
 }
@@ -541,7 +912,7 @@ function dibujarChartZonas(data) {
   chartZonas = new Chart(document.getElementById('chart-zonas'), {
     type: 'doughnut',
     data: { labels, datasets: [{ data: values, backgroundColor: ['#003087', '#efbc00', '#16a34a', '#dc2626', '#9333ea', '#0ea5e9', '#64748b', '#f97316'] }] },
-    options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } } }
+    options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 11, family: "'Plus Jakarta Sans'" } } } } }
   });
 }
 
@@ -550,8 +921,8 @@ function dibujarChartCandidatos(data) {
   if (chartCand) chartCand.destroy();
   chartCand = new Chart(document.getElementById('chart-candidatos'), {
     type: 'bar',
-    data: { labels: Object.keys(data), datasets: [{ label: 'Dirigentes', data: Object.values(data), backgroundColor: '#003087' }] },
-    options: { maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+    data: { labels: Object.keys(data), datasets: [{ label: 'Dirigentes', data: Object.values(data), backgroundColor: '#003087', borderRadius: 6 }] },
+    options: { maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' } }, x: { grid: { display: false } } } }
   });
 }
 
@@ -645,9 +1016,14 @@ async function cargarNotificaciones() {
 }
 
 function toggleNotifDropdown() {
-  const dd = document.getElementById('notif-dropdown');
-  dd.classList.toggle('hidden');
+  document.getElementById('notif-dropdown').classList.toggle('hidden');
 }
+
+document.addEventListener('click', (e) => {
+  const dd = document.getElementById('notif-dropdown');
+  if (!dd) return;
+  if (!e.target.closest('.relative') && !dd.classList.contains('hidden')) dd.classList.add('hidden');
+});
 
 // ═══════════ REALTIME ═══════════
 function subscribirRealtime() {
@@ -663,7 +1039,6 @@ function subscribirRealtime() {
 
 // ═══════════ ADMIN ROLES ═══════════
 async function cargarNivelAdmin() {
-  const pin = localStorage.getItem('prm_admin_pin') || '';
   try {
     const { data: dirs } = await sb.from('dirigentes').select('cedula, nombre').eq('activo', true);
     adminNivel = 'ADMIN';
@@ -677,8 +1052,8 @@ async function renderAdmins() {
   tb.innerHTML = data.map(a => `<tr>
     <td class="font-semibold">${a.nombre}</td>
     <td class="font-mono text-xs">${a.cedula}</td>
-    <td><span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${a.nivel === 'SUPER_ADMIN' ? 'bg-red-100 text-red-700' : a.nivel === 'ADMIN' ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-600'}">${a.nivel}</span></td>
-    <td><span class="${a.activo ? 'text-green-600' : 'text-red-500'}">${a.activo ? 'Activo' : 'Inactivo'}</span></td>
+    <td><span class="badge ${a.nivel === 'SUPER_ADMIN' ? 'badge-red' : a.nivel === 'ADMIN' ? 'badge-blue' : 'badge-slate'}">${a.nivel}</span></td>
+    <td><span class="badge ${a.activo ? 'badge-green' : 'badge-red'}">${a.activo ? 'Activo' : 'Inactivo'}</span></td>
     <td class="text-xs text-slate-400">${a.agregado_por || '—'}</td>
     <td class="whitespace-nowrap">
       ${a.nivel !== 'SUPER_ADMIN' ? `<button onclick="toggleAdmin('${a.cedula}', ${!a.activo})" class="text-amber-500 hover:underline text-xs mr-1">${a.activo ? 'Desactivar' : 'Activar'}</button>` : '<span class="text-xs text-slate-300">Protegido</span>'}
@@ -686,16 +1061,13 @@ async function renderAdmins() {
   </tr>`).join('');
 }
 
-function nuevoAdmin() {
+function abrirModalAdmin() {
   document.getElementById('adm-cedula').value = '';
   document.getElementById('adm-nombre').value = '';
   document.getElementById('adm-nivel').value = 'MODERADOR';
   document.getElementById('modal-admin').classList.remove('hidden');
 }
-
-function cerrarModalAdmin() {
-  document.getElementById('modal-admin').classList.add('hidden');
-}
+function cerrarModalAdmin() { document.getElementById('modal-admin').classList.add('hidden'); }
 
 async function guardarAdmin() {
   const cedula = document.getElementById('adm-cedula').value.trim();
@@ -718,14 +1090,14 @@ function tablaCandidato(c) {
   return `<td class="font-mono text-xs">${c.id || ''}</td>
       <td class="font-semibold">${c.nombre || ''}</td>
       <td>${c.cargo || ''}</td>
-      <td><span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${c.tipo === 'candidato' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'}">${c.tipo || ''}</span></td>
+      <td><span class="badge ${c.tipo === 'candidato' ? 'badge-blue' : 'badge-amber'}">${c.tipo || ''}</span></td>
       <td>${c.municipio || ''}</td>
       <td>${c.zona || ''}</td>
-      <td><span class="${c.activo ? 'text-green-600' : 'text-red-500'}">${c.activo ? '✔' : '✖'}</span></td>
+      <td><span class="badge ${c.activo ? 'badge-green' : 'badge-red'}">${c.activo ? 'Activo' : 'Inactivo'}</span></td>
       <td class="whitespace-nowrap">
-        <button onclick="editarCandidato('${c.id}')" class="text-blue-600 hover:text-blue-800 mr-1"><i class="fa-solid fa-pen"></i></button>
-        <button onclick="toggleCandidato('${c.id}', ${c.activo ? 'false' : 'true'})" class="text-amber-500 hover:text-amber-700 mr-1" title="${c.activo ? 'Desactivar' : 'Activar'}"><i class="fa-solid fa-toggle-${c.activo ? 'on' : 'off'}"></i></button>
-        <button onclick="eliminarCandidato('${c.id}')" class="text-red-600 hover:text-red-800"><i class="fa-solid fa-trash"></i></button>
+        <button onclick="editarCandidato('${c.id}')" class="text-blue-600 hover:text-blue-800 mr-1"><i class="fa-solid fa-pen text-xs"></i></button>
+        <button onclick="toggleCandidato('${c.id}', ${c.activo ? 'false' : 'true'})" class="text-amber-500 hover:text-amber-700 mr-1" title="${c.activo ? 'Desactivar' : 'Activar'}"><i class="fa-solid fa-toggle-${c.activo ? 'on' : 'off'} text-xs"></i></button>
+        <button onclick="eliminarCandidato('${c.id}')" class="text-red-600 hover:text-red-800"><i class="fa-solid fa-trash text-xs"></i></button>
       </td>`;
 }
 
@@ -741,11 +1113,11 @@ async function cargarCandidatos() {
       <td>${c.cargo || ''}</td>
       <td>${c.tipo || ''}</td>
       <td>${c.municipio || ''}</td>
-      <td><span class="${c.activo ? 'text-green-600' : 'text-red-500'}">${c.activo ? '✔' : '✖'}</span></td>
+      <td><span class="badge ${c.activo ? 'badge-green' : 'badge-red'}">${c.activo ? 'Activo' : 'Inactivo'}</span></td>
       <td class="whitespace-nowrap">
-        <button onclick="editarCandidato('${c.id}')" class="text-blue-600 hover:text-blue-800 mr-1"><i class="fa-solid fa-pen"></i></button>
-        <button onclick="toggleCandidato('${c.id}', ${c.activo ? 'false' : 'true'})" class="text-amber-500 hover:text-amber-700 mr-1"><i class="fa-solid fa-toggle-${c.activo ? 'on' : 'off'}"></i></button>
-        <button onclick="eliminarCandidato('${c.id}')" class="text-red-600 hover:text-red-800"><i class="fa-solid fa-trash"></i></button>
+        <button onclick="editarCandidato('${c.id}')" class="text-blue-600 hover:text-blue-800 mr-1"><i class="fa-solid fa-pen text-xs"></i></button>
+        <button onclick="toggleCandidato('${c.id}', ${c.activo ? 'false' : 'true'})" class="text-amber-500 hover:text-amber-700 mr-1"><i class="fa-solid fa-toggle-${c.activo ? 'on' : 'off'} text-xs"></i></button>
+        <button onclick="eliminarCandidato('${c.id}')" class="text-red-600 hover:text-red-800"><i class="fa-solid fa-trash text-xs"></i></button>
       </td>`;
     tbResumen.appendChild(tr);
   });
@@ -789,9 +1161,7 @@ async function editarCandidato(id) {
   document.getElementById('modal-candidato').classList.remove('hidden');
 }
 
-function cerrarModalCandidato() {
-  document.getElementById('modal-candidato').classList.add('hidden');
-}
+function cerrarModalCandidato() { document.getElementById('modal-candidato').classList.add('hidden'); }
 
 function cargoCompleto(tipo, cargo) {
   return (tipo === 'candidato' ? 'Candidato a ' : 'Pre-candidato a ') + cargo;
@@ -844,40 +1214,62 @@ async function renderDirigentes() {
   (data || []).forEach(d => {
     const tr = document.createElement('tr');
     tr.innerHTML = `<td class="font-mono">${d.cedula || ''}</td><td class="font-semibold">${d.nombre || ''}</td><td>${d.zona || ''}</td><td>${d.municipio || ''}</td><td>${d.sector || ''}</td><td>${d.telefono || ''}</td>
-      <td><span class="${d.activo ? 'text-green-600' : 'text-red-500'}">${d.activo ? '✔' : '✖'}</span></td>
+      <td><span class="badge ${d.activo ? 'badge-green' : 'badge-red'}">${d.activo ? 'Activo' : 'Inactivo'}</span></td>
       <td class="whitespace-nowrap">
-        <button onclick="editarDirigente('${d.cedula}')" class="text-blue-600 hover:underline">editar</button>
-        <button onclick="toggleDirigente('${d.cedula}', ${d.activo ? 'false' : 'true'})" class="text-amber-500 hover:underline ml-1">${d.activo ? 'desactivar' : 'activar'}</button>
+        <button onclick="editarDirigente('${d.cedula}')" class="text-blue-600 hover:underline text-xs mr-1">editar</button>
+        <button onclick="toggleDirigente('${d.cedula}', ${d.activo ? 'false' : 'true'})" class="text-amber-500 hover:underline text-xs">${d.activo ? 'desactivar' : 'activar'}</button>
       </td>`;
     tb.appendChild(tr);
   });
 }
 
-function nuevoDirigente() {
-  const cedula = prompt('Cédula:');
-  if (!cedula || !cedula.trim()) return;
-  const nombre = prompt('Nombre:');
-  if (!nombre || !nombre.trim()) return;
-  const zona = prompt('Zona:');
-  const municipio = prompt('Municipio:');
-  const telefono = prompt('Teléfono:');
-  sb.from('dirigentes').insert({ cedula: cedula.trim(), nombre, zona, municipio, telefono, activo: true }).then(res => {
-    if (res.error) { alert('Error: ' + res.error.message); return; }
-    if (typeof auditLogger !== 'undefined') auditLogger.log('dirigente_creado', { tabla: 'dirigentes', registroId: cedula.trim(), detalle: { nombre } });
-    renderDirigentes();
-  });
+function abrirModalDirigente(cedula) {
+  document.getElementById('modal-dirigente-title').innerHTML = '<i class="fa-solid fa-people-group mr-2 text-green-600"></i> Nuevo Dirigente';
+  document.getElementById('dir-cedula').value = '';
+  document.getElementById('dir-nombre').value = '';
+  document.getElementById('dir-zona').value = '';
+  document.getElementById('dir-municipio').value = '';
+  document.getElementById('dir-sector').value = '';
+  document.getElementById('dir-telefono').value = '';
+  document.getElementById('dir-cedula').disabled = false;
+  document.getElementById('modal-dirigente').classList.remove('hidden');
 }
+
+function cerrarModalDirigente() { document.getElementById('modal-dirigente').classList.add('hidden'); }
 
 async function editarDirigente(cedula) {
   const { data } = await sb.from('dirigentes').select('*').eq('cedula', cedula).single();
   if (!data) return;
-  const nombre = prompt('Nombre:', data.nombre || '');
-  if (nombre === null) return;
-  const zona = prompt('Zona:', data.zona || '');
-  const municipio = prompt('Municipio:', data.municipio || '');
-  const telefono = prompt('Teléfono:', data.telefono || '');
-  await sb.from('dirigentes').update({ nombre, zona, municipio, telefono }).eq('cedula', cedula);
-  if (typeof auditLogger !== 'undefined') auditLogger.log('dirigente_editado', { tabla: 'dirigentes', registroId: cedula, detalle: { nombre } });
+  document.getElementById('modal-dirigente-title').innerHTML = '<i class="fa-solid fa-people-group mr-2 text-green-600"></i> Editar Dirigente';
+  document.getElementById('dir-cedula').value = data.cedula || '';
+  document.getElementById('dir-cedula').disabled = true;
+  document.getElementById('dir-nombre').value = data.nombre || '';
+  document.getElementById('dir-zona').value = data.zona || '';
+  document.getElementById('dir-municipio').value = data.municipio || '';
+  document.getElementById('dir-sector').value = data.sector || '';
+  document.getElementById('dir-telefono').value = data.telefono || '';
+  document.getElementById('modal-dirigente').classList.remove('hidden');
+}
+
+async function guardarDirigenteModal() {
+  const cedula = document.getElementById('dir-cedula').value.trim();
+  const nombre = document.getElementById('dir-nombre').value.trim();
+  const zona = document.getElementById('dir-zona').value.trim();
+  const municipio = document.getElementById('dir-municipio').value.trim();
+  const sector = document.getElementById('dir-sector').value.trim();
+  const telefono = document.getElementById('dir-telefono').value.trim();
+  if (!cedula || !nombre) { alert('Cédula y nombre son obligatorios.'); return; }
+  const esEdicion = document.getElementById('dir-cedula').disabled;
+  if (esEdicion) {
+    const { error } = await sb.from('dirigentes').update({ nombre, zona, municipio, sector, telefono }).eq('cedula', cedula);
+    if (error) { alert('Error: ' + error.message); return; }
+    if (typeof auditLogger !== 'undefined') auditLogger.log('dirigente_editado', { tabla: 'dirigentes', registroId: cedula, detalle: { nombre } });
+  } else {
+    const { error } = await sb.from('dirigentes').insert({ cedula, nombre, zona, municipio, sector, telefono, activo: true });
+    if (error) { alert('Error: ' + error.message); return; }
+    if (typeof auditLogger !== 'undefined') auditLogger.log('dirigente_creado', { tabla: 'dirigentes', registroId: cedula, detalle: { nombre } });
+  }
+  cerrarModalDirigente();
   renderDirigentes();
 }
 
@@ -887,7 +1279,7 @@ async function toggleDirigente(cedula, activo) {
   renderDirigentes();
 }
 
-// ������������������������� SOLICITUDES PENDIENTES �������������������������
+// ═══════════ SOLICITUDES PENDIENTES ═══════════
 async function cargarSolicitudes() {
   const { data } = await sb.from('dirigentes')
     .select('cedula, nombre, zona, municipio, email, created_at')
@@ -906,11 +1298,11 @@ async function cargarSolicitudes() {
   data.forEach(d => {
     const tr = document.createElement('tr');
     const fecha = d.created_at ? new Date(d.created_at).toLocaleDateString('es-DO', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' }) : '—';
-    tr.innerHTML = '<td class="font-mono">' + d.cedula + '</td><td class="font-semibold">' + d.nombre + '</td><td>' + (d.zona || '—') + '</td><td>' + (d.municipio || '—') + '</td><td>' + (d.email || '—') + '</td><td class="text-xs">' + fecha + '</td>' +
-      '<td class="whitespace-nowrap">' +
-        '<button onclick="aprobarSolicitud(\'' + d.cedula + '\')" class="text-green-600 hover:underline font-semibold mr-2">Aprobar</button>' +
-        '<button onclick="rechazarSolicitud(\'' + d.cedula + '\')" class="text-red-600 hover:underline font-semibold">Rechazar</button>' +
-      '</td>';
+    tr.innerHTML = `<td class="font-mono">${d.cedula}</td><td class="font-semibold">${d.nombre}</td><td>${d.zona || '—'}</td><td>${d.municipio || '—'}</td><td>${d.email || '—'}</td><td class="text-xs">${fecha}</td>
+      <td class="whitespace-nowrap">
+        <button onclick="aprobarSolicitud('${d.cedula}')" class="text-green-600 hover:underline font-semibold mr-2"><i class="fa-solid fa-check mr-1"></i>Aprobar</button>
+        <button onclick="rechazarSolicitud('${d.cedula}')" class="text-red-600 hover:underline font-semibold"><i class="fa-solid fa-xmark mr-1"></i>Rechazar</button>
+      </td>`;
     tb.appendChild(tr);
   });
 }
@@ -941,7 +1333,7 @@ function actualizarBadgeSolicitudes(count) {
   else badge.classList.add('hidden');
 }
 
-// ������������������������� COMITÉ �������������������������
+// ═══════════ COMITÉ ═══════════
 async function renderComite() {
   const q = (document.getElementById('busqueda-comite').value || '').trim().toLowerCase();
   const { data } = await sb.from('comite_miembros').select('*, dirigentes(nombre, cedula)').order('created_at', { ascending: false });
@@ -950,24 +1342,34 @@ async function renderComite() {
   (data || []).filter(m => !q || (m.nombre || '').toLowerCase().includes(q) || (m.cedula || '').includes(q)).forEach(m => {
     const tr = document.createElement('tr');
     tr.innerHTML = `<td class="text-xs">${m.dirigentes?.nombre || m.dirigente_cedula || '—'}</td><td class="font-mono">${m.cedula || m.dirigente_cedula || ''}</td><td class="font-semibold">${m.nombre || ''}</td><td>${m.genero || ''}</td><td>${m.fidelidad || ''}</td><td>${m.recinto || ''}</td>
-      <td><button onclick="eliminarMiembro(${m.id})" class="text-red-600 hover:underline"><i class="fa-solid fa-trash"></i></button></td>`;
+      <td><button onclick="eliminarMiembro(${m.id})" class="text-red-600 hover:underline"><i class="fa-solid fa-trash text-xs"></i></button></td>`;
     tb.appendChild(tr);
   });
 }
 
-function nuevoMiembroComite() {
-  const cedula = prompt('Cédula del dirigente base:');
-  if (!cedula) return;
-  const nombre = prompt('Nombre del miembro:');
-  if (!nombre) return;
-  const genero = prompt('Género (M/F):');
-  const fidelidad = prompt('Nivel de fidelidad:');
-  const recinto = prompt('Recinto:');
-  sb.from('comite_miembros').insert({ cedula, nombre, genero, fidelidad, recinto, dirigente_cedula: cedula }).then(res => {
-    if (res.error) { alert('Error: ' + res.error.message); return; }
-    if (typeof auditLogger !== 'undefined') auditLogger.log('comite_miembro_creado', { tabla: 'comite_miembros', detalle: { cedula, nombre } });
-    renderComite();
-  });
+function abrirModalComite() {
+  document.getElementById('com-dirigente-cedula').value = '';
+  document.getElementById('com-nombre').value = '';
+  document.getElementById('com-genero').value = '';
+  document.getElementById('com-fidelidad').value = '';
+  document.getElementById('com-recinto').value = '';
+  document.getElementById('modal-comite').classList.remove('hidden');
+}
+
+function cerrarModalComite() { document.getElementById('modal-comite').classList.add('hidden'); }
+
+async function guardarComiteModal() {
+  const cedula = document.getElementById('com-dirigente-cedula').value.trim();
+  const nombre = document.getElementById('com-nombre').value.trim();
+  const genero = document.getElementById('com-genero').value;
+  const fidelidad = document.getElementById('com-fidelidad').value.trim();
+  const recinto = document.getElementById('com-recinto').value.trim();
+  if (!cedula || !nombre) { alert('Cédula y nombre son obligatorios.'); return; }
+  const { error } = await sb.from('comite_miembros').insert({ cedula, nombre, genero, fidelidad, recinto, dirigente_cedula: cedula });
+  if (error) { alert('Error: ' + error.message); return; }
+  if (typeof auditLogger !== 'undefined') auditLogger.log('comite_miembro_creado', { tabla: 'comite_miembros', detalle: { cedula, nombre } });
+  cerrarModalComite();
+  renderComite();
 }
 
 async function eliminarMiembro(id) {
@@ -987,24 +1389,34 @@ async function renderApoyos() {
     const tr = document.createElement('tr');
     tr.innerHTML = `<td class="font-mono">${a.cedula || ''}</td><td class="font-semibold">${a.nombre || ''}</td><td>${a.candidato_id || ''}</td><td>${a.dirigente_cedula || ''}</td><td>${a.tipo_apoyo || ''}</td>
       <td><button onclick="toggleVerificado(${a.id}, ${!a.verificado})" class="${a.verificado ? 'text-green-600' : 'text-slate-400'}"><i class="fa-solid fa-${a.verificado ? 'check-circle' : 'circle'}"></i></button></td>
-      <td><button onclick="eliminarApoyo(${a.id})" class="text-red-600 hover:underline"><i class="fa-solid fa-trash"></i></button></td>`;
+      <td><button onclick="eliminarApoyo(${a.id})" class="text-red-600 hover:underline"><i class="fa-solid fa-trash text-xs"></i></button></td>`;
     tb.appendChild(tr);
   });
 }
 
-function nuevoApoyo() {
-  const cedula = prompt('Cédula:');
-  if (!cedula) return;
-  const nombre = prompt('Nombre:');
-  if (!nombre) return;
-  const candidato_id = prompt('ID del candidato:');
-  const dirigente_cedula = prompt('Cédula del dirigente:');
-  const tipo_apoyo = prompt('Tipo de apoyo (firma/promesa/voto):');
-  sb.from('apoyos').insert({ cedula, nombre, candidato_id, dirigente_cedula, tipo_apoyo, verificado: false }).then(res => {
-    if (res.error) { alert('Error: ' + res.error.message); return; }
-    if (typeof auditLogger !== 'undefined') auditLogger.log('apoyo_creado', { tabla: 'apoyos', detalle: { cedula, nombre, candidato_id } });
-    renderApoyos();
-  });
+function abrirModalApoyo() {
+  document.getElementById('apo-cedula').value = '';
+  document.getElementById('apo-nombre').value = '';
+  document.getElementById('apo-candidato').value = '';
+  document.getElementById('apo-dirigente').value = '';
+  document.getElementById('apo-tipo').value = 'firma';
+  document.getElementById('modal-apoyo').classList.remove('hidden');
+}
+
+function cerrarModalApoyo() { document.getElementById('modal-apoyo').classList.add('hidden'); }
+
+async function guardarApoyoModal() {
+  const cedula = document.getElementById('apo-cedula').value.trim();
+  const nombre = document.getElementById('apo-nombre').value.trim();
+  const candidato_id = document.getElementById('apo-candidato').value.trim();
+  const dirigente_cedula = document.getElementById('apo-dirigente').value.trim();
+  const tipo_apoyo = document.getElementById('apo-tipo').value;
+  if (!cedula || !nombre) { alert('Cédula y nombre son obligatorios.'); return; }
+  const { error } = await sb.from('apoyos').insert({ cedula, nombre, candidato_id, dirigente_cedula, tipo_apoyo, verificado: false });
+  if (error) { alert('Error: ' + error.message); return; }
+  if (typeof auditLogger !== 'undefined') auditLogger.log('apoyo_creado', { tabla: 'apoyos', detalle: { cedula, nombre, candidato_id } });
+  cerrarModalApoyo();
+  renderApoyos();
 }
 
 async function toggleVerificado(id, val) {
@@ -1024,7 +1436,6 @@ async function eliminarApoyo(id) {
 async function cargarPlanchas() {
   const { data } = await sb.from('planchas').select('*').order('created_at', { ascending: false });
 
-  // Fetch existing actas to build lookup map
   const actaMap = {};
   if (data && data.length) {
     const ids = data.map(p => p.id);
@@ -1041,14 +1452,14 @@ async function cargarPlanchas() {
 
     let accionHtml = '';
     if (actaExistente) {
-      accionHtml = `<span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full bg-green-100 text-green-700" title="Acta generada"><i class="fa-solid fa-file-lines"></i> ${actaExistente}</span>`;
+      accionHtml = `<span class="badge badge-green" title="Acta generada"><i class="fa-solid fa-file-lines mr-1"></i>${actaExistente}</span>`;
     } else if (esProclamada) {
-      accionHtml = `<button onclick="abrirGenerarActa('${p.id}')" class="text-[10px] font-bold px-2 py-1 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition-all" title="Generar Acta Final"><i class="fa-solid fa-file-signature mr-1"></i>Generar Acta</button>`;
+      accionHtml = `<button onclick="abrirGenerarActa('${p.id}')" class="btn btn-primary btn-xs" title="Generar Acta Final"><i class="fa-solid fa-file-signature"></i>Generar</button>`;
     }
 
     const tr = document.createElement('tr');
     tr.innerHTML = `<td class="font-mono">${p.codigo || ''}</td><td class="font-semibold">${p.nombre_plancha || ''}</td><td>${p.nivel || ''}</td><td>${p.zona_nombre || ''}</td><td>${p.municipio || ''}</td>
-      <td><span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${ok ? 'bg-green-100 text-green-700' : esProclamada ? 'bg-purple-100 text-purple-700' : 'bg-slate-100 text-slate-600'}">${p.estatus || ''}</span></td>
+      <td><span class="badge ${ok ? 'badge-green' : esProclamada ? 'badge-purple' : 'badge-slate'}">${p.estatus || ''}</span></td>
       <td>${p.total_miembros || 0}</td><td>${p.pct_mujeres || p.porcentaje_mujeres || 0}%</td><td>${p.pct_jovenes || p.porcentaje_jovenes || 0}%</td>
       <td>${accionHtml}</td>`;
     tb.appendChild(tr);
@@ -1078,7 +1489,7 @@ async function renderPadron() {
   tb.innerHTML = '';
   (data || []).filter(p => !q || (p.nombre_completo || '').toLowerCase().includes(q) || (p.cedula || '').includes(q)).forEach(p => {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td class="font-mono">${p.cedula || ''}</td><td class="font-semibold">${p.nombre_completo || ''}</td><td>${p.municipio || ''}</td><td>${p.recinto_nombre || ''}</td><td>${p.colegio_num || ''}</td><td>${p.voto_primaria || ''}</td><td>${p.es_militante_prm ? '✔' : '—'}</td><td>${p.creado_en ? new Date(p.creado_en).toLocaleDateString() : ''}</td>`;
+    tr.innerHTML = `<td class="font-mono">${p.cedula || ''}</td><td class="font-semibold">${p.nombre_completo || ''}</td><td>${p.municipio || ''}</td><td>${p.recinto_nombre || ''}</td><td>${p.colegio_num || ''}</td><td>${p.voto_primaria || ''}</td><td>${p.es_militante_prm ? '<span class="badge badge-green">SI</span>' : '—'}</td><td>${p.creado_en ? new Date(p.creado_en).toLocaleDateString() : ''}</td>`;
     tb.appendChild(tr);
   });
 }
@@ -1147,27 +1558,18 @@ async function guardarConfigColor() {
   if (error) alert('Error: ' + error.message);
 }
 
-// Cerrar dropdown al hacer clic fuera
-document.addEventListener('click', (e) => {
-  const dd = document.getElementById('notif-dropdown');
-  if (!dd) return;
-  if (!e.target.closest('.relative') && !dd.classList.contains('hidden')) dd.classList.add('hidden');
-});
-
 // ═══════════ AUDITORÍA ═══════════
 async function cargarAuditoria() {
   const filtro = document.getElementById('audit-filtro-accion')?.value || '';
-  // Load stats via RPC
   const { data: stats } = await sb.rpc('fn_log_actividad_stats');
   const kpisDiv = document.getElementById('audit-kpis');
   if (stats && stats.length > 0) {
     const s = stats[0];
     kpisDiv.innerHTML = `
-      <div class="bg-slate-50 rounded-xl p-3 text-center"><div class="text-2xl font-black text-slate-800">${s.total_registros || 0}</div><div class="text-xs text-slate-400 font-bold">Total registros</div></div>
-      <div class="bg-slate-50 rounded-xl p-3 text-center"><div class="text-2xl font-black text-blue-700">${s.ultimas_24h || 0}</div><div class="text-xs text-slate-400 font-bold">Últimas 24h</div></div>
-      <div class="bg-slate-50 rounded-xl p-3 text-center"><div class="text-2xl font-black text-green-700">${s.usuarios_unicos || 0}</div><div class="text-xs text-slate-400 font-bold">Usuarios únicos</div></div>`;
+      <div class="bg-slate-50 rounded-xl p-3 text-center"><div class="text-2xl font-extrabold text-slate-800">${s.total_registros || 0}</div><div class="text-xs text-slate-400 font-bold">Total registros</div></div>
+      <div class="bg-slate-50 rounded-xl p-3 text-center"><div class="text-2xl font-extrabold text-blue-700">${s.ultimas_24h || 0}</div><div class="text-xs text-slate-400 font-bold">Últimas 24h</div></div>
+      <div class="bg-slate-50 rounded-xl p-3 text-center"><div class="text-2xl font-extrabold text-green-700">${s.usuarios_unicos || 0}</div><div class="text-xs text-slate-400 font-bold">Usuarios únicos</div></div>`;
   }
-  // Load rows
   let query = sb.from('log_actividad').select('*').order('created_at', { ascending: false }).limit(100);
   if (filtro) query = query.eq('accion', filtro);
   const { data: rows } = await query;
@@ -1175,9 +1577,9 @@ async function cargarAuditoria() {
   tb.innerHTML = '';
   (rows || []).forEach(r => {
     const tr = document.createElement('tr');
-    tr.className = 'border-b hover:bg-slate-50';
+    tr.className = 'hover:bg-slate-50 transition-colors';
     const fecha = r.created_at ? new Date(r.created_at).toLocaleString('es-DO') : '—';
-    tr.innerHTML = `<td class="p-2 whitespace-nowrap">${fecha}</td><td class="p-2 font-semibold">${r.actor || '—'}</td><td class="p-2">${r.rol_actor || '—'}</td><td class="p-2"><span class="bg-slate-100 px-2 py-0.5 rounded font-mono text-[10px]">${r.accion || '—'}</span></td><td class="p-2">${r.tabla || '—'}</td><td class="p-2 text-slate-400">${r.ip_address || '—'}</td>`;
+    tr.innerHTML = `<td class="whitespace-nowrap">${fecha}</td><td class="font-semibold">${r.actor || '—'}</td><td>${r.rol_actor || '—'}</td><td><span class="badge badge-slate font-mono">${r.accion || '—'}</span></td><td>${r.tabla || '—'}</td><td class="text-slate-400">${r.ip_address || '—'}</td>`;
     tb.appendChild(tr);
   });
   if (!rows || rows.length === 0) {
@@ -1190,7 +1592,6 @@ async function cargarAuditoria() {
 <script src="admin/acta_generator.js"></script>
 <div id="acta-template-mount"></div>
 <script>
-  // Load acta template inline
   fetch('admin/acta_template.html')
     .then(r => r.text())
     .then(html => {
