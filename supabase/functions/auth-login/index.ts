@@ -54,8 +54,25 @@ serve(async (req) => {
     const anonKey = Deno.env.get("ANON_KEY")!;
     const supabase = createClient(supabaseUrl, anonKey);
 
-    // Construir email y password server-side
-    const email = `${cedula}@prm.local`;
+    // Buscar email real del usuario en dirigentes/user_profiles
+    let email = `${cedula}@prm.local`; // fallback
+    const { data: dir } = await supabase
+      .from("dirigentes")
+      .select("email")
+      .eq("cedula", cedula)
+      .maybeSingle();
+    if (dir?.email) {
+      email = dir.email;
+    } else {
+      // Buscar en user_profiles
+      const { data: profile } = await supabase
+        .from("user_profiles")
+        .select("email")
+        .eq("cedula", cedula)
+        .maybeSingle();
+      if (profile?.email) email = profile.email;
+    }
+
     const password = `${pin}${PASSWORD_SUFFIX}`;
 
     // Intentar login
