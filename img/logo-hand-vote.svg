@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1b2a"/>
+      <stop offset="100%" style="stop-color:#1b2838"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Fondo -->
+  <rect width="400" height="400" rx="20" fill="url(#bgGrad)"/>
+  
+  <!-- Anillo orbital giratorio -->
+  <g transform="translate(200,150)">
+    <ellipse cx="0" cy="0" rx="120" ry="32" fill="none" stroke="#1e88e5" stroke-width="4" stroke-linecap="round" opacity="0.8">
+      <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="8s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="0" cy="0" rx="120" ry="32" fill="none" stroke="#e53935" stroke-width="4" stroke-linecap="round" opacity="0.8" stroke-dasharray="30,60">
+      <animateTransform attributeName="transform" type="rotate" from="120 0 0" to="480 0 0" dur="8s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="0" cy="0" rx="120" ry="32" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.8" stroke-dasharray="30,60">
+      <animateTransform attributeName="transform" type="rotate" from="240 0 0" to="600 0 0" dur="8s" repeatCount="indefinite"/>
+    </ellipse>
+  </g>
+  
+  <!-- Documento -->
+  <g transform="translate(200,85) rotate(-10)">
+    <rect x="-18" y="-30" width="36" height="45" rx="2" fill="white" stroke="white" stroke-width="2"/>
+  </g>
+  
+  <!-- Mano sosteniendo documento -->
+  <g transform="translate(230,70)">
+    <path d="M0,0 Q10,-5 15,-15 L15,-30 Q10,-35 5,-30 L5,-15 Q0,-5 -5,-10 L-15,-25 Q-20,-30 -15,-35 L-5,-40 Q0,-45 -5,-50 L-15,-65" 
+          stroke="white" stroke-width="6" stroke-linecap="round" fill="none"/>
+  </g>
+  
+  <!-- Urna -->
+  <g transform="translate(200,155)">
+    <!-- Sombra -->
+    <ellipse cx="0" cy="80" rx="55" ry="8" fill="black" opacity="0.3"/>
+    
+    <!-- Cuerpo de la urna -->
+    <rect x="-50" y="-5" width="100" height="70" rx="3" fill="white" stroke="white" stroke-width="2"/>
+    
+    <!-- Borde superior -->
+    <rect x="-55" y="-13" width="110" height="10" rx="2" fill="white" stroke="white" stroke-width="2"/>
+    
+    <!-- Ranura -->
+    <rect x="-30" y="-10" width="60" height="4" rx="2" fill="#0d1b2a"/>
+    
+    <!-- Texto VOTE -->
+    <text x="0" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="22" fill="#0d1b2a" letter-spacing="2">VOTE</text>
+  </g>
+  
+  <!-- Texto SISTEPARD -->
+  <g transform="translate(200,310)">
+    <text x="0" y="0" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-weight="700" font-size="42" fill="white" letter-spacing="6">SISTEPARD</text>
+    
+    <!-- Línea tricolor -->
+    <line x1="-120" y1="20" x2="-40" y2="20" stroke="#1e88e5" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-30" y1="20" x2="30" y2="20" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    <line x1="40" y1="20" x2="120" y2="20" stroke="#e53935" stroke-width="3" stroke-linecap="round"/>
+    
+    <text x="0" y="45" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-weight="300" font-size="13" fill="#90CAF9" letter-spacing="5">SISTEMA ELECTORAL DIGITAL</text>
+  </g>
+</svg>
