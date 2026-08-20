@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SISTEPARD Logo Simple</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #0d1b2a;
+    }
+    
+    .logo {
+      width: 400px;
+      height: 400px;
+      background: linear-gradient(135deg, #0d1b2a 0%, #1b2838 100%);
+      border-radius: 20px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* Anillo orbital */
+    .orbit {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 260px;
+      height: 70px;
+      transform: translate(-50%, -60%) rotateX(70deg);
+      transform-style: preserve-3d;
+      animation: orbitSpin 8s linear infinite;
+    }
+    
+    @keyframes orbitSpin {
+      from { transform: translate(-50%, -60%) rotateX(70deg) rotateZ(0deg); }
+      to { transform: translate(-50%, -60%) rotateX(70deg) rotateZ(360deg); }
+    }
+    
+    .orbit-seg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 4px solid transparent;
+      border-radius: 50%;
+    }
+    
+    .orbit-blue { border-top-color: #1e88e5; border-right-color: #1e88e5; }
+    .orbit-red { border-bottom-color: #e53935; border-left-color: #e53935; transform: rotate(120deg); }
+    .orbit-white { border-top-color: white; border-right-color: white; transform: rotate(240deg); }
+    
+    /* Documento */
+    .doc {
+      position: absolute;
+      top: 65px;
+      left: 50%;
+      transform: translateX(-60%) rotate(-10deg);
+      width: 35px;
+      height: 45px;
+      background: white;
+      border-radius: 2px;
+      z-index: 3;
+    }
+    
+    /* Mano */
+    .mano {
+      position: absolute;
+      top: 55px;
+      left: 50%;
+      transform: translateX(-20%);
+      z-index: 4;
+    }
+    
+    .brazo {
+      width: 60px;
+      height: 6px;
+      background: white;
+      border-radius: 3px;
+      transform: rotate(-15deg);
+    }
+    
+    .mano-base {
+      position: absolute;
+      top: -15px;
+      left: 45px;
+      width: 25px;
+      height: 25px;
+      background: white;
+      border-radius: 50%;
+    }
+    
+    .dedo {
+      position: absolute;
+      width: 5px;
+      height: 12px;
+      background: white;
+      border-radius: 2px;
+    }
+    
+    .dedo:nth-child(1) { top: -20px; left: 50px; transform: rotate(-10deg); }
+    .dedo:nth-child(2) { top: -18px; left: 57px; transform: rotate(-5deg); }
+    .dedo:nth-child(3) { top: -15px; left: 64px; transform: rotate(0deg); }
+    
+    /* Urna */
+    .urna {
+      position: absolute;
+      top: 110px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 75px;
+      background: white;
+      border-radius: 3px;
+      z-index: 2;
+    }
+    
+    .borde-top {
+      position: absolute;
+      top: -10px;
+      left: -5px;
+      width: 120px;
+      height: 12px;
+      background: white;
+      border-radius: 2px;
+    }
+    
+    .ranura {
+      position: absolute;
+      top: -7px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 5px;
+      background: #0d1b2a;
+      border-radius: 2.5px;
+    }
+    
+    .vote {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -30%);
+      font-family: Arial, sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      color: #0d1b2a;
+      letter-spacing: 2px;
+    }
+    
+    /* Texto */
+    .text {
+      position: absolute;
+      bottom: 50px;
+      text-align: center;
+    }
+    
+    .title {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-weight: 700;
+      font-size: 42px;
+      color: white;
+      letter-spacing: 6px;
+    }
+    
+    .lines {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 12px 0;
+    }
+    
+    .line {
+      height: 3px;
+      width: 50px;
+      border-radius: 2px;
+    }
+    
+    .line.blue { background: #1e88e5; }
+    .line.white { background: white; }
+    .line.red { background: #e53935; }
+    
+    .subtitle {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-weight: 300;
+      font-size: 12px;
+      color: #90CAF9;
+      letter-spacing: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <!-- Anillo orbital -->
+    <div class="orbit">
+      <div class="orbit-seg orbit-blue"></div>
+      <div class="orbit-seg orbit-red"></div>
+      <div class="orbit-seg orbit-white"></div>
+    </div>
+    
+    <!-- Documento -->
+    <div class="doc"></div>
+    
+    <!-- Mano -->
+    <div class="mano">
+      <div class="brazo"></div>
+      <div class="mano-base"></div>
+      <div class="dedo"></div>
+      <div class="dedo"></div>
+      <div class="dedo"></div>
+    </div>
+    
+    <!-- Urna -->
+    <div class="urna">
+      <div class="borde-top"></div>
+      <div class="ranura"></div>
+      <div class="vote">VOTE</div>
+    </div>
+    
+    <!-- Texto -->
+    <div class="text">
+      <div class="title">SISTEPARD</div>
+      <div class="lines">
+        <div class="line blue"></div>
+        <div class="line white"></div>
+        <div class="line red"></div>
+      </div>
+      <div class="subtitle">SISTEMA ELECTORAL DIGITAL</div>
+    </div>
+  </div>
+</body>
+</html>
