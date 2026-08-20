@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Gradientes profesionales -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1628"/>
+      <stop offset="100%" style="stop-color:#1a2744"/>
+    </linearGradient>
+    
+    <linearGradient id="blueMetal" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e73be"/>
+      <stop offset="30%" style="stop-color:#0d5aa7"/>
+      <stop offset="70%" style="stop-color:#0a4a8a"/>
+      <stop offset="100%" style="stop-color:#063366"/>
+    </linearGradient>
+    
+    <linearGradient id="blueLight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2196F3"/>
+      <stop offset="50%" style="stop-color:#42A5F5"/>
+      <stop offset="100%" style="stop-color:#1976D2"/>
+    </linearGradient>
+    
+    <linearGradient id="redMetal" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e53935"/>
+      <stop offset="50%" style="stop-color:#c62828"/>
+      <stop offset="100%" style="stop-color:#8e0000"/>
+    </linearGradient>
+    
+    <linearGradient id="whiteGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#e8e8e8"/>
+    </linearGradient>
+    
+    <linearGradient id="paperGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#f5f5f5"/>
+    </linearGradient>
+    
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD54F"/>
+      <stop offset="50%" style="stop-color:#FFC107"/>
+      <stop offset="100%" style="stop-color:#FF8F00"/>
+    </linearGradient>
+    
+    <!-- Sombras de alta calidad -->
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+      <feOffset dx="0" dy="6"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.4"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="innerShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="2"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.5"/>
+      </feComponentTransfer>
+      <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Reflejo metálico -->
+    <linearGradient id="metalShine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:white;stop-opacity:0.6"/>
+      <stop offset="50%" style="stop-color:white;stop-opacity:0.1"/>
+      <stop offset="100%" style="stop-color:white;stop-opacity:0"/>
+    </linearGradient>
+    
+    <!-- Gradiente para check -->
+    <linearGradient id="checkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4CAF50"/>
+      <stop offset="100%" style="stop-color:#2E7D32"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Fondo oscuro profesional -->
+  <rect width="400" height="400" fill="url(#bgGrad)" rx="20"/>
+  
+  <!-- Patrón decorativo sutil -->
+  <g opacity="0.05">
+    <circle cx="50" cy="50" r="100" fill="none" stroke="white" stroke-width="1"/>
+    <circle cx="350" cy="350" r="100" fill="none" stroke="white" stroke-width="1"/>
+    <circle cx="350" cy="50" r="80" fill="none" stroke="white" stroke-width="1"/>
+    <circle cx="50" cy="350" r="80" fill="none" stroke="white" stroke-width="1"/>
+  </g>
+  
+  <!-- Círculo exterior con gradiente tricolor -->
+  <circle cx="200" cy="175" r="145" fill="none" stroke-width="8" filter="url(#softShadow)">
+    <animate attributeName="stroke" values="#0d5aa7;#c62828;#0d5aa7" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Segmentos decorativos del borde -->
+  <path d="M 200 30 A 145 145 0 0 1 326 95" fill="none" stroke="url(#blueMetal)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M 326 95 A 145 145 0 0 1 345 220" fill="none" stroke="url(#redMetal)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M 345 220 A 145 145 0 0 1 200 320" fill="none" stroke="url(#whiteGrad)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M 200 320 A 145 145 0 0 1 55 220" fill="none" stroke="url(#blueMetal)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M 55 220 A 145 145 0 0 1 74 95" fill="none" stroke="url(#redMetal)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M 74 95 A 145 145 0 0 1 200 30" fill="none" stroke="url(#whiteGrad)" stroke-width="10" stroke-linecap="round"/>
+  
+  <!-- Urna electoral 3D profesional -->
+  <g transform="translate(200, 180)" filter="url(#softShadow)">
+    <!-- Sombra proyectada -->
+    <ellipse cx="0" cy="85" rx="90" ry="15" fill="black" opacity="0.3"/>
+    
+    <!-- Cuerpo principal de la urna -->
+    <path d="M-70,-50 L70,-50 L80,-40 L80,60 L-80,60 L-80,-40 Z" fill="url(#blueMetal)"/>
+    
+    <!-- Lateral derecho (profundidad) -->
+    <path d="M70,-50 L95,-65 L95,45 L80,60 Z" fill="#063366"/>
+    
+    <!-- Superficie superior -->
+    <path d="M-70,-50 L-45,-65 L95,-65 L70,-50 Z" fill="url(#blueLight)"/>
+    
+    <!-- Reflejo metálico en la urna -->
+    <path d="M-70,-50 L-45,-65 L-40,-65 L-65,-50 Z" fill="url(#metalShine)" opacity="0.7"/>
+    
+    <!-- Ranura para el voto -->
+    <rect x="-50" y="-68" width="100" height="8" rx="4" fill="#041a33"/>
+    <rect x="-48" y="-67" width="96" height="4" rx="2" fill="#0a2a4d"/>
+    
+    <!-- Detalles decorativos de la urna -->
+    <line x1="-60" y1="-30" x2="60" y2="-30" stroke="#1e73be" stroke-width="1" opacity="0.5"/>
+    <line x1="-60" y1="0" x2="60" y2="0" stroke="#1e73be" stroke-width="1" opacity="0.5"/>
+    <line x1="-60" y1="30" x2="60" y2="30" stroke="#1e73be" stroke-width="1" opacity="0.5"/>
+    
+    <!-- Papel de voto entrando con dinamismo -->
+    <g transform="rotate(-20, 0, -70)">
+      <!-- Sombra del papel -->
+      <rect x="-22" y="-118" width="50" height="75" rx="3" fill="black" opacity="0.2" transform="translate(4, 4)"/>
+      
+      <!-- Papel -->
+      <rect x="-22" y="-118" width="50" height="75" rx="3" fill="url(#paperGrad)" stroke="#ddd" stroke-width="1"/>
+      
+      <!-- Líneas del papel -->
+      <line x1="-14" y1="-100" x2="18" y2="-100" stroke="#e0e0e0" stroke-width="1.5"/>
+      <line x1="-14" y1="-90" x2="18" y2="-90" stroke="#e0e0e0" stroke-width="1.5"/>
+      <line x1="-14" y1="-80" x2="10" y2="-80" stroke="#e0e0e0" stroke-width="1.5"/>
+      
+      <!-- Check mark profesional -->
+      <path d="M-8,-108 L-2,-100 L12,-116" fill="none" stroke="url(#checkGrad)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+    </g>
+    
+    <!-- Brillo superior de la urna -->
+    <path d="M-60,-45 L-50,-55 L60,-55 L70,-45 Z" fill="white" opacity="0.15"/>
+  </g>
+  
+  <!-- Texto SISTEPARD profesional -->
+  <g transform="translate(200, 310)">
+    <text x="0" y="0" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-weight="200" font-size="42" fill="white" letter-spacing="12" filter="url(#softShadow)">SISTEPARD</text>
+    
+    <!-- Línea decorativa dorada -->
+    <line x1="-120" y1="20" x2="120" y2="20" stroke="url(#goldGrad)" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- Subtítulo -->
+    <text x="0" y="45" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-weight="300" font-size="14" fill="#90CAF9" letter-spacing="4">SISTEMA ELECTORAL DIGITAL</text>
+  </g>
+  
+  <!-- Elementos decorativos esquinas -->
+  <g opacity="0.3">
+    <!-- Esquina superior izquierda -->
+    <path d="M30,30 L30,60 M30,30 L60,30" fill="none" stroke="url(#blueMetal)" stroke-width="2" stroke-linecap="round"/>
+    <!-- Esquina superior derecha -->
+    <path d="M370,30 L370,60 M370,30 L340,30" fill="none" stroke="url(#redMetal)" stroke-width="2" stroke-linecap="round"/>
+    <!-- Esquina inferior izquierda -->
+    <path d="M30,370 L30,340 M30,370 L60,370" fill="none" stroke="url(#redMetal)" stroke-width="2" stroke-linecap="round"/>
+    <!-- Esquina inferior derecha -->
+    <path d="M370,370 L370,340 M370,370 L340,370" fill="none" stroke="url(#blueMetal)" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Puntos decorativos -->
+  <circle cx="45" cy="45" r="3" fill="#FFD54F" opacity="0.6"/>
+  <circle cx="355" cy="45" r="3" fill="#FFD54F" opacity="0.6"/>
+  <circle cx="45" cy="355" r="3" fill="#FFD54F" opacity="0.6"/>
+  <circle cx="355" cy="355" r="3" fill="#FFD54F" opacity="0.6"/>
+</svg>
