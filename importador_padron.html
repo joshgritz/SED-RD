@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Importador de Padrón Electoral</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase_config.js"></script>
 <script src="js/config_loader.js"></script>
 <style>
   :root { --blue:#003087; --red:#C8102E; --gold:#F5A623; --gray:#f4f6f9; }
@@ -162,8 +163,8 @@
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-const SB_URL = 'https://ilivjaiexfqpioqrozlf.supabase.co';
-const SB_KEY = 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
+    const SB_URL = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co';
+    const SB_KEY = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
 
 // Inyectar CSS variables y título desde config.json
 (async function() {

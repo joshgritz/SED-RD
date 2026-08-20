@@ -10,14 +10,16 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="js/config_loader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase_config.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/fotos.js"></script>
   <script src="js/audit.js"></script>
   <script>
   var _sb = null;
-  if (window.supabase) {
+  if (window.supabase && window.SUPABASE_CONFIG) {
     _sb = window.supabase.createClient(
-      'https://ilivjaiexfqpioqrozlf.supabase.co',
-      'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
+      window.SUPABASE_CONFIG.URL,
+      window.SUPABASE_CONFIG.ANON_KEY
     );
   }
   </script>
@@ -1010,10 +1012,10 @@ function cerrarModalMas() {
 
 // ═══════════ SUPABASE ═══════════
 let sb = _sb;
-if (!sb && window.supabase) {
+if (!sb && window.supabase && window.SUPABASE_CONFIG) {
   sb = window.supabase.createClient(
-    'https://ilivjaiexfqpioqrozlf.supabase.co',
-    'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
+    window.SUPABASE_CONFIG.URL,
+    window.SUPABASE_CONFIG.ANON_KEY
   );
 }
 
@@ -1091,28 +1093,15 @@ async function peVerificarPin() {
   peHide('pe-err-pin');
   if (sb) {
     try {
-      const email = (E.email && E.email.includes('@')) ? E.email : (E.cedFmt + '@prm.local');
-      const password = pin + 'Prm#2026';
-      const { data: authData, error: authErr } = await sb.auth.signInWithPassword({ email, password });
-      if (authErr) {
-        if (authErr.message.includes('Invalid login')) {
-          peErr('pe-err-pin', 'PIN incorrecto o cuenta no registrada');
-        } else {
-          peErr('pe-err-pin', 'Error: ' + authErr.message);
-        }
+      const result = await window.authHelper.login(E.cedFmt, pin);
+      if (!result.ok) {
+        peErr('pe-err-pin', result.error || 'PIN incorrecto o cuenta no registrada');
         ['pe-p0','pe-p1','pe-p2','pe-p3'].forEach(id => document.getElementById(id).value = '');
         document.getElementById('pe-p0').focus();
         return;
       }
-      // Verificar aprobación
-      const { data: dir } = await sb.from('dirigentes').select('activo').eq('cedula', E.cedFmt).maybeSingle();
-      if (dir && dir.activo === false) {
-        peErr('pe-err-pin', 'Tu cuenta está pendiente de aprobación. Un administrador la revisará pronto.');
-        ['pe-p0','pe-p1','pe-p2','pe-p3'].forEach(id => document.getElementById(id).value = '');
-        document.getElementById('pe-p0').focus();
-        return;
-      }
-      const claims = authData.user.app_metadata || {};
+      const authData = result;
+      const claims = authData.user || {};
       const sess = {
         cedula: E.cedFmt,
         nombre: E.nombre,
@@ -1144,10 +1133,10 @@ async function peGuardarNuevoPin() {
   if (p1.length < 4) { peErr('pe-err-nuevo-pin', 'Ingresa tu nuevo PIN'); return; }
   if (p1 !== p2) { peErr('pe-err-nuevo-pin', 'Los PINs no coinciden'); return; }
   if (sb) {
-    const newPass = p1 + 'Prm#2026';
-    const { error } = await sb.auth.updateUser({ password: newPass });
-    if (error) { peErr('pe-err-nuevo-pin', 'Error: ' + error.message); return; }
-    await sb.from('dirigentes').update({ pin_hash: p1 }).eq('cedula', E.cedFmt);
+    const token = localStorage.getItem('prm_sesion') ? JSON.parse(localStorage.getItem('prm_sesion')).token : null;
+    if (!token) { peErr('pe-err-nuevo-pin', 'Sesión expirada'); return; }
+    const result = await window.authHelper.changePin(p1, token);
+    if (!result.ok) { peErr('pe-err-nuevo-pin', result.error || 'Error al guardar PIN'); return; }
   }
   peToast('✅ PIN guardado', 'ok');
   setTimeout(() => peRedirigir({ rol: E.rolSistema }), 1000);
@@ -1241,37 +1230,14 @@ async function peCompletarRegistro() {
   if (pin.length < 4) { peErr('pe-err-reg', 'Crea tu PIN de 4 dígitos'); return; }
   const cedFmt = cedula.slice(0,3)+'-'+cedula.slice(3,10)+'-'+cedula.slice(10);
   if (sb) {
-    const { error: errDir } = await sb.from('dirigentes').insert({ cedula: cedFmt, nombre, municipio: mun || null, zona: zona || null, sector, telefono: tel, email, pin_hash: pin, activo: false });
-    if (errDir && errDir.code === '23505') { peErr('pe-err-reg', 'Esta cédula ya está registrada'); return; }
-    else if (errDir) { peErr('pe-err-reg', 'Error: ' + errDir.message); return; }
-    const rolMap = { candidato: 'candidato', dirigente: 'dirigente_zonal', delegado: 'delegado' };
-    const authEmail = (email && email.includes('@')) ? email : (cedFmt + '@prm.local');
-    const authPass = pin + 'Prm#2026';
-    const { error: authErr } = await sb.auth.signUp({
-      email: authEmail,
-      password: authPass,
-      options: {
-        data: { cedula: cedFmt, nombre },
-      }
+    // Registro seguro via Edge Function (password construido server-side)
+    const result = await window.authHelper.register({
+      cedula: cedFmt, pin, nombre, telefono: tel, sector,
+      zona: zona || null, municipio: mun || null,
     });
-    if (authErr && !authErr.message.includes('already registered')) {
-      console.warn('Auth signup warning:', authErr.message);
-    }
-    if (!authErr || authErr.message.includes('already registered')) {
-      try {
-        await sb.functions.invoke('register-dirigente', {
-          body: {
-            email: authEmail,
-            cedula: cedFmt,
-            nombre,
-            role: rolMap[E.rolDeseado] || 'dirigente_zonal',
-            zona: zona || null,
-            municipio: mun || null,
-          }
-        });
-      } catch (e) {
-        console.warn('register-dirigente warning:', e.message);
-      }
+    if (!result.ok) {
+      peErr('pe-err-reg', result.error || 'Error en el registro');
+      return;
     }
     if (E.rolDeseado === 'candidato') {
       const tipo = document.getElementById('pe-reg-tipo').value;
@@ -1313,17 +1279,26 @@ async function peConfirmarRecuperacion() {
   if (codigo.length < 6) { peErr('pe-err-recuperar', 'Ingresa el código de 6 dígitos'); return; }
   if (pin.length < 4) { peErr('pe-err-recuperar', 'Ingresa tu nuevo PIN'); return; }
   if (sb) {
-    let vErr = null;
-    let res = await sb.auth.verifyOtp({ email: email, token: codigo, type: 'magiclink' });
-    if (res.error) res = await sb.auth.verifyOtp({ email: email, token: codigo, type: 'recovery' });
-    if (res.error) { peErr('pe-err-recuperar', 'Código incorrecto o expirado'); return; }
-    const { error: upErr } = await sb.auth.updateUser({ password: pin + 'Prm#2026' });
-    if (upErr) { peErr('pe-err-recuperar', 'Error al actualizar el PIN: ' + upErr.message); return; }
-    const { error: checkErr } = await sb.auth.signInWithPassword({ email: email, password: pin + 'Prm#2026' });
-    if (checkErr) { peErr('pe-err-recuperar', 'El PIN no se pudo guardar, intenta de nuevo'); return; }
-    const { data, error: updErr } = await sb.from('dirigentes').update({ pin_hash: pin }).eq('email', email).select('cedula');
-    if (updErr || !data || data.length === 0) { peErr('pe-err-recuperar', 'No se encontró tu cuenta'); return; }
-    E.cedFmt = data[0].cedula;
+    const result = await window.authHelper.recoverPin(email, codigo, pin, 'magiclink');
+    if (!result.ok) {
+      peErr('pe-err-recuperar', result.error || 'Error al actualizar PIN');
+      return;
+    }
+    // Si devolvió sesión, guardarla
+    if (result.session) {
+      const claims = result.user || {};
+      const sess = {
+        cedula: claims.cedula || E.cedFmt,
+        nombre: E.nombre,
+        zona: claims.zona || E.zona,
+        municipio: claims.municipio || E.municipio,
+        rol: claims.role || 'dirigente_base',
+        token: result.session.access_token,
+        auth_user_id: result.user?.id,
+      };
+      peGuardarSesion(sess);
+    }
+    if (result.user?.cedula) E.cedFmt = result.user.cedula;
   }
   peToast('✅ PIN actualizado', 'ok');
   setTimeout(() => peIrStep('pe-step-portal'), 1500);

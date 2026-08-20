@@ -6,7 +6,8 @@
 <meta name="theme-color" content="#003087">
 <title>Portal Zonal — Valverde</title>
 <script src="js/config_loader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase_config.js"></script>
 <script src="js/fotos.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -15,8 +16,8 @@ var _sb = null;
 function initSb() {
   if (!_sb && window.supabase) {
     _sb = window.supabase.createClient(
-      'https://ilivjaiexfqpioqrozlf.supabase.co',
-      'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
+      (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co',
+      (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
     );
   }
   return _sb;
@@ -187,7 +188,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 <script>
 let sb = initSb();
 if (!sb && window.supabase) {
-  sb = window.supabase.createClient('https://ilivjaiexfqpioqrozlf.supabase.co','sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW');
+  sb = window.supabase.createClient((window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co', (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW');
 }
 
 let sesion = null;

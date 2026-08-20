@@ -8,6 +8,8 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase_config.js"></script>
+<script src="js/auth.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
@@ -364,8 +366,8 @@
 </div>
 
 <script>
-const SUPABASE_URL = 'https://ilivjaiexfqpioqrozlf.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
+const SUPABASE_URL = window.SUPABASE_CONFIG?.URL || 'https://ilivjaiexfqpioqrozlf.supabase.co';
+const SUPABASE_KEY = window.SUPABASE_CONFIG?.ANON_KEY || 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
 let sb = null;
 let adminNivel = '';
 let realtimeChannel = null;
@@ -414,14 +416,14 @@ function mostrarPanel() {
 async function entrarAdmin() {
   const pin = document.getElementById('pin-admin').value.trim();
   if (!pin) return;
-  const email = 'admin@prm.local';
-  const password = pin + 'Prm#2026';
-  const { data: authData, error: authErr } = await sb.auth.signInWithPassword({ email, password });
-  if (authErr || !authData?.session) {
+  // Login seguro via Edge Function (usando cédula 'admin' para admin)
+  const result = await window.authHelper.login('admin', pin);
+  if (!result.ok || !result.session) {
     document.getElementById('login-error').classList.remove('hidden');
     return;
   }
-  const role = authData.user.app_metadata?.role;
+  const authData = result;
+  const role = authData.user?.role;
   if (role !== 'ADMIN_SISTEMA' && role !== 'super_admin') {
     document.getElementById('login-error').classList.remove('hidden');
     await sb.auth.signOut();

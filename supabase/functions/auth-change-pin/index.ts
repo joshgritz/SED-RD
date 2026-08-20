@@ -1,6 +1,7 @@
 // ══════════════════════════════════════════════
-// Edge Function: register-dirigente
-// Setea app_metadata después de signUp desde el client
+// Edge Function: auth-change-pin
+// Cambio de PIN seguro — construye password server-side
+// Requiere autenticación previa
 // ══════════════════════════════════════════════
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
@@ -22,6 +23,8 @@ function getCorsHeaders(req: Request) {
   };
 }
 
+const PASSWORD_SUFFIX = "Prm#2026";
+
 serve(async (req) => {
   const corsHeaders = getCorsHeaders(req);
   if (req.method === "OPTIONS") {
@@ -29,12 +32,19 @@ serve(async (req) => {
   }
 
   try {
-    // AUTH CHECK: Verificar que el caller tiene token válido
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
       return new Response(
         JSON.stringify({ ok: false, error: "No autorizado" }),
         { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const { newPin } = await req.json();
+    if (!newPin || !/^\d{4,6}$/.test(newPin)) {
+      return new Response(
+        JSON.stringify({ ok: false, error: "PIN inválido (4-6 dígitos)" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
@@ -54,58 +64,36 @@ serve(async (req) => {
       );
     }
 
+    // Construir nuevo password server-side
+    const newPassword = `${newPin}${PASSWORD_SUFFIX}`;
+
+    // Actualizar password en auth.users
     const supabase = createClient(supabaseUrl, serviceRoleKey);
+    const { error: updateError } = await supabase.auth.admin.updateUserById(caller.id, {
+      password: newPassword,
+    });
 
-    const { email, cedula, nombre, role, zona, municipio } = await req.json();
-
-    if (!email || !cedula) {
+    if (updateError) {
       return new Response(
-        JSON.stringify({ ok: false, error: "Se requiere email y cedula" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        JSON.stringify({ ok: false, error: "Error al actualizar PIN" }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    // Buscar el usuario recién creado por email
-    const { data: listResult, error: listError } = await supabase.auth.admin.listUsers({
-      filters: { email },
-    });
-
-    if (listError) throw listError;
-
-    const user = listResult?.users?.find((u) => u.email === email);
-    if (!user) {
-      return new Response(
-        JSON.stringify({ ok: false, error: "Usuario no encontrado — asegúrate de que el signUp ya completó" }),
-        { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    // Actualizar pin_hash en dirigentes
+    const cedula = caller.app_metadata?.cedula;
+    if (cedula) {
+      await supabase.from("dirigentes").update({ pin_hash: newPin }).eq("cedula", cedula);
     }
-
-    // Merge con app_metadata existente (preserva campos que ya estén)
-    const updatedMetadata = {
-      ...user.app_metadata,
-      role: role || user.app_metadata.role || "dirigente_zonal",
-      cedula: cedula,
-    };
-    if (zona !== undefined) updatedMetadata.zona = zona;
-    if (municipio !== undefined) updatedMetadata.municipio = municipio;
-
-    const { error: updateError } = await supabase.auth.admin.updateUserById(user.id, {
-      app_metadata: updatedMetadata,
-    });
-
-    if (updateError) throw updateError;
 
     return new Response(
-      JSON.stringify({ ok: true, user_id: user.id, app_metadata: updatedMetadata }),
+      JSON.stringify({ ok: true, message: "PIN actualizado correctamente" }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (err) {
     return new Response(
-      JSON.stringify({ ok: false, error: err.message }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
+      JSON.stringify({ ok: false, error: "Error del servidor" }),
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
 });

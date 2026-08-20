@@ -6,7 +6,8 @@
 <meta name="theme-color" content="#003087">
 <title>Portal Dirigentes — Valverde</title>
 <script src="js/config_loader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase_config.js"></script>
 <script src="js/fotos.js"></script>
 <script src="js/audit.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
@@ -542,8 +543,8 @@ window.initGoogleMaps = function() {
 // ══════════════════════════════════════════════════════
 // SUPABASE CONFIG
 // ══════════════════════════════════════════════════════
-const SUPA_URL = 'https://ilivjaiexfqpioqrozlf.supabase.co';
-const SUPA_KEY = 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
+    const SUPA_URL = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co';
+    const SUPA_KEY = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
 let sb = null;
 
 function initSupabase() {

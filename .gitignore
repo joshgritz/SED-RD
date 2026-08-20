@@ -1,22 +1,62 @@
+# ═══════════════════════════════════════════════════════
+# .gitignore — SISTEPARD
+# ═══════════════════════════════════════════════════════
+
+# Dependencias
 node_modules/
 package-lock.json
+
+# Datos internos
 powerbi_data/
+
+# ═══ Credenciales y archivos sensibles ═══
+# Archivos con DB passwords, API keys, test credentials
+seguridad_config.js
+seguridad_admin_pin.js
+test_config.js
+_fix_views.js
+admin/audit.js
+admin/verify_fotos.js
+admin/test_full.js
+admin/test_auth.js
+admin/create_admin.js
+admin/migrate_users.js
+admin/sync_claims.js
+admin/migrate_fotos.js
+admin/migrate_fotos_fast.js
+admin/setup_storage.js
+clients/*/config.json
+supabase/.temp/
+.env
+.env.*
+!.env.example
+
+# ═══ HTML — excluir login eliminado ═══
+login.html
+
+# ═══ JS — ignorar todo excepto los necesarios ═══
 *.js
 !js/config_loader.js
 !js/fotos.js
+!js/audit.js
+!js/supabase_config.js
+!js/auth.js
 !admin/setup_instance.js
 !admin/acta_generator.js
-!admin/migrate_fotos.js
-!admin/migrate_fotos_fast.js
-!admin/setup_storage.js
-!login.html
-!dirigentes.html
+
+# ═══ HTML — ignorar todos excepto los del portal ═══
+*.html
+!index.html
+!admin.html
+!legisladores.html
+!geografia.html
 !zonas.html
 !candidato.html
+!dirigentes.html
 !delegados.html
-!admin.html
-!index.html
-
-# Credenciales de clientes — NUNCA commitear
-client_inputs.json
-clients/*/.setup_state.json
+!panel_zona.html
+!sistema-inicio.html
+!verificador.html
+!verificar-acta.html
+!importador_padron.html
+!test_js.html

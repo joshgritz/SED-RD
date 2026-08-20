@@ -306,7 +306,6 @@ const STEP_VERIFY = {
   5: {
     tables: ['user_profiles'],
     rls_enabled: ['user_profiles'],
-    views: ['v_auth_users'],
   },
   6: {
     tables: ['actas_generadas','votos_eleccion'],

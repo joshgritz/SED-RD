@@ -6,7 +6,8 @@
 <meta name="theme-color" content="#C8102E">
 <title>Delegado — Valverde</title>
 <script src="js/config_loader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase_config.js"></script>
 <script src="js/fotos.js"></script>
 <script src="js/audit.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
@@ -15,8 +16,8 @@
 var _sb = null;
 if (window.supabase) {
   _sb = window.supabase.createClient(
-    'https://ilivjaiexfqpioqrozlf.supabase.co',
-    'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
+    (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co',
+    (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
   );
 }
 </script>
@@ -199,8 +200,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 let sb = _sb;
 if (!sb && window.supabase) {
   sb = window.supabase.createClient(
-    'https://ilivjaiexfqpioqrozlf.supabase.co',
-    'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
+    (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co',
+    (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
   );
 }
 

@@ -7,6 +7,7 @@
   <title>Verificar Acta Electoral</title>
   <script src="js/config_loader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase_config.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root {
@@ -329,8 +330,8 @@
       if (!numeroActa) { show('view-error'); return; }
 
       // Supabase anon client
-      const SUPABASE_URL = 'https://ilivjaiexfqpioqrozlf.supabase.co';
-      const SUPABASE_KEY = 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
+      const SUPABASE_URL = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co';
+      const SUPABASE_KEY = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
       const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
       try {

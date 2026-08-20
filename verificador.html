@@ -35,12 +35,13 @@ button { padding:12px 20px; background:#003087; color:white; border:none; border
 <div id="alertas-box"></div>
 
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase_config.js"></script>
 <script src="js/fotos.js"></script>
 <script>
 var _sbClient = null;
-var _sbUrl = 'https://ilivjaiexfqpioqrozlf.supabase.co';
-var _sbKey = 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
+var _sbUrl = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co';
+var _sbKey = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
 if (window.supabase) {
     _sbClient = window.supabase.createClient(_sbUrl, _sbKey);
 }
@@ -71,8 +72,8 @@ function log(msg, type) {
 // Reemplaza estos valores con los tuyos de:
 // supabaseClient.com → Tu proyecto → Settings → API
 // ─────────────────────────────────────────────
-const SUPABASE_URL  = 'https://ilivjaiexfqpioqrozlf.supabaseClient.co';
-const SUPABASE_KEY  = 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
+const SUPABASE_URL  = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabaseClient.co';
+const SUPABASE_KEY  = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
 
 // Cliente Supabase (se carga desde CDN en sistema-inicio.html)
 let supabaseClient = (typeof _sbClient !== "undefined" ? _sbClient : null);

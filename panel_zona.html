@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="theme-color" content="#001F5B">
 <title>Panel Zonal — Valverde</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase_config.js"></script>
 <script src="js/config_loader.js"></script>
 <script src="js/fotos.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
@@ -14,8 +15,8 @@
 var _sb = null;
 if (window.supabase) {
   _sb = window.supabase.createClient(
-    'https://ilivjaiexfqpioqrozlf.supabase.co',
-    'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
+    (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co',
+    (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
   );
 }
 </script>
@@ -308,8 +309,8 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--gris); 
 let sb = _sb;
 if (!sb && window.supabase) {
   sb = window.supabase.createClient(
-    'https://ilivjaiexfqpioqrozlf.supabase.co',
-    'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
+    (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co',
+    (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
   );
 }
 
