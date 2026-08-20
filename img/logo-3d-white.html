@@ -52,76 +52,45 @@
       66% { box-shadow: 0 0 40px rgba(0, 0, 0, 0.2), 0 0 80px rgba(229, 57, 53, 0.2); }
     }
     
-    /* Urna 3D */
-    .urna-3d {
+    /* Urna */
+    .urna {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -55%);
-      width: 120px;
-      height: 100px;
-      transform-style: preserve-3d;
-      animation: urnFloat 3s ease-in-out infinite;
-    }
-    
-    @keyframes urnFloat {
-      0%, 100% { transform: translate(-50%, -55%) rotateX(-5deg) rotateY(-10deg); }
-      50% { transform: translate(-50%, -60%) rotateX(-5deg) rotateY(-10deg); }
-    }
-    
-    .urna-face {
-      position: absolute;
-      background: white;
-      border: 1px solid #ddd;
-    }
-    
-    .urna-front {
       width: 100px;
       height: 75px;
-      left: 10px;
-      top: 25px;
-      transform: translateZ(15px);
+      z-index: 2;
+    }
+    
+    .urna-body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 75px;
+      background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
+      border: 1px solid #ddd;
       border-radius: 4px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     
-    .urna-right {
-      width: 30px;
-      height: 75px;
-      right: -5px;
-      top: 25px;
-      transform: rotateY(90deg) translateZ(10px);
-      background: linear-gradient(90deg, #f8f8f8 0%, #f0f0f0 100%);
-      border-radius: 0 4px 4px 0;
-    }
-    
     .urna-top {
-      width: 100px;
-      height: 30px;
-      left: 10px;
-      top: 0;
-      transform: rotateX(90deg) translateZ(10px);
-      background: linear-gradient(180deg, #fafafa 0%, #f0f0f0 100%);
-      border-radius: 4px 4px 0 0;
-    }
-    
-    .borde-top {
       position: absolute;
-      top: -5px;
-      left: 5px;
+      top: -8px;
+      left: -5px;
       width: 110px;
       height: 12px;
       background: white;
       border: 1px solid #ddd;
       border-radius: 3px;
-      transform: translateZ(18px);
     }
     
     .ranura {
       position: absolute;
-      top: -2px;
+      top: -5px;
       left: 50%;
-      transform: translateX(-50%) translateZ(20px);
+      transform: translateX(-50%);
       width: 60px;
       height: 5px;
       background: #333;
@@ -132,7 +101,7 @@
       position: absolute;
       top: -55px;
       left: 50%;
-      transform: translateX(-50%) translateZ(25px) rotate(-12deg);
+      transform: translateX(-50%) rotate(-12deg);
       width: 30px;
       height: 40px;
       background: white;
@@ -143,8 +112,8 @@
     }
     
     @keyframes docMove {
-      0%, 100% { transform: translateX(-50%) translateZ(25px) rotate(-12deg); }
-      50% { transform: translateX(-50%) translateZ(25px) rotate(-5deg) translateY(15px); }
+      0%, 100% { transform: translateX(-50%) rotate(-12deg); }
+      50% { transform: translateX(-50%) rotate(-5deg) translateY(15px); }
     }
     
     .doc-line {
@@ -168,7 +137,7 @@
       height: 15px;
       border-left: 4px solid #1e88e5;
       border-bottom: 4px solid #1e88e5;
-      transform: translate(-50%, -30%) translateZ(20px) rotate(-45deg);
+      transform: translate(-50%, -30%) rotate(-45deg);
       filter: drop-shadow(0 0 5px rgba(30, 136, 229, 0.5));
       animation: checkPulse 2s ease-in-out infinite;
     }
@@ -224,12 +193,10 @@
     <!-- Círculo exterior -->
     <div class="circle"></div>
     
-    <!-- Urna 3D -->
-    <div class="urna-3d">
-      <div class="urna-face urna-front"></div>
-      <div class="urna-face urna-right"></div>
-      <div class="urna-face urna-top"></div>
-      <div class="borde-top"></div>
+    <!-- Urna -->
+    <div class="urna">
+      <div class="urna-body"></div>
+      <div class="urna-top"></div>
       <div class="ranura"></div>
       <div class="doc">
         <div class="doc-line"></div>
