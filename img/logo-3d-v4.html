@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SISTEPARD Logo v4</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0a1628 0%, #1a2744 100%);
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      overflow: hidden;
+    }
+    
+    .logo-container {
+      position: relative;
+      width: 500px;
+      height: 500px;
+    }
+    
+    /* Escudo hexagonal */
+    .shield {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -55%);
+      width: 280px;
+      height: 320px;
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      background: linear-gradient(180deg, #1e88e5 0%, #0d47a1 100%);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+    
+    .shield::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+    }
+    
+    .shield-inner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -55%);
+      width: 230px;
+      height: 265px;
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      background: linear-gradient(180deg, #1565c0 0%, #0a3d7c 100%);
+    }
+    
+    /* Anillo orbital que gira */
+    .orbit-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 200px;
+      height: 60px;
+      transform: translate(-50%, -55%);
+      transform-style: preserve-3d;
+      animation: orbitSpin 8s linear infinite;
+    }
+    
+    @keyframes orbitSpin {
+      from { transform: translate(-50%, -55%) rotateX(70deg) rotateZ(0deg); }
+      to { transform: translate(-50%, -55%) rotateX(70deg) rotateZ(360deg); }
+    }
+    
+    .orbit-segment {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 3px solid transparent;
+      border-radius: 50%;
+    }
+    
+    .orbit-blue {
+      border-top-color: #00bcd4;
+      border-right-color: #00bcd4;
+    }
+    
+    .orbit-red {
+      border-bottom-color: #e53935;
+      border-left-color: #e53935;
+      transform: rotate(120deg);
+    }
+    
+    .orbit-white {
+      border-top-color: white;
+      border-right-color: white;
+      transform: rotate(240deg);
+    }
+    
+    /* Puntos de luz en el anillo */
+    .orbit-dot {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      top: 50%;
+      left: 0;
+      transform: translate(-50%, -50%);
+    }
+    
+    .orbit-dot.blue {
+      background: #00bcd4;
+      box-shadow: 0 0 15px #00bcd4, 0 0 30px #00bcd4;
+    }
+    
+    .orbit-dot.red {
+      background: #e53935;
+      box-shadow: 0 0 15px #e53935, 0 0 30px #e53935;
+      left: 100%;
+    }
+    
+    .orbit-dot.white {
+      background: white;
+      box-shadow: 0 0 15px white, 0 0 30px white;
+      top: 0;
+      left: 50%;
+    }
+    
+    /* Urna */
+    .urna {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -52%);
+      width: 140px;
+      height: 110px;
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translate(-50%, -52%); }
+      50% { transform: translate(-50%, -57%); }
+    }
+    
+    .urna-body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 120px;
+      height: 85px;
+      background: linear-gradient(180deg, #2196F3 0%, #1976D2 30%, #1565C0 70%, #0D47A1 100%);
+      border: 2px solid #0a4a8a;
+      border-radius: 4px;
+      transform: translateZ(15px);
+    }
+    
+    .urna-right {
+      position: absolute;
+      bottom: 0;
+      right: -12px;
+      width: 30px;
+      height: 85px;
+      background: linear-gradient(180deg, #1976D2 0%, #0D47A1 100%);
+      border: 2px solid #0a4a8a;
+      border-left: none;
+      border-radius: 0 4px 4px 0;
+      transform: rotateY(70deg) translateZ(8px);
+    }
+    
+    .urna-top {
+      position: absolute;
+      top: -12px;
+      left: 0;
+      width: 120px;
+      height: 25px;
+      background: linear-gradient(180deg, #42A5F5 0%, #2196F3 100%);
+      border: 2px solid #0a4a8a;
+      border-radius: 4px 4px 0 0;
+      transform: rotateX(70deg) translateZ(8px);
+    }
+    
+    .urna-body::before {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      width: 15px;
+      height: 70%;
+      background: linear-gradient(90deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+      border-radius: 4px;
+    }
+    
+    .ranura {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%) translateZ(20px);
+      width: 70px;
+      height: 6px;
+      background: #041a33;
+      border-radius: 3px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    /* LEDs */
+    .leds {
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%) translateZ(22px);
+      display: flex;
+      gap: 8px;
+    }
+    
+    .led {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #00e676;
+      animation: ledBlink 1.5s ease-in-out infinite;
+    }
+    
+    .led:nth-child(2) { animation-delay: 0.5s; }
+    .led:nth-child(3) { animation-delay: 1s; }
+    
+    @keyframes ledBlink {
+      0%, 100% { opacity: 1; box-shadow: 0 0 5px #00e676; }
+      50% { opacity: 0.3; box-shadow: none; }
+    }
+    
+    /* Líneas decorativas */
+    .lineas-deco {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      height: 1px;
+      background: #42a5f5;
+      opacity: 0.4;
+      transform: translateZ(17px);
+    }
+    
+    .lineas-deco:nth-child(1) { bottom: 60px; }
+    .lineas-deco:nth-child(2) { bottom: 35px; }
+    .lineas-deco:nth-child(3) { bottom: 10px; }
+    
+    /* Papel */
+    .papel {
+      position: absolute;
+      top: -85px;
+      left: 50%;
+      transform: translateX(-50%) translateZ(25px) rotate(-20deg);
+      width: 42px;
+      height: 55px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      animation: papelMove 4s ease-in-out infinite;
+    }
+    
+    @keyframes papelMove {
+      0%, 100% { transform: translateX(-50%) translateZ(25px) rotate(-20deg); }
+      50% { transform: translateX(-50%) translateZ(25px) rotate(-12deg) translateY(10px); }
+    }
+    
+    .papel-line {
+      position: absolute;
+      left: 6px;
+      right: 6px;
+      height: 2px;
+      background: #e0e0e0;
+      border-radius: 1px;
+    }
+    
+    .papel-line:nth-child(1) { top: 10px; }
+    .papel-line:nth-child(2) { top: 17px; }
+    .papel-line:nth-child(3) { top: 24px; width: 50%; }
+    
+    .check {
+      position: absolute;
+      top: 32px;
+      left: 10px;
+      width: 18px;
+      height: 10px;
+      border-left: 3px solid #2E7D32;
+      border-bottom: 3px solid #2E7D32;
+      transform: rotate(-45deg);
+      animation: checkPulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes checkPulse {
+      0%, 100% { filter: drop-shadow(0 0 2px #4CAF50); }
+      50% { filter: drop-shadow(0 0 8px #4CAF50) drop-shadow(0 0 15px #4CAF50); }
+    }
+    
+    /* Texto */
+    .text-container {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+    
+    .title {
+      font-size: 44px;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 8px;
+      text-shadow: 0 0 20px rgba(33, 150, 243, 0.5);
+    }
+    
+    .line-tricolor {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 12px 0;
+    }
+    
+    .line-segment {
+      height: 3px;
+      width: 60px;
+      border-radius: 2px;
+    }
+    
+    .line-segment.blue { background: #1e88e5; }
+    .line-segment.white { background: white; }
+    .line-segment.red { background: #e53935; }
+    
+    .subtitle {
+      font-size: 13px;
+      font-weight: 300;
+      color: #90CAF9;
+      letter-spacing: 6px;
+      opacity: 0.8;
+    }
+    
+    /* Partículas */
+    .particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      animation: float-p 8s ease-in-out infinite;
+    }
+    
+    .particle:nth-child(odd) { background: #00bcd4; }
+    .particle:nth-child(even) { background: #e53935; }
+    
+    .particle:nth-child(1) { left: 5%; animation-delay: 0s; }
+    .particle:nth-child(2) { left: 15%; animation-delay: 1s; }
+    .particle:nth-child(3) { left: 25%; animation-delay: 2s; }
+    .particle:nth-child(4) { left: 35%; animation-delay: 0.5s; }
+    .particle:nth-child(5) { left: 45%; animation-delay: 1.5s; }
+    .particle:nth-child(6) { left: 55%; animation-delay: 2.5s; }
+    .particle:nth-child(7) { left: 65%; animation-delay: 0.3s; }
+    .particle:nth-child(8) { left: 75%; animation-delay: 1.8s; }
+    .particle:nth-child(9) { left: 85%; animation-delay: 0.7s; }
+    .particle:nth-child(10) { left: 95%; animation-delay: 2.2s; }
+    
+    @keyframes float-p {
+      0% { transform: translateY(100vh) scale(0); opacity: 0; }
+      10% { opacity: 0.8; }
+      90% { opacity: 0.8; }
+      100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+    }
+    
+    .instructions {
+      position: fixed;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.4);
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+  
+  <div class="logo-container">
+    <!-- Escudo -->
+    <div class="shield"></div>
+    <div class="shield-inner"></div>
+    
+    <!-- Anillo orbital giratorio -->
+    <div class="orbit-ring">
+      <div class="orbit-segment orbit-blue"></div>
+      <div class="orbit-segment orbit-red"></div>
+      <div class="orbit-segment orbit-white"></div>
+      <div class="orbit-dot blue"></div>
+      <div class="orbit-dot red"></div>
+      <div class="orbit-dot white"></div>
+    </div>
+    
+    <!-- Urna -->
+    <div class="urna">
+      <div class="urna-body"></div>
+      <div class="urna-right"></div>
+      <div class="urna-top"></div>
+      <div class="ranura"></div>
+      <div class="leds">
+        <div class="led"></div>
+        <div class="led"></div>
+        <div class="led"></div>
+      </div>
+      <div class="lineas-deco"></div>
+      <div class="lineas-deco"></div>
+      <div class="lineas-deco"></div>
+      
+      <div class="papel">
+        <div class="papel-line"></div>
+        <div class="papel-line"></div>
+        <div class="papel-line"></div>
+        <div class="check"></div>
+      </div>
+    </div>
+    
+    <!-- Texto -->
+    <div class="text-container">
+      <div class="title">SISTEPARD</div>
+      <div class="line-tricolor">
+        <div class="line-segment blue"></div>
+        <div class="line-segment white"></div>
+        <div class="line-segment red"></div>
+      </div>
+      <div class="subtitle">SISTEMA ELECTORAL DIGITAL</div>
+    </div>
+  </div>
+  
+  <div class="instructions">Abre la consola y escribe screenshot() para capturar</div>
+</body>
+</html>
