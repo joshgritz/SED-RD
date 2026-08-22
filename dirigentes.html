@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#003087">
-<title>Portal Dirigentes — Valverde</title>
+<title>Portal Dirigentes â€” Valverde</title>
 <script src="js/config_loader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase_config.js"></script>
@@ -34,14 +34,14 @@
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-/* ── PANTALLAS ── */
+/* â”€â”€ PANTALLAS â”€â”€ */
 .pantalla { display: none; }
 .pantalla.activa { display: block; }
 
-/* ── APP LAYOUT ── */
+/* â”€â”€ APP LAYOUT â”€â”€ */
 .app-layout { display: flex; min-height: 100vh; }
 
-/* ── SIDEBAR ── */
+/* â”€â”€ SIDEBAR â”€â”€ */
 .sidebar {
   width: 260px; background: var(--surface); border-right: 1px solid var(--border);
   display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0;
@@ -81,10 +81,10 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--border); }
 .sidebar-footer .nav-item { padding: 10px 0; border-left: none; color: #ef4444; }
 
-/* ── MAIN CONTENT ── */
+/* â”€â”€ MAIN CONTENT â”€â”€ */
 .main-content { flex: 1; margin-left: 260px; min-height: 100vh; display: flex; flex-direction: column; }
 
-/* ── TOPBAR ── */
+/* â”€â”€ TOPBAR â”€â”€ */
 .topbar {
   background: var(--surface); border-bottom: 1px solid var(--border);
   padding: 14px 24px; display: flex; align-items: center; justify-content: space-between;
@@ -99,10 +99,10 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 }
 .topbar-logout:hover { background: #fee2e2; color: #dc2626; border-color: #fecaca; }
 
-/* ── CONTENT AREA ── */
+/* â”€â”€ CONTENT AREA â”€â”€ */
 .content-area { padding: 24px; flex: 1; }
 
-/* ── BURGER / MOBILE ── */
+/* â”€â”€ BURGER / MOBILE â”€â”€ */
 .burger-btn {
   display: none; position: fixed; top: 12px; left: 12px; z-index: 150;
   background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
@@ -124,7 +124,7 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
   .content-area { padding: 16px; }
 }
 
-/* ── CARD ── */
+/* â”€â”€ CARD â”€â”€ */
 .card {
   background: var(--surface); border-radius: 16px; padding: 20px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 16px;
@@ -132,7 +132,7 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 }
 .card-title { font-size: 15px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
 
-/* ── INPUTS ── */
+/* â”€â”€ INPUTS â”€â”€ */
 .campo { margin-bottom: 14px; }
 .campo label { display: block; font-size: 13px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
 .campo input, .campo select {
@@ -148,7 +148,7 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
   border-radius: 12px; padding: 0;
 }
 
-/* ── BOTONES ── */
+/* â”€â”€ BOTONES â”€â”€ */
 .btn {
   width: 100%; padding: 15px; border: none; border-radius: 14px;
   font-size: 17px; font-weight: 800; cursor: pointer; transition: all 0.15s;
@@ -166,7 +166,7 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
   border: none; cursor: pointer; font-weight: 700; touch-action: manipulation;
 }
 
-/* ── PERFIL CARD ── */
+/* â”€â”€ PERFIL CARD â”€â”€ */
 .perfil-card {
   background: linear-gradient(135deg, var(--azul), var(--azul2));
   border-radius: 16px; padding: 16px; color: white; margin-bottom: 16px;
@@ -181,7 +181,7 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .perfil-cedula { font-size: 11px; opacity: 0.7; font-family: monospace; margin-top: 2px; }
 .perfil-zona   { font-size: 11px; background: rgba(255,255,255,0.2); padding: 2px 10px; border-radius: 20px; display: inline-block; margin-top: 5px; font-weight: 700; }
 
-/* ── MENU TARJETAS ── */
+/* â”€â”€ MENU TARJETAS â”€â”€ */
 .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
 .menu-card {
   background: white; border-radius: 16px; padding: 18px 14px; text-align: center;
@@ -197,7 +197,7 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .menu-card .mc-label { font-size: 15px; font-weight: 800; color: var(--texto); line-height: 1.3; }
 .menu-card .mc-sub { font-size: 12px; color: #94a3b8; margin-top: 3px; }
 
-/* ── MIEMBRO ITEM ── */
+/* â”€â”€ MIEMBRO ITEM â”€â”€ */
 .miembro-item {
   display: flex; align-items: center; gap: 12px; padding: 12px;
   background: #f8fafc; border-radius: 12px; margin-bottom: 8px; border: 1px solid #e2e8f0;
@@ -208,11 +208,11 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .miembro-cedula { font-size: 13px; color: #94a3b8; font-family: monospace; }
 .miembro-del { background: none; border: none; color: #ef4444; font-size: 18px; cursor: pointer; padding: 4px; touch-action: manipulation; }
 
-/* ── BARRA PROGRESO ── */
+/* â”€â”€ BARRA PROGRESO â”€â”€ */
 .barra-wrap { background: #e2e8f0; border-radius: 999px; height: 10px; margin: 8px 0; overflow: hidden; }
 .barra-fill { height: 100%; border-radius: 999px; background: var(--verde); transition: width 0.4s; }
 
-/* ── BADGE ── */
+/* â”€â”€ BADGE â”€â”€ */
 .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
 .badge-verde { background: #dcfce7; color: #166534; }
 .badge-azul  { background: #dbeafe; color: #1e40af; }
@@ -220,7 +220,7 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .badge-gris  { background: #f1f5f9; color: #475569; }
 .badge-oro   { background: #fef3c7; color: #92400e; }
 
-/* ── ESTRUCTURA CARD ── */
+/* â”€â”€ ESTRUCTURA CARD â”€â”€ */
 .estructura-item {
   background: #f8fafc; border-radius: 12px; padding: 14px; margin-bottom: 10px;
   border: 2px solid #e2e8f0; cursor: pointer; touch-action: manipulation; transition: all 0.15s;
@@ -231,7 +231,7 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .ei-nombre { font-size: 16px; font-weight: 800; }
 .ei-cargo  { font-size: 13px; color: #64748b; margin-top: 2px; }
 
-/* ── ALERTA ── */
+/* â”€â”€ ALERTA â”€â”€ */
 .alerta {
   position: fixed; bottom: 20px; left: 16px; right: 16px; max-width: 440px; margin: 0 auto;
   padding: 14px 18px; border-radius: 14px; font-size: 16px; font-weight: 700;
@@ -242,11 +242,11 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .alerta-error { background: #dc2626; color: white; }
 .alerta-info  { background: var(--azul); color: white; }
 
-/* ── MAP ── */
+/* â”€â”€ MAP â”€â”€ */
 #mapa-dirigente { height: 340px; border-radius: 14px; overflow: hidden; z-index: 1; }
 .leaflet-popup-content { font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif; }
 
-/* ── SEPARADOR ── */
+/* â”€â”€ SEPARADOR â”€â”€ */
 .sep { height: 1px; background: #e2e8f0; margin: 16px 0; }
 .texto-center { text-align: center; }
 .texto-muted  { color: #94a3b8; font-size: 13px; }
@@ -266,7 +266,7 @@ window.initGoogleMaps = function() {
 </head>
 <body>
 
-<button class="burger-btn" onclick="toggleSidebar()">☰</button>
+<button class="burger-btn" onclick="toggleSidebar()">â˜°</button>
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
 
 <div class="app-layout">
@@ -275,52 +275,52 @@ window.initGoogleMaps = function() {
       <div class="sidebar-user">
         <div class="sidebar-avatar" id="sidebar-avatar"></div>
         <div>
-          <div class="sidebar-nombre" id="sidebar-nombre">—</div>
+          <div class="sidebar-nombre" id="sidebar-nombre">â€”</div>
           <div class="sidebar-rol" id="sidebar-rol">Dirigente</div>
         </div>
       </div>
     </div>
     <nav class="sidebar-nav">
       <div class="nav-group-heading">Principal</div>
-      <a class="nav-item active" data-screen="p-dashboard" onclick="irA('p-dashboard')"><span class="nav-icon">📊</span> Dashboard</a>
-      <a class="nav-item" data-screen="p-comite" onclick="irA('p-comite')"><span class="nav-icon">👥</span> Mi Comité <span class="nav-badge" id="sidebar-comite-count">0</span></a>
-      <a class="nav-item" data-screen="p-estructura" onclick="irA('p-estructura')"><span class="nav-icon">🏛️</span> Estructura</a>
+      <a class="nav-item active" data-screen="p-dashboard" onclick="irA('p-dashboard')"><span class="nav-icon">ðŸ“Š</span> Dashboard</a>
+      <a class="nav-item" data-screen="p-comite" onclick="irA('p-comite')"><span class="nav-icon">ðŸ‘¥</span> Mi ComitÃ© <span class="nav-badge" id="sidebar-comite-count">0</span></a>
+      <a class="nav-item" data-screen="p-estructura" onclick="irA('p-estructura')"><span class="nav-icon">ðŸ›ï¸</span> Estructura</a>
       <div class="nav-group-heading">Territorio</div>
-      <a class="nav-item" data-screen="p-zona" onclick="irA('p-zona')"><span class="nav-icon">📍</span> Mi Zona</a>
-      <a class="nav-item" data-screen="p-mapa" onclick="irA('p-mapa')"><span class="nav-icon">📌</span> Mi Ubicación</a>
-      <a class="nav-item" data-screen="p-estrategia" onclick="irA('p-estrategia')"><span class="nav-icon">🗺️</span> Estrategia</a>
+      <a class="nav-item" data-screen="p-zona" onclick="irA('p-zona')"><span class="nav-icon">ðŸ“</span> Mi Zona</a>
+      <a class="nav-item" data-screen="p-mapa" onclick="irA('p-mapa')"><span class="nav-icon">ðŸ“Œ</span> Mi UbicaciÃ³n</a>
+      <a class="nav-item" data-screen="p-estrategia" onclick="irA('p-estrategia')"><span class="nav-icon">ðŸ—ºï¸</span> Estrategia</a>
       <div class="nav-group-heading">Cuenta</div>
-      <a class="nav-item" data-screen="p-perfil" onclick="irA('p-perfil')"><span class="nav-icon">⚙️</span> Mi Perfil</a>
+      <a class="nav-item" data-screen="p-perfil" onclick="irA('p-perfil')"><span class="nav-icon">âš™ï¸</span> Mi Perfil</a>
     </nav>
     <div class="sidebar-footer">
-      <a class="nav-item" onclick="cerrarSesion()"><span class="nav-icon">🔒</span> Cerrar Sesión</a>
+      <a class="nav-item" onclick="cerrarSesion()"><span class="nav-icon">ðŸ”’</span> Cerrar SesiÃ³n</a>
     </div>
   </aside>
 
   <div class="main-content">
     <div class="topbar">
       <div class="topbar-breadcrumb">SISTEPARD / <span id="topbar-title">Dashboard</span></div>
-      <button class="topbar-logout" onclick="cerrarSesion()">🔒 Salir</button>
+      <button class="topbar-logout" onclick="cerrarSesion()">ðŸ”’ Salir</button>
     </div>
     <div class="content-area">
 
-<!-- ════════════════════════════════════════
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
      PANTALLA: DASHBOARD DIRIGENTE
-════════════════════════════════════════ -->
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <div id="p-dashboard" class="pantalla activa">
 
     <!-- Bienvenida -->
-    <h2 id="dash-bienvenida" style="font-size:26px;font-weight:800;margin-bottom:4px">—</h2>
-    <p id="dash-subtitulo" style="font-size:15px;color:var(--muted);margin-bottom:18px">—</p>
+    <h2 id="dash-bienvenida" style="font-size:26px;font-weight:800;margin-bottom:4px">â€”</h2>
+    <p id="dash-subtitulo" style="font-size:15px;color:var(--muted);margin-bottom:18px">â€”</p>
 
-    <!-- Estadísticas rápidas -->
+    <!-- EstadÃ­sticas rÃ¡pidas -->
     <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:16px">
       <div class="card" style="padding:14px; text-align:center; margin:0">
         <div id="dash-comite-count" style="font-size:28px; font-weight:900; color:var(--azul)">0</div>
-        <div style="font-size:13px; color:#94a3b8; font-weight:700">COMITÉ</div>
+        <div style="font-size:13px; color:#94a3b8; font-weight:700">COMITÃ‰</div>
       </div>
       <div class="card" style="padding:14px; text-align:center; margin:0">
-        <div id="dash-estructura-badge" style="font-size:22px">—</div>
+        <div id="dash-estructura-badge" style="font-size:22px">â€”</div>
         <div style="font-size:13px; color:#94a3b8; font-weight:700">ESTRUCTURA</div>
       </div>
       <div class="card" style="padding:14px; text-align:center; margin:0">
@@ -329,51 +329,51 @@ window.initGoogleMaps = function() {
       </div>
     </div>
 
-    <!-- Menú principal -->
+    <!-- MenÃº principal -->
     <div class="menu-grid">
       <div class="menu-card azul" onclick="irA('p-comite')">
-        <div class="mc-icon">👥</div>
-        <div class="mc-label">Mi Comité de Base</div>
-        <div class="mc-sub" id="dash-comite-sub">10+1 mínimo</div>
+        <div class="mc-icon">ðŸ‘¥</div>
+        <div class="mc-label">Mi ComitÃ© de Base</div>
+        <div class="mc-sub" id="dash-comite-sub">10+1 mÃ­nimo</div>
       </div>
       <div class="menu-card oro" onclick="irA('p-perfil')">
-        <div class="mc-icon">⚙️</div>
+        <div class="mc-icon">âš™ï¸</div>
         <div class="mc-label">Mi Perfil</div>
         <div class="mc-sub">Datos y PIN</div>
       </div>
     </div>
 
-    <!-- Alerta estatutaria si comité incompleto -->
+    <!-- Alerta estatutaria si comitÃ© incompleto -->
     <div id="dash-alerta-comite" style="display:none; background:#fef3c7; border:2px solid #fcd34d; border-radius:14px; padding:14px; margin-bottom:16px">
-      <div style="font-weight:800; font-size:16px; color:#92400e">⚠️ Comité de Base Incompleto</div>
-      <div style="font-size:14px; color:#b45309; margin-top:4px">Según el Art. 89 de los Estatutos necesitas mínimo 10 miembros en tu comité de base.</div>
-      <button class="btn btn-oro" style="margin-top:10px; margin-bottom:0; font-size:17px" onclick="irA('p-comite')">Completar ahora →</button>
+      <div style="font-weight:800; font-size:16px; color:#92400e">âš ï¸ ComitÃ© de Base Incompleto</div>
+      <div style="font-size:14px; color:#b45309; margin-top:4px">SegÃºn el Art. 89 de los Estatutos necesitas mÃ­nimo 10 miembros en tu comitÃ© de base.</div>
+      <button class="btn btn-oro" style="margin-top:10px; margin-bottom:0; font-size:17px" onclick="irA('p-comite')">Completar ahora â†’</button>
     </div>
 
 </div>
 
-<!-- ════════════════════════════════════════
-     PANTALLA 4: COMITÉ DE BASE
-════════════════════════════════════════ -->
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     PANTALLA 4: COMITÃ‰ DE BASE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <div id="p-comite" class="pantalla">
-  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">👥 Mi Comité de Base</h2>
-  <p style="font-size:14px;color:var(--muted);margin-bottom:16px">Solo tú puedes ver esta información</p>
+  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">ðŸ‘¥ Mi ComitÃ© de Base</h2>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:16px">Solo tÃº puedes ver esta informaciÃ³n</p>
 
     <!-- Progreso -->
     <div class="card mt16">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
-        <span style="font-size:13px; font-weight:800">Progreso del Comité</span>
+        <span style="font-size:13px; font-weight:800">Progreso del ComitÃ©</span>
         <span id="comite-count-label" style="font-size:13px; font-weight:900; color:var(--azul)">0 / 10</span>
       </div>
       <div class="barra-wrap"><div class="barra-fill" id="comite-barra" style="width:0%"></div></div>
-      <div style="font-size:11px; color:#94a3b8; margin-top:4px">Mínimo 10 miembros según Art. 89 Estatutos</div>
+      <div style="font-size:11px; color:#94a3b8; margin-top:4px">MÃ­nimo 10 miembros segÃºn Art. 89 Estatutos</div>
     </div>
 
-    <!-- Añadir miembro -->
+    <!-- AÃ±adir miembro -->
     <div class="card">
-      <div class="card-title">➕ Añadir Miembro</div>
+      <div class="card-title">âž• AÃ±adir Miembro</div>
       <div class="campo">
-        <label>Cédula del Miembro</label>
+        <label>CÃ©dula del Miembro</label>
         <input type="tel" id="comite-cedula" class="cedula-input" placeholder="000-0000000-0" maxlength="13" oninput="formatCedula(this)" onkeyup="if(event.key==='Enter') buscarMiembro()">
       </div>
       <div id="comite-found-box" style="display:none; margin-bottom:12px">
@@ -384,93 +384,93 @@ window.initGoogleMaps = function() {
       </div>
       <div id="comite-notfound-box" style="display:none; margin-bottom:12px">
         <div style="background:#fef2f2; border:2px solid #fecaca; border-radius:12px; padding:12px 14px">
-          <div style="font-weight:800; color:#991b1b; font-size:13px">❌ Cédula no encontrada en el padrón</div>
-          <div style="font-size:11px; color:#dc2626; margin-top:2px">Verifica el número e intenta de nuevo</div>
+          <div style="font-weight:800; color:#991b1b; font-size:13px">âŒ CÃ©dula no encontrada en el padrÃ³n</div>
+          <div style="font-size:11px; color:#dc2626; margin-top:2px">Verifica el nÃºmero e intenta de nuevo</div>
         </div>
       </div>
       <div style="display:flex; gap:10px">
-        <button class="btn btn-azul" style="flex:1; margin:0" onclick="buscarMiembro()">🔍 Verificar</button>
-        <button class="btn btn-verde" id="btn-agregar-miembro" style="flex:1; margin:0; display:none" onclick="agregarMiembro()">✅ Añadir</button>
+        <button class="btn btn-azul" style="flex:1; margin:0" onclick="buscarMiembro()">ðŸ” Verificar</button>
+        <button class="btn btn-verde" id="btn-agregar-miembro" style="flex:1; margin:0; display:none" onclick="agregarMiembro()">âœ… AÃ±adir</button>
       </div>
     </div>
 
     <!-- Lista de miembros -->
     <div class="card">
-      <div class="card-title">📋 Miembros Registrados</div>
+      <div class="card-title">ðŸ“‹ Miembros Registrados</div>
       <div id="comite-lista">
-        <div class="texto-center texto-muted" style="padding:20px 0">Aún no has añadido miembros</div>
+        <div class="texto-center texto-muted" style="padding:20px 0">AÃºn no has aÃ±adido miembros</div>
       </div>
     </div>
 
 </div>
 
-<!-- ════════════════════════════════════════
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
      PANTALLA 5: MI ESTRUCTURA
-════════════════════════════════════════ -->
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <div id="p-estructura" class="pantalla">
-  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">🏛️ Mi Estructura</h2>
+  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">ðŸ›ï¸ Mi Estructura</h2>
   <p style="font-size:14px;color:var(--muted);margin-bottom:16px">Candidatos y organizaciones</p>
 
     <!-- Estructura actual -->
     <div class="card mt16">
       <div class="card-title">Estructura Actual</div>
       <div id="estructura-actual-box">
-        <div class="texto-muted texto-center" style="padding:12px 0">No estás en ninguna estructura actualmente</div>
+        <div class="texto-muted texto-center" style="padding:12px 0">No estÃ¡s en ninguna estructura actualmente</div>
       </div>
     </div>
 
     <!-- Candidatos disponibles -->
     <div class="card">
-      <div class="card-title">🗳️ Candidatos Disponibles</div>
+      <div class="card-title">ðŸ—³ï¸ Candidatos Disponibles</div>
       <p style="font-size:12px; color:#64748b; margin-bottom:14px">Puedes unirte a la estructura de un candidato. Puedes salir cuando quieras.</p>
       <div id="candidatos-lista"></div>
     </div>
 
     <!-- Pre-candidatos -->
     <div class="card">
-      <div class="card-title">⭐ Pre-Candidatos</div>
+      <div class="card-title">â­ Pre-Candidatos</div>
       <div id="precandidatos-lista"></div>
     </div>
 
 </div>
 
-<!-- ════════════════════════════════════════
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
      PANTALLA 6: MI ZONA
-════════════════════════════════════════ -->
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <div id="p-zona" class="pantalla">
-  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">📍 Mi Zona</h2>
+  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">ðŸ“ Mi Zona</h2>
   <p id="zona-header-sub" style="font-size:14px;color:var(--muted);margin-bottom:16px"></p>
     <div class="card mt16">
-      <div class="card-title">Información de tu Zona</div>
+      <div class="card-title">InformaciÃ³n de tu Zona</div>
       <div id="zona-info"></div>
     </div>
     <div class="card">
-      <div class="card-title">👥 Dirigentes en tu Zona</div>
+      <div class="card-title">ðŸ‘¥ Dirigentes en tu Zona</div>
       <div id="zona-dirigentes"></div>
     </div>
 
 </div>
 
-<!-- ════════════════════════════════════════
-     PANTALLA: MI UBICACIÓN
-════════════════════════════════════════ -->
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     PANTALLA: MI UBICACIÃ“N
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <div id="p-mapa" class="pantalla">
-  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">📌 Mi Ubicación</h2>
-  <p style="font-size:14px;color:var(--muted);margin-bottom:16px">El presidente verá este punto en su mapa</p>
+  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">ðŸ“Œ Mi UbicaciÃ³n</h2>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:16px">El presidente verÃ¡ este punto en su mapa</p>
 
-    <!-- Instrucción -->
+    <!-- InstrucciÃ³n -->
     <div style="background:#eff6ff; border:2px solid #bfdbfe; border-radius:14px; padding:14px; margin-top:16px; margin-bottom:16px">
-      <div style="font-weight:800; font-size:13px; color:#1d4ed8; margin-bottom:4px">📍 ¿Cómo puntear tu ubicación?</div>
+      <div style="font-weight:800; font-size:13px; color:#1d4ed8; margin-bottom:4px">ðŸ“ Â¿CÃ³mo puntear tu ubicaciÃ³n?</div>
       <div style="font-size:12px; color:#3b82f6; line-height:1.5">
-        1. Toca el botón <strong>"Usar mi ubicación actual"</strong><br>
+        1. Toca el botÃ³n <strong>"Usar mi ubicaciÃ³n actual"</strong><br>
         2. O toca directamente en el mapa donde vives<br>
-        3. Confirma con <strong>"Guardar ubicación"</strong>
+        3. Confirma con <strong>"Guardar ubicaciÃ³n"</strong>
       </div>
     </div>
 
     <!-- Estado actual -->
     <div id="mapa-estado-actual" style="display:none; background:#f0fdf4; border:2px solid #bbf7d0; border-radius:14px; padding:12px 14px; margin-bottom:16px">
-      <div style="font-size:10px; color:#166534; font-weight:800; text-transform:uppercase; margin-bottom:4px">✅ Ubicación guardada</div>
+      <div style="font-size:10px; color:#166534; font-weight:800; text-transform:uppercase; margin-bottom:4px">âœ… UbicaciÃ³n guardada</div>
       <div id="mapa-ubi-nombre" style="font-size:13px; font-weight:700; color:#15803d"></div>
       <div id="mapa-ubi-coords" style="font-size:11px; color:#16a34a; font-family:monospace; margin-top:2px"></div>
     </div>
@@ -480,35 +480,35 @@ window.initGoogleMaps = function() {
       <div id="mapa-dirigente"></div>
     </div>
 
-    <!-- Descripción -->
+    <!-- DescripciÃ³n -->
     <div class="card">
-      <div class="card-title">📝 Descripción del punto</div>
+      <div class="card-title">ðŸ“ DescripciÃ³n del punto</div>
       <div class="campo">
-        <label>¿Dónde es? (opcional)</label>
+        <label>Â¿DÃ³nde es? (opcional)</label>
         <input type="text" id="mapa-descripcion" placeholder="Ej: Mi casa, Calle Duarte #15, Los Multis"
           style="width:100%;padding:13px 16px;border:2px solid #e2e8f0;border-radius:12px;font-size:15px;outline:none;font-family:inherit">
       </div>
       <button class="btn btn-azul" onclick="usarUbicacionActual()" style="margin-bottom:10px">
-        📍 Usar mi ubicación actual (GPS)
+        ðŸ“ Usar mi ubicaciÃ³n actual (GPS)
       </button>
       <button id="btn-guardar-ubi" class="btn btn-verde" onclick="guardarUbicacion()" style="display:none">
-        💾 Guardar este punto
+        ðŸ’¾ Guardar este punto
       </button>
-      <button class="btn btn-gris" onclick="irA('p-dashboard')">← Volver</button>
+      <button class="btn btn-gris" onclick="irA('p-dashboard')">â† Volver</button>
     </div>
 
 </div>
 
-<!-- ════════════════════════════════════════
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
      PANTALLA: ESTRATEGIA ELECTORAL
-════════════════════════════════════════ -->
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <div id="p-estrategia" class="pantalla">
-  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">🗺️ Estrategia Electoral</h2>
-  <p id="est-subtitulo" style="font-size:14px;color:var(--muted);margin-bottom:16px">Mi Comité · Distribución</p>
+  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">ðŸ—ºï¸ Estrategia Electoral</h2>
+  <p id="est-subtitulo" style="font-size:14px;color:var(--muted);margin-bottom:16px">Mi ComitÃ© Â· DistribuciÃ³n</p>
 
     <!-- Resumen general -->
     <div class="card mt16">
-      <div class="card-title">📊 Resumen de mi Comité</div>
+      <div class="card-title">ðŸ“Š Resumen de mi ComitÃ©</div>
       <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:4px">
         <div style="text-align:center; padding:12px; background:#f0f7ff; border-radius:10px">
           <div id="est-total" style="font-size:28px; font-weight:900; color:var(--azul)">0</div>
@@ -525,15 +525,15 @@ window.initGoogleMaps = function() {
       </div>
     </div>
 
-    <!-- Fidelidad y género -->
+    <!-- Fidelidad y gÃ©nero -->
     <div class="card">
-      <div class="card-title">📊 Clasificación Estratégica</div>
+      <div class="card-title">ðŸ“Š ClasificaciÃ³n EstratÃ©gica</div>
       <div id="est-fidelidad"></div>
     </div>
 
     <!-- Por recinto -->
     <div class="card">
-      <div class="card-title">🏫 Por Recinto Electoral</div>
+      <div class="card-title">ðŸ« Por Recinto Electoral</div>
       <div id="est-por-recinto">
         <div class="texto-muted texto-center" style="padding:16px 0">Cargando...</div>
       </div>
@@ -541,24 +541,24 @@ window.initGoogleMaps = function() {
 
     <!-- Lista completa con mapa -->
     <div class="card">
-      <div class="card-title">📍 Miembros con Dirección / GPS</div>
+      <div class="card-title">ðŸ“ Miembros con DirecciÃ³n / GPS</div>
       <div id="est-lista-mapa"></div>
     </div>
 
 </div>
 
-<!-- ════════════════════════════════════════
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
      PANTALLA 7: MI PERFIL
-════════════════════════════════════════ -->
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <div id="p-perfil" class="pantalla">
-  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">⚙️ Mi Perfil</h2>
-  <p style="font-size:14px;color:var(--muted);margin-bottom:16px">Configuración de tu cuenta</p>
+  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">âš™ï¸ Mi Perfil</h2>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:16px">ConfiguraciÃ³n de tu cuenta</p>
     <div class="card mt16">
       <div class="card-title">Mis Datos</div>
       <div id="perfil-datos"></div>
     </div>
     <div class="card">
-      <div class="card-title">🔐 Cambiar PIN</div>
+      <div class="card-title">ðŸ” Cambiar PIN</div>
       <div class="campo">
         <label>PIN Actual</label>
         <div class="campo pin-wrap">
@@ -579,7 +579,7 @@ window.initGoogleMaps = function() {
       </div>
       <button class="btn btn-azul" onclick="cambiarPin()">Actualizar PIN</button>
     </div>
-    <button class="btn btn-rojo" onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
+    <button class="btn btn-rojo" onclick="cerrarSesion()">ðŸ”’ Cerrar SesiÃ³n</button>
 
   </div> <!-- /p-perfil -->
     </div> <!-- /content-area -->
@@ -590,59 +590,59 @@ window.initGoogleMaps = function() {
 <div id="alertas-box"></div>
 
 <script>
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // SUPABASE CONFIG
-// ══════════════════════════════════════════════════════
-    const SUPA_URL = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co';
-    const SUPA_KEY = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlsaXZqYWlleGZxcGlvcXJvemxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MDM3MDIsImV4cCI6MjA4OTA3OTcwMn0.roSS80657SVesSk2EbyPueXEQK-4REG2raXWcbGRNU4';
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    const SUPA_URL = window.SUPABASE_CONFIG.URL;
+    const SUPA_KEY = window.SUPABASE_CONFIG.ANON_KEY;
 let sb = null;
 
 function initSupabase() {
   try {
     if (window.supabase) {
       sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
-      console.log('✅ Supabase conectado');
+      console.log('âœ… Supabase conectado');
     }
   } catch(e) {
-    console.warn('Supabase no disponible — modo offline');
+    console.warn('Supabase no disponible â€” modo offline');
   }
 }
 
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // DATOS DEL SISTEMA
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 const ZONAS = {
   MAO:          ['Zona A','Zona B','Zona C','Zona D','Zona E','Zona F'],
   ESPERANZA:    ['Zona 1','Zona 2','Zona 3'],
-  LAGUNA_SALADA:['Zona Única'],
-  AMINA:        ['Zona Única'],
-  GUATAPANAL:   ['Zona Única'],
-  JAIBON:       ['Zona Única'],
-  POTRERO:      ['Zona Única'],
+  LAGUNA_SALADA:['Zona Ãšnica'],
+  AMINA:        ['Zona Ãšnica'],
+  GUATAPANAL:   ['Zona Ãšnica'],
+  JAIBON:       ['Zona Ãšnica'],
+  POTRERO:      ['Zona Ãšnica'],
 };
 
-// Candidatos demo — luego se reemplazan con datos reales
+// Candidatos demo â€” luego se reemplazan con datos reales
 const CANDIDATOS_DEMO = [
-  { id:'c1', nombre:'José Ramírez Peña',    cargo:'Candidato a Senador',   tipo:'candidato',     activo:true },
-  { id:'c2', nombre:'María Santos Cruz',    cargo:'Candidata a Diputada',  tipo:'candidato',     activo:true },
-  { id:'c3', nombre:'Carlos Mena Báez',     cargo:'Candidato a Alcalde',   tipo:'candidato',     activo:true },
-  { id:'p1', nombre:'Ana López Domínguez',  cargo:'Pre-candidata Senadora', tipo:'precandidato', activo:true },
+  { id:'c1', nombre:'JosÃ© RamÃ­rez PeÃ±a',    cargo:'Candidato a Senador',   tipo:'candidato',     activo:true },
+  { id:'c2', nombre:'MarÃ­a Santos Cruz',    cargo:'Candidata a Diputada',  tipo:'candidato',     activo:true },
+  { id:'c3', nombre:'Carlos Mena BÃ¡ez',     cargo:'Candidato a Alcalde',   tipo:'candidato',     activo:true },
+  { id:'p1', nombre:'Ana LÃ³pez DomÃ­nguez',  cargo:'Pre-candidata Senadora', tipo:'precandidato', activo:true },
   { id:'p2', nombre:'Pedro Vargas Reyes',   cargo:'Pre-candidato Alcalde',  tipo:'precandidato', activo:true },
 ];
 
-// ══════════════════════════════════════════════════════
-// SESIÓN ACTIVA
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// SESIÃ“N ACTIVA
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 let sesion = null;  // { cedula, nombre, zona, municipio, sector, telefono, pin_hash, estructuras:[], comite:[] }
 
-// ══════════════════════════════════════════════════════
-// STORAGE — cada dirigente tiene su propio espacio
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// STORAGE â€” cada dirigente tiene su propio espacio
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
-// ══════════════════════════════════════════════════════
-// STORAGE — Supabase + localStorage como fallback
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// STORAGE â€” Supabase + localStorage como fallback
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 function hashPin(pin) {
   let h = 0;
@@ -650,14 +650,14 @@ function hashPin(pin) {
   return h.toString(36);
 }
 
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // CARGAR DATOS COMPLETOS DEL DIRIGENTE DESDE SUPABASE
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 async function cargarDatosCompletos() {
   console.log('[DATOS] Iniciando cargarDatosCompletos. sesion.cedula =', sesion?.cedula);
   if (!sesion || !sb) { console.log('[DATOS] Abort: no sesion or no sb'); return; }
   try {
-    // Si cedula es null (login con Google sin identificación), buscar por email
+    // Si cedula es null (login con Google sin identificaciÃ³n), buscar por email
     if (!sesion.cedula) {
       console.log('[DATOS] Cedula es null, intentando lookup...');
       try {
@@ -665,47 +665,31 @@ async function cargarDatosCompletos() {
         console.log('[DATOS] auth.getUser result:', authData?.user?.email, 'error:', authErr?.message);
         const email = authData?.user?.email;
         if (email) {
-          // Buscar cédula en usuarios_sistema por email
-          const { data: usrByEmail, error: usrErr } = await sb.from('usuarios_sistema')
-            .select('cedula, nombre, zona, municipio, rol')
+          // Buscar cÃ©dula en dirigentes por email (dirigentes TIENE columna email)
+          const { data: dirByEmail, error: dirErr } = await sb.from('dirigentes')
+            .select('cedula, nombre, zona, municipio')
             .eq('email', email).eq('activo', true).maybeSingle();
-          console.log('[DATOS] usuarios_sistema by email:', usrByEmail, 'error:', usrErr?.message);
-          if (usrByEmail) {
-            sesion.cedula = usrByEmail.cedula;
-            sesion.nombre = sesion.nombre || usrByEmail.nombre;
-            sesion.zona = usrByEmail.zona || null;
-            sesion.municipio = usrByEmail.municipio || null;
+          console.log('[DATOS] dirigentes by email:', dirByEmail, 'error:', dirErr?.message);
+          if (dirByEmail) {
+            sesion.cedula = dirByEmail.cedula;
+            sesion.nombre = sesion.nombre || dirByEmail.nombre;
+            sesion.zona = dirByEmail.zona || null;
+            sesion.municipio = dirByEmail.municipio || null;
             guardarSesionLocal(sesion);
           }
-          // Si no encontró, intentar en padron_maestro por email
-          if (!sesion.cedula) {
-            const { data: padByEmail, error: padErr } = await sb.from('padron_maestro')
-              .select('cedula, nombre_completo')
-              .eq('email', email).maybeSingle();
-            console.log('[DATOS] padron_maestro by email:', padByEmail, 'error:', padErr?.message);
-            if (padByEmail) {
-              sesion.cedula = padByEmail.cedula;
-              sesion.nombre = sesion.nombre || padByEmail.nombre_completo;
+          // Si no encontrÃ³ en dirigentes, intentar en user_profiles por auth_user_id
+          if (!sesion.cedula && authData?.user?.id) {
+            const { data: upByAuth, error: upErr } = await sb.from('user_profiles')
+              .select('cedula, nombre').eq('id', authData.user.id).maybeSingle();
+            console.log('[DATOS] user_profiles by auth_id:', upByAuth, 'error:', upErr?.message);
+            if (upByAuth) {
+              sesion.cedula = upByAuth.cedula;
+              sesion.nombre = sesion.nombre || upByAuth.nombre;
               guardarSesionLocal(sesion);
             }
           }
         }
-        // Último recurso: intentar con auth_user_id
-        if (!sesion.cedula && authData?.user?.id) {
-          console.log('[DATOS] Intentando lookup por auth_user_id:', authData.user.id);
-          const { data: usrByAuth, error: authIdErr } = await sb.from('usuarios_sistema')
-            .select('cedula, nombre, zona, municipio')
-            .eq('auth_user_id', authData.user.id).eq('activo', true).maybeSingle();
-          console.log('[DATOS] usuarios_sistema by auth_id:', usrByAuth, 'error:', authIdErr?.message);
-          if (usrByAuth) {
-            sesion.cedula = usrByAuth.cedula;
-            sesion.nombre = sesion.nombre || usrByAuth.nombre;
-            sesion.zona = usrByAuth.zona || null;
-            sesion.municipio = usrByAuth.municipio || null;
-            guardarSesionLocal(sesion);
-          }
-        }
-      } catch(e) { console.warn('[DATOS] Lookup falló:', e); }
+      } catch(e) { console.warn('[DATOS] Lookup fallÃ³:', e); }
     }
     console.log('[DATOS] Cedula final:', sesion?.cedula);
     if (!sesion.cedula) { console.log('[DATOS] Abort: no se pudo encontrar cedula'); return; }
@@ -715,7 +699,7 @@ async function cargarDatosCompletos() {
     const cedFmtLoad = cedLimpiaLoad.length === 11
       ? cedLimpiaLoad.slice(0,3)+'-'+cedLimpiaLoad.slice(3,10)+'-'+cedLimpiaLoad.slice(10)
       : sesion.cedula;
-    console.log('[DATOS] Cédula limpia:', cedLimpiaLoad, 'formateada:', cedFmtLoad);
+    console.log('[DATOS] CÃ©dula limpia:', cedLimpiaLoad, 'formateada:', cedFmtLoad);
 
     const { data: dir, error: dirErr } = await sb.from('dirigentes')
       .select('latitud, longitud, ubicacion_nombre, sector, telefono, email')
@@ -730,7 +714,7 @@ async function cargarDatosCompletos() {
       sesion.email            = dir.email;
     }
 
-    // Cargar foto del padrón
+    // Cargar foto del padrÃ³n
     const { data: pad, error: padErr } = await sb.from('padron_maestro')
       .select('foto_url, foto_base64')
       .eq('cedula', cedFmtLoad).maybeSingle();
@@ -748,7 +732,7 @@ async function cargarDatosCompletos() {
       sesion.sexo             = dirExtra.sexo;
       sesion.fecha_nacimiento = dirExtra.fecha_nacimiento;
     }
-    // Cargar comité
+    // Cargar comitÃ©
     const { data: comite, error: comErr } = await sb
       .from('comite_miembros')
       .select('cedula_miembro, nombre_miembro, recinto_nombre, colegio_num, direccion, telefono, nota_estrategica, fidelidad, transporte, genero, latitud, longitud, mesa, fecha_nacimiento, fecha_ingreso')
@@ -788,7 +772,7 @@ async function cargarDatosCompletos() {
   } catch(e) { console.error('[DATOS] Error cargando datos:', e); }
 }
 
-// Guardar token de sesión localmente
+// Guardar token de sesiÃ³n localmente
 function guardarSesionLocal(datos) {
   const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
   localStorage.setItem(sk, JSON.stringify({
@@ -823,9 +807,9 @@ function cargarSesionLocal() {
   } catch(e) { return null; }
 }
 
-// ══════════════════════════════════════════════════════
-// PADRÓN — busca en el JSON cargado o simula
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// PADRÃ“N â€” busca en el JSON cargado o simula
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 async function buscarEnPadron(cedula) {
   const cedLimpia = cedula.replace(/\D/g,'');
@@ -854,16 +838,16 @@ async function buscarEnPadron(cedula) {
     }
   }
 
-  // Si tiene 11 dígitos pero no está en el padrón
+  // Si tiene 11 dÃ­gitos pero no estÃ¡ en el padrÃ³n
   if (cedLimpia.length === 11) {
     return { nombre: null, cedula: cedFmt, noEncontrado: true };
   }
   return null;
 }
 
-// ══════════════════════════════════════════════════════
-// NAVEGACIÓN
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// NAVEGACIÃ“N
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 function irA(pantalla) {
   document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
@@ -875,7 +859,7 @@ function irA(pantalla) {
   document.querySelector('[data-screen="'+pantalla+'"]')?.classList.add('active');
 
   // Update topbar title
-  const screenNames = { 'p-dashboard':'Dashboard', 'p-comite':'Mi Comité', 'p-estructura':'Mi Estructura', 'p-zona':'Mi Zona', 'p-mapa':'Mi Ubicación', 'p-estrategia':'Estrategia', 'p-perfil':'Mi Perfil' };
+  const screenNames = { 'p-dashboard':'Dashboard', 'p-comite':'Mi ComitÃ©', 'p-estructura':'Mi Estructura', 'p-zona':'Mi Zona', 'p-mapa':'Mi UbicaciÃ³n', 'p-estrategia':'Estrategia', 'p-perfil':'Mi Perfil' };
   const topbarTitle = document.getElementById('topbar-title');
   if (topbarTitle) topbarTitle.textContent = screenNames[pantalla] || pantalla;
 
@@ -899,9 +883,9 @@ function irARegistro() {
   if (cedula) document.getElementById('reg-cedula').value = cedula;
 }
 
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // LOGIN
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 let loginNombreTemporal = '';
 let loginEstadoBusqueda = 'inicial'; // inicial | encontrado | nuevo
@@ -910,21 +894,21 @@ function buscarDirigente() {
   const cedula = document.getElementById('login-cedula').value;
   const cedLimpia = cedula.replace(/\D/g,'');
 
-  if (cedLimpia.length < 11) { alerta('Ingresa tu cédula completa (11 dígitos)', 'error'); return; }
+  if (cedLimpia.length < 11) { alerta('Ingresa tu cÃ©dula completa (11 dÃ­gitos)', 'error'); return; }
 
   const dirigente = cargarDirigente(cedula);
 
   if (dirigente) {
-    // Dirigente registrado — pedir PIN
+    // Dirigente registrado â€” pedir PIN
     loginNombreTemporal = dirigente.nombre;
     document.getElementById('login-nombre').textContent = dirigente.nombre;
     document.getElementById('login-nombre-box').style.display = 'block';
     document.getElementById('login-pin-box').style.display = 'block';
     loginEstadoBusqueda = 'encontrado';
     document.getElementById('pin0').focus();
-    alerta('¡Hola ' + dirigente.nombre.split(',')[1]?.trim().split(' ')[0] + '! Ingresa tu PIN', 'info');
+    alerta('Â¡Hola ' + dirigente.nombre.split(',')[1]?.trim().split(' ')[0] + '! Ingresa tu PIN', 'info');
   } else {
-    // No registrado aún
+    // No registrado aÃºn
     irARegistro();
   }
 }
@@ -932,13 +916,13 @@ function buscarDirigente() {
 async function entrarConPin() {
   if (loginEstadoBusqueda !== 'encontrado') return;
   const pin = ['pin0','pin1','pin2','pin3'].map(id => document.getElementById(id).value).join('');
-  if (pin.length < 4) { alerta('Ingresa los 4 dígitos del PIN', 'error'); return; }
+  if (pin.length < 4) { alerta('Ingresa los 4 dÃ­gitos del PIN', 'error'); return; }
 
   const cedula = document.getElementById('login-cedula').value;
   alerta('Verificando PIN...', 'info');
 
   if (sb) {
-    // Llamar función RPC de login seguro
+    // Llamar funciÃ³n RPC de login seguro
     const { data, error } = await sb.rpc('login_dirigente', {
       p_cedula:   cedula,
       p_pin_hash: hashPin(pin)
@@ -957,10 +941,10 @@ async function entrarConPin() {
         estructuras: []
       };
       guardarSesionLocal(sesion);
-      // Cargar comité y estructuras del dirigente
+      // Cargar comitÃ© y estructuras del dirigente
       await cargarDatosCompletos();
       irA('p-dashboard');
-      alerta('¡Bienvenido ' + getNombreCorto(sesion.nombre) + '!', 'ok');
+      alerta('Â¡Bienvenido ' + getNombreCorto(sesion.nombre) + '!', 'ok');
       return;
     }
   }
@@ -970,26 +954,26 @@ async function entrarConPin() {
   document.getElementById('pin0').focus();
 }
 
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // REGISTRO
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 let regDatos = {};
 
 async function verificarCedulaReg() {
   const cedula = document.getElementById('reg-cedula').value;
   const cedLimpia = cedula.replace(/\D/g,'');
-  if (cedLimpia.length < 11) { alerta('Ingresa tu cédula completa', 'error'); return; }
+  if (cedLimpia.length < 11) { alerta('Ingresa tu cÃ©dula completa', 'error'); return; }
 
-  // Verificar que no esté ya registrado
+  // Verificar que no estÃ© ya registrado
   const existe = cargarDirigente(cedula);
   if (existe) {
-    alerta('Esta cédula ya está registrada. Ve al login.', 'error');
+    alerta('Esta cÃ©dula ya estÃ¡ registrada. Ve al login.', 'error');
     irA('p-login');
     return;
   }
 
-  alerta('Verificando en el padrón...', 'info');
+  alerta('Verificando en el padrÃ³n...', 'info');
   const result = await buscarEnPadron(cedula);
   const cedFmt = cedLimpia.slice(0,3)+'-'+cedLimpia.slice(3,10)+'-'+cedLimpia.slice(10);
 
@@ -999,14 +983,14 @@ async function verificarCedulaReg() {
     document.getElementById('reg-nombre-display').textContent = result.nombre;
     document.getElementById('reg-nombre-box').style.display = 'block';
     document.getElementById('reg-paso2').style.display = 'block';
-    alerta('✅ Encontrado en el padrón', 'ok');
+    alerta('âœ… Encontrado en el padrÃ³n', 'ok');
   } else {
     regDatos.cedula = cedFmt;
     regDatos.nombre = null;
-    document.getElementById('reg-nombre-display').textContent = 'Militante · ' + cedFmt;
+    document.getElementById('reg-nombre-display').textContent = 'Militante Â· ' + cedFmt;
     document.getElementById('reg-nombre-box').style.display = 'block';
     document.getElementById('reg-paso2').style.display = 'block';
-    alerta('Cédula aceptada. No está en el padrón cargado.', 'info');
+    alerta('CÃ©dula aceptada. No estÃ¡ en el padrÃ³n cargado.', 'info');
   }
 }
 
@@ -1030,7 +1014,7 @@ function irPaso3() {
   const telefono  = document.getElementById('reg-telefono').value.trim();
 
   if (!municipio) { alerta('Selecciona tu municipio', 'error'); return; }
-  if (!zona)      { alerta('Selecciona tu zona política', 'error'); return; }
+  if (!zona)      { alerta('Selecciona tu zona polÃ­tica', 'error'); return; }
 
   regDatos.municipio = municipio;
   regDatos.zona      = zona;
@@ -1045,13 +1029,13 @@ async function completarRegistro() {
   const pin1 = ['rpin0','rpin1','rpin2','rpin3'].map(id => document.getElementById(id).value).join('');
   const pin2 = ['rpin4','rpin5','rpin6','rpin7'].map(id => document.getElementById(id).value).join('');
 
-  if (pin1.length < 4) { alerta('Ingresa tu PIN de 4 dígitos', 'error'); return; }
+  if (pin1.length < 4) { alerta('Ingresa tu PIN de 4 dÃ­gitos', 'error'); return; }
   if (pin1 !== pin2)   { alerta('Los PINs no coinciden. Intenta de nuevo.', 'error'); return; }
-  if (!/^\d{4}$/.test(pin1)) { alerta('El PIN solo puede tener números', 'error'); return; }
+  if (!/^\d{4}$/.test(pin1)) { alerta('El PIN solo puede tener nÃºmeros', 'error'); return; }
 
   const nuevoDirigente = {
     cedula:    regDatos.cedula,
-    nombre:    regDatos.nombre || 'Dirigente · ' + regDatos.cedula,
+    nombre:    regDatos.nombre || 'Dirigente Â· ' + regDatos.cedula,
     municipio: regDatos.municipio,
     zona:      regDatos.zona,
     sector:    regDatos.sector,
@@ -1064,14 +1048,14 @@ async function completarRegistro() {
     const { error } = await sb.from('dirigentes').insert(nuevoDirigente);
     if (error) {
       if (error.code === '23505') {
-        alerta('Esta cédula ya está registrada. Ve al login.', 'error');
+        alerta('Esta cÃ©dula ya estÃ¡ registrada. Ve al login.', 'error');
         irA('p-login'); return;
       }
       alerta('Error al registrar: ' + error.message, 'error'); return;
     }
   }
 
-  // Login automático tras registro
+  // Login automÃ¡tico tras registro
   if (sb) {
     const { data } = await sb.rpc('login_dirigente', {
       p_cedula: nuevoDirigente.cedula, p_pin_hash: hashPin(pin1)
@@ -1084,24 +1068,24 @@ async function completarRegistro() {
     sesion = { ...nuevoDirigente, comite: [], estructuras: [] };
   }
 
-  alerta('¡Registro completado! Bienvenido al sistema.', 'ok');
+  alerta('Â¡Registro completado! Bienvenido al sistema.', 'ok');
   setTimeout(() => irA('p-dashboard'), 800);
 }
 
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // DASHBOARD
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 function actualizarDashboard() {
   if (!sesion) return;
 
   const nombre = getNombreCorto(sesion.nombre);
-  const zona = sesion.zona || '—';
-  const municipio = sesion.municipio || '—';
+  const zona = sesion.zona || 'â€”';
+  const municipio = sesion.municipio || 'â€”';
   const el1 = document.getElementById('dash-bienvenida');
-  if (el1) el1.textContent = '¡Bienvenido, ' + nombre + '!';
+  if (el1) el1.textContent = 'Â¡Bienvenido, ' + nombre + '!';
   const el2 = document.getElementById('dash-subtitulo');
-  if (el2) el2.textContent = zona + ' · ' + municipio;
+  if (el2) el2.textContent = zona + ' Â· ' + municipio;
 
   // Update sidebar
   const sn = document.getElementById('sidebar-nombre');
@@ -1127,36 +1111,36 @@ function actualizarDashboard() {
 
   const estructuraActiva = (sesion.estructuras || []).length > 0;
   const estEl = document.getElementById('dash-estructura-badge');
-  if (estEl) estEl.textContent = estructuraActiva ? '✅' : '—';
+  if (estEl) estEl.textContent = estructuraActiva ? 'âœ…' : 'â€”';
 
-  // Mostrar alerta si comité incompleto
+  // Mostrar alerta si comitÃ© incompleto
   const alertaComite = document.getElementById('dash-alerta-comite');
   if (alertaComite) {
     alertaComite.style.display = comiteCount < 10 ? 'block' : 'none';
   }
 }
 
-// ══════════════════════════════════════════════════════
-// COMITÉ DE BASE
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// COMITÃ‰ DE BASE
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 let miembroTemporal = null;
 
 async function buscarMiembro() {
   const cedula = document.getElementById('comite-cedula').value;
   const cedLimpia = cedula.replace(/\D/g,'');
-  if (cedLimpia.length < 11) { alerta('Ingresa la cédula completa', 'error'); return; }
+  if (cedLimpia.length < 11) { alerta('Ingresa la cÃ©dula completa', 'error'); return; }
 
   const cedFmt = cedLimpia.slice(0,3)+'-'+cedLimpia.slice(3,10)+'-'+cedLimpia.slice(10);
 
-  // No puede añadirse a sí mismo
+  // No puede aÃ±adirse a sÃ­ mismo
   if (cedLimpia === sesion.cedula.replace(/\D/g,'')) {
-    alerta('No puedes añadirte a ti mismo', 'error'); return;
+    alerta('No puedes aÃ±adirte a ti mismo', 'error'); return;
   }
 
-  // Ya está en este comité
+  // Ya estÃ¡ en este comitÃ©
   const yaEsta = (sesion.comite || []).some(m => m.cedula.replace(/\D/g,'') === cedLimpia);
-  if (yaEsta) { alerta('Esta persona ya está en tu comité', 'error'); return; }
+  if (yaEsta) { alerta('Esta persona ya estÃ¡ en tu comitÃ©', 'error'); return; }
 
   alerta('Verificando...', 'info');
 
@@ -1164,7 +1148,7 @@ async function buscarMiembro() {
   document.getElementById('comite-notfound-box').style.display = 'none';
   document.getElementById('btn-agregar-miembro').style.display = 'none';
 
-  // PASO 1: Verificar disponibilidad en Supabase (¿está en otro comité?)
+  // PASO 1: Verificar disponibilidad en Supabase (Â¿estÃ¡ en otro comitÃ©?)
   let disponible = true;
   let mensajeDisp = '';
   let esDirigente = false;
@@ -1181,11 +1165,11 @@ async function buscarMiembro() {
       esDirigente  = dispData.razon === 'ES_DIRIGENTE';
 
       if (!disponible) {
-        // Bloqueado — está en otro comité
+        // Bloqueado â€” estÃ¡ en otro comitÃ©
         document.getElementById('comite-notfound-box').style.display = 'block';
         document.getElementById('comite-notfound-box').innerHTML = `
           <div style="background:#fef2f2; border:2px solid #fecaca; border-radius:12px; padding:12px 14px">
-            <div style="font-weight:800; color:#991b1b; font-size:13px">🚫 No disponible</div>
+            <div style="font-weight:800; color:#991b1b; font-size:13px">ðŸš« No disponible</div>
             <div style="font-size:12px; color:#dc2626; margin-top:4px">${mensajeDisp}</div>
           </div>`;
         return;
@@ -1193,7 +1177,7 @@ async function buscarMiembro() {
     }
   }
 
-  // PASO 2: Buscar en el padrón
+  // PASO 2: Buscar en el padrÃ³n
   const result = await buscarEnPadron(cedula);
 
   if (result && result.enPadron) {
@@ -1206,18 +1190,18 @@ async function buscarMiembro() {
       sexo:      result.sexo || '',
       fecha_nacimiento: result.fecha_nacimiento || ''
     };
-    let infoExtra = '✅ En padrón';
-    if (esDirigente) infoExtra += ' · ' + mensajeDisp;
+    let infoExtra = 'âœ… En padrÃ³n';
+    if (esDirigente) infoExtra += ' Â· ' + mensajeDisp;
 
     document.getElementById('comite-found-nombre').textContent = result.nombre;
-    document.getElementById('comite-found-cedula').textContent = result.cedula + ' — ' + infoExtra;
+    document.getElementById('comite-found-cedula').textContent = result.cedula + ' â€” ' + infoExtra;
     document.getElementById('comite-found-box').style.display = 'block';
     document.getElementById('btn-agregar-miembro').style.display = 'flex';
   } else {
-    // No en padrón pero disponible — permitir con advertencia
-    miembroTemporal = { cedula: cedFmt, nombre: 'Militante · ' + cedFmt };
-    document.getElementById('comite-found-nombre').textContent = 'Militante · ' + cedFmt;
-    document.getElementById('comite-found-cedula').textContent = '⚠️ No encontrado en el padrón — verifica la cédula';
+    // No en padrÃ³n pero disponible â€” permitir con advertencia
+    miembroTemporal = { cedula: cedFmt, nombre: 'Militante Â· ' + cedFmt };
+    document.getElementById('comite-found-nombre').textContent = 'Militante Â· ' + cedFmt;
+    document.getElementById('comite-found-cedula').textContent = 'âš ï¸ No encontrado en el padrÃ³n â€” verifica la cÃ©dula';
     document.getElementById('comite-found-box').style.display = 'block';
     document.getElementById('btn-agregar-miembro').style.display = 'flex';
   }
@@ -1236,7 +1220,7 @@ async function agregarMiembro() {
       direccion:        miembroTemporal.direccion || null
     });
     if (error) {
-      if (error.code === '23505') { alerta('Esta persona ya está en tu comité', 'error'); return; }
+      if (error.code === '23505') { alerta('Esta persona ya estÃ¡ en tu comitÃ©', 'error'); return; }
       alerta('Error al guardar: ' + error.message, 'error'); return;
     }
     if (typeof auditLogger !== 'undefined') auditLogger.log('miembro_comite_agregado', { tabla: 'comite_miembros', registroId: miembroTemporal.cedula, detalle: { nombre: miembroTemporal.nombre } });
@@ -1262,17 +1246,17 @@ async function agregarMiembro() {
 
   renderComite();
   actualizarDashboard();
-  alerta('Miembro añadido al comité ✅', 'ok');
+  alerta('Miembro aÃ±adido al comitÃ© âœ…', 'ok');
 }
 
-// ══════════════════════════════════════════════════════
-// EDITAR MIEMBRO DEL COMITÉ
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// EDITAR MIEMBRO DEL COMITÃ‰
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 async function editarMiembro(cedula) {
   const m = (sesion.comite || []).find(x => x.cedula === cedula);
   if (!m) return;
 
-  // Buscar datos completos del padrón
+  // Buscar datos completos del padrÃ³n
   let padron = {};
   if (sb) {
     const cedLimpia = cedula.replace(/\D/g,'');
@@ -1284,22 +1268,22 @@ async function editarMiembro(cedula) {
   }
 
   // Calcular edad
-  let edadStr = '—';
+  let edadStr = 'â€”';
   const fnacMiembro = m.fecha_nacimiento || padron.fecha_nacimiento;
   if (fnacMiembro) {
     const hoy = new Date();
     const nac = new Date(fnacMiembro);
     const edad = hoy.getFullYear() - nac.getFullYear() -
       (hoy < new Date(hoy.getFullYear(), nac.getMonth(), nac.getDate()) ? 1 : 0);
-    edadStr = edad + ' años';
+    edadStr = edad + ' aÃ±os';
   }
 
-  const generoStr = padron.sexo === 'F' ? '♀ Femenino' : padron.sexo === 'M' ? '♂ Masculino' : (m.genero === 'F' ? '♀ Femenino' : m.genero === 'M' ? '♂ Masculino' : '—');
+  const generoStr = padron.sexo === 'F' ? 'â™€ Femenino' : padron.sexo === 'M' ? 'â™‚ Masculino' : (m.genero === 'F' ? 'â™€ Femenino' : m.genero === 'M' ? 'â™‚ Masculino' : 'â€”');
   const fotoHtml = (padron.foto_url || padron.foto_base64)
     ? `<img id="modal-foto" data-foto-url="${padron.foto_url||''}" data-foto-b64="${(padron.foto_base64&&!padron.foto_url)?padron.foto_base64:''}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E">`
     : `<span style="font-size:28px">${(padron.nombre_completo||'?')[0]}</span>`;
 
-  const chk = (v) => v ? '✅' : '❌';
+  const chk = (v) => v ? 'âœ…' : 'âŒ';
 
   document.getElementById('modal-editar')?.remove();
   const modal = document.createElement('div');
@@ -1311,16 +1295,16 @@ async function editarMiembro(cedula) {
       <!-- Header -->
       <div style="background:linear-gradient(135deg,var(--color-primary),#1a4fa8);color:white;padding:16px 20px;display:flex;justify-content:space-between;align-items:center">
         <div>
-          <div style="font-size:15px;font-weight:800">👤 Ficha del Miembro</div>
+          <div style="font-size:15px;font-weight:800">ðŸ‘¤ Ficha del Miembro</div>
           <div style="font-size:11px;opacity:0.7;margin-top:2px">${padron.nombre_completo || m.nombre}</div>
         </div>
         <button onclick="document.getElementById('modal-editar').remove()"
-          style="background:rgba(255,255,255,0.2);border:none;color:white;font-size:20px;cursor:pointer;border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center">✕</button>
+          style="background:rgba(255,255,255,0.2);border:none;color:white;font-size:20px;cursor:pointer;border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center">âœ•</button>
       </div>
 
       <div style="padding:18px;display:grid;gap:12px">
 
-        <!-- Foto y datos básicos -->
+        <!-- Foto y datos bÃ¡sicos -->
         <div style="display:flex;gap:14px;align-items:center;background:#f8fafc;border-radius:14px;padding:14px">
           <div style="width:72px;height:72px;border-radius:50%;background:var(--color-primary);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:3px solid var(--color-secondary);overflow:hidden">
             ${fotoHtml}
@@ -1337,22 +1321,22 @@ async function editarMiembro(cedula) {
 
         <!-- Datos electorales (solo lectura) -->
         <div style="background:#f8fafc;border-radius:12px;padding:14px">
-          <div style="font-size:10px;color:#94a3b8;font-weight:800;text-transform:uppercase;margin-bottom:10px">📋 Datos Electorales</div>
+          <div style="font-size:10px;color:#94a3b8;font-weight:800;text-transform:uppercase;margin-bottom:10px">ðŸ“‹ Datos Electorales</div>
           <div style="display:grid;gap:6px">
             <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid #f1f5f9">
               <span style="color:#64748b;font-weight:600">Recinto</span>
-              <span style="font-weight:700;text-align:right;max-width:65%;font-size:11px">${(padron.recinto_nombre||'—').replace(/^\d+\s+Rec:\s+\d+\s+-\s+/,'')}</span>
+              <span style="font-weight:700;text-align:right;max-width:65%;font-size:11px">${(padron.recinto_nombre||'â€”').replace(/^\d+\s+Rec:\s+\d+\s+-\s+/,'')}</span>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid #f1f5f9">
               <span style="color:#64748b;font-weight:600">Colegio</span>
-              <span style="font-weight:700">${padron.colegio_num || '—'}</span>
+              <span style="font-weight:700">${padron.colegio_num || 'â€”'}</span>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid #f1f5f9">
               <span style="color:#64748b;font-weight:600">Mesa</span>
-              <span style="font-weight:700">${m.mesa || '—'}</span>
+              <span style="font-weight:700">${m.mesa || 'â€”'}</span>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid #f1f5f9">
-              <span style="color:#64748b;font-weight:600">Votó primaria</span>
+              <span style="color:#64748b;font-weight:600">VotÃ³ primaria</span>
               <span style="font-weight:700">${chk(padron.voto_primaria)}</span>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid #f1f5f9">
@@ -1368,10 +1352,10 @@ async function editarMiembro(cedula) {
 
         <!-- Datos editables -->
         <div style="background:#eff6ff;border:2px solid #bfdbfe;border-radius:12px;padding:14px">
-          <div style="font-size:10px;color:#1d4ed8;font-weight:800;text-transform:uppercase;margin-bottom:10px">✏️ Información Personal</div>
+          <div style="font-size:10px;color:#1d4ed8;font-weight:800;text-transform:uppercase;margin-bottom:10px">âœï¸ InformaciÃ³n Personal</div>
           <div style="display:grid;gap:10px">
             
-            <!-- Fecha nacimiento y género -->
+            <!-- Fecha nacimiento y gÃ©nero -->
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
               <div>
                 <div style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:4px">Fecha nacimiento</div>
@@ -1379,17 +1363,17 @@ async function editarMiembro(cedula) {
                   style="width:100%;padding:8px 10px;border:2px solid #dbeafe;border-radius:9px;font-size:12px;font-family:inherit;outline:none;background:white">
               </div>
               <div>
-                <div style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:4px">Género</div>
+                <div style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:4px">GÃ©nero</div>
                 <select id="me-genero"
                   style="width:100%;padding:8px 10px;border:2px solid #dbeafe;border-radius:9px;font-size:12px;font-family:inherit;outline:none;background:white">
-                  <option value="">—</option>
-                  <option value="M" ${m.genero==='M'?'selected':''}>♂ Masc.</option>
-                  <option value="F" ${m.genero==='F'?'selected':''}>♀ Fem.</option>
+                  <option value="">â€”</option>
+                  <option value="M" ${m.genero==='M'?'selected':''}>â™‚ Masc.</option>
+                  <option value="F" ${m.genero==='F'?'selected':''}>â™€ Fem.</option>
                 </select>
               </div>
             </div>
 
-            <!-- Mesa y teléfono -->
+            <!-- Mesa y telÃ©fono -->
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
               <div>
                 <div style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:4px">Mesa</div>
@@ -1397,16 +1381,16 @@ async function editarMiembro(cedula) {
                   style="width:100%;padding:8px 10px;border:2px solid #dbeafe;border-radius:9px;font-size:13px;font-family:inherit;outline:none;background:white">
               </div>
               <div>
-                <div style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:4px">Teléfono</div>
+                <div style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:4px">TelÃ©fono</div>
                 <input id="me-telefono" type="tel" value="${m.telefono || ''}" placeholder="809-000-0000"
                   style="width:100%;padding:8px 10px;border:2px solid #dbeafe;border-radius:9px;font-size:13px;font-family:inherit;outline:none;background:white">
               </div>
             </div>
 
-            <!-- Dirección -->
+            <!-- DirecciÃ³n -->
             <div>
-              <div style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:4px">Dirección</div>
-              <input id="me-direccion" type="text" value="${m.direccion || padron.direccion || ''}" placeholder="Calle, número, sector..."
+              <div style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:4px">DirecciÃ³n</div>
+              <input id="me-direccion" type="text" value="${m.direccion || padron.direccion || ''}" placeholder="Calle, nÃºmero, sector..."
                 style="width:100%;padding:9px 12px;border:2px solid #dbeafe;border-radius:9px;font-size:13px;font-family:inherit;outline:none;background:white">
             </div>
 
@@ -1417,26 +1401,26 @@ async function editarMiembro(cedula) {
                 <select id="me-fidelidad"
                   style="width:100%;padding:8px 10px;border:2px solid #dbeafe;border-radius:9px;font-size:12px;font-family:inherit;outline:none;background:white">
                   <option value="">Sin clasificar</option>
-                  <option value="DURO"     ${m.fidelidad==='DURO'    ?'selected':''}>💪 Duro</option>
-                  <option value="BLANDO"   ${m.fidelidad==='BLANDO'  ?'selected':''}>🤔 Blando</option>
-                  <option value="INDECISO" ${m.fidelidad==='INDECISO'?'selected':''}>❓ Indeciso</option>
+                  <option value="DURO"     ${m.fidelidad==='DURO'    ?'selected':''}>ðŸ’ª Duro</option>
+                  <option value="BLANDO"   ${m.fidelidad==='BLANDO'  ?'selected':''}>ðŸ¤” Blando</option>
+                  <option value="INDECISO" ${m.fidelidad==='INDECISO'?'selected':''}>â“ Indeciso</option>
                 </select>
               </div>
               <div>
                 <div style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:4px">Transporte</div>
                 <select id="me-transporte"
                   style="width:100%;padding:8px 10px;border:2px solid #dbeafe;border-radius:9px;font-size:12px;font-family:inherit;outline:none;background:white">
-                  <option value="">—</option>
-                  <option value="SI"   ${m.transporte==='SI'  ?'selected':''}>🚗 Vehículo</option>
-                  <option value="MOTO" ${m.transporte==='MOTO'?'selected':''}>🏍️ Moto</option>
-                  <option value="NO"   ${m.transporte==='NO'  ?'selected':''}>🚶 No tiene</option>
+                  <option value="">â€”</option>
+                  <option value="SI"   ${m.transporte==='SI'  ?'selected':''}>ðŸš— VehÃ­culo</option>
+                  <option value="MOTO" ${m.transporte==='MOTO'?'selected':''}>ðŸï¸ Moto</option>
+                  <option value="NO"   ${m.transporte==='NO'  ?'selected':''}>ðŸš¶ No tiene</option>
                 </select>
               </div>
             </div>
 
-            <!-- Nota estratégica -->
+            <!-- Nota estratÃ©gica -->
             <div>
-              <div style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:4px">Nota estratégica</div>
+              <div style="font-size:10px;color:#64748b;font-weight:700;margin-bottom:4px">Nota estratÃ©gica</div>
               <textarea id="me-nota" rows="2" placeholder="Ej: Moviliza a su familia, disponible los domingos..."
                 style="width:100%;padding:9px 12px;border:2px solid #dbeafe;border-radius:9px;font-size:13px;font-family:inherit;outline:none;background:white;resize:none">${m.nota || ''}</textarea>
             </div>
@@ -1444,34 +1428,34 @@ async function editarMiembro(cedula) {
           </div>
         </div>
 
-        <!-- Ubicación -->
+        <!-- UbicaciÃ³n -->
         <div style="background:#f0fdf4;border:2px solid #bbf7d0;border-radius:12px;padding:14px">
-          <div style="font-size:10px;color:#166534;font-weight:800;text-transform:uppercase;margin-bottom:8px">📍 Ubicación</div>
+          <div style="font-size:10px;color:#166534;font-weight:800;text-transform:uppercase;margin-bottom:8px">ðŸ“ UbicaciÃ³n</div>
           ${m.latitud && m.longitud
-            ? `<div style="font-size:12px;color:#16a34a;font-weight:700;margin-bottom:8px">✅ Ubicado · ${parseFloat(m.latitud).toFixed(5)}, ${parseFloat(m.longitud).toFixed(5)}</div>
+            ? `<div style="font-size:12px;color:#16a34a;font-weight:700;margin-bottom:8px">âœ… Ubicado Â· ${parseFloat(m.latitud).toFixed(5)}, ${parseFloat(m.longitud).toFixed(5)}</div>
                <a href="https://www.google.com/maps?q=${m.latitud},${m.longitud}" target="_blank"
                  style="display:block;background:#16a34a;color:white;padding:9px;border-radius:9px;text-align:center;font-size:12px;font-weight:800;text-decoration:none;margin-bottom:6px">
-                 🗺️ Ver en Google Maps
+                 ðŸ—ºï¸ Ver en Google Maps
                </a>`
-            : `<div style="font-size:12px;color:#94a3b8;margin-bottom:8px">Sin ubicación GPS</div>`
+            : `<div style="font-size:12px;color:#94a3b8;margin-bottom:8px">Sin ubicaciÃ³n GPS</div>`
           }
           ${(m.direccion || padron.direccion)
             ? `<a href="https://www.google.com/maps/search/${encodeURIComponent((m.direccion || padron.direccion) + ' Mao Valverde RD')}" target="_blank"
                 style="display:block;background:#0ea5e9;color:white;padding:9px;border-radius:9px;text-align:center;font-size:12px;font-weight:800;text-decoration:none">
-                🔍 Buscar dirección en Maps
+                ðŸ” Buscar direcciÃ³n en Maps
                </a>`
             : ''
           }
           <button onclick="puntearMiembro('${cedula}')"
             style="display:block;width:100%;margin-top:8px;background:var(--color-primary);color:white;padding:9px;border-radius:9px;text-align:center;font-size:12px;font-weight:800;border:none;cursor:pointer;touch-action:manipulation">
-            📌 Puntear en el mapa
+            ðŸ“Œ Puntear en el mapa
           </button>
         </div>
 
-        <!-- Botón guardar -->
+        <!-- BotÃ³n guardar -->
         <button onclick="guardarEdicionMiembro('${cedula}')"
           style="padding:14px;background:var(--color-primary);color:white;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
-          💾 Guardar cambios
+          ðŸ’¾ Guardar cambios
         </button>
 
       </div>
@@ -1500,18 +1484,18 @@ function puntearMiembro(cedula) {
   mapModal.innerHTML = `
     <div style="background:white;border-radius:16px;width:100%;max-width:500px;overflow:hidden">
       <div style="background:var(--color-primary);color:white;padding:14px 18px;display:flex;justify-content:space-between;align-items:center">
-        <div style="font-size:14px;font-weight:800">📌 Puntear ubicación del miembro</div>
+        <div style="font-size:14px;font-weight:800">ðŸ“Œ Puntear ubicaciÃ³n del miembro</div>
         <button onclick="document.getElementById('modal-mapa-miembro').remove()"
-          style="background:rgba(255,255,255,0.2);border:none;color:white;font-size:18px;cursor:pointer;border-radius:6px;width:28px;height:28px">✕</button>
+          style="background:rgba(255,255,255,0.2);border:none;color:white;font-size:18px;cursor:pointer;border-radius:6px;width:28px;height:28px">âœ•</button>
       </div>
       <div style="padding:12px;font-size:12px;color:#64748b;background:#f8fafc">
-        Toca en el mapa para marcar la ubicación. Luego toca <strong>Guardar punto</strong>.
+        Toca en el mapa para marcar la ubicaciÃ³n. Luego toca <strong>Guardar punto</strong>.
       </div>
       <div id="mapa-miembro-container" style="height:300px"></div>
       <div style="padding:12px;display:flex;gap:8px">
         <button onclick="guardarPuntoMiembro()" id="btn-guardar-punto"
           style="flex:1;padding:12px;background:var(--color-primary);color:white;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer">
-          💾 Guardar punto
+          ðŸ’¾ Guardar punto
         </button>
         <button onclick="document.getElementById('modal-mapa-miembro').remove()"
           style="padding:12px 16px;background:#f1f5f9;color:#64748b;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer">
@@ -1584,7 +1568,7 @@ async function guardarPuntoMiembro() {
   if (idx > -1) { sesion.comite[idx].latitud = lat; sesion.comite[idx].longitud = lng; }
   
   document.getElementById('modal-mapa-miembro')?.remove();
-  alerta('✅ Ubicación del miembro guardada', 'ok');
+  alerta('âœ… UbicaciÃ³n del miembro guardada', 'ok');
 }
 
 async function guardarEdicionMiembro(cedula) {
@@ -1607,7 +1591,7 @@ async function guardarEdicionMiembro(cedula) {
 
   // Update in Supabase
   if (sb) {
-    // Formato correcto de cédulas
+    // Formato correcto de cÃ©dulas
     const cedLimpia = sesion.cedula.replace(/\D/g,'');
     const cedFmt = cedLimpia.length === 11
       ? cedLimpia.slice(0,3)+'-'+cedLimpia.slice(3,10)+'-'+cedLimpia.slice(10)
@@ -1643,12 +1627,12 @@ async function guardarEdicionMiembro(cedula) {
   }
 
   document.getElementById('modal-editar')?.remove();
-  alerta('✅ Datos del miembro actualizados', 'ok');
+  alerta('âœ… Datos del miembro actualizados', 'ok');
   renderComite();
 }
 
 async function eliminarMiembro(cedula) {
-  if (!confirm('¿Eliminar este miembro del comité?')) return;
+  if (!confirm('Â¿Eliminar este miembro del comitÃ©?')) return;
   if (sb) {
     await sb.from('comite_miembros')
       .delete()
@@ -1670,12 +1654,12 @@ function renderComite() {
   // Barra de progreso
   const pct = Math.min(100, Math.round((total / minimo) * 100));
   document.getElementById('comite-barra').style.width = pct + '%';
-  document.getElementById('comite-count-label').textContent = total + ' / ' + minimo + (total >= minimo ? ' ✅' : '');
+  document.getElementById('comite-count-label').textContent = total + ' / ' + minimo + (total >= minimo ? ' âœ…' : '');
 
   // Lista
   const lista = document.getElementById('comite-lista');
   if (comite.length === 0) {
-    lista.innerHTML = '<div class="texto-center texto-muted" style="padding:20px 0">Aún no has añadido miembros</div>';
+    lista.innerHTML = '<div class="texto-center texto-muted" style="padding:20px 0">AÃºn no has aÃ±adido miembros</div>';
     return;
   }
 
@@ -1687,22 +1671,22 @@ function renderComite() {
         <div class="miembro-cedula">${m.cedula}</div>
       </div>
       <button onclick="editarMiembro('${m.cedula}')"
-        style="background:#eff6ff;border:none;color:#1d4ed8;font-size:14px;padding:6px 10px;border-radius:8px;cursor:pointer;touch-action:manipulation;margin-right:4px">✏️</button>
-      <button class="miembro-del" onclick="eliminarMiembro('${m.cedula}')">🗑</button>
+        style="background:#eff6ff;border:none;color:#1d4ed8;font-size:14px;padding:6px 10px;border-radius:8px;cursor:pointer;touch-action:manipulation;margin-right:4px">âœï¸</button>
+      <button class="miembro-del" onclick="eliminarMiembro('${m.cedula}')">ðŸ—‘</button>
     </div>
   `).join('');
 
   // Total al final
   if (total >= minimo) {
-    lista.innerHTML += `      <div style="text-align:center; padding:12px; background:#f0fdf4; border-radius:12px; margin-top:8px; font-weight:800; color:#166534; font-size:13px">✅ Comité completo — cumple Art. 89 Estatutos</div>`;
+    lista.innerHTML += `      <div style="text-align:center; padding:12px; background:#f0fdf4; border-radius:12px; margin-top:8px; font-weight:800; color:#166534; font-size:13px">âœ… ComitÃ© completo â€” cumple Art. 89 Estatutos</div>`;
   } else {
-    lista.innerHTML += `<div style="text-align:center; padding:10px; color:#94a3b8; font-size:12px">Faltan ${minimo - total} miembro${minimo - total !== 1 ? 's' : ''} para completar el mínimo</div>`;
+    lista.innerHTML += `<div style="text-align:center; padding:10px; color:#94a3b8; font-size:12px">Faltan ${minimo - total} miembro${minimo - total !== 1 ? 's' : ''} para completar el mÃ­nimo</div>`;
   }
 }
 
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // ESTRUCTURA DE CANDIDATOS
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 async function renderEstructura() {
   if (!sesion) return;
@@ -1719,7 +1703,7 @@ async function renderEstructura() {
   const estructuras = sesion.estructuras || [];
 
   if (estructuras.length === 0) {
-    box.innerHTML = '<div class="texto-muted texto-center" style="padding:12px 0">No estás en ninguna estructura actualmente</div>';
+    box.innerHTML = '<div class="texto-muted texto-center" style="padding:12px 0">No estÃ¡s en ninguna estructura actualmente</div>';
   } else {
     box.innerHTML = estructuras.map(e => `
       <div class="estructura-item activa">
@@ -1730,7 +1714,7 @@ async function renderEstructura() {
           </div>
           <button class="btn-sm btn-rojo" onclick="salirEstructura('${e.candidato_id}')">Salir</button>
         </div>
-        <div style="margin-top:6px"><span class="badge badge-verde">✅ ACTIVO</span></div>
+        <div style="margin-top:6px"><span class="badge badge-verde">âœ… ACTIVO</span></div>
       </div>
     `).join('');
   }
@@ -1746,7 +1730,7 @@ async function renderEstructura() {
 function renderListaCandidatos(containerId, lista) {
   const el = document.getElementById(containerId);
   if (lista.length === 0) {
-    el.innerHTML = '<div class="texto-muted texto-center" style="padding:12px 0">No hay registrados aún</div>';
+    el.innerHTML = '<div class="texto-muted texto-center" style="padding:12px 0">No hay registrados aÃºn</div>';
     return;
   }
 
@@ -1764,7 +1748,7 @@ function renderListaCandidatos(containerId, lista) {
             : `<button class="btn-sm btn-verde" onclick="unirseEstructura('${c.id}','${c.nombre}','${c.cargo}')">Unirse</button>`
           }
         </div>
-        ${enEstructura ? '<div style="margin-top:4px"><span class="badge badge-verde">✅ En tu estructura</span></div>' : ''}
+        ${enEstructura ? '<div style="margin-top:4px"><span class="badge badge-verde">âœ… En tu estructura</span></div>' : ''}
       </div>
     `;
   }).join('');
@@ -1773,7 +1757,7 @@ function renderListaCandidatos(containerId, lista) {
 async function unirseEstructura(id, nombre, cargo) {
   if (!sesion.estructuras) sesion.estructuras = [];
   const yaEsta = sesion.estructuras.some(e => e.candidato_id === id);
-  if (yaEsta) { alerta('Ya estás en esta estructura', 'info'); return; }
+  if (yaEsta) { alerta('Ya estÃ¡s en esta estructura', 'info'); return; }
 
   if (sb) {
     const { error } = await sb.from('estructuras_dirigente').upsert({
@@ -1793,7 +1777,7 @@ async function unirseEstructura(id, nombre, cargo) {
 }
 
 async function salirEstructura(id) {
-  if (!confirm('¿Salir de esta estructura?')) return;
+  if (!confirm('Â¿Salir de esta estructura?')) return;
   if (sb) {
     await sb.from('estructuras_dirigente')
       .update({ activo: false })
@@ -1806,16 +1790,16 @@ async function salirEstructura(id) {
   alerta('Saliste de la estructura', 'info');
 }
 
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // ESTRATEGIA ELECTORAL
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function renderEstrategia() {
   if (!sesion) return;
   const comite = sesion.comite || [];
 
-  // Actualizar subtítulo
+  // Actualizar subtÃ­tulo
   const subEl = document.getElementById('est-subtitulo');
-  if (subEl) subEl.textContent = (sesion.zona || '') + ' · ' + comite.length + ' miembros';
+  if (subEl) subEl.textContent = (sesion.zona || '') + ' Â· ' + comite.length + ' miembros';
 
   // Totales
   document.getElementById('est-total').textContent    = comite.length;
@@ -1837,13 +1821,13 @@ function renderEstrategia() {
   document.getElementById('est-recintos').textContent = numRecintos;
   document.getElementById('est-colegios').textContent = numColegios;
 
-  // Estadísticas de fidelidad
+  // EstadÃ­sticas de fidelidad
   const duros     = comite.filter(m => m.fidelidad === 'DURO').length;
   const blandos   = comite.filter(m => m.fidelidad === 'BLANDO').length;
   const indecisos = comite.filter(m => m.fidelidad === 'INDECISO').length;
   const sinClasif = comite.length - duros - blandos - indecisos;
 
-  // Estadísticas de género
+  // EstadÃ­sticas de gÃ©nero
   const hombres = comite.filter(m => m.genero === 'M').length;
   const mujeres = comite.filter(m => m.genero === 'F').length;
 
@@ -1854,29 +1838,29 @@ function renderEstrategia() {
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
         <div style="background:#dcfce7;border-radius:10px;padding:10px;text-align:center">
           <div style="font-size:22px;font-weight:900;color:#166534">${duros}</div>
-          <div style="font-size:10px;color:#166534;font-weight:700">💪 VOTO DURO</div>
+          <div style="font-size:10px;color:#166534;font-weight:700">ðŸ’ª VOTO DURO</div>
         </div>
         <div style="background:#fef3c7;border-radius:10px;padding:10px;text-align:center">
           <div style="font-size:22px;font-weight:900;color:#92400e">${blandos}</div>
-          <div style="font-size:10px;color:#92400e;font-weight:700">🤔 VOTO BLANDO</div>
+          <div style="font-size:10px;color:#92400e;font-weight:700">ðŸ¤” VOTO BLANDO</div>
         </div>
         <div style="background:#fee2e2;border-radius:10px;padding:10px;text-align:center">
           <div style="font-size:22px;font-weight:900;color:#991b1b">${indecisos}</div>
-          <div style="font-size:10px;color:#991b1b;font-weight:700">❓ INDECISO</div>
+          <div style="font-size:10px;color:#991b1b;font-weight:700">â“ INDECISO</div>
         </div>
         <div style="background:#f1f5f9;border-radius:10px;padding:10px;text-align:center">
           <div style="font-size:22px;font-weight:900;color:#64748b">${sinClasif}</div>
-          <div style="font-size:10px;color:#64748b;font-weight:700">— SIN CLASIFICAR</div>
+          <div style="font-size:10px;color:#64748b;font-weight:700">â€” SIN CLASIFICAR</div>
         </div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
         <div style="background:#eff6ff;border-radius:10px;padding:10px;text-align:center">
           <div style="font-size:22px;font-weight:900;color:#1d4ed8">${hombres}</div>
-          <div style="font-size:10px;color:#1d4ed8;font-weight:700">♂ HOMBRES</div>
+          <div style="font-size:10px;color:#1d4ed8;font-weight:700">â™‚ HOMBRES</div>
         </div>
         <div style="background:#fdf2f8;border-radius:10px;padding:10px;text-align:center">
           <div style="font-size:22px;font-weight:900;color:#9d174d">${mujeres}</div>
-          <div style="font-size:10px;color:#9d174d;font-weight:700">♀ MUJERES</div>
+          <div style="font-size:10px;color:#9d174d;font-weight:700">â™€ MUJERES</div>
         </div>
       </div>`;
   }
@@ -1885,7 +1869,7 @@ function renderEstrategia() {
   const recEl = document.getElementById('est-por-recinto');
   if (recEl) {
     if (comite.length === 0) {
-      recEl.innerHTML = '<div style="text-align:center;color:#94a3b8;padding:16px">Tu comité no tiene miembros aún</div>';
+      recEl.innerHTML = '<div style="text-align:center;color:#94a3b8;padding:16px">Tu comitÃ© no tiene miembros aÃºn</div>';
     } else {
       recEl.innerHTML = Object.entries(porRecinto).map(([rec, data]) => `
         <div style="margin-bottom:12px;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden">
@@ -1915,7 +1899,7 @@ function renderEstrategia() {
   if (listaEl) {
     const conInfo = comite.filter(m => m.direccion || m.latitud);
     if (conInfo.length === 0) {
-      listaEl.innerHTML = '<div style="color:#94a3b8;font-size:12px;padding:8px 0">Ningún miembro tiene dirección o GPS registrado</div>';
+      listaEl.innerHTML = '<div style="color:#94a3b8;font-size:12px;padding:8px 0">NingÃºn miembro tiene direcciÃ³n o GPS registrado</div>';
     } else {
       listaEl.innerHTML = conInfo.map(m => {
         const mapsUrl = m.latitud
@@ -1927,8 +1911,8 @@ function renderEstrategia() {
               <div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${m.nombre}</div>
               <div style="font-size:11px;color:#64748b">
                 ${m.colegio ? 'Col. ' + m.colegio : ''} 
-                ${m.mesa ? '· Mesa ' + m.mesa : ''}
-                ${m.fidelidad ? '· ' + (m.fidelidad==='DURO'?'💪':m.fidelidad==='BLANDO'?'🤔':'❓') + ' ' + m.fidelidad : ''}
+                ${m.mesa ? 'Â· Mesa ' + m.mesa : ''}
+                ${m.fidelidad ? 'Â· ' + (m.fidelidad==='DURO'?'ðŸ’ª':m.fidelidad==='BLANDO'?'ðŸ¤”':'â“') + ' ' + m.fidelidad : ''}
               </div>
             </div>
             <a href="${mapsUrl}" target="_blank"
@@ -1941,14 +1925,14 @@ function renderEstrategia() {
   }
 }
 
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // MI ZONA
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 function renderZona() {
   if (!sesion) return;
 
-  document.getElementById('zona-header-sub').textContent = sesion.zona + ' · ' + sesion.municipio;
+  document.getElementById('zona-header-sub').textContent = sesion.zona + ' Â· ' + sesion.municipio;
 
   document.getElementById('zona-info').innerHTML = `
     <div style="display:grid; gap:10px">
@@ -1957,12 +1941,12 @@ function renderZona() {
         <span style="font-size:13px; font-weight:800">${sesion.municipio}</span>
       </div>
       <div style="display:flex; justify-content:space-between; padding:10px; background:#f8fafc; border-radius:10px">
-        <span style="font-size:12px; color:#64748b; font-weight:700">Zona Política</span>
+        <span style="font-size:12px; color:#64748b; font-weight:700">Zona PolÃ­tica</span>
         <span style="font-size:13px; font-weight:800">${sesion.zona}</span>
       </div>
       <div style="display:flex; justify-content:space-between; padding:10px; background:#f8fafc; border-radius:10px">
         <span style="font-size:12px; color:#64748b; font-weight:700">Sector</span>
-        <span style="font-size:13px; font-weight:800">${sesion.sector || '—'}</span>
+        <span style="font-size:13px; font-weight:800">${sesion.sector || 'â€”'}</span>
       </div>
     </div>
   `;
@@ -1987,27 +1971,27 @@ function renderZona() {
   } else {
     zd.innerHTML = mismaZona.map(d => `
       <div class="miembro-item">
-        <div class="miembro-num">👤</div>
+        <div class="miembro-num">ðŸ‘¤</div>
         <div class="miembro-data">
           <div class="miembro-nombre">${getNombreCorto(d.nombre)}</div>
-          <div class="miembro-cedula">${d.zona} · ${d.sector || 'Sin sector'}</div>
+          <div class="miembro-cedula">${d.zona} Â· ${d.sector || 'Sin sector'}</div>
         </div>
       </div>
     `).join('');
   }
 }
 
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // PERFIL
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 async function actualizarPerfil() {
   const tel    = document.getElementById('edit-telefono')?.value?.trim();
   const sector = document.getElementById('edit-sector')?.value?.trim();
 
-  if (!sesion?.cedula) { alerta('Error: sesión no válida', 'error'); return; }
+  if (!sesion?.cedula) { alerta('Error: sesiÃ³n no vÃ¡lida', 'error'); return; }
 
-  // Asegurar formato correcto de cédula (con guiones)
+  // Asegurar formato correcto de cÃ©dula (con guiones)
   const cedLimpia = sesion.cedula.replace(/\D/g,'');
   const cedFmt = cedLimpia.length === 11
     ? cedLimpia.slice(0,3)+'-'+cedLimpia.slice(3,10)+'-'+cedLimpia.slice(10)
@@ -2035,7 +2019,7 @@ async function actualizarPerfil() {
       return;
     }
     if (!data || data.length === 0) {
-      alerta('No se encontró tu registro. Cédula: ' + cedFmt, 'error');
+      alerta('No se encontrÃ³ tu registro. CÃ©dula: ' + cedFmt, 'error');
       return;
     }
   }
@@ -2045,7 +2029,7 @@ async function actualizarPerfil() {
   sesion.sexo             = document.getElementById('edit-sexo')?.value  || sesion.sexo;
   sesion.email            = document.getElementById('edit-email')?.value || sesion.email;
   guardarSesionLocal(sesion);
-  alerta('✅ Datos actualizados', 'ok');
+  alerta('âœ… Datos actualizados', 'ok');
   renderPerfil();
 }
 
@@ -2071,7 +2055,7 @@ async function subirFotoPerfil(input) {
         if (error) { alerta('Error guardando foto: ' + error.message, 'error'); return; }
       }
       guardarSesionLocal(sesion);
-      alerta('✅ Foto actualizada', 'ok');
+      alerta('âœ… Foto actualizada', 'ok');
       renderPerfil();
       actualizarDashboard();
     };
@@ -2085,19 +2069,19 @@ function renderPerfil() {
   if (!sesion) return;
 
   // Calcular edad
-  let edadStr = '—';
+  let edadStr = 'â€”';
   if (sesion.fecha_nacimiento) {
     const hoy = new Date();
     const nac = new Date(sesion.fecha_nacimiento);
     const edad = hoy.getFullYear() - nac.getFullYear() -
       (hoy < new Date(hoy.getFullYear(), nac.getMonth(), nac.getDate()) ? 1 : 0);
-    edadStr = edad + ' años';
+    edadStr = edad + ' aÃ±os';
   }
 
-  const generoStr = sesion.sexo === 'F' ? '♀ Femenino' : sesion.sexo === 'M' ? '♂ Masculino' : '—';
+  const generoStr = sesion.sexo === 'F' ? 'â™€ Femenino' : sesion.sexo === 'M' ? 'â™‚ Masculino' : 'â€”';
   const desde = sesion.fecha_registro
     ? new Date(sesion.fecha_registro).toLocaleDateString('es-DO', {day:'2-digit',month:'long',year:'numeric'})
-    : '—';
+    : 'â€”';
 
   // Foto
   const fotoHtml = (sesion.foto_url || sesion.foto_base64)
@@ -2114,8 +2098,8 @@ function renderPerfil() {
 
   // Plancha
   const planchaHtml = sesion.plancha_nombre
-    ? `<span style="background:#dcfce7;color:#166534;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800">✅ ${sesion.plancha_nombre}</span>`
-    : `<span style="background:#f1f5f9;color:#94a3b8;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700">No participó en plancha</span>`;
+    ? `<span style="background:#dcfce7;color:#166534;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800">âœ… ${sesion.plancha_nombre}</span>`
+    : `<span style="background:#f1f5f9;color:#94a3b8;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700">No participÃ³ en plancha</span>`;
 
   document.getElementById('perfil-datos').innerHTML = `
     <div style="display:grid; gap:12px">
@@ -2127,7 +2111,7 @@ function renderPerfil() {
           <input type="file" id="foto-input-perfil" accept="image/*" style="display:none" onchange="subirFotoPerfil(this)">
           <button onclick="document.getElementById('foto-input-perfil').click()"
             style="padding:8px 20px;background:var(--accent);color:white;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:6px">
-            📷 Cambiar foto
+            ðŸ“· Cambiar foto
           </button>
         </div>
         <div style="margin-top:10px; display:flex; gap:6px; justify-content:center; flex-wrap:wrap">
@@ -2135,19 +2119,19 @@ function renderPerfil() {
         </div>
       </div>
 
-      <!-- Nombre y cédula (solo lectura) -->
+      <!-- Nombre y cÃ©dula (solo lectura) -->
       <div style="padding:12px; background:#f8fafc; border-radius:10px">
         <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">Nombre completo</div>
         <div style="font-size:18px; font-weight:800; margin-top:4px">${sesion.nombre}</div>
       </div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
         <div style="padding:12px; background:#f8fafc; border-radius:10px">
-          <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">Cédula</div>
+          <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">CÃ©dula</div>
           <div style="font-size:15px; font-family:monospace; font-weight:700; margin-top:4px">${sesion.cedula}</div>
         </div>
         <div style="padding:12px; background:#f8fafc; border-radius:10px">
           <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">Edad</div>
-          <div style="font-size:18px; font-weight:800; margin-top:4px; color:${edadStr==='—'?'#94a3b8':'#1e293b'}">${edadStr}</div>
+          <div style="font-size:18px; font-weight:800; margin-top:4px; color:${edadStr==='â€”'?'#94a3b8':'#1e293b'}">${edadStr}</div>
         </div>
       </div>
 
@@ -2155,11 +2139,11 @@ function renderPerfil() {
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
         <div style="padding:12px; background:#f8fafc; border-radius:10px">
           <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">Zona</div>
-          <div style="font-size:16px; font-weight:800; margin-top:4px">${sesion.zona || '—'}</div>
+          <div style="font-size:16px; font-weight:800; margin-top:4px">${sesion.zona || 'â€”'}</div>
         </div>
         <div style="padding:12px; background:#f8fafc; border-radius:10px">
           <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">Municipio</div>
-          <div style="font-size:16px; font-weight:800; margin-top:4px">${sesion.municipio || '—'}</div>
+          <div style="font-size:16px; font-weight:800; margin-top:4px">${sesion.municipio || 'â€”'}</div>
         </div>
       </div>
 
@@ -2170,41 +2154,41 @@ function renderPerfil() {
       </div>
 
       <!-- EDITABLES -->
-      <!-- Fecha nacimiento y género -->
+      <!-- Fecha nacimiento y gÃ©nero -->
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
         <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-          <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Fecha Nacimiento</div>
+          <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">âœï¸ Fecha Nacimiento</div>
           <input id="edit-fnac" type="date" value="${sesion.fecha_nacimiento || ''}"
             style="width:100%;border:2px solid #dbeafe;border-radius:8px;padding:8px 12px;font-size:15px;font-family:inherit;outline:none;background:white">
         </div>
         <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-          <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Género</div>
+          <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">âœï¸ GÃ©nero</div>
           <select id="edit-sexo"
             style="width:100%;border:2px solid #dbeafe;border-radius:8px;padding:8px 12px;font-size:15px;font-family:inherit;outline:none;background:white">
-            <option value="">—</option>
-            <option value="M" ${sesion.sexo==='M'?'selected':''}>♂ Masculino</option>
-            <option value="F" ${sesion.sexo==='F'?'selected':''}>♀ Femenino</option>
+            <option value="">â€”</option>
+            <option value="M" ${sesion.sexo==='M'?'selected':''}>â™‚ Masculino</option>
+            <option value="F" ${sesion.sexo==='F'?'selected':''}>â™€ Femenino</option>
           </select>
         </div>
       </div>
 
-      <!-- Teléfono -->
+      <!-- TelÃ©fono -->
       <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Teléfono</div>
+        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">âœï¸ TelÃ©fono</div>
         <input id="edit-telefono" type="tel" value="${sesion.telefono || ''}" placeholder="809-000-0000"
           style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:16px;font-family:inherit;outline:none;background:white">
       </div>
 
       <!-- Email -->
       <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Email</div>
+        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">âœï¸ Email</div>
         <input id="edit-email" type="email" value="${sesion.email || ''}" placeholder="tucorreo@email.com"
           style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:16px;font-family:inherit;outline:none;background:white">
       </div>
 
       <!-- Sector -->
       <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Sector / Barrio</div>
+        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">âœï¸ Sector / Barrio</div>
         <input id="edit-sector" type="text" value="${sesion.sector || ''}" placeholder="Ej: Los Multis, El Centro..."
           style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:16px;font-family:inherit;outline:none;background:white">
       </div>
@@ -2215,16 +2199,16 @@ function renderPerfil() {
         <div style="font-size:15px; font-weight:700; margin-top:4px">${desde}</div>
       </div>
 
-      <!-- Botón guardar -->
+      <!-- BotÃ³n guardar -->
       <button onclick="actualizarPerfil()"
         style="padding:14px;background:var(--color-primary);color:white;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
-        💾 Guardar cambios
+        ðŸ’¾ Guardar cambios
       </button>
 
-      <!-- Botón ver ubicación -->
+      <!-- BotÃ³n ver ubicaciÃ³n -->
       <button onclick="irA('p-mapa')"
         style="padding:12px;background:#0ea5e9;color:white;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
-        📌 Ver / Editar mi ubicación en el mapa
+        ðŸ“Œ Ver / Editar mi ubicaciÃ³n en el mapa
       </button>
 
     </div>
@@ -2244,7 +2228,7 @@ async function cambiarPin() {
   if (pinActual.length < 4) { alerta('Ingresa tu PIN actual', 'error'); return; }
   if (pinNuevo.length < 4)  { alerta('Ingresa el nuevo PIN', 'error'); return; }
   if (sesion.pin_hash !== hashPin(pinActual)) { alerta('PIN actual incorrecto', 'error'); return; }
-  if (!/^\d{4}$/.test(pinNuevo)) { alerta('El PIN solo puede tener números', 'error'); return; }
+  if (!/^\d{4}$/.test(pinNuevo)) { alerta('El PIN solo puede tener nÃºmeros', 'error'); return; }
 
   const nuevoHash = hashPin(pinNuevo);
   if (sb) {
@@ -2256,7 +2240,7 @@ async function cambiarPin() {
   sesion.pin_hash = nuevoHash;
   guardarSesionLocal(sesion);
   ['cpin0','cpin1','cpin2','cpin3','npin0','npin1','npin2','npin3'].forEach(id => document.getElementById(id).value = '');
-  alerta('PIN actualizado correctamente ✅', 'ok');
+  alerta('PIN actualizado correctamente âœ…', 'ok');
 }
 
 async function cerrarSesion() {
@@ -2270,9 +2254,9 @@ async function cerrarSesion() {
   window.location.href = 'index.html?from=logout';
 }
 
-// ══════════════════════════════════════════════════════
-// HELPERS — PIN INPUTS
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// HELPERS â€” PIN INPUTS
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 function moverPin(el, siguiente) {
   if (el.value.length === 1) {
@@ -2312,9 +2296,9 @@ function getNombreCorto(nombre) {
   return nombre.split(' ')[0];
 }
 
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // ALERTAS
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 let alertaTimer = null;
 
@@ -2326,9 +2310,9 @@ function alerta(msg, tipo) {
   alertaTimer = setTimeout(() => { box.innerHTML = ''; }, 3000);
 }
 
-// ══════════════════════════════════════════════════════
-// MAPA DE UBICACIÓN DEL DIRIGENTE
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// MAPA DE UBICACIÃ“N DEL DIRIGENTE
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 let mapaDirigente = null;
 let marcadorTemp  = null;
 let coordsSeleccionadas = null;
@@ -2368,7 +2352,7 @@ function initMapaDirigente() {
       tilt: 45
     });
 
-    // Si ya tiene ubicación guardada, mostrar marcador
+    // Si ya tiene ubicaciÃ³n guardada, mostrar marcador
     if (sesion.latitud && sesion.longitud) {
       coordsSeleccionadas = { lat, lng };
       colocarMarcador(lat, lng);
@@ -2406,7 +2390,7 @@ function mostrarEstadoUbicacion() {
   const descEl   = document.getElementById('mapa-descripcion');
 
   if (estadoEl) estadoEl.style.display = 'block';
-  if (nombreEl) nombreEl.textContent = sesion.ubicacion_nombre || 'Sin descripción';
+  if (nombreEl) nombreEl.textContent = sesion.ubicacion_nombre || 'Sin descripciÃ³n';
   if (coordsEl && sesion.latitud) coordsEl.textContent =
     parseFloat(sesion.latitud).toFixed(6) + ', ' + parseFloat(sesion.longitud).toFixed(6);
   if (btnEl) btnEl.style.display = 'block';
@@ -2444,7 +2428,7 @@ async function usarUbicacionActual() {
   if (!navigator.geolocation) {
     alerta('Tu dispositivo no soporta GPS', 'error'); return;
   }
-  alerta('Obteniendo tu ubicación...', 'info');
+  alerta('Obteniendo tu ubicaciÃ³n...', 'info');
   navigator.geolocation.getCurrentPosition(
     function(pos) {
       const lat = pos.coords.latitude;
@@ -2453,10 +2437,10 @@ async function usarUbicacionActual() {
       colocarMarcador(lat, lng);
       mapaDirigente.panTo({ lat: lat, lng: lng });
       document.getElementById('btn-guardar-ubi').style.display = 'block';
-      alerta('✅ Ubicación encontrada. Toca Guardar.', 'ok');
+      alerta('âœ… UbicaciÃ³n encontrada. Toca Guardar.', 'ok');
     },
     function(err) {
-      alerta('No se pudo obtener la ubicación. Toca el mapa manualmente.', 'error');
+      alerta('No se pudo obtener la ubicaciÃ³n. Toca el mapa manualmente.', 'error');
     },
     { enableHighAccuracy: true, timeout: 10000 }
   );
@@ -2488,12 +2472,12 @@ async function guardarUbicacion() {
   colocarMarcador(lat, lng);
   mostrarEstadoUbicacion();
 
-  alerta('✅ Ubicación guardada correctamente', 'ok');
+  alerta('âœ… UbicaciÃ³n guardada correctamente', 'ok');
 }
 
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // ARRANQUE
-// ══════════════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 function mostrarListaBusqueda(resultados) {
   // Remove existing list
@@ -2549,14 +2533,14 @@ window.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('dash-logo-text').textContent = APP_CONFIG.branding.logoText || APP_CONFIG.branding.initials || '';
     var b = APP_CONFIG.branding;
     var u = APP_CONFIG.ui;
-    document.getElementById('dash-subtitulo').textContent = b.territorio + ' · ' + (u.anoElectoral || new Date().getFullYear());
-    document.getElementById('zona-header-sub').textContent = b.territorio + ' · ' + (u.anoElectoral || new Date().getFullYear());
+    document.getElementById('dash-subtitulo').textContent = b.territorio + ' Â· ' + (u.anoElectoral || new Date().getFullYear());
+    document.getElementById('zona-header-sub').textContent = b.territorio + ' Â· ' + (u.anoElectoral || new Date().getFullYear());
   }
 
   // Init Supabase
   initSupabase();
 
-  // Restaurar sesión guardada
+  // Restaurar sesiÃ³n guardada
   const sesionGuardada = cargarSesionLocal();
 
   // Restore Supabase auth session so RLS queries work
@@ -2594,7 +2578,7 @@ window.addEventListener('DOMContentLoaded', async function() {
     }
     irA('p-dashboard');
   } else {
-    // Sin sesión → ir al login
+    // Sin sesiÃ³n â†’ ir al login
     window.location.href = 'index.html';
     return;
   }
