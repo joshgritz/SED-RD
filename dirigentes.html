@@ -284,13 +284,13 @@ window.initGoogleMaps = function() {
       <div class="nav-group-heading">Principal</div>
       <a class="nav-item active" data-screen="p-dashboard" onclick="irA('p-dashboard')"><span class="nav-icon">📊</span> Dashboard</a>
       <a class="nav-item" data-screen="p-comite" onclick="irA('p-comite')"><span class="nav-icon">👥</span> Mi Comité <span class="nav-badge" id="sidebar-comite-count">0</span></a>
-      <a class="nav-item" data-screen="p-estructura" onclick="irA('p-estructura')"><span class="nav-icon">�?��?</span> Estructura</a>
+      <a class="nav-item" data-screen="p-estructura" onclick="irA('p-estructura')"><span class="nav-icon">🏛️</span> Estructura</a>
       <div class="nav-group-heading">Territorio</div>
-      <a class="nav-item" data-screen="p-zona" onclick="irA('p-zona')"><span class="nav-icon">�?</span> Mi Zona</a>
+      <a class="nav-item" data-screen="p-zona" onclick="irA('p-zona')"><span class="nav-icon">📍</span> Mi Zona</a>
       <a class="nav-item" data-screen="p-mapa" onclick="irA('p-mapa')"><span class="nav-icon">📌</span> Mi Ubicación</a>
-      <a class="nav-item" data-screen="p-estrategia" onclick="irA('p-estrategia')"><span class="nav-icon">🗺�?</span> Estrategia</a>
+      <a class="nav-item" data-screen="p-estrategia" onclick="irA('p-estrategia')"><span class="nav-icon">🗺️</span> Estrategia</a>
       <div class="nav-group-heading">Cuenta</div>
-      <a class="nav-item" data-screen="p-perfil" onclick="irA('p-perfil')"><span class="nav-icon">⚙�?</span> Mi Perfil</a>
+      <a class="nav-item" data-screen="p-perfil" onclick="irA('p-perfil')"><span class="nav-icon">⚙️</span> Mi Perfil</a>
     </nav>
     <div class="sidebar-footer">
       <a class="nav-item" onclick="cerrarSesion()"><span class="nav-icon">🔒</span> Cerrar Sesión</a>
@@ -304,9 +304,9 @@ window.initGoogleMaps = function() {
     </div>
     <div class="content-area">
 
-<!-- �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+<!-- ═══════════════════════════════════════════════
      PANTALLA: DASHBOARD DIRIGENTE
-�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�? -->
+═════════════════════════════════════════════════════ -->
 <div id="p-dashboard" class="pantalla activa">
 
     <!-- Bienvenida -->
@@ -337,7 +337,7 @@ window.initGoogleMaps = function() {
         <div class="mc-sub" id="dash-comite-sub">10+1 mínimo</div>
       </div>
       <div class="menu-card oro" onclick="irA('p-perfil')">
-        <div class="mc-icon">⚙�?</div>
+        <div class="mc-icon">⚙️</div>
         <div class="mc-label">Mi Perfil</div>
         <div class="mc-sub">Datos y PIN</div>
       </div>
@@ -345,16 +345,16 @@ window.initGoogleMaps = function() {
 
     <!-- Alerta estatutaria si comité incompleto -->
     <div id="dash-alerta-comite" style="display:none; background:#fef3c7; border:2px solid #fcd34d; border-radius:14px; padding:14px; margin-bottom:16px">
-      <div style="font-weight:800; font-size:16px; color:#92400e">⚠�? Comité de Base Incompleto</div>
+      <div style="font-weight:800; font-size:16px; color:#92400e">⚠️ Comité de Base Incompleto</div>
       <div style="font-size:14px; color:#b45309; margin-top:4px">Según el Art. 89 de los Estatutos necesitas mínimo 10 miembros en tu comité de base.</div>
       <button class="btn btn-oro" style="margin-top:10px; margin-bottom:0; font-size:17px" onclick="irA('p-comite')">Completar ahora →</button>
     </div>
 
 </div>
 
-<!-- �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+<!-- ═══════════════════════════════════════════════
      PANTALLA 4: COMITÉ DE BASE
-�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�? -->
+═════════════════════════════════════════════════════ -->
 <div id="p-comite" class="pantalla">
   <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">👥 Mi Comité de Base</h2>
   <p style="font-size:14px;color:var(--muted);margin-bottom:16px">Solo tú puedes ver esta información</p>
@@ -384,12 +384,12 @@ window.initGoogleMaps = function() {
       </div>
       <div id="comite-notfound-box" style="display:none; margin-bottom:12px">
         <div style="background:#fef2f2; border:2px solid #fecaca; border-radius:12px; padding:12px 14px">
-          <div style="font-weight:800; color:#991b1b; font-size:13px">�?� Cédula no encontrada en el padrón</div>
+          <div style="font-weight:800; color:#991b1b; font-size:13px">🚫 Cédula no encontrada en el padrón</div>
           <div style="font-size:11px; color:#dc2626; margin-top:2px">Verifica el número e intenta de nuevo</div>
         </div>
       </div>
       <div style="display:flex; gap:10px">
-        <button class="btn btn-azul" style="flex:1; margin:0" onclick="buscarMiembro()">�? Verificar</button>
+        <button class="btn btn-azul" style="flex:1; margin:0" onclick="buscarMiembro()">🔍 Verificar</button>
         <button class="btn btn-verde" id="btn-agregar-miembro" style="flex:1; margin:0; display:none" onclick="agregarMiembro()">✅ Añadir</button>
       </div>
     </div>
@@ -404,11 +404,11 @@ window.initGoogleMaps = function() {
 
 </div>
 
-<!-- �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+<!-- ═══════════════════════════════════════════════
      PANTALLA 5: MI ESTRUCTURA
-�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�? -->
+═════════════════════════════════════════════════════ -->
 <div id="p-estructura" class="pantalla">
-  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">�?��? Mi Estructura</h2>
+  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">🏛️ Mi Estructura</h2>
   <p style="font-size:14px;color:var(--muted);margin-bottom:16px">Candidatos y organizaciones</p>
 
     <!-- Estructura actual -->
@@ -421,24 +421,24 @@ window.initGoogleMaps = function() {
 
     <!-- Candidatos disponibles -->
     <div class="card">
-      <div class="card-title">🗳�? Candidatos Disponibles</div>
+      <div class="card-title">🗳️ Candidatos Disponibles</div>
       <p style="font-size:12px; color:#64748b; margin-bottom:14px">Puedes unirte a la estructura de un candidato. Puedes salir cuando quieras.</p>
       <div id="candidatos-lista"></div>
     </div>
 
     <!-- Pre-candidatos -->
     <div class="card">
-      <div class="card-title">�? Pre-Candidatos</div>
+      <div class="card-title">👤 Pre-Candidatos</div>
       <div id="precandidatos-lista"></div>
     </div>
 
 </div>
 
-<!-- �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+<!-- ═══════════════════════════════════════════════
      PANTALLA 6: MI ZONA
-�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�? -->
+═════════════════════════════════════════════════════ -->
 <div id="p-zona" class="pantalla">
-  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">�? Mi Zona</h2>
+  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">📍 Mi Zona</h2>
   <p id="zona-header-sub" style="font-size:14px;color:var(--muted);margin-bottom:16px"></p>
     <div class="card mt16">
       <div class="card-title">Información de tu Zona</div>
@@ -451,16 +451,16 @@ window.initGoogleMaps = function() {
 
 </div>
 
-<!-- �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+<!-- ═══════════════════════════════════════════════
      PANTALLA: MI UBICACIÓN
-�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�? -->
+═════════════════════════════════════════════════════ -->
 <div id="p-mapa" class="pantalla">
   <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">📌 Mi Ubicación</h2>
   <p style="font-size:14px;color:var(--muted);margin-bottom:16px">El presidente verá este punto en su mapa</p>
 
     <!-- Instrucción -->
     <div style="background:#eff6ff; border:2px solid #bfdbfe; border-radius:14px; padding:14px; margin-top:16px; margin-bottom:16px">
-      <div style="font-weight:800; font-size:13px; color:#1d4ed8; margin-bottom:4px">�? ¿Cómo puntear tu ubicación?</div>
+      <div style="font-weight:800; font-size:13px; color:#1d4ed8; margin-bottom:4px">📍 ¿Cómo puntear tu ubicación?</div>
       <div style="font-size:12px; color:#3b82f6; line-height:1.5">
         1. Toca el botón <strong>"Usar mi ubicación actual"</strong><br>
         2. O toca directamente en el mapa donde vives<br>
@@ -482,28 +482,28 @@ window.initGoogleMaps = function() {
 
     <!-- Descripción -->
     <div class="card">
-      <div class="card-title">�? Descripción del punto</div>
+      <div class="card-title">📝 Descripción del punto</div>
       <div class="campo">
         <label>¿Dónde es? (opcional)</label>
         <input type="text" id="mapa-descripcion" placeholder="Ej: Mi casa, Calle Duarte #15, Los Multis"
           style="width:100%;padding:13px 16px;border:2px solid #e2e8f0;border-radius:12px;font-size:15px;outline:none;font-family:inherit">
       </div>
       <button class="btn btn-azul" onclick="usarUbicacionActual()" style="margin-bottom:10px">
-        �? Usar mi ubicación actual (GPS)
+        📍 Usar mi ubicación actual (GPS)
       </button>
       <button id="btn-guardar-ubi" class="btn btn-verde" onclick="guardarUbicacion()" style="display:none">
         💾 Guardar este punto
       </button>
-      <button class="btn btn-gris" onclick="irA('p-dashboard')">�? Volver</button>
+      <button class="btn btn-gris" onclick="irA('p-dashboard')">⬅️ Volver</button>
     </div>
 
 </div>
 
-<!-- �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+<!-- ═══════════════════════════════════════════════
      PANTALLA: ESTRATEGIA ELECTORAL
-�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�? -->
+═════════════════════════════════════════════════════ -->
 <div id="p-estrategia" class="pantalla">
-  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">🗺�? Estrategia Electoral</h2>
+  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">🗺️ Estrategia Electoral</h2>
   <p id="est-subtitulo" style="font-size:14px;color:var(--muted);margin-bottom:16px">Mi Comité · Distribución</p>
 
     <!-- Resumen general -->
@@ -533,7 +533,7 @@ window.initGoogleMaps = function() {
 
     <!-- Por recinto -->
     <div class="card">
-      <div class="card-title">�?� Por Recinto Electoral</div>
+      <div class="card-title">🚫 Por Recinto Electoral</div>
       <div id="est-por-recinto">
         <div class="texto-muted texto-center" style="padding:16px 0">Cargando...</div>
       </div>
@@ -541,24 +541,24 @@ window.initGoogleMaps = function() {
 
     <!-- Lista completa con mapa -->
     <div class="card">
-      <div class="card-title">�? Miembros con Dirección / GPS</div>
+      <div class="card-title">📍 Miembros con Dirección / GPS</div>
       <div id="est-lista-mapa"></div>
     </div>
 
 </div>
 
-<!-- �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+<!-- ═══════════════════════════════════════════════
      PANTALLA 7: MI PERFIL
-�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�? -->
+═════════════════════════════════════════════════════ -->
 <div id="p-perfil" class="pantalla">
-  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">⚙�? Mi Perfil</h2>
+  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">⚙️ Mi Perfil</h2>
   <p style="font-size:14px;color:var(--muted);margin-bottom:16px">Configuración de tu cuenta</p>
     <div class="card mt16">
       <div class="card-title">Mis Datos</div>
       <div id="perfil-datos"></div>
     </div>
     <div class="card">
-      <div class="card-title">�? Cambiar PIN</div>
+      <div class="card-title">🔑 Cambiar PIN</div>
       <div class="campo">
         <label>PIN Actual</label>
         <div class="campo pin-wrap">
@@ -590,9 +590,9 @@ window.initGoogleMaps = function() {
 <div id="alertas-box"></div>
 
 <script>
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // SUPABASE CONFIG
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
     const SUPA_URL = window.SUPABASE_CONFIG.URL;
     const SUPA_KEY = window.SUPABASE_CONFIG.ANON_KEY;
 let sb = null;
@@ -608,9 +608,9 @@ function initSupabase() {
   }
 }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // DATOS DEL SISTEMA
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 
 const ZONAS = {
   MAO:          ['Zona A','Zona B','Zona C','Zona D','Zona E','Zona F'],
@@ -631,18 +631,18 @@ const CANDIDATOS_DEMO = [
   { id:'p2', nombre:'Pedro Vargas Reyes',   cargo:'Pre-candidato Alcalde',  tipo:'precandidato', activo:true },
 ];
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // SESIÓN ACTIVA
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 let sesion = null;  // { cedula, nombre, zona, municipio, sector, telefono, pin_hash, estructuras:[], comite:[] }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // STORAGE — cada dirigente tiene su propio espacio
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // STORAGE — Supabase + localStorage como fallback
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 
 function hashPin(pin) {
   let h = 0;
@@ -650,9 +650,9 @@ function hashPin(pin) {
   return h.toString(36);
 }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // CARGAR DATOS COMPLETOS DEL DIRIGENTE DESDE SUPABASE
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 async function cargarDatosCompletos() {
   console.log('[DATOS] Iniciando cargarDatosCompletos. sesion.cedula =', sesion?.cedula);
   if (!sesion || !sb) { console.log('[DATOS] Abort: no sesion or no sb'); return; }
@@ -807,9 +807,9 @@ function cargarSesionLocal() {
   } catch(e) { return null; }
 }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // PADRÓN — busca en el JSON cargado o simula
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 
 async function buscarEnPadron(cedula) {
   const cedLimpia = cedula.replace(/\D/g,'');
@@ -845,9 +845,9 @@ async function buscarEnPadron(cedula) {
   return null;
 }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // NAVEGACIÓN
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 
 function irA(pantalla) {
   document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
@@ -883,9 +883,9 @@ function irARegistro() {
   if (cedula) document.getElementById('reg-cedula').value = cedula;
 }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // LOGIN
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 
 let loginNombreTemporal = '';
 let loginEstadoBusqueda = 'inicial'; // inicial | encontrado | nuevo
@@ -954,9 +954,9 @@ async function entrarConPin() {
   document.getElementById('pin0').focus();
 }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // REGISTRO
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 
 let regDatos = {};
 
@@ -1072,9 +1072,9 @@ async function completarRegistro() {
   setTimeout(() => irA('p-dashboard'), 800);
 }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // DASHBOARD
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 
 function actualizarDashboard() {
   if (!sesion) return;
@@ -1120,9 +1120,9 @@ function actualizarDashboard() {
   }
 }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // COMITÉ DE BASE
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 
 let miembroTemporal = null;
 
@@ -1201,7 +1201,7 @@ async function buscarMiembro() {
     // No en padrón pero disponible — permitir con advertencia
     miembroTemporal = { cedula: cedFmt, nombre: 'Militante · ' + cedFmt };
     document.getElementById('comite-found-nombre').textContent = 'Militante · ' + cedFmt;
-    document.getElementById('comite-found-cedula').textContent = '⚠�? No encontrado en el padrón — verifica la cédula';
+    document.getElementById('comite-found-cedula').textContent = '⚠️ No encontrado en el padrón — verifica la cédula';
     document.getElementById('comite-found-box').style.display = 'block';
     document.getElementById('btn-agregar-miembro').style.display = 'flex';
   }
@@ -1249,9 +1249,9 @@ async function agregarMiembro() {
   alerta('Miembro añadido al comité ✅', 'ok');
 }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // EDITAR MIEMBRO DEL COMITÉ
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 async function editarMiembro(cedula) {
   const m = (sesion.comite || []).find(x => x.cedula === cedula);
   if (!m) return;
@@ -1283,7 +1283,7 @@ async function editarMiembro(cedula) {
     ? `<img id="modal-foto" data-foto-url="${padron.foto_url||''}" data-foto-b64="${(padron.foto_base64&&!padron.foto_url)?padron.foto_base64:''}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E">`
     : `<span style="font-size:28px">${(padron.nombre_completo||'?')[0]}</span>`;
 
-  const chk = (v) => v ? '✅' : '�?�';
+  const chk = (v) => v ? '✅' : '🚫';
 
   document.getElementById('modal-editar')?.remove();
   const modal = document.createElement('div');
@@ -1352,7 +1352,7 @@ async function editarMiembro(cedula) {
 
         <!-- Datos editables -->
         <div style="background:#eff6ff;border:2px solid #bfdbfe;border-radius:12px;padding:14px">
-          <div style="font-size:10px;color:#1d4ed8;font-weight:800;text-transform:uppercase;margin-bottom:10px">�?�? Información Personal</div>
+          <div style="font-size:10px;color:#1d4ed8;font-weight:800;text-transform:uppercase;margin-bottom:10px">🚫? Información Personal</div>
           <div style="display:grid;gap:10px">
             
             <!-- Fecha nacimiento y género -->
@@ -1403,7 +1403,7 @@ async function editarMiembro(cedula) {
                   <option value="">Sin clasificar</option>
                   <option value="DURO"     ${m.fidelidad==='DURO'    ?'selected':''}>💪 Duro</option>
                   <option value="BLANDO"   ${m.fidelidad==='BLANDO'  ?'selected':''}>🤔 Blando</option>
-                  <option value="INDECISO" ${m.fidelidad==='INDECISO'?'selected':''}>�?� Indeciso</option>
+                  <option value="INDECISO" ${m.fidelidad==='INDECISO'?'selected':''}>🚫 Indeciso</option>
                 </select>
               </div>
               <div>
@@ -1412,7 +1412,7 @@ async function editarMiembro(cedula) {
                   style="width:100%;padding:8px 10px;border:2px solid #dbeafe;border-radius:9px;font-size:12px;font-family:inherit;outline:none;background:white">
                   <option value="">—</option>
                   <option value="SI"   ${m.transporte==='SI'  ?'selected':''}>🚗 Vehículo</option>
-                  <option value="MOTO" ${m.transporte==='MOTO'?'selected':''}>�??�? Moto</option>
+                  <option value="MOTO" ${m.transporte==='MOTO'?'selected':''}>🏍️ Moto</option>
                   <option value="NO"   ${m.transporte==='NO'  ?'selected':''}>🚶 No tiene</option>
                 </select>
               </div>
@@ -1430,19 +1430,19 @@ async function editarMiembro(cedula) {
 
         <!-- Ubicación -->
         <div style="background:#f0fdf4;border:2px solid #bbf7d0;border-radius:12px;padding:14px">
-          <div style="font-size:10px;color:#166534;font-weight:800;text-transform:uppercase;margin-bottom:8px">�? Ubicación</div>
+          <div style="font-size:10px;color:#166534;font-weight:800;text-transform:uppercase;margin-bottom:8px">📍 Ubicación</div>
           ${m.latitud && m.longitud
             ? `<div style="font-size:12px;color:#16a34a;font-weight:700;margin-bottom:8px">✅ Ubicado · ${parseFloat(m.latitud).toFixed(5)}, ${parseFloat(m.longitud).toFixed(5)}</div>
                <a href="https://www.google.com/maps?q=${m.latitud},${m.longitud}" target="_blank"
                  style="display:block;background:#16a34a;color:white;padding:9px;border-radius:9px;text-align:center;font-size:12px;font-weight:800;text-decoration:none;margin-bottom:6px">
-                 🗺�? Ver en Google Maps
+                 🗺️ Ver en Google Maps
                </a>`
             : `<div style="font-size:12px;color:#94a3b8;margin-bottom:8px">Sin ubicación GPS</div>`
           }
           ${(m.direccion || padron.direccion)
             ? `<a href="https://www.google.com/maps/search/${encodeURIComponent((m.direccion || padron.direccion) + ' Mao Valverde RD')}" target="_blank"
                 style="display:block;background:#0ea5e9;color:white;padding:9px;border-radius:9px;text-align:center;font-size:12px;font-weight:800;text-decoration:none">
-                �? Buscar dirección en Maps
+                🗺️ Buscar dirección en Maps
                </a>`
             : ''
           }
@@ -1671,7 +1671,7 @@ function renderComite() {
         <div class="miembro-cedula">${m.cedula}</div>
       </div>
       <button onclick="editarMiembro('${m.cedula}')"
-        style="background:#eff6ff;border:none;color:#1d4ed8;font-size:14px;padding:6px 10px;border-radius:8px;cursor:pointer;touch-action:manipulation;margin-right:4px">�?�?</button>
+        style="background:#eff6ff;border:none;color:#1d4ed8;font-size:14px;padding:6px 10px;border-radius:8px;cursor:pointer;touch-action:manipulation;margin-right:4px">🚫?</button>
       <button class="miembro-del" onclick="eliminarMiembro('${m.cedula}')">🗑</button>
     </div>
   `).join('');
@@ -1684,9 +1684,9 @@ function renderComite() {
   }
 }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // ESTRUCTURA DE CANDIDATOS
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 
 async function renderEstructura() {
   if (!sesion) return;
@@ -1790,9 +1790,9 @@ async function salirEstructura(id) {
   alerta('Saliste de la estructura', 'info');
 }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // ESTRATEGIA ELECTORAL
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 function renderEstrategia() {
   if (!sesion) return;
   const comite = sesion.comite || [];
@@ -1846,7 +1846,7 @@ function renderEstrategia() {
         </div>
         <div style="background:#fee2e2;border-radius:10px;padding:10px;text-align:center">
           <div style="font-size:22px;font-weight:900;color:#991b1b">${indecisos}</div>
-          <div style="font-size:10px;color:#991b1b;font-weight:700">�?� INDECISO</div>
+          <div style="font-size:10px;color:#991b1b;font-weight:700">🚫 INDECISO</div>
         </div>
         <div style="background:#f1f5f9;border-radius:10px;padding:10px;text-align:center">
           <div style="font-size:22px;font-weight:900;color:#64748b">${sinClasif}</div>
@@ -1912,7 +1912,7 @@ function renderEstrategia() {
               <div style="font-size:11px;color:#64748b">
                 ${m.colegio ? 'Col. ' + m.colegio : ''} 
                 ${m.mesa ? '· Mesa ' + m.mesa : ''}
-                ${m.fidelidad ? '· ' + (m.fidelidad==='DURO'?'💪':m.fidelidad==='BLANDO'?'🤔':'�?�') + ' ' + m.fidelidad : ''}
+                ${m.fidelidad ? '· ' + (m.fidelidad==='DURO'?'💪':m.fidelidad==='BLANDO'?'🤔':'🚫') + ' ' + m.fidelidad : ''}
               </div>
             </div>
             <a href="${mapsUrl}" target="_blank"
@@ -1925,9 +1925,9 @@ function renderEstrategia() {
   }
 }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // MI ZONA
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 
 function renderZona() {
   if (!sesion) return;
@@ -1981,9 +1981,9 @@ function renderZona() {
   }
 }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // PERFIL
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 
 async function actualizarPerfil() {
   const tel    = document.getElementById('edit-telefono')?.value?.trim();
@@ -2157,12 +2157,12 @@ function renderPerfil() {
       <!-- Fecha nacimiento y género -->
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
         <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-          <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">�?�? Fecha Nacimiento</div>
+          <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">🚫? Fecha Nacimiento</div>
           <input id="edit-fnac" type="date" value="${sesion.fecha_nacimiento || ''}"
             style="width:100%;border:2px solid #dbeafe;border-radius:8px;padding:8px 12px;font-size:15px;font-family:inherit;outline:none;background:white">
         </div>
         <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-          <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">�?�? Género</div>
+          <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">🚫? Género</div>
           <select id="edit-sexo"
             style="width:100%;border:2px solid #dbeafe;border-radius:8px;padding:8px 12px;font-size:15px;font-family:inherit;outline:none;background:white">
             <option value="">—</option>
@@ -2174,21 +2174,21 @@ function renderPerfil() {
 
       <!-- Teléfono -->
       <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">�?�? Teléfono</div>
+        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">🚫? Teléfono</div>
         <input id="edit-telefono" type="tel" value="${sesion.telefono || ''}" placeholder="809-000-0000"
           style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:16px;font-family:inherit;outline:none;background:white">
       </div>
 
       <!-- Email -->
       <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">�?�? Email</div>
+        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">🚫? Email</div>
         <input id="edit-email" type="email" value="${sesion.email || ''}" placeholder="tucorreo@email.com"
           style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:16px;font-family:inherit;outline:none;background:white">
       </div>
 
       <!-- Sector -->
       <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">�?�? Sector / Barrio</div>
+        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">🚫? Sector / Barrio</div>
         <input id="edit-sector" type="text" value="${sesion.sector || ''}" placeholder="Ej: Los Multis, El Centro..."
           style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:16px;font-family:inherit;outline:none;background:white">
       </div>
@@ -2254,9 +2254,9 @@ async function cerrarSesion() {
   window.location.href = 'index.html?from=logout';
 }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // HELPERS — PIN INPUTS
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 
 function moverPin(el, siguiente) {
   if (el.value.length === 1) {
@@ -2296,9 +2296,9 @@ function getNombreCorto(nombre) {
   return nombre.split(' ')[0];
 }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // ALERTAS
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 
 let alertaTimer = null;
 
@@ -2310,9 +2310,9 @@ function alerta(msg, tipo) {
   alertaTimer = setTimeout(() => { box.innerHTML = ''; }, 3000);
 }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // MAPA DE UBICACIÓN DEL DIRIGENTE
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 let mapaDirigente = null;
 let marcadorTemp  = null;
 let coordsSeleccionadas = null;
@@ -2475,9 +2475,9 @@ async function guardarUbicacion() {
   alerta('✅ Ubicación guardada correctamente', 'ok');
 }
 
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 // ARRANQUE
-// �?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?�?
+// ══════════════════════════════════════════════════════════════
 
 function mostrarListaBusqueda(resultados) {
   // Remove existing list
