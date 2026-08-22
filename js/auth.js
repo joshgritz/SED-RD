@@ -12,8 +12,12 @@ window.authHelper = {
   async loginWithGoogle() {
     try {
       const config = window.SUPABASE_CONFIG;
-      if (!config || !_sb) return alert('Configuración no disponible');
-      const { error } = await _sb.auth.signInWithOAuth({
+      if (!config) { alert('Config no disponible'); return; }
+      if (!window.supabase) { alert('Supabase SDK no cargado'); return; }
+      if (!window._sb) {
+        window._sb = window.supabase.createClient(config.URL, config.ANON_KEY);
+      }
+      const { error } = await window._sb.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: window.location.origin + window.location.pathname
@@ -21,7 +25,7 @@ window.authHelper = {
       });
       if (error) alert('Error: ' + error.message);
     } catch (err) {
-      alert('Error de conexión');
+      alert('Error: ' + err.message);
     }
   },
   /**

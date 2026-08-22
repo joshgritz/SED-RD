@@ -15,9 +15,9 @@
 <script src="js/fotos.js"></script>
 <script src="js/audit.js"></script>
 <script>
-var _sb = null;
+window._sb = null;
 if (window.supabase && window.SUPABASE_CONFIG) {
-  _sb = window.supabase.createClient(
+  window._sb = window.supabase.createClient(
     window.SUPABASE_CONFIG.URL,
     window.SUPABASE_CONFIG.ANON_KEY
   );

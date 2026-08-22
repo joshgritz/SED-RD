@@ -289,9 +289,9 @@ a{text-decoration:none;color:inherit}
   <script src="js/fotos.js"></script>
   <script src="js/audit.js"></script>
   <script>
-  var _sb = null;
+  window._sb = null;
   if (window.supabase) {
-    _sb = window.supabase.createClient(
+    window._sb = window.supabase.createClient(
       (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co',
       (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
     );
