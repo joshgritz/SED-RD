@@ -11,21 +11,21 @@ window.authHelper = {
    */
   async loginWithGoogle() {
     try {
-      const config = window.SUPABASE_CONFIG;
-      if (!config) { alert('Config no disponible'); return; }
-      if (!window.supabase) { alert('Supabase SDK no cargado'); return; }
+      if (!window.SUPABASE_CONFIG) { alert('1: No config'); return; }
+      if (!window.supabase) { alert('2: No Supabase SDK'); return; }
       if (!window._sb) {
-        window._sb = window.supabase.createClient(config.URL, config.ANON_KEY);
+        window._sb = window.supabase.createClient(window.SUPABASE_CONFIG.URL, window.SUPABASE_CONFIG.ANON_KEY);
       }
+      if (!window._sb) { alert('3: No se pudo crear cliente'); return; }
       const { error } = await window._sb.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: window.location.origin + window.location.pathname
         }
       });
-      if (error) alert('Error: ' + error.message);
+      if (error) alert('Error Supabase: ' + error.message);
     } catch (err) {
-      alert('Error: ' + err.message);
+      alert('Error JS: ' + err.message);
     }
   },
   /**
