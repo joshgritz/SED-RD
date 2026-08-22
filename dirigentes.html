@@ -12,53 +12,125 @@
 <script src="js/audit.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  #mapa-dirigente { height: 320px; border-radius: 14px; overflow: hidden; z-index: 1; }
-  .leaflet-popup-content { font-family: 'Segoe UI', sans-serif; }
 :root {
-  --azul: var(--color-primary, #003087);
-  --azul2: #1a4fa8;
-  --rojo: var(--color-secondary, #C8102E);
-  --oro: var(--color-accent, #F5A623);
+  --bg: #e9ecf3;
+  --surface: #ffffff;
+  --surface-2: #dde2ed;
+  --border: rgba(0,30,80,0.10);
+  --text: #0a1128;
+  --muted: #4a5568;
+  --accent: #4f7df5;
+  --accent-2: #a78bfa;
+  --azul: #4f7df5;
+  --azul2: #3b6ad9;
+  --rojo: #C8102E;
+  --oro: #F5A623;
   --verde: #16a34a;
-  --gris: #f0f4f8;
-  --texto: #1e293b;
+  --gris: #e9ecf3;
+  --texto: #0a1128;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--gris); color: var(--texto); min-height: 100vh; }
+body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
 /* ── PANTALLAS ── */
-.pantalla { display: none; min-height: 100vh; }
+.pantalla { display: none; }
 .pantalla.activa { display: block; }
 
-/* ── HEADER ── */
-.header {
-  background: linear-gradient(135deg, var(--azul), #001a4d);
-  color: white; padding: 20px 20px 24px;
-  text-align: center; position: relative; overflow: hidden;
-}
-.header::after {
-  content: ''; position: absolute; bottom: -30px; right: -30px;
-  width: 120px; height: 120px; background: rgba(200,16,46,0.2); border-radius: 50%;
-}
-.header .logo {
-  width: 56px; height: 56px; background: white; border-radius: 50%;
-  margin: 0 auto 12px; display: flex; align-items: center; justify-content: center;
-  font-size: 22px; font-weight: 900; color: var(--rojo);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.25); position: relative; z-index:1;
-}
-.header h1 { font-size: 20px; font-weight: 900; position: relative; z-index:1; }
-.header p  { font-size: 12px; opacity: 0.7; margin-top: 3px; position: relative; z-index:1; }
+/* ── APP LAYOUT ── */
+.app-layout { display: flex; min-height: 100vh; }
 
-/* ── CONTENEDOR ── */
-.wrap { padding: 20px 16px; max-width: 480px; margin: 0 auto; }
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 260px; background: var(--surface); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0;
+  z-index: 100; transition: transform 0.3s ease;
+}
+.sidebar-header { padding: 24px 20px; border-bottom: 1px solid var(--border); }
+.sidebar-user { display: flex; align-items: center; gap: 12px; }
+.sidebar-avatar {
+  width: 44px; height: 44px; border-radius: 50%; background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 800; color: white; flex-shrink: 0;
+  overflow: hidden; border: 2px solid var(--accent-2);
+}
+.sidebar-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.sidebar-nombre { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.2; }
+.sidebar-rol { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.sidebar-nav { flex: 1; padding: 12px 0; overflow-y: auto; }
+.nav-group-heading {
+  font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase;
+  letter-spacing: 0.8px; padding: 16px 20px 6px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 12px; padding: 10px 20px;
+  cursor: pointer; transition: all 0.15s; font-size: 13px; font-weight: 600;
+  color: var(--muted); text-decoration: none; border-left: 3px solid transparent;
+}
+.nav-item:hover { background: var(--bg); color: var(--text); }
+.nav-item.active {
+  background: rgba(79,125,245,0.08); color: var(--accent);
+  border-left-color: var(--accent); font-weight: 700;
+}
+.nav-item .nav-icon { font-size: 18px; width: 22px; text-align: center; }
+.nav-item .nav-badge {
+  margin-left: auto; background: var(--accent); color: white;
+  font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 10px;
+}
+.sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--border); }
+.sidebar-footer .nav-item { padding: 10px 0; border-left: none; color: #ef4444; }
+
+/* ── MAIN CONTENT ── */
+.main-content { flex: 1; margin-left: 260px; min-height: 100vh; display: flex; flex-direction: column; }
+
+/* ── TOPBAR ── */
+.topbar {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 14px 24px; display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-breadcrumb { font-size: 13px; color: var(--muted); font-weight: 600; }
+.topbar-breadcrumb span { color: var(--text); font-weight: 800; }
+.topbar-logout {
+  background: none; border: 1px solid var(--border); border-radius: 8px;
+  padding: 6px 14px; font-size: 12px; font-weight: 700; color: var(--muted);
+  cursor: pointer; transition: all 0.15s;
+}
+.topbar-logout:hover { background: #fee2e2; color: #dc2626; border-color: #fecaca; }
+
+/* ── CONTENT AREA ── */
+.content-area { padding: 24px; flex: 1; }
+
+/* ── BURGER / MOBILE ── */
+.burger-btn {
+  display: none; position: fixed; top: 12px; left: 12px; z-index: 150;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  width: 40px; height: 40px; font-size: 20px; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.sidebar-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+  z-index: 99;
+}
+.sidebar-overlay.open { display: block; }
+
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main-content { margin-left: 0; }
+  .burger-btn { display: flex; align-items: center; justify-content: center; }
+  .topbar { padding-left: 60px; }
+  .content-area { padding: 16px; }
+}
 
 /* ── CARD ── */
 .card {
-  background: white; border-radius: 16px; padding: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 16px;
+  background: var(--surface); border-radius: 16px; padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 16px;
+  border: 1px solid var(--border);
 }
-.card-title { font-size: 13px; font-weight: 800; color: var(--azul); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
+.card-title { font-size: 13px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
 
 /* ── INPUTS ── */
 .campo { margin-bottom: 14px; }
@@ -170,12 +242,9 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--gris); 
 .alerta-error { background: #dc2626; color: white; }
 .alerta-info  { background: var(--azul); color: white; }
 
-/* ── NAV BACK ── */
-.nav-back {
-  display: flex; align-items: center; gap: 10px; padding: 14px 16px;
-  background: rgba(0,0,0,0.15); cursor: pointer; touch-action: manipulation;
-}
-.nav-back span { font-size: 14px; font-weight: 700; color: white; }
+/* ── MAP ── */
+#mapa-dirigente { height: 340px; border-radius: 14px; overflow: hidden; z-index: 1; }
+.leaflet-popup-content { font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif; }
 
 /* ── SEPARADOR ── */
 .sep { height: 1px; background: #e2e8f0; margin: 16px 0; }
@@ -183,9 +252,6 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--gris); 
 .texto-muted  { color: #94a3b8; font-size: 13px; }
 .mt8 { margin-top: 8px; }
 .mt16 { margin-top: 16px; }
-</style>
-<style>
-  #mapa-dirigente { height: 340px; border-radius: 14px; overflow: hidden; z-index: 1; }
 </style>
 <script>
 window.initGoogleMaps = function() {
@@ -200,23 +266,55 @@ window.initGoogleMaps = function() {
 </head>
 <body>
 
+<button class="burger-btn" onclick="toggleSidebar()">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebar-avatar"></div>
+        <div>
+          <div class="sidebar-nombre" id="sidebar-nombre">—</div>
+          <div class="sidebar-rol" id="sidebar-rol">Dirigente</div>
+        </div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-group-heading">Principal</div>
+      <a class="nav-item active" data-screen="p-dashboard" onclick="irA('p-dashboard')"><span class="nav-icon">📊</span> Dashboard</a>
+      <a class="nav-item" data-screen="p-comite" onclick="irA('p-comite')"><span class="nav-icon">👥</span> Mi Comité <span class="nav-badge" id="sidebar-comite-count">0</span></a>
+      <a class="nav-item" data-screen="p-estructura" onclick="irA('p-estructura')"><span class="nav-icon">🏛️</span> Estructura</a>
+      <div class="nav-group-heading">Territorio</div>
+      <a class="nav-item" data-screen="p-zona" onclick="irA('p-zona')"><span class="nav-icon">📍</span> Mi Zona</a>
+      <a class="nav-item" data-screen="p-mapa" onclick="irA('p-mapa')"><span class="nav-icon">📌</span> Mi Ubicación</a>
+      <a class="nav-item" data-screen="p-estrategia" onclick="irA('p-estrategia')"><span class="nav-icon">🗺️</span> Estrategia</a>
+      <div class="nav-group-heading">Cuenta</div>
+      <a class="nav-item" data-screen="p-perfil" onclick="irA('p-perfil')"><span class="nav-icon">⚙️</span> Mi Perfil</a>
+    </nav>
+    <div class="sidebar-footer">
+      <a class="nav-item" onclick="cerrarSesion()"><span class="nav-icon">🔒</span> Cerrar Sesión</a>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-breadcrumb">SISTEPARD / <span id="topbar-title">Dashboard</span></div>
+      <button class="topbar-logout" onclick="cerrarSesion()">🔒 Salir</button>
+    </div>
+    <div class="content-area">
+
 <!-- ════════════════════════════════════════
      PANTALLA: DASHBOARD DIRIGENTE
 ════════════════════════════════════════ -->
 <div id="p-dashboard" class="pantalla activa">
-  <div class="header">
-    <div style="display:flex; justify-content:space-between; align-items:center; position:relative; z-index:1">
-      <span style="font-size:12px; opacity:0.6">Portal Dirigentes</span>
-      <button class="btn-sm btn-gris" style="background:rgba(255,255,255,0.2); color:white; font-size:11px" onclick="cerrarSesion()">Salir 🔒</button>
-    </div>
-    <div style="width:48px;height:48px;background:var(--color-primary, #003087);border-radius:50%;border:3px solid var(--color-secondary, #C8102E);display:flex;align-items:center;justify-content:center;margin:8px auto 10px;box-shadow:0 2px 8px rgba(0,0,0,0.3)"><span style="font-family:Arial Black,sans-serif;font-weight:900;font-size:12px;color:white;letter-spacing:1px" id="dash-logo-text"></span></div>
-    <h1 id="dash-bienvenida">¡Bienvenido!</h1>
-    <p id="dash-subtitulo"></p>
-  </div>
-  <div class="wrap">
+
+    <!-- Bienvenida -->
+    <h2 id="dash-bienvenida" style="font-size:20px;font-weight:800;margin-bottom:2px">—</h2>
+    <p id="dash-subtitulo" style="font-size:12px;color:var(--muted);margin-bottom:14px">—</p>
 
     <!-- Tarjeta perfil -->
-    <div class="perfil-card mt16">
+    <div class="perfil-card">
       <div class="perfil-foto" id="dash-foto">👤</div>
       <div>
         <div class="perfil-nombre" id="dash-nombre">—</div>
@@ -262,21 +360,14 @@ window.initGoogleMaps = function() {
       <button class="btn btn-oro" style="margin-top:10px; margin-bottom:0" onclick="irA('p-comite')">Completar ahora →</button>
     </div>
 
-  </div>
 </div>
 
 <!-- ════════════════════════════════════════
      PANTALLA 4: COMITÉ DE BASE
 ════════════════════════════════════════ -->
 <div id="p-comite" class="pantalla">
-  <div class="header">
-    <div class="nav-back" onclick="irA('p-dashboard')"><span>← Dashboard</span></div>
-    <div style="padding: 8px 20px 4px; position:relative; z-index:1">
-      <h1>👥 Mi Comité de Base</h1>
-      <p>Solo tú puedes ver esta información</p>
-    </div>
-  </div>
-  <div class="wrap">
+  <h2 style="font-size:20px;font-weight:800;margin-bottom:4px">👥 Mi Comité de Base</h2>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:16px">Solo tú puedes ver esta información</p>
 
     <!-- Progreso -->
     <div class="card mt16">
@@ -321,21 +412,14 @@ window.initGoogleMaps = function() {
       </div>
     </div>
 
-  </div>
 </div>
 
 <!-- ════════════════════════════════════════
      PANTALLA 5: MI ESTRUCTURA
 ════════════════════════════════════════ -->
 <div id="p-estructura" class="pantalla">
-  <div class="header">
-    <div class="nav-back" onclick="irA('p-dashboard')"><span>← Dashboard</span></div>
-    <div style="padding: 8px 20px 4px; position:relative; z-index:1">
-      <h1>🏛️ Mi Estructura</h1>
-      <p>Candidatos y organizaciones</p>
-    </div>
-  </div>
-  <div class="wrap">
+  <h2 style="font-size:20px;font-weight:800;margin-bottom:4px">🏛️ Mi Estructura</h2>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:16px">Candidatos y organizaciones</p>
 
     <!-- Estructura actual -->
     <div class="card mt16">
@@ -358,21 +442,14 @@ window.initGoogleMaps = function() {
       <div id="precandidatos-lista"></div>
     </div>
 
-  </div>
 </div>
 
 <!-- ════════════════════════════════════════
      PANTALLA 6: MI ZONA
 ════════════════════════════════════════ -->
 <div id="p-zona" class="pantalla">
-  <div class="header">
-    <div class="nav-back" onclick="irA('p-dashboard')"><span>← Dashboard</span></div>
-    <div style="padding: 8px 20px 4px; position:relative; z-index:1">
-      <h1>📍 Mi Zona</h1>
-      <p id="zona-header-sub"></p>
-    </div>
-  </div>
-  <div class="wrap">
+  <h2 style="font-size:20px;font-weight:800;margin-bottom:4px">📍 Mi Zona</h2>
+  <p id="zona-header-sub" style="font-size:12px;color:var(--muted);margin-bottom:16px"></p>
     <div class="card mt16">
       <div class="card-title">Información de tu Zona</div>
       <div id="zona-info"></div>
@@ -381,21 +458,15 @@ window.initGoogleMaps = function() {
       <div class="card-title">👥 Dirigentes en tu Zona</div>
       <div id="zona-dirigentes"></div>
     </div>
-  </div>
+
 </div>
 
 <!-- ════════════════════════════════════════
      PANTALLA: MI UBICACIÓN
 ════════════════════════════════════════ -->
 <div id="p-mapa" class="pantalla">
-  <div class="header">
-    <div class="nav-back" onclick="irA('p-dashboard')"><span>← Dashboard</span></div>
-    <div style="padding:8px 20px 4px; position:relative; z-index:1">
-      <h1>📌 Mi Ubicación</h1>
-      <p>El presidente verá este punto en su mapa</p>
-    </div>
-  </div>
-  <div class="wrap">
+  <h2 style="font-size:20px;font-weight:800;margin-bottom:4px">📌 Mi Ubicación</h2>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:16px">El presidente verá este punto en su mapa</p>
 
     <!-- Instrucción -->
     <div style="background:#eff6ff; border:2px solid #bfdbfe; border-radius:14px; padding:14px; margin-top:16px; margin-bottom:16px">
@@ -436,21 +507,14 @@ window.initGoogleMaps = function() {
       <button class="btn btn-gris" onclick="irA('p-dashboard')">← Volver</button>
     </div>
 
-  </div>
 </div>
 
 <!-- ════════════════════════════════════════
      PANTALLA: ESTRATEGIA ELECTORAL
 ════════════════════════════════════════ -->
 <div id="p-estrategia" class="pantalla">
-  <div class="header">
-    <div class="nav-back" onclick="irA('p-dashboard')"><span>← Dashboard</span></div>
-    <div style="padding: 8px 20px 4px; position:relative; z-index:1">
-      <h1>🗺️ Estrategia Electoral</h1>
-      <p id="est-subtitulo">Mi Comité · Distribución</p>
-    </div>
-  </div>
-  <div class="wrap">
+  <h2 style="font-size:20px;font-weight:800;margin-bottom:4px">🗺️ Estrategia Electoral</h2>
+  <p id="est-subtitulo" style="font-size:12px;color:var(--muted);margin-bottom:16px">Mi Comité · Distribución</p>
 
     <!-- Resumen general -->
     <div class="card mt16">
@@ -491,21 +555,14 @@ window.initGoogleMaps = function() {
       <div id="est-lista-mapa"></div>
     </div>
 
-  </div>
 </div>
 
 <!-- ════════════════════════════════════════
      PANTALLA 7: MI PERFIL
 ════════════════════════════════════════ -->
 <div id="p-perfil" class="pantalla">
-  <div class="header">
-    <div class="nav-back" onclick="irA('p-dashboard')"><span>← Dashboard</span></div>
-    <div style="padding: 8px 20px 4px; position:relative; z-index:1">
-      <h1>⚙️ Mi Perfil</h1>
-      <p>Configuración de tu cuenta</p>
-    </div>
-  </div>
-  <div class="wrap">
+  <h2 style="font-size:20px;font-weight:800;margin-bottom:4px">⚙️ Mi Perfil</h2>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:16px">Configuración de tu cuenta</p>
     <div class="card mt16">
       <div class="card-title">Mis Datos</div>
       <div id="perfil-datos"></div>
@@ -533,8 +590,11 @@ window.initGoogleMaps = function() {
       <button class="btn btn-azul" onclick="cambiarPin()">Actualizar PIN</button>
     </div>
     <button class="btn btn-rojo" onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
-  </div>
-</div>
+
+  </div> <!-- /p-perfil -->
+    </div> <!-- /content-area -->
+  </div> <!-- /main-content -->
+</div> <!-- /app-layout -->
 
 <!-- Contenedor de alertas -->
 <div id="alertas-box"></div>
@@ -752,6 +812,19 @@ function irA(pantalla) {
   document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
   const el = document.getElementById(pantalla);
   if (el) { el.classList.add('activa'); window.scrollTo(0,0); }
+
+  // Update sidebar active state
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelector('[data-screen="'+pantalla+'"]')?.classList.add('active');
+
+  // Update topbar title
+  const screenNames = { 'p-dashboard':'Dashboard', 'p-comite':'Mi Comité', 'p-estructura':'Mi Estructura', 'p-zona':'Mi Zona', 'p-mapa':'Mi Ubicación', 'p-estrategia':'Estrategia', 'p-perfil':'Mi Perfil' };
+  const topbarTitle = document.getElementById('topbar-title');
+  if (topbarTitle) topbarTitle.textContent = screenNames[pantalla] || pantalla;
+
+  // Close mobile sidebar
+  document.getElementById('sidebar')?.classList.remove('open');
+  document.getElementById('sidebar-overlay')?.classList.remove('open');
 
   // Acciones al entrar
   if (pantalla === 'p-dashboard')  actualizarDashboard();
@@ -971,6 +1044,22 @@ function actualizarDashboard() {
   document.getElementById('dash-nombre').textContent = sesion.nombre;
   document.getElementById('dash-cedula').textContent = sesion.cedula;
   document.getElementById('dash-zona').textContent = sesion.zona + ' — ' + sesion.municipio;
+
+  // Update sidebar
+  document.getElementById('sidebar-nombre').textContent = getNombreCorto(sesion.nombre);
+  document.getElementById('sidebar-comite-count').textContent = (sesion.comite||[]).length;
+
+  // Update sidebar avatar
+  const sidebarAvatar = document.getElementById('sidebar-avatar');
+  if (sesion.foto_url || sesion.foto_base64) {
+    const img = document.createElement('img');
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%';
+    sidebarAvatar.innerHTML = '';
+    sidebarAvatar.appendChild(img);
+    renderFotoAsync(sb, img, sesion.foto_url, sesion.foto_base64);
+  } else {
+    sidebarAvatar.textContent = (sesion.nombre || '??').slice(0,2).toUpperCase();
+  }
 
   // Renderizar foto
   const fotoEl = document.getElementById('dash-foto');
@@ -2428,6 +2517,11 @@ window.addEventListener('DOMContentLoaded', async function() {
   window.moverPinCambio       = moverPinCambio;
   window.formatCedula         = formatCedula;
 });
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('open');
+}
 </script>
 
 <style id="pracaf-css">
