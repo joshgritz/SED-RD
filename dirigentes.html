@@ -654,18 +654,22 @@ function hashPin(pin) {
 // CARGAR DATOS COMPLETOS DEL DIRIGENTE DESDE SUPABASE
 // ══════════════════════════════════════════════════════
 async function cargarDatosCompletos() {
-  if (!sesion || !sb) return;
+  console.log('[DATOS] Iniciando cargarDatosCompletos. sesion.cedula =', sesion?.cedula);
+  if (!sesion || !sb) { console.log('[DATOS] Abort: no sesion or no sb'); return; }
   try {
     // Si cedula es null (login con Google sin identificación), buscar por email
     if (!sesion.cedula) {
+      console.log('[DATOS] Cedula es null, intentando lookup...');
       try {
-        const { data: authData } = await sb.auth.getUser();
+        const { data: authData, error: authErr } = await sb.auth.getUser();
+        console.log('[DATOS] auth.getUser result:', authData?.user?.email, 'error:', authErr?.message);
         const email = authData?.user?.email;
         if (email) {
           // Buscar cédula en usuarios_sistema por email
-          const { data: usrByEmail } = await sb.from('usuarios_sistema')
+          const { data: usrByEmail, error: usrErr } = await sb.from('usuarios_sistema')
             .select('cedula, nombre, zona, municipio, rol')
             .eq('email', email).eq('activo', true).maybeSingle();
+          console.log('[DATOS] usuarios_sistema by email:', usrByEmail, 'error:', usrErr?.message);
           if (usrByEmail) {
             sesion.cedula = usrByEmail.cedula;
             sesion.nombre = sesion.nombre || usrByEmail.nombre;
@@ -675,9 +679,10 @@ async function cargarDatosCompletos() {
           }
           // Si no encontró, intentar en padron_maestro por email
           if (!sesion.cedula) {
-            const { data: padByEmail } = await sb.from('padron_maestro')
+            const { data: padByEmail, error: padErr } = await sb.from('padron_maestro')
               .select('cedula, nombre_completo')
               .eq('email', email).maybeSingle();
+            console.log('[DATOS] padron_maestro by email:', padByEmail, 'error:', padErr?.message);
             if (padByEmail) {
               sesion.cedula = padByEmail.cedula;
               sesion.nombre = sesion.nombre || padByEmail.nombre_completo;
@@ -686,36 +691,36 @@ async function cargarDatosCompletos() {
           }
         }
         // Último recurso: intentar con auth_user_id
-        if (!sesion.cedula && sesion.token) {
-          try {
-            const { data: authUser } = await sb.auth.getUser();
-            if (authUser?.user?.id) {
-              const { data: usrByAuth } = await sb.from('usuarios_sistema')
-                .select('cedula, nombre, zona, municipio')
-                .eq('auth_user_id', authUser.user.id).eq('activo', true).maybeSingle();
-              if (usrByAuth) {
-                sesion.cedula = usrByAuth.cedula;
-                sesion.nombre = sesion.nombre || usrByAuth.nombre;
-                sesion.zona = usrByAuth.zona || null;
-                sesion.municipio = usrByAuth.municipio || null;
-                guardarSesionLocal(sesion);
-              }
-            }
-          } catch(e2) {}
+        if (!sesion.cedula && authData?.user?.id) {
+          console.log('[DATOS] Intentando lookup por auth_user_id:', authData.user.id);
+          const { data: usrByAuth, error: authIdErr } = await sb.from('usuarios_sistema')
+            .select('cedula, nombre, zona, municipio')
+            .eq('auth_user_id', authData.user.id).eq('activo', true).maybeSingle();
+          console.log('[DATOS] usuarios_sistema by auth_id:', usrByAuth, 'error:', authIdErr?.message);
+          if (usrByAuth) {
+            sesion.cedula = usrByAuth.cedula;
+            sesion.nombre = sesion.nombre || usrByAuth.nombre;
+            sesion.zona = usrByAuth.zona || null;
+            sesion.municipio = usrByAuth.municipio || null;
+            guardarSesionLocal(sesion);
+          }
         }
-      } catch(e) { console.warn('Lookup falló:', e); }
+      } catch(e) { console.warn('[DATOS] Lookup falló:', e); }
     }
-    if (!sesion.cedula) return;
+    console.log('[DATOS] Cedula final:', sesion?.cedula);
+    if (!sesion.cedula) { console.log('[DATOS] Abort: no se pudo encontrar cedula'); return; }
 
     // Cargar datos completos del dirigente
     const cedLimpiaLoad = sesion.cedula.replace(/\D/g,'');
     const cedFmtLoad = cedLimpiaLoad.length === 11
       ? cedLimpiaLoad.slice(0,3)+'-'+cedLimpiaLoad.slice(3,10)+'-'+cedLimpiaLoad.slice(10)
       : sesion.cedula;
+    console.log('[DATOS] Cédula limpia:', cedLimpiaLoad, 'formateada:', cedFmtLoad);
 
-    const { data: dir } = await sb.from('dirigentes')
+    const { data: dir, error: dirErr } = await sb.from('dirigentes')
       .select('latitud, longitud, ubicacion_nombre, sector, telefono, email')
       .eq('cedula', cedFmtLoad).maybeSingle();
+    console.log('[DATOS] dirigentes:', dir, 'error:', dirErr?.message);
     if (dir) {
       sesion.latitud          = dir.latitud;
       sesion.longitud         = dir.longitud;
@@ -726,9 +731,10 @@ async function cargarDatosCompletos() {
     }
 
     // Cargar foto del padrón
-    const { data: pad } = await sb.from('padron_maestro')
+    const { data: pad, error: padErr } = await sb.from('padron_maestro')
       .select('foto_url, foto_base64')
       .eq('cedula', cedFmtLoad).maybeSingle();
+    console.log('[DATOS] padron foto:', pad ? 'found (foto_url:' + !!pad.foto_url + ', foto_base64:' + !!pad.foto_base64 + ')' : 'NOT FOUND', 'error:', padErr?.message);
     if (pad) {
       sesion.foto_url = pad.foto_url || null;
       sesion.foto_base64 = pad.foto_base64 || null;
@@ -743,11 +749,12 @@ async function cargarDatosCompletos() {
       sesion.fecha_nacimiento = dirExtra.fecha_nacimiento;
     }
     // Cargar comité
-    const { data: comite } = await sb
+    const { data: comite, error: comErr } = await sb
       .from('comite_miembros')
       .select('cedula_miembro, nombre_miembro, recinto_nombre, colegio_num, direccion, telefono, nota_estrategica, fidelidad, transporte, genero, latitud, longitud, mesa, fecha_nacimiento, fecha_ingreso')
       .eq('dirigente_cedula', sesion.cedula)
       .order('fecha_ingreso');
+    console.log('[DATOS] comite_miembros:', comite?.length || 0, 'miembros', 'error:', comErr?.message);
     if (comite) sesion.comite = comite.map(m => ({
       cedula:         m.cedula_miembro,
       nombre:         m.nombre_miembro,
@@ -767,16 +774,18 @@ async function cargarDatosCompletos() {
     }));
 
     // Cargar estructuras
-    const { data: estructuras } = await sb
+    const { data: estructuras, error: estErr } = await sb
       .from('estructuras_dirigente')
       .select('candidato_id, candidato_nombre, cargo_candidato, fecha_ingreso')
       .eq('dirigente_cedula', sesion.cedula)
       .eq('activo', true);
+    console.log('[DATOS] estructuras_dirigente:', estructuras?.length || 0, 'items', 'error:', estErr?.message);
     if (estructuras) sesion.estructuras = estructuras.map(e => ({
       candidato_id: e.candidato_id, candidato_nombre: e.candidato_nombre,
       cargo: e.cargo_candidato, fecha_ingreso: e.fecha_ingreso
     }));
-  } catch(e) { console.warn('Error cargando datos:', e); }
+    console.log('[DATOS] Carga completa. comite:', sesion.comite?.length, 'estructuras:', sesion.estructuras?.length, 'foto:', !!sesion.foto_url, !!sesion.foto_base64);
+  } catch(e) { console.error('[DATOS] Error cargando datos:', e); }
 }
 
 // Guardar token de sesión localmente
@@ -1111,31 +1120,18 @@ function actualizarDashboard() {
     sidebarAvatar.textContent = (sesion.nombre || '??').slice(0,2).toUpperCase();
   }
 
-  // Renderizar foto
-  const fotoEl = document.getElementById('dash-foto');
-  if (sesion.foto_url || sesion.foto_base64) {
-    const img = document.createElement('img');
-    img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%';
-    fotoEl.innerHTML = '';
-    fotoEl.appendChild(img);
-    renderFotoAsync(sb, img, sesion.foto_url, sesion.foto_base64);
-  } else {
-    const nc = sesion.nombre || '??';
-    fotoEl.textContent = nc.slice(0,2).toUpperCase();
-  }
-
   const comiteCount = (sesion.comite || []).length;
-  document.getElementById('dash-comite-count').textContent = comiteCount;
+  const ccEl = document.getElementById('dash-comite-count');
+  if (ccEl) ccEl.textContent = comiteCount;
 
   const estructuraActiva = (sesion.estructuras || []).length > 0;
-  document.getElementById('dash-estructura-badge').textContent = estructuraActiva ? '✅' : '—';
+  const estEl = document.getElementById('dash-estructura-badge');
+  if (estEl) estEl.textContent = estructuraActiva ? '✅' : '—';
 
   // Mostrar alerta si comité incompleto
   const alertaComite = document.getElementById('dash-alerta-comite');
-  if (comiteCount < 10) {
-    alertaComite.style.display = 'block';
-  } else {
-    alertaComite.style.display = 'none';
+  if (alertaComite) {
+    alertaComite.style.display = comiteCount < 10 ? 'block' : 'none';
   }
 }
 
