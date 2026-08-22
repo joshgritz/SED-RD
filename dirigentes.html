@@ -662,24 +662,48 @@ async function cargarDatosCompletos() {
         const { data: authData } = await sb.auth.getUser();
         const email = authData?.user?.email;
         if (email) {
-          const { data: dirByEmail } = await sb.from('dirigentes')
-            .select('cedula, nombre_completo, foto_url, foto_base64, sector, telefono, email, latitud, longitud, ubicacion_nombre')
-            .eq('email', email).maybeSingle();
-          if (dirByEmail) {
-            sesion.cedula = dirByEmail.cedula;
-            sesion.nombre = sesion.nombre || dirByEmail.nombre_completo;
-            sesion.foto_url = dirByEmail.foto_url || null;
-            sesion.foto_base64 = dirByEmail.foto_base64 || null;
-            sesion.sector = dirByEmail.sector;
-            sesion.telefono = dirByEmail.telefono;
-            sesion.email = dirByEmail.email;
-            sesion.latitud = dirByEmail.latitud;
-            sesion.longitud = dirByEmail.longitud;
-            sesion.ubicacion_nombre = dirByEmail.ubicacion_nombre;
+          // Buscar cédula en usuarios_sistema por email
+          const { data: usrByEmail } = await sb.from('usuarios_sistema')
+            .select('cedula, nombre, zona, municipio, rol')
+            .eq('email', email).eq('activo', true).maybeSingle();
+          if (usrByEmail) {
+            sesion.cedula = usrByEmail.cedula;
+            sesion.nombre = sesion.nombre || usrByEmail.nombre;
+            sesion.zona = usrByEmail.zona || null;
+            sesion.municipio = usrByEmail.municipio || null;
             guardarSesionLocal(sesion);
           }
+          // Si no encontró, intentar en padron_maestro por email
+          if (!sesion.cedula) {
+            const { data: padByEmail } = await sb.from('padron_maestro')
+              .select('cedula, nombre_completo')
+              .eq('email', email).maybeSingle();
+            if (padByEmail) {
+              sesion.cedula = padByEmail.cedula;
+              sesion.nombre = sesion.nombre || padByEmail.nombre_completo;
+              guardarSesionLocal(sesion);
+            }
+          }
         }
-      } catch(e) { console.warn('Lookup por email falló:', e); }
+        // Último recurso: intentar con auth_user_id
+        if (!sesion.cedula && sesion.token) {
+          try {
+            const { data: authUser } = await sb.auth.getUser();
+            if (authUser?.user?.id) {
+              const { data: usrByAuth } = await sb.from('usuarios_sistema')
+                .select('cedula, nombre, zona, municipio')
+                .eq('auth_user_id', authUser.user.id).eq('activo', true).maybeSingle();
+              if (usrByAuth) {
+                sesion.cedula = usrByAuth.cedula;
+                sesion.nombre = sesion.nombre || usrByAuth.nombre;
+                sesion.zona = usrByAuth.zona || null;
+                sesion.municipio = usrByAuth.municipio || null;
+                guardarSesionLocal(sesion);
+              }
+            }
+          } catch(e2) {}
+        }
+      } catch(e) { console.warn('Lookup falló:', e); }
     }
     if (!sesion.cedula) return;
 
@@ -1062,15 +1086,18 @@ function actualizarDashboard() {
   if (!sesion) return;
 
   const nombre = getNombreCorto(sesion.nombre);
-  document.getElementById('dash-bienvenida').textContent = '¡Bienvenido, ' + nombre + '!';
-  document.getElementById('dash-subtitulo').textContent = sesion.zona + ' · ' + sesion.municipio;
-  document.getElementById('dash-nombre').textContent = sesion.nombre;
-  document.getElementById('dash-cedula').textContent = sesion.cedula;
-  document.getElementById('dash-zona').textContent = sesion.zona + ' — ' + sesion.municipio;
+  const zona = sesion.zona || '—';
+  const municipio = sesion.municipio || '—';
+  const el1 = document.getElementById('dash-bienvenida');
+  if (el1) el1.textContent = '¡Bienvenido, ' + nombre + '!';
+  const el2 = document.getElementById('dash-subtitulo');
+  if (el2) el2.textContent = zona + ' · ' + municipio;
 
   // Update sidebar
-  document.getElementById('sidebar-nombre').textContent = getNombreCorto(sesion.nombre);
-  document.getElementById('sidebar-comite-count').textContent = (sesion.comite||[]).length;
+  const sn = document.getElementById('sidebar-nombre');
+  if (sn) sn.textContent = getNombreCorto(sesion.nombre);
+  const sc = document.getElementById('sidebar-comite-count');
+  if (sc) sc.textContent = (sesion.comite||[]).length;
 
   // Update sidebar avatar
   const sidebarAvatar = document.getElementById('sidebar-avatar');

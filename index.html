@@ -1161,6 +1161,15 @@ function peRedirigir(data) {
 
 function peIrA(destino) {
   if (destino === 'perfil') {
+    // Si no tiene cédula (login con Google), forzar identificación primero
+    if (!E.cedFmt) {
+      E.rolDeseado = 'dirigente';
+      document.getElementById('pe-ced-titulo').textContent = '🤝 Identifícate';
+      document.getElementById('pe-ced-sub').textContent = 'Necesitamos tu cédula para acceder a tu perfil';
+      peIrStep('pe-step-cedula');
+      setTimeout(() => document.getElementById('pe-inp-cedula').focus(), 300);
+      return;
+    }
     window.location.href = 'dirigentes.html';
   } else if (destino === 'candidatos') {
     peAccederCandidato();
