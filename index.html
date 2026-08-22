@@ -1030,6 +1030,8 @@ if (!sb && window.supabase && window.SUPABASE_CONFIG) {
     try { var prev = JSON.parse(localStorage.getItem(sk) || 'null'); if (prev && prev.cedula) existingCedula = prev.cedula; } catch(e) {}
     peGuardarSesion({ cedula: existingCedula, nombre: existingCedula ? (E.nombre || nombre) : nombre, zona: null, municipio: null, rol: 'dirigente_base', token: session.access_token, refresh_token: session.refresh_token || null, auth_user_id: user.id, foto_url: foto, foto_base64: null });
     if (existingCedula) { E.cedFmt = existingCedula; }
+    // Ensure Supabase client has auth session for RLS on other pages
+    try { if (sb) await sb.auth.setSession(session); } catch(e) { console.warn('Google setSession failed:', e); }
     document.getElementById('portal-electoral').classList.add('active');
     document.body.style.overflow = 'hidden';
     document.getElementById('pe-destino-nombre').textContent = 'Hola ' + nombre.split(' ')[0] + ' — ¿ A donde quieres ir?';

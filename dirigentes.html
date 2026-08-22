@@ -2560,23 +2560,30 @@ window.addEventListener('DOMContentLoaded', async function() {
   const sesionGuardada = cargarSesionLocal();
 
   // Restore Supabase auth session so RLS queries work
+  // Supabase JS auto-creates session storage keyed by project ref
   if (sb && sesionGuardada && sesionGuardada.token) {
     try {
-      const { data: existingSession } = await sb.auth.getSession();
-      if (!existingSession?.session) {
-        if (sesionGuardada.refresh_token) {
-          await sb.auth.setSession({
-            access_token: sesionGuardada.token,
-            refresh_token: sesionGuardada.refresh_token
-          });
+      // Step 1: Check if Supabase already has a session (auto-restored from localStorage)
+      const { data: { session: currentSession } } = await sb.auth.getSession();
+      console.log('[AUTH] Existing session:', currentSession ? 'YES' : 'NO');
+
+      if (!currentSession) {
+        // Step 2: Try restoring from our saved tokens
+        const tokenData = { access_token: sesionGuardada.token, refresh_token: sesionGuardada.refresh_token || '' };
+        console.log('[AUTH] Restoring session with token...');
+        const { data: sessData, error: sessErr } = await sb.auth.setSession(tokenData);
+        if (sessErr) {
+          console.warn('[AUTH] setSession error:', sessErr.message);
         } else {
-          await sb.auth.setSession({
-            access_token: sesionGuardada.token,
-            refresh_token: ''
-          });
+          console.log('[AUTH] Session restored:', sessData?.session ? 'YES' : 'NO');
         }
       }
-    } catch(e) { console.warn('[AUTH] setSession fallback failed:', e); }
+
+      // Step 3: Verify we have a valid user
+      const { data: { user }, error: userErr } = await sb.auth.getUser();
+      console.log('[AUTH] User:', user?.email || 'NONE', userErr?.message || '');
+
+    } catch(e) { console.error('[AUTH] Auth restore failed:', e); }
   }
   if (sesionGuardada) {
     sesion = { ...sesionGuardada, comite: [], estructuras: [] };
