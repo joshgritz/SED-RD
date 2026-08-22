@@ -1024,7 +1024,7 @@ if (!sb && window.supabase && window.SUPABASE_CONFIG) {
     E.email = email;
     E.foto_url = foto;
     E.rolSistema = 'dirigente_base';
-    peGuardarSesion({ cedula: null, nombre: nombre, zona: null, municipio: null, rol: 'dirigente_base', token: session.access_token, auth_user_id: user.id, foto_url: foto, foto_base64: null });
+    peGuardarSesion({ cedula: null, nombre: nombre, zona: null, municipio: null, rol: 'dirigente_base', token: session.access_token, refresh_token: session.refresh_token || null, auth_user_id: user.id, foto_url: foto, foto_base64: null });
     document.getElementById('portal-electoral').classList.add('active');
     document.body.style.overflow = 'hidden';
     document.getElementById('pe-destino-nombre').textContent = 'Hola ' + nombre.split(' ')[0] + ' — ¿ A donde quieres ir?';
@@ -1121,10 +1121,13 @@ async function peVerificarPin() {
         zona: claims.zona || E.zona, municipio: claims.municipio || E.municipio,
         rol: claims.role || E.rolSistema || 'dirigente_base',
         token: authData.session.access_token,
+        refresh_token: authData.session.refresh_token || null,
         auth_user_id: authData.user.id,
         foto_url: E.foto_url || null, foto_base64: E.foto || null
       };
       peGuardarSesion(sess);
+      // Set Supabase auth session so RLS works on other pages
+      try { await sb.auth.setSession(authData.session); } catch(e) { console.warn('setSession failed:', e); }
       peRedirigir(sess);
       return;
     } catch(e) {
@@ -1323,7 +1326,7 @@ async function peConfirmarRecuperacion() {
 // ═══════════ SESION ═══════════
 function peGuardarSesion(data) {
   const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
-  localStorage.setItem(sk, JSON.stringify({ cedula: data.cedula, nombre: data.nombre, zona: data.zona, municipio: data.municipio, rol: data.rol, token: data.token, auth_user_id: data.auth_user_id || null, foto_url: data.foto_url || null, foto_base64: data.foto_base64 || null, rolDeseado: E.rolDeseado || null, expires: Date.now() + 86400000 }));
+  localStorage.setItem(sk, JSON.stringify({ cedula: data.cedula, nombre: data.nombre, zona: data.zona, municipio: data.municipio, rol: data.rol, token: data.token, refresh_token: data.refresh_token || null, auth_user_id: data.auth_user_id || null, foto_url: data.foto_url || null, foto_base64: data.foto_base64 || null, rolDeseado: E.rolDeseado || null, expires: Date.now() + 86400000 }));
   if (typeof auditLogger !== 'undefined' && _sb) {
     auditLogger.init(_sb, { cedula: data.cedula, nombre: data.nombre, rol: data.rol });
     auditLogger.login(data.token?.startsWith('demo-') ? 'demo' : 'auth');

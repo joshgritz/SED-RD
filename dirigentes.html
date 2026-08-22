@@ -794,6 +794,7 @@ function guardarSesionLocal(datos) {
   localStorage.setItem(sk, JSON.stringify({
     cedula:  datos.cedula,
     token:   datos.token,
+    refresh_token: datos.refresh_token || null,
     nombre:  datos.nombre,
     zona:    datos.zona,
     municipio: datos.municipio,
@@ -2557,6 +2558,19 @@ window.addEventListener('DOMContentLoaded', async function() {
 
   // Restaurar sesión guardada
   const sesionGuardada = cargarSesionLocal();
+
+  // Restore Supabase auth session so RLS queries work
+  if (sb && sesionGuardada && sesionGuardada.token) {
+    try {
+      const { data: existingSession } = await sb.auth.getSession();
+      if (!existingSession?.session) {
+        await sb.auth.setSession({
+          access_token: sesionGuardada.token,
+          refresh_token: sesionGuardada.refresh_token || ''
+        });
+      }
+    } catch(e) { console.warn('[AUTH] setSession fallback failed:', e); }
+  }
   if (sesionGuardada) {
     sesion = { ...sesionGuardada, comite: [], estructuras: [] };
     await cargarDatosCompletos();
