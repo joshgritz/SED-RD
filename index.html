@@ -1024,7 +1024,12 @@ if (!sb && window.supabase && window.SUPABASE_CONFIG) {
     E.email = email;
     E.foto_url = foto;
     E.rolSistema = 'dirigente_base';
-    peGuardarSesion({ cedula: null, nombre: nombre, zona: null, municipio: null, rol: 'dirigente_base', token: session.access_token, refresh_token: session.refresh_token || null, auth_user_id: user.id, foto_url: foto, foto_base64: null });
+    // Preserve existing cedula from previous session if available
+    var existingCedula = null;
+    var sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
+    try { var prev = JSON.parse(localStorage.getItem(sk) || 'null'); if (prev && prev.cedula) existingCedula = prev.cedula; } catch(e) {}
+    peGuardarSesion({ cedula: existingCedula, nombre: existingCedula ? (E.nombre || nombre) : nombre, zona: null, municipio: null, rol: 'dirigente_base', token: session.access_token, refresh_token: session.refresh_token || null, auth_user_id: user.id, foto_url: foto, foto_base64: null });
+    if (existingCedula) { E.cedFmt = existingCedula; }
     document.getElementById('portal-electoral').classList.add('active');
     document.body.style.overflow = 'hidden';
     document.getElementById('pe-destino-nombre').textContent = 'Hola ' + nombre.split(' ')[0] + ' — ¿ A donde quieres ir?';
@@ -1164,7 +1169,19 @@ function peRedirigir(data) {
 
 function peIrA(destino) {
   if (destino === 'perfil') {
-    // Si no tiene cédula (login con Google), forzar identificación primero
+    // Si no tiene cédula, intentar recuperar de la sesión guardada
+    if (!E.cedFmt) {
+      var sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
+      try {
+        var saved = JSON.parse(localStorage.getItem(sk) || 'null');
+        if (saved && saved.cedula) {
+          E.cedFmt = saved.cedula;
+          E.nombre = E.nombre || saved.nombre;
+          E.zona = E.zona || saved.zona;
+          E.municipio = E.municipio || saved.municipio;
+        }
+      } catch(e) {}
+    }
     if (!E.cedFmt) {
       E.rolDeseado = 'dirigente';
       document.getElementById('pe-ced-titulo').textContent = '🤝 Identifícate';
