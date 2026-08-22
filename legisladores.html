@@ -1031,6 +1031,27 @@ if (!sb && window.supabase) {
   );
 }
 
+// POST-GOOGLE REDIRECT
+(function() {
+  if (!window.authHelper) return;
+  window.authHelper.handleGoogleRedirect().then(function(session) {
+    if (!session) return;
+    var user = session.user || {};
+    var meta = user.user_metadata || {};
+    var nombre = meta.full_name || meta.name || user.email || 'Usuario Google';
+    var foto = meta.avatar_url || meta.picture || null;
+    E.nombre = nombre;
+    E.email = user.email || '';
+    E.foto_url = foto;
+    E.rolSistema = 'dirigente_base';
+    peGuardarSesion({ cedula: null, nombre: nombre, zona: null, municipio: null, rol: 'dirigente_base', token: session.access_token, auth_user_id: user.id, foto_url: foto, foto_base64: null });
+    document.getElementById('portal-electoral').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('pe-destino-nombre').textContent = 'Hola ' + nombre.split(' ')[0] + ' \u2014 \u00bfA d\u00f3nde quieres ir?';
+    peIrStep('pe-step-destino');
+  });
+})();
+
 // ESTADO
 var E = {
   cedula: null, cedFmt: null, nombre: null, foto: null,

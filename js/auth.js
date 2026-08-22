@@ -28,6 +28,26 @@ window.authHelper = {
       alert('Error JS: ' + err.message);
     }
   },
+
+  async handleGoogleRedirect() {
+    try {
+      if (!window.SUPABASE_CONFIG) return null;
+      if (!window.supabase) return null;
+      if (!window._sb) {
+        window._sb = window.supabase.createClient(window.SUPABASE_CONFIG.URL, window.SUPABASE_CONFIG.ANON_KEY);
+      }
+      if (!window._sb) return null;
+      const hash = window.location.hash;
+      if (!hash || !hash.includes('access_token')) return null;
+      const { data, error } = await window._sb.auth.getSession();
+      if (error || !data || !data.session) return null;
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      return data.session;
+    } catch (err) {
+      console.error('Google redirect error:', err);
+      return null;
+    }
+  },
   /**
    * Login seguro — envía PIN al backend, el backend construye el password
    * @param {string} cedula - Cédula del usuario

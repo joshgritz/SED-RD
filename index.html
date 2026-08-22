@@ -1011,6 +1011,27 @@ if (!sb && window.supabase && window.SUPABASE_CONFIG) {
   );
 }
 
+// ═══════════ POST-GOOGLE REDIRECT ═══════════
+(async function() {
+  const session = await window.authHelper.handleGoogleRedirect();
+  if (session) {
+    const user = session.user || {};
+    const meta = user.user_metadata || {};
+    const nombre = meta.full_name || meta.name || user.email || 'Usuario Google';
+    const email = user.email || '';
+    const foto = meta.avatar_url || meta.picture || null;
+    E.nombre = nombre;
+    E.email = email;
+    E.foto_url = foto;
+    E.rolSistema = 'dirigente_base';
+    peGuardarSesion({ cedula: null, nombre: nombre, zona: null, municipio: null, rol: 'dirigente_base', token: session.access_token, auth_user_id: user.id, foto_url: foto, foto_base64: null });
+    document.getElementById('portal-electoral').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('pe-destino-nombre').textContent = 'Hola ' + nombre.split(' ')[0] + ' — ¿ A donde quieres ir?';
+    peIrStep('pe-step-destino');
+  }
+})();
+
 // ═══════════ ESTADO ═══════════
 let E = {
   cedula: null, cedFmt: null, nombre: null, foto: null,
