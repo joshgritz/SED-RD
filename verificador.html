@@ -40,8 +40,8 @@ button { padding:12px 20px; background:#003087; color:white; border:none; border
 <script src="js/fotos.js"></script>
 <script>
 var _sbClient = null;
-var _sbUrl = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co';
-var _sbKey = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlsaXZqYWlleGZxcGlvcXJvemxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MDM3MDIsImV4cCI6MjA4OTA3OTcwMn0.roSS80657SVesSk2EbyPueXEQK-4REG2raXWcbGRNU4';
+var _sbUrl = window.SUPABASE_CONFIG.URL;
+var _sbKey = window.SUPABASE_CONFIG.ANON_KEY;
 if (window.supabase) {
     _sbClient = window.supabase.createClient(_sbUrl, _sbKey);
 }
@@ -73,7 +73,7 @@ function log(msg, type) {
 // supabaseClient.com → Tu proyecto → Settings → API
 // ─────────────────────────────────────────────
 const SUPABASE_URL  = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabaseClient.co';
-const SUPABASE_KEY  = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlsaXZqYWlleGZxcGlvcXJvemxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MDM3MDIsImV4cCI6MjA4OTA3OTcwMn0.roSS80657SVesSk2EbyPueXEQK-4REG2raXWcbGRNU4';
+const SUPABASE_KEY  = window.SUPABASE_CONFIG.ANON_KEY;
 
 // Cliente Supabase (se carga desde CDN en sistema-inicio.html)
 let supabaseClient = (typeof _sbClient !== "undefined" ? _sbClient : null);

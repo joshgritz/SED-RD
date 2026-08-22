@@ -9,6 +9,18 @@ package-lock.json
 # Datos internos
 powerbi_data/
 
+# ═══ Configuración de herramientas IA (interna, no pública) ═══
+.claude/
+CLAUDE.md
+AGENTS.md
+
+# ═══ Archivos basura / respaldo ═══
+*.bak
+*_backup.*
+_js_backup.txt
+diagnostico.html
+test*.html
+
 # ═══ Credenciales y archivos sensibles ═══
 # Archivos con DB passwords, API keys, test credentials
 seguridad_config.js
@@ -59,5 +71,8 @@ login.html
 !verificador.html
 !verificar-acta.html
 !importador_padron.html
-!test_js.html
 !captura_zonas.html
+
+# ═══ Datos de padrón (datos personales — NUNCA al repo) ═══
+padron_*.json
+*.sql.bak
