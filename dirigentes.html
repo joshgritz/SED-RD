@@ -254,15 +254,8 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .mt16 { margin-top: 16px; }
 </style>
 <script>
-window.initGoogleMaps = function() {
-  window._gmapsLoaded = true;
-  if (window._mapaReadyCallback) {
-    window._mapaReadyCallback();
-    window._mapaReadyCallback = null;
-  }
-};
+window._leafletReady = true;
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWNYxwnHf20oKwNSVTFlvhwVTxYJqIq90&callback=initGoogleMaps&loading=async" async defer></script>
 </head>
 <body>
 
@@ -1509,39 +1502,47 @@ function puntearMiembro(cedula) {
   // Init mini map
   setTimeout(() => {
     const m = (sesion.comite || []).find(x => x.cedula === cedula);
-    const centro = m?.latitud 
-      ? { lat: parseFloat(m.latitud), lng: parseFloat(m.longitud) }
-      : { lat: sesion.latitud || 19.5557, lng: sesion.longitud || -71.0831 };
+    const lat = m?.latitud ? parseFloat(m.latitud) : (sesion.latitud || 19.5557);
+    const lng = m?.longitud ? parseFloat(m.longitud) : (sesion.longitud || -71.0831);
     
-    const miniMapa = new google.maps.Map(document.getElementById('mapa-miembro-container'), {
-      center: centro, zoom: 16,
-      mapTypeControl: true, fullscreenControl: false,
-      streetViewControl: false,
-      mapTypeControlOptions: {
-        mapTypeIds: ['roadmap','satellite','hybrid'],
-        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-        position: google.maps.ControlPosition.TOP_LEFT
-      }
+    const miniMapa = L.map('mapa-miembro-container', {
+      center: [lat, lng], zoom: 16, zoomControl: true
     });
-    
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OSM', maxZoom: 19
+    }).addTo(miniMapa);
+
     let marcadorMiembro = null;
+    const icon = L.divIcon({
+      html: '<div style="background:#C8102E;width:18px;height:18px;border-radius:50%;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3)"></div>',
+      iconSize: [18, 18], iconAnchor: [9, 9], className: ''
+    });
+
     if (m?.latitud) {
-      marcadorMiembro = new google.maps.Marker({ position: centro, map: miniMapa, draggable: true });
-      window._coordsMiembro = centro;
+      marcadorMiembro = L.marker([lat, lng], { icon, draggable: true }).addTo(miniMapa);
+      window._coordsMiembro = { lat, lng };
+      marcadorMiembro.on('dragend', (e) => {
+        const p = e.target.getLatLng();
+        window._coordsMiembro = { lat: p.lat, lng: p.lng };
+      });
     }
     
-    miniMapa.addListener('click', (e) => {
-      const pos = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+    miniMapa.on('click', (e) => {
+      const pos = { lat: e.latlng.lat, lng: e.latlng.lng };
       window._coordsMiembro = pos;
       if (marcadorMiembro) {
-        marcadorMiembro.setPosition(pos);
+        marcadorMiembro.setLatLng([pos.lat, pos.lng]);
       } else {
-        marcadorMiembro = new google.maps.Marker({ position: pos, map: miniMapa, draggable: true, animation: google.maps.Animation.DROP });
-        marcadorMiembro.addListener('dragend', (ev) => {
-          window._coordsMiembro = { lat: ev.latLng.lat(), lng: ev.latLng.lng() };
+        marcadorMiembro = L.marker([pos.lat, pos.lng], { icon, draggable: true }).addTo(miniMapa);
+        marcadorMiembro.on('dragend', (ev) => {
+          const p = ev.target.getLatLng();
+          window._coordsMiembro = { lat: p.lat, lng: p.lng };
         });
       }
     });
+
+    setTimeout(() => miniMapa.invalidateSize(), 100);
   }, 200);
 }
 
@@ -2320,66 +2321,51 @@ let coordsSeleccionadas = null;
 function initMapaDirigente() {
   if (!sesion) return;
 
-  const doInit = () => {
-    const lat    = parseFloat(sesion.latitud)  || 19.5557;
-    const lng    = parseFloat(sesion.longitud) || -71.0831;
-    const centro = { lat, lng };
-    const zoom   = sesion.latitud ? 17 : 14;
+  const lat    = parseFloat(sesion.latitud)  || 19.5557;
+  const lng    = parseFloat(sesion.longitud) || -71.0831;
+  const zoom   = sesion.latitud ? 17 : 14;
 
-    // Si el mapa ya existe, solo actualizar vista
-    if (mapaDirigente) {
-      mapaDirigente.setCenter(centro);
-      mapaDirigente.setZoom(zoom);
-      if (sesion.latitud && sesion.longitud) {
-        coordsSeleccionadas = { lat, lng };
-        colocarMarcador(lat, lng);
-        mostrarEstadoUbicacion();
-      }
-      return;
-    }
-
-    mapaDirigente = new google.maps.Map(document.getElementById('mapa-dirigente'), {
-      center: centro, zoom: zoom,
-      mapTypeControl: true,
-      mapTypeControlOptions: {
-        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-        position: google.maps.ControlPosition.TOP_LEFT,
-        mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain']
-      },
-      fullscreenControl: true,
-      streetViewControl: true,
-      rotateControl: true,
-      tilt: 45
-    });
-
-    // Si ya tiene ubicación guardada, mostrar marcador
+  // Si el mapa ya existe, solo actualizar vista
+  if (mapaDirigente) {
+    mapaDirigente.setView([lat, lng], zoom);
     if (sesion.latitud && sesion.longitud) {
       coordsSeleccionadas = { lat, lng };
       colocarMarcador(lat, lng);
       mostrarEstadoUbicacion();
     }
-
-    // Click en mapa para poner marcador
-    mapaDirigente.addListener('click', function(e) {
-      coordsSeleccionadas = { lat: e.latLng.lat(), lng: e.latLng.lng() };
-      colocarMarcador(coordsSeleccionadas.lat, coordsSeleccionadas.lng);
-      document.getElementById('btn-guardar-ubi').style.display = 'block';
-    });
-  };
-
-  if (window._gmapsLoaded && window.google && window.google.maps) {
-    doInit();
-  } else {
-    window._mapaReadyCallback = doInit;
-    // Also retry in case script already loaded
-    const retryTimer = setInterval(() => {
-      if (window.google && window.google.maps) {
-        clearInterval(retryTimer);
-        doInit();
-      }
-    }, 200);
-    setTimeout(() => clearInterval(retryTimer), 10000);
+    return;
   }
+
+  mapaDirigente = L.map('mapa-dirigente', {
+    center: [lat, lng], zoom: zoom,
+    zoomControl: true,
+    attributionControl: true
+  });
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap',
+    maxZoom: 19
+  }).addTo(mapaDirigente);
+
+  L.control.layers({
+    'Mapa': L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OSM', maxZoom: 19 }),
+    'Satélite': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: '&copy; Esri', maxZoom: 18 }),
+    'Híbrido': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: '&copy; Esri', maxZoom: 18 })
+  }, null, { position: 'topleft' }).addTo(mapaDirigente);
+
+  // Si ya tiene ubicación guardada, mostrar marcador
+  if (sesion.latitud && sesion.longitud) {
+    coordsSeleccionadas = { lat, lng };
+    colocarMarcador(lat, lng);
+    mostrarEstadoUbicacion();
+  }
+
+  // Click en mapa para poner marcador
+  mapaDirigente.on('click', function(e) {
+    coordsSeleccionadas = { lat: e.latlng.lat, lng: e.latlng.lng };
+    colocarMarcador(coordsSeleccionadas.lat, coordsSeleccionadas.lng);
+    document.getElementById('btn-guardar-ubi').style.display = 'block';
+  });
 }
 
 function mostrarEstadoUbicacion() {
@@ -2398,29 +2384,26 @@ function mostrarEstadoUbicacion() {
 }
 
 function colocarMarcador(lat, lng) {
-  const pos = { lat: parseFloat(lat), lng: parseFloat(lng) };
+  const pos = [parseFloat(lat), parseFloat(lng)];
   if (marcadorTemp) {
-    marcadorTemp.setPosition(pos);
+    marcadorTemp.setLatLng(pos);
   } else {
-    marcadorTemp = new google.maps.Marker({
-      position: pos,
-      map: mapaDirigente,
-      draggable: true,
-      animation: google.maps.Animation.DROP,
-      title: (sesion.nombre||'').split(',')[0]
+    const icon = L.divIcon({
+      html: '<div style="background:#003087;width:20px;height:20px;border-radius:50%;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.3)"></div>',
+      iconSize: [20, 20], iconAnchor: [10, 10], className: ''
     });
-    marcadorTemp.addListener('dragend', function(e) {
-      coordsSeleccionadas = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+    marcadorTemp = L.marker(pos, { icon, draggable: true }).addTo(mapaDirigente);
+    marcadorTemp.on('dragend', function(e) {
+      const p = e.target.getLatLng();
+      coordsSeleccionadas = { lat: p.lat, lng: p.lng };
     });
   }
-  // Info window
-  const infoWindow = new google.maps.InfoWindow({
-    content: '<strong>' + (sesion.nombre||'').split(',')[0] + '</strong><br>' +
-      '<span style="font-size:11px;color:#64748b">' +
-      (document.getElementById('mapa-descripcion')?.value || 'Toca guardar para confirmar') +
-      '</span>'
-  });
-  infoWindow.open(mapaDirigente, marcadorTemp);
+  // Popup
+  const popupHtml = '<strong>' + (sesion.nombre||'').split(',')[0] + '</strong><br>' +
+    '<span style="font-size:11px;color:#64748b">' +
+    (document.getElementById('mapa-descripcion')?.value || 'Toca guardar para confirmar') +
+    '</span>';
+  marcadorTemp.bindPopup(popupHtml).openPopup();
   mapaDirigente.panTo(pos);
 }
 
@@ -2435,7 +2418,7 @@ async function usarUbicacionActual() {
       const lng = pos.coords.longitude;
       coordsSeleccionadas = { lat, lng };
       colocarMarcador(lat, lng);
-      mapaDirigente.panTo({ lat: lat, lng: lng });
+      mapaDirigente.panTo([lat, lng]);
       document.getElementById('btn-guardar-ubi').style.display = 'block';
       alerta('✅ Ubicación encontrada. Toca Guardar.', 'ok');
     },
