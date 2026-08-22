@@ -656,6 +656,33 @@ function hashPin(pin) {
 async function cargarDatosCompletos() {
   if (!sesion || !sb) return;
   try {
+    // Si cedula es null (login con Google sin identificación), buscar por email
+    if (!sesion.cedula) {
+      try {
+        const { data: authData } = await sb.auth.getUser();
+        const email = authData?.user?.email;
+        if (email) {
+          const { data: dirByEmail } = await sb.from('dirigentes')
+            .select('cedula, nombre_completo, foto_url, foto_base64, sector, telefono, email, latitud, longitud, ubicacion_nombre')
+            .eq('email', email).maybeSingle();
+          if (dirByEmail) {
+            sesion.cedula = dirByEmail.cedula;
+            sesion.nombre = sesion.nombre || dirByEmail.nombre_completo;
+            sesion.foto_url = dirByEmail.foto_url || null;
+            sesion.foto_base64 = dirByEmail.foto_base64 || null;
+            sesion.sector = dirByEmail.sector;
+            sesion.telefono = dirByEmail.telefono;
+            sesion.email = dirByEmail.email;
+            sesion.latitud = dirByEmail.latitud;
+            sesion.longitud = dirByEmail.longitud;
+            sesion.ubicacion_nombre = dirByEmail.ubicacion_nombre;
+            guardarSesionLocal(sesion);
+          }
+        }
+      } catch(e) { console.warn('Lookup por email falló:', e); }
+    }
+    if (!sesion.cedula) return;
+
     // Cargar datos completos del dirigente
     const cedLimpiaLoad = sesion.cedula.replace(/\D/g,'');
     const cedFmtLoad = cedLimpiaLoad.length === 11
@@ -730,7 +757,7 @@ async function cargarDatosCompletos() {
 
 // Guardar token de sesión localmente
 function guardarSesionLocal(datos) {
-  const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion';
+  const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
   localStorage.setItem(sk, JSON.stringify({
     cedula:  datos.cedula,
     token:   datos.token,
@@ -739,15 +766,21 @@ function guardarSesionLocal(datos) {
     municipio: datos.municipio,
     sector:  datos.sector,
     telefono: datos.telefono,
+    email:   datos.email || null,
     foto_url: datos.foto_url || null,
     foto_base64: datos.foto_base64 || null,
+    sexo:    datos.sexo || null,
+    fecha_nacimiento: datos.fecha_nacimiento || null,
+    latitud: datos.latitud || null,
+    longitud: datos.longitud || null,
+    ubicacion_nombre: datos.ubicacion_nombre || null,
     expires: Date.now() + (24 * 60 * 60 * 1000)
   }));
 }
 
 function cargarSesionLocal() {
   try {
-    const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion';
+    const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
     const raw = localStorage.getItem(sk);
     if (!raw) return null;
     const s = JSON.parse(raw);
@@ -2208,7 +2241,7 @@ async function cerrarSesion() {
       .update({ session_token: null, session_expires: null })
       .eq('cedula', sesion.cedula);
   }
-  localStorage.removeItem((typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion');
+  localStorage.removeItem((typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion');
   sesion = null;
   window.location.href = 'index.html?from=logout';
 }
