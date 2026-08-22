@@ -1056,7 +1056,8 @@ const ZONAS = {
 function peIrStep(id) {
   document.querySelectorAll('.pe-step').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  document.querySelector('.portal-elec-wrap').scrollTop = 0;
+  const wrap = document.querySelector('.pe-modal') || document.querySelector('.portal-elec-wrap');
+  if (wrap) wrap.scrollTop = 0;
 }
 
 // ═══════════ ENTRAR POR ROL ═══════════
