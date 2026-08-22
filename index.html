@@ -1,969 +1,863 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="SISTEPARD — Sistema Electoral de Partidos RD. Plataforma digital para la gestión electoral interna de partidos políticos en República Dominicana.">
-  <title>SISTEPARD — Sistema Electoral de Partidos RD</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <script src="js/config_loader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase_config.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/fotos.js"></script>
-  <script src="js/audit.js"></script>
-  <script>
-  var _sb = null;
-  if (window.supabase && window.SUPABASE_CONFIG) {
-    _sb = window.supabase.createClient(
-      window.SUPABASE_CONFIG.URL,
-      window.SUPABASE_CONFIG.ANON_KEY
-    );
-  }
-  </script>
-  <style>
-    :root {
-      --color-primary: #003087;
-      --color-secondary: #C8102E;
-      --color-accent: #F5A623;
-    }
-    :root {
-      --primary: #1a365d;
-      --primary-light: #2a4a7f;
-      --primary-dark: #0f2240;
-      --accent: #d4af37;
-      --accent-light: #e6c65a;
-      --accent-dark: #b8941f;
-      --bg: #F7F9FC;
-      --surface: #FFFFFF;
-      --text: #2C3E50;
-      --muted: #7F8C9B;
-      --border: #E1E8EF;
-      --radius: 16px;
-      --shadow: 0 4px 24px rgba(26,54,93,0.08);
-      --shadow-lg: 0 8px 40px rgba(26,54,93,0.12);
-      --shadow-hover: 0 12px 48px rgba(26,54,93,0.16);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SISTEPARD — Sistema Electoral de Partidos RD. Plataforma digital para la gestion electoral interna de partidos politicos en Republica Dominicana.">
+<title>SISTEPARD — Sistema Electoral de Partidos RD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="js/config_loader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase_config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/fotos.js"></script>
+<script src="js/audit.js"></script>
+<script>
+var _sb = null;
+if (window.supabase && window.SUPABASE_CONFIG) {
+  _sb = window.supabase.createClient(
+    window.SUPABASE_CONFIG.URL,
+    window.SUPABASE_CONFIG.ANON_KEY
+  );
+}
+</script>
+<style>
+:root{--color-primary:#003087;--color-secondary:#C8102E;--color-accent:#F5A623;--primary:#0a1128;--accent:#4f7df5;--accent-2:#a78bfa;--gold:#f5a623;--bg:#e9ecf3;--surface:#fff;--surface-2:#dde2ed;--text:#0a1128;--muted:#4a5568;--border:rgba(0,30,80,.10)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+a{text-decoration:none;color:inherit}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.revealed{opacity:1;transform:translateY(0)}
+.rd1{transition-delay:.1s}.rd2{transition-delay:.2s}.rd3{transition-delay:.3s}.rd4{transition-delay:.4s}
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:all .7s}
+.nav.scrolled{background:rgba(245,247,250,.7);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(10,17,40,.04)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;height:72px}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo-icon{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(79,125,245,.2)}
+.nav-logo-icon svg{width:20px;height:20px;color:#fff}
+.nav-logo-text{font-weight:700;font-size:15px;letter-spacing:-.02em;color:var(--primary)}
+.nav-btns{display:flex;align-items:center;gap:12px}
+.mas-dropdown{position:relative}
+.mas-btn button{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--primary);padding:10px 16px;border-radius:12px;border:1px solid rgba(0,30,80,.12);background:transparent;cursor:pointer;transition:all .3s;font-family:inherit}
+.mas-btn button:hover{background:rgba(233,236,243,.6);border-color:rgba(79,125,245,.3)}
+.mas-btn svg{width:12px;height:12px;transition:transform .2s}
+.mas-btn.open svg{transform:rotate(180deg)}
+.mas-menu{position:absolute;right:0;top:calc(100% + 8px);width:280px;padding:8px;border-radius:16px;background:#fff;border:1px solid rgba(0,30,80,.10);box-shadow:0 20px 40px rgba(10,17,40,.10);z-index:50;display:none}
+.mas-menu.open{display:block}
+.mas-menu a{display:flex;align-items:center;gap:14px;padding:12px;border-radius:12px;transition:all .2s}
+.mas-menu a:hover{background:rgba(233,236,243,.6)}
+.mas-menu .mm-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mas-menu .mm-icon svg{width:20px;height:20px;color:#fff}
+.mas-menu h4{font-size:13px;font-weight:700;color:var(--primary)}
+.mas-menu p{font-size:11px;color:var(--muted)}
+.nav-link{font-size:13px;font-weight:600;color:var(--muted);padding:10px 16px;border-radius:8px;transition:all .3s;cursor:pointer;background:none;border:none;font-family:inherit}
+.nav-link:hover{color:var(--primary);background:rgba(233,236,243,.6)}
+.nav-btn-primary{font-size:13px;font-weight:600;color:#fff;padding:10px 20px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));border:none;cursor:pointer;transition:all .3s;font-family:inherit}
+.nav-btn-primary:hover{box-shadow:0 4px 16px rgba(79,125,245,.25)}
+.nav-btn-outline{font-size:13px;font-weight:600;color:var(--primary);padding:10px 20px;border-radius:12px;background:transparent;border:1px solid rgba(0,30,80,.12);cursor:pointer;transition:all .3s;font-family:inherit}
+.nav-btn-outline:hover{background:rgba(233,236,243,.6);border-color:rgba(79,125,245,.3)}
+.nav-burger{display:none;padding:8px;border-radius:8px;border:none;background:transparent;cursor:pointer;transition:background .2s}
+.nav-burger:hover{background:rgba(233,236,243,.6)}
+.nav-burger svg{width:20px;height:20px;color:var(--primary)}
+.mobile-menu{display:none;position:absolute;top:72px;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(24px);border-bottom:1px solid rgba(10,17,40,.04);padding:16px 24px}
+.mobile-menu.open{display:block}
+.mobile-menu a{display:block;padding:12px 16px;font-size:14px;color:var(--muted);border-radius:8px;transition:all .2s}
+.mobile-menu a:hover{color:var(--primary);background:rgba(233,236,243,.6)}
+.mobile-menu .mob-btns{padding-top:12px;border-top:1px solid rgba(10,17,40,.04);display:flex;flex-direction:column;gap:8px}
 
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
-    /* ── SCROLL REVEAL ── */
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 75% 50%,rgba(0,48,135,.06) 0%,transparent 65%),radial-gradient(ellipse 50% 60% at 20% 30%,rgba(200,16,46,.03) 0%,transparent 55%),radial-gradient(ellipse 40% 40% at 60% 80%,rgba(79,125,245,.04) 0%,transparent 50%)}
+.hero-pattern{position:absolute;inset:0;opacity:.03;background-image:linear-gradient(45deg,rgba(0,30,80,.08) 1px,transparent 1px),linear-gradient(-45deg,rgba(0,30,80,.08) 1px,transparent 1px);background-size:40px 40px}
+.hero-glow-1{position:absolute;top:33%;right:25%;width:600px;height:600px;background:rgba(0,48,135,.04);border-radius:50%;filter:blur(150px);animation:mesh-drift 20s ease-in-out infinite;pointer-events:none}
+.hero-glow-2{position:absolute;bottom:25%;left:16%;width:400px;height:400px;background:rgba(200,16,46,.02);border-radius:50%;filter:blur(120px);animation:mesh-drift 25s ease-in-out infinite reverse;pointer-events:none}
+.hero-content{position:relative;z-index:10;padding:144px 0 176px}
+.hero-grid{display:grid;grid-template-columns:1fr 400px;gap:80px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:12px;padding:8px 16px;border-radius:999px;background:rgba(0,48,135,.12);border:1px solid rgba(0,48,135,.2);margin-bottom:40px}
+.hero-badge-dot{width:8px;height:8px;border-radius:50%;background:var(--color-primary);animation:pulse 2s ease-in-out infinite}
+.hero-badge-text{font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-size:clamp(3.5rem,8vw,5.2rem);font-weight:700;line-height:.93;letter-spacing:-.03em}
+.hero h1 .line{display:block;color:var(--primary)}
+.hero h1 .line-accent{display:block;color:var(--accent)}
+.hero-desc{margin-top:32px;font-size:18px;color:var(--muted);max-width:440px;line-height:1.7}
+.hero-ctas{margin-top:40px;display:flex;flex-wrap:wrap;gap:16px}
+.btn-hero-primary{display:inline-flex;align-items:center;gap:12px;padding:16px 32px;border-radius:12px;font-size:13px;font-weight:600;color:#fff;background:var(--color-primary);border:none;cursor:pointer;transition:all .3s;font-family:inherit;box-shadow:0 8px 24px rgba(0,48,135,.2)}
+.btn-hero-primary:hover{background:#0040b0;box-shadow:0 12px 32px rgba(0,48,135,.4)}
+.btn-hero-primary svg{width:16px;height:16px;transition:transform .3s}
+.btn-hero-primary:hover svg{transform:translateX(4px)}
+.btn-hero-secondary{display:inline-flex;align-items:center;gap:10px;padding:16px 28px;border-radius:12px;font-size:13px;font-weight:500;color:var(--muted);background:transparent;border:1px solid rgba(0,20,60,.12);cursor:pointer;transition:all .3s;font-family:inherit}
+.btn-hero-secondary:hover{border-color:rgba(0,48,135,.3);color:var(--primary);background:rgba(0,48,135,.05)}
+.btn-hero-secondary svg{width:16px;height:16px;transition:transform .3s}
+.btn-hero-secondary:hover svg{transform:translateY(2px)}
+.shield-visual{position:relative;width:340px;height:340px}
+.shield-rings{position:absolute;inset:0;width:100%;height:100%;opacity:.2}
+.shield-particles{position:absolute;inset:0;width:100%;height:100%}
+.shield-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.shield-glow{position:absolute;inset:-24px;border-radius:50%;background:radial-gradient(circle,rgba(79,125,245,.12) 0%,transparent 70%);animation:shield-pulse 3s ease-in-out infinite}
+.shield-body{width:112px;height:112px;border-radius:50%;background:linear-gradient(135deg,rgba(79,125,245,.15),rgba(167,139,250,.10));display:flex;align-items:center;justify-content:center;position:relative;animation:shield-impact 3s ease-in-out infinite}
+.shield-body svg{width:56px;height:56px;color:var(--accent)}
+.shield-badge-1{position:absolute;top:32px;right:-16px;padding:6px 12px;border-radius:8px;background:#fff;border:1px solid rgba(0,48,135,.15);font-size:10px;font-weight:500;color:var(--color-primary);box-shadow:0 2px 8px rgba(0,0,0,.05);animation:float-slow 5s ease-in-out infinite .5s}
+.shield-badge-2{position:absolute;bottom:48px;left:-24px;padding:6px 12px;border-radius:8px;background:#fff;border:1px solid rgba(79,125,245,.15);font-size:10px;font-weight:500;color:var(--accent);box-shadow:0 2px 8px rgba(0,0,0,.05);animation:float-slow 5s ease-in-out infinite 1s}
+.shield-badge-3{position:absolute;top:50%;right:-32px;padding:6px 12px;border-radius:8px;background:#fff;border:1px solid rgba(74,85,104,.15);font-size:10px;font-weight:500;color:var(--muted);box-shadow:0 2px 8px rgba(0,0,0,.05);animation:float-slow 5s ease-in-out infinite 1.5s}
+.hero-bottom-fade{position:absolute;bottom:0;left:0;right:0;height:128px;background:linear-gradient(to top,var(--bg),transparent)}
+.scroll-indicator{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:10}
+.scroll-indicator span{font-size:10px;color:rgba(74,85,104,.4);text-transform:uppercase;letter-spacing:.2em}
+.scroll-indicator-box{width:20px;height:32px;border-radius:999px;border:1px solid rgba(10,17,40,.08);display:flex;align-items:flex-start;justify-content:center;padding:6px}
+.scroll-indicator-dot{width:4px;height:8px;border-radius:999px;background:rgba(79,125,245,.4);animation:float-slow 2s ease-in-out infinite}
 
-    /* ── NAV ── */
-    .nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-inner {
-      max-width: 1100px; margin: 0 auto; padding: 14px 24px;
-      display: flex; justify-content: space-between; align-items: center;
-      position: relative;
-    }
-    .nav-logo {
-      display: flex; align-items: center; gap: 10px;
-      text-decoration: none; color: var(--primary);
-    }
-    .nav-logo svg { width: 32px; height: 32px; }
-    .nav-logo span { font-weight: 800; font-size: 16px; }
-    .nav-sistema {
-      font-size: 15px; font-weight: 800;
-      color: var(--primary); letter-spacing: -0.2px; white-space: nowrap;
-    }
-    .nav-links { display: flex; align-items: center; gap: 24px; margin-left: auto; }
-    .nav-links a {
-      color: var(--muted); text-decoration: none; font-size: 13px;
-      font-weight: 600; transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--primary); }
-    .btn-nav {
-      background: var(--primary); color: white !important; padding: 10px 20px;
-      border-radius: 10px; font-size: 13px; font-weight: 700;
-      text-decoration: none; transition: all 0.25s ease;
-    }
-    .btn-nav:hover { background: var(--primary-light); transform: translateY(-1px); box-shadow: var(--shadow); }
-    .btn-nav-ghost { background: transparent; color: var(--primary) !important; border: 1.5px solid var(--border) !important; }
-    .btn-nav-ghost:hover { border-color: var(--accent) !important; color: var(--accent-dark) !important; background: rgba(212,175,55,0.06); }
-    .nav-burger {
-      display: none; margin-left: auto;
-      background: none; border: 2px solid var(--border); border-radius: 10px;
-      width: 42px; height: 42px; font-size: 17px; color: var(--primary);
-      cursor: pointer; align-items: center; justify-content: center;
-      transition: all 0.2s;
-    }
-    .nav-burger:hover { border-color: var(--primary); }
-    .nav-burger:active { transform: scale(0.95); }
-    .nav-dropdown {
-      display: none; position: absolute; top: 100%; left: 0; right: 0;
-      background: white; border-bottom: 1px solid var(--border);
-      box-shadow: 0 12px 32px rgba(26,54,93,0.12);
-      padding: 10px 24px 18px; z-index: 99;
-    }
-    .nav-dropdown.open { display: block; }
-    .nav-dropdown a {
-      display: block; padding: 13px 4px; color: var(--text);
-      text-decoration: none; font-size: 14px; font-weight: 600;
-      border-bottom: 1px solid var(--border);
-      transition: color 0.2s;
-    }
-    .nav-dropdown a:hover { color: var(--primary); }
-    .nav-dropdown .dd-btns { display: flex; gap: 10px; margin-top: 14px; }
-    .nav-dropdown .dd-btns .btn { flex: 1; justify-content: center; padding: 13px 14px; }
 
-    /* ── HERO ── */
-    .hero {
-      padding: 100px 0 80px; text-align: center;
-      background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
-    }
-    .hero-emblem {
-      width: 280px; max-width: 70%; height: auto;
-      margin: 0 auto 32px; display: block;
-      filter: drop-shadow(0 8px 32px rgba(26,54,93,0.12));
-    }
-    .hero .subtitle {
-      font-size: 13px; font-weight: 700; color: var(--accent);
-      text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 12px;
-    }
-    .hero h1 {
-      font-size: 48px; font-weight: 800; color: var(--primary);
-      letter-spacing: -1px; margin-bottom: 16px; line-height: 1.15;
-    }
-    .hero h1 .accent { color: var(--accent); }
-    .hero .tagline {
-      font-size: 17px; color: var(--muted); max-width: 560px;
-      margin: 0 auto 40px; line-height: 1.75;
-    }
-    .hero-ctas { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.section{padding:128px 0}
+.section-header{text-align:center;margin-bottom:80px}
+.section-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;margin-bottom:24px}
+.section-badge-text{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
+.sh-security .section-badge{background:rgba(79,125,245,.10);border:1px solid rgba(79,125,245,.20)}
+.sh-security .section-badge-text{color:var(--accent)}
+.sh-como .section-badge{background:rgba(79,125,245,.10);border:1px solid rgba(79,125,245,.20)}
+.sh-como .section-badge-text{color:var(--accent)}
+.sh-producto .section-badge{background:rgba(167,139,250,.10);border:1px solid rgba(167,139,250,.20)}
+.sh-producto .section-badge-text{color:var(--accent-2)}
+.sh-historia .section-badge{background:rgba(233,236,243,.6);border:1px solid rgba(0,30,80,.10)}
+.sh-historia .section-badge-text{color:var(--muted)}
+.sh-mvv .section-badge{background:rgba(245,166,35,.10);border:1px solid rgba(245,166,35,.20)}
+.sh-mvv .section-badge-text{color:var(--gold)}
+.sh-creador .section-badge{background:rgba(233,236,243,.6);border:1px solid rgba(0,30,80,.10)}
+.sh-creador .section-badge-text{color:var(--muted)}
+.section-title{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.gradient{background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.section-subtitle{font-size:18px;color:var(--muted);max-width:640px;margin:20px auto 0;line-height:1.7}
+.bento-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;grid-auto-rows:minmax(200px,auto)}
+.bento-card{border-radius:24px;border:1px solid rgba(0,30,80,.10);padding:32px;transition:all .5s;position:relative;overflow:hidden}
+.bento-card:hover{transform:translateY(-4px)}
+.bento-card-lg{grid-row:span 2;background:linear-gradient(135deg,rgba(79,125,245,.08),rgba(167,139,250,.04));border-color:rgba(79,125,245,.20)}
+.bento-card-lg:hover{border-color:rgba(79,125,245,.40)}
+.bento-glow{position:absolute;top:0;right:0;width:128px;height:128px;border-radius:50%;filter:blur(60px)}
+.bento-card-lg .bento-glow{background:rgba(79,125,245,.06)}
+.bento-icon{display:flex;align-items:center;justify-content:center}
+.bento-card-lg .bento-icon{width:48px;height:48px;border-radius:16px;background:rgba(79,125,245,.10);margin-bottom:24px}
+.bento-card-lg .bento-icon svg{width:24px;height:24px;color:var(--accent)}
+.bento-card-lg h3{font-weight:700;font-size:20px;margin-bottom:12px}
+.bento-card-lg p{color:var(--muted);line-height:1.7}
+.bento-tag{margin-top:32px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--accent);font-weight:500}
+.bento-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.bento-card-sm{background:#fff}
+.bento-card-sm .bento-icon{width:40px;height:40px;border-radius:12px;margin-bottom:20px}
+.bento-card-sm .bento-icon svg{width:20px;height:20px}
+.bento-card-sm h3{font-weight:700;font-size:14px;margin-bottom:8px}
+.bento-card-sm p{color:var(--muted);font-size:14px;line-height:1.7}
+.bento-card-wide{grid-column:span 2;display:flex;align-items:flex-start;gap:20px;background:#fff}
+.bento-card-wide .bento-icon{width:40px;height:40px;border-radius:12px;flex-shrink:0}
+.bento-card-wide .bento-icon svg{width:20px;height:20px}
+.bento-card-wide h3{font-weight:700;font-size:14px;margin-bottom:4px}
+.bento-card-wide p{color:var(--muted);font-size:14px;line-height:1.7}
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.step-card{position:relative;background:#fff;border-radius:24px;padding:32px;border:1px solid rgba(0,30,80,.10);overflow:hidden;transition:all .5s}
+.step-card:hover{transform:translateY(-4px)}
+.step-glow{position:absolute;top:0;right:0;width:96px;height:96px;background:rgba(79,125,245,.04);border-radius:50%;filter:blur(40px);transition:background .5s}
+.step-card:hover .step-glow{background:rgba(79,125,245,.08)}
+.step-number-bg{position:absolute;top:16px;right:24px;font-size:60px;font-weight:900;color:rgba(10,17,40,.03);user-select:none;line-height:1}
+.step-inner{position:relative;z-index:1}
+.step-icon{width:48px;height:48px;border-radius:16px;background:rgba(79,125,245,.10);display:flex;align-items:center;justify-content:center;margin-bottom:24px}
+.step-icon span{color:var(--accent);font-weight:700;font-size:14px}
+.step-card h3{font-weight:700;font-size:20px;margin-bottom:12px}
+.step-card p{color:var(--muted);font-size:14px;line-height:1.7}
 
-    /* ── BUTTONS ── */
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 15px 32px; border-radius: 12px; font-size: 15px;
-      font-weight: 700; text-decoration: none; transition: all 0.25s ease;
-      border: none; cursor: pointer;
-    }
-    .btn-primary { background: var(--primary); color: white; }
-    .btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
-    .btn-accent { background: var(--accent); color: var(--primary-dark); }
-    .btn-accent:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
-    .btn-secondary {
-      background: var(--surface); color: var(--primary);
-      border: 2px solid var(--border);
-    }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
-    .btn-ghost {
-      background: transparent; color: var(--muted);
-      border: 1.5px solid var(--border);
-    }
-    .btn-ghost:hover { border-color: var(--accent); color: var(--primary); }
 
-    /* ── SECTION ── */
-    .section { padding: 96px 0; }
-    .section-label {
-      font-size: 12px; font-weight: 800; text-transform: uppercase;
-      letter-spacing: 2px; color: var(--accent); margin-bottom: 10px;
-    }
-    .section-title {
-      font-size: 32px; font-weight: 800; color: var(--primary);
-      margin-bottom: 16px; letter-spacing: -0.5px; line-height: 1.2;
-    }
-    .section-subtitle {
-      font-size: 16px; color: var(--muted); max-width: 560px;
-      line-height: 1.7; margin-bottom: 48px;
-    }
+.producto-bento{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.producto-card-lg{grid-row:span 2;border-radius:24px;padding:32px;background:linear-gradient(135deg,rgba(167,139,250,.08),rgba(79,125,245,.04));border:1px solid rgba(167,139,250,.20);transition:all .5s;position:relative;overflow:hidden}
+.producto-card-lg:hover{transform:translateY(-4px);border-color:rgba(167,139,250,.40)}
+.producto-card-lg .bento-glow{background:rgba(167,139,250,.06)}
+.producto-card-lg .bento-icon{width:48px;height:48px;border-radius:16px;background:rgba(167,139,250,.10);margin-bottom:24px}
+.producto-card-lg .bento-icon svg{width:24px;height:24px;color:var(--accent-2)}
+.producto-card-lg h3{font-weight:700;font-size:20px;margin-bottom:12px}
+.producto-card-lg p{color:var(--muted);line-height:1.7}
+.producto-card-sm{border-radius:24px;padding:28px;background:#fff;border:1px solid rgba(0,30,80,.10);transition:all .5s}
+.producto-card-sm:hover{transform:translateY(-4px)}
+.producto-card-sm .bento-icon{width:40px;height:40px;border-radius:12px;margin-bottom:20px}
+.producto-card-sm .bento-icon svg{width:20px;height:20px}
+.producto-card-sm h3{font-weight:700;font-size:14px;margin-bottom:8px}
+.producto-card-sm p{color:var(--muted);font-size:14px;line-height:1.7}
+.producto-card-wide{grid-column:span 2;border-radius:24px;padding:28px;background:#fff;border:1px solid rgba(0,30,80,.10);transition:all .5s;display:flex;align-items:flex-start;gap:20px}
+.producto-card-wide:hover{transform:translateY(-4px)}
+.producto-card-wide .bento-icon{width:40px;height:40px;border-radius:12px;flex-shrink:0}
+.producto-card-wide .bento-icon svg{width:20px;height:20px}
+.producto-card-wide h3{font-weight:700;font-size:14px;margin-bottom:4px}
+.producto-card-wide p{color:var(--muted);font-size:14px;line-height:1.7}
+.historia-grid{display:grid;grid-template-columns:1fr 2fr;gap:48px 80px;align-items:start}
+.historia-sidebar{position:sticky;top:128px}
+.historia-quote{font-size:18px;color:var(--muted);line-height:1.8;font-style:italic;padding-left:24px;border-left:2px solid}
+.historia-quote.q1{border-color:rgba(79,125,245,.30)}
+.historia-quote.q2{border-color:rgba(167,139,250,.30)}
+.historia-quote.q3{border-color:rgba(245,166,35,.30)}
+.historia-author{display:flex;align-items:center;gap:16px;padding-top:32px;border-top:1px solid rgba(0,30,80,.10)}
+.historia-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:var(--primary);font-weight:700;font-size:18px;box-shadow:0 4px 16px rgba(79,125,245,.2)}
+.historia-author-name{font-weight:700;font-size:16px}
+.historia-author-role{color:var(--muted);font-size:14px}
+.mvv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.mvv-card{padding:32px;border-radius:24px;background:#fff;border:1px solid rgba(0,30,80,.10);transition:all .5s}
+.mvv-card:hover{transform:translateY(-4px)}
+.mvv-emoji{font-size:40px;margin-bottom:24px}
+.mvv-card h3{font-weight:700;font-size:20px;margin-bottom:16px}
+.mvv-card p{color:var(--muted);font-size:14px;line-height:1.7}
+.mvv-list{list-style:none;margin-top:16px}
+.mvv-list li{display:flex;align-items:center;gap:12px;padding:8px 0;font-size:14px;color:var(--muted)}
+.mvv-list svg{width:16px;height:16px;color:var(--accent);flex-shrink:0}
+.creador-section{position:relative;overflow:hidden}
+.creador-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(79,125,245,.08) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 30% 70%,rgba(167,139,250,.06) 0%,transparent 50%)}
+.creador-card{position:relative;z-index:10;max-width:768px;margin:0 auto;text-align:center;padding:40px;border-radius:32px;background:rgba(255,255,255,.80);backdrop-filter:blur(24px);border:1px solid rgba(0,30,80,.10)}
+.creador-avatar{width:96px;height:96px;border-radius:50%;margin:0 auto 24px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:var(--primary);font-weight:700;font-size:32px;border:4px solid #fff;box-shadow:0 8px 32px rgba(79,125,245,.2)}
+.creador-card h3{font-weight:700;font-size:20px;margin-bottom:4px}
+.creador-card .creador-role{color:var(--muted);font-size:14px;margin-bottom:16px}
+.creador-card .creador-bio{color:var(--muted);font-size:14px;line-height:1.7;max-width:520px;margin:0 auto 32px}
+.creador-social{display:flex;justify-content:center;gap:12px}
+.creador-social a{width:44px;height:44px;border-radius:12px;background:rgba(233,236,243,.6);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:all .3s}
+.creador-social a:hover{transform:scale(1.1)}
+.creador-social a:hover svg{color:var(--primary)}
+.creador-social svg{width:16px;height:16px}
+.cta-section{position:relative;overflow:hidden}
+.cta-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(79,125,245,.08) 0%,transparent 60%)}
+.cta-content{position:relative;z-index:10;text-align:center;max-width:640px;margin:0 auto}
+.cta-content h2{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-.02em;margin-bottom:24px}
+.cta-content p{font-size:18px;color:var(--muted);margin-bottom:40px;line-height:1.7}
+.btn-cta{display:inline-flex;align-items:center;gap:12px;padding:16px 40px;border-radius:16px;font-size:14px;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent-2));border:none;cursor:pointer;transition:all .5s;font-family:inherit}
+.btn-cta:hover{box-shadow:0 20px 40px rgba(79,125,245,.25)}
+.btn-cta svg{width:16px;height:16px;transition:transform .3s}
+.btn-cta:hover svg{transform:translateX(4px)}
 
-    /* ── TRUST / SECURITY ── */
-    .trust-section { background: var(--primary); }
-    .trust-section .section-label { color: var(--accent-light); }
-    .trust-section .section-title { color: white; }
-    .trust-section .section-subtitle { color: rgba(255,255,255,0.7); }
-    .trust-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
-    }
-    .trust-card {
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 16px; padding: 28px 20px; text-align: center;
-      transition: all 0.3s ease;
-    }
-    .trust-card:hover { background: rgba(255,255,255,0.1); transform: translateY(-4px); }
-    .trust-icon {
-      width: 52px; height: 52px; border-radius: 14px; margin: 0 auto 14px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 22px; background: rgba(212,175,55,0.15); color: var(--accent-light);
-    }
-    .trust-card h4 { font-size: 14px; font-weight: 800; color: white; margin-bottom: 6px; }
-    .trust-card p { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.6; }
 
-    /* ── HOW IT WORKS ── */
-    .steps-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
-      counter-reset: step;
-    }
-    .step-card {
-      background: var(--surface); border-radius: var(--radius); padding: 36px 28px;
-      box-shadow: var(--shadow); border: 1px solid var(--border);
-      position: relative; transition: all 0.3s ease;
-      counter-increment: step;
-    }
-    .step-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
-    .step-number {
-      position: absolute; top: -14px; left: 28px;
-      width: 36px; height: 36px; border-radius: 50%;
-      background: var(--accent); color: var(--primary-dark);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px; font-weight: 800;
-      box-shadow: 0 4px 12px rgba(212,175,55,0.3);
-    }
-    .step-card .step-icon {
-      font-size: 32px; margin-bottom: 16px; display: block;
-    }
-    .step-card h3 { font-size: 17px; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
-    .step-card p { font-size: 13px; color: var(--muted); line-height: 1.7; }
-
-    /* ── PRODUCT PREVIEW ── */
-    .product-section { background: white; }
-    .product-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
-    }
-    .product-card {
-      background: var(--bg); border-radius: 16px; padding: 28px 24px;
-      border: 1px solid var(--border); text-align: center;
-      transition: all 0.3s ease;
-    }
-    .product-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: var(--shadow); }
-    .product-card .product-icon {
-      width: 64px; height: 64px; border-radius: 16px; margin: 0 auto 16px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 28px; background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: white; box-shadow: 0 4px 16px rgba(26,54,93,0.2);
-    }
-    .product-card h3 { font-size: 16px; font-weight: 800; color: var(--primary); margin-bottom: 6px; }
-    .product-card p { font-size: 13px; color: var(--muted); line-height: 1.65; }
-
-    /* ── MISION / VISION / VALORES ── */
-    .mvv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .mvv-card {
-      background: var(--surface); border-radius: var(--radius); padding: 32px;
-      box-shadow: var(--shadow); border: 1px solid var(--border);
-      transition: all 0.3s ease;
-    }
-    .mvv-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
-    .mvv-icon {
-      width: 52px; height: 52px; border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 24px; margin-bottom: 18px;
-    }
-    .mvv-icon.i-mision { background: rgba(26,54,93,0.08); color: var(--primary); }
-    .mvv-icon.i-vision { background: rgba(212,175,55,0.12); color: var(--accent-dark); }
-    .mvv-icon.i-valores { background: rgba(26,54,93,0.05); color: var(--primary-light); }
-    .mvv-card h3 {
-      font-size: 17px; font-weight: 800; color: var(--primary); margin-bottom: 10px;
-    }
-    .mvv-card p { font-size: 14px; color: var(--muted); line-height: 1.75; }
-    .valores-list { list-style: none; margin-top: 14px; }
-    .valores-list li {
-      display: flex; align-items: center; gap: 10px; padding: 7px 0;
-      font-size: 14px; font-weight: 600; color: var(--text);
-    }
-    .valores-list li::before {
-      content: ''; width: 22px; height: 22px; border-radius: 50%;
-      background: var(--accent); flex-shrink: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 8l3 3 5-5' stroke='%231a365d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: center;
-      background-size: 12px;
-    }
-
-    /* ── ORIGEN ── */
-    .origen-card {
-      background: var(--surface); border-radius: var(--radius);
-      box-shadow: var(--shadow-lg); border: 1px solid var(--border);
-      padding: 48px 44px; position: relative; overflow: hidden;
-    }
-    .origen-card::before {
-      content: '\201C'; position: absolute; top: -10px; left: 24px;
-      font-size: 120px; color: var(--border); font-family: Georgia, serif; line-height: 1;
-    }
-    .origen-text { position: relative; z-index: 1; }
-    .origen-text p {
-      font-size: 15px; color: var(--text); line-height: 1.85;
-      margin-bottom: 16px; font-style: italic;
-    }
-    .origen-text p:last-of-type { margin-bottom: 28px; }
-    .origen-author { display: flex; align-items: center; gap: 14px; }
-    .origen-avatar {
-      width: 48px; height: 48px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      color: white; display: flex; align-items: center; justify-content: center;
-      font-size: 17px; font-weight: 800; flex-shrink: 0;
-    }
-    .origen-name { font-size: 15px; font-weight: 700; color: var(--primary); }
-    .origen-role { font-size: 12px; color: var(--muted); }
-
-    /* ── SOBRE EL CREADOR ── */
-    .creator-section { background: linear-gradient(160deg, var(--primary-dark) 0%, var(--primary) 60%, var(--primary-light) 100%); }
-    .creator-card {
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(212,175,55,0.35);
-      border-radius: 24px; padding: 52px 44px; max-width: 720px; margin: 0 auto;
-      text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-      backdrop-filter: blur(8px);
-    }
-    .creator-card .section-label { color: var(--accent-light); }
-    .creator-card .section-title { color: white; }
-    .creator-avatar {
-      width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 22px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-      color: var(--primary-dark); display: flex; align-items: center;
-      justify-content: center; font-size: 34px; font-weight: 800;
-      border: 3px solid rgba(255,255,255,0.25);
-      box-shadow: 0 8px 32px rgba(212,175,55,0.4);
-    }
-    .creator-name { font-size: 26px; font-weight: 800; color: white; margin-bottom: 4px; }
-    .creator-role {
-      font-size: 13px; font-weight: 700; color: var(--accent-light);
-      text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 18px;
-    }
-    .creator-bio { font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.8; max-width: 520px; margin: 0 auto 30px; }
-    .creator-social { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
-    .btn-social {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 12px 22px; border-radius: 12px; font-size: 13px; font-weight: 700;
-      text-decoration: none; transition: all 0.25s ease; border: 1px solid rgba(255,255,255,0.2);
-    }
-    .btn-social.linkedin { background: #0A66C2; color: white; }
-    .btn-social.linkedin:hover { background: #084e96; transform: translateY(-2px); }
-    .btn-social.instagram {
-      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-      color: white;
-    }
-    .btn-social.instagram:hover { transform: translateY(-2px); }
-    .btn-social.linktree { background: #39E09B; color: #0d2818; }
-    .btn-social.linktree:hover { transform: translateY(-2px); background: #2cc47f; }
-
-    /* ── CTA FINAL ── */
-    .cta-final {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      padding: 80px 0; text-align: center;
-    }
-    .cta-final h2 {
-      font-size: 32px; font-weight: 800; color: white; margin-bottom: 12px;
-      letter-spacing: -0.5px;
-    }
-    .cta-final p {
-      font-size: 16px; color: rgba(255,255,255,0.7); max-width: 480px;
-      margin: 0 auto 36px; line-height: 1.7;
-    }
-    .cta-final .btn-accent { padding: 16px 40px; font-size: 16px; }
-
-    /* ── FOOTER ── */
-    .footer {
-      background: var(--primary-dark); color: white; padding: 56px 0 32px;
-    }
-    .footer-grid {
-      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
-      margin-bottom: 40px;
-    }
-    .footer-brand { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
-    .footer-desc { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.7; max-width: 320px; }
-    .footer-col h4 {
-      font-size: 12px; font-weight: 800; text-transform: uppercase;
-      letter-spacing: 1.5px; color: var(--accent-light); margin-bottom: 16px;
-    }
-    .footer-col a {
-      display: block; color: rgba(255,255,255,0.7); text-decoration: none;
-      font-size: 13px; padding: 4px 0; transition: color 0.2s;
-    }
-    .footer-col a:hover { color: white; }
-    .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.1);
-      padding-top: 24px; display: flex; justify-content: space-between;
-      align-items: center; flex-wrap: wrap; gap: 16px;
-    }
-    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.4); }
-    .footer-social { display: flex; gap: 12px; }
-    .footer-social a {
-      width: 36px; height: 36px; border-radius: 8px;
-      background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6);
-      display: flex; align-items: center; justify-content: center;
-      text-decoration: none; font-size: 14px; transition: all 0.2s;
-    }
-    .footer-social a:hover { background: var(--accent); color: var(--primary-dark); }
-
-    /* ── MODAL "MÁS" ── */
-    .modal-mas-overlay {
-      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(15,34,64,0.5); backdrop-filter: blur(4px);
-      z-index: 200; align-items: center; justify-content: center;
-    }
-    .modal-mas-overlay.active { display: flex; }
-    .modal-mas {
-      background: white; border-radius: 20px; padding: 36px 32px;
-      max-width: 380px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-      position: relative;
-    }
-    .modal-mas-close {
-      position: absolute; top: 14px; right: 14px;
-      background: none; border: none; font-size: 18px; color: var(--muted);
-      cursor: pointer; width: 32px; height: 32px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s;
-    }
-    .modal-mas-close:hover { background: var(--bg); color: var(--text); }
-    .modal-mas h3 {
-      font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 20px;
-    }
-    .modal-mas-item {
-      display: flex; align-items: center; gap: 14px; padding: 14px 16px;
-      border-radius: 12px; text-decoration: none; color: var(--text);
-      transition: all 0.2s; border: 1px solid transparent;
-    }
-    .modal-mas-item:hover { background: var(--bg); border-color: var(--border); }
-    .modal-mas-item .mm-icon {
-      width: 42px; height: 42px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; flex-shrink: 0;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: white;
-    }
-    .modal-mas-item .mm-text h4 { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
-    .modal-mas-item .mm-text p { font-size: 12px; color: var(--muted); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      .trust-grid { grid-template-columns: repeat(2, 1fr); }
-      .steps-grid { grid-template-columns: 1fr; gap: 20px; }
-      .product-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr; gap: 28px; }
-    }
-    @media (max-width: 768px) {
-      .section { padding: 72px 0; }
-      .hero { padding: 72px 0 56px; }
-      .hero h1 { font-size: 34px; }
-      .section-title { font-size: 26px; }
-      .mvv-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
-      .nav-sistema { display: none; }
-      .nav-burger { display: flex; }
-      .hero-ctas { display: none; }
-      .origen-card { padding: 32px 24px; }
-      .cta-final { padding: 64px 0; }
-      .cta-final h2 { font-size: 26px; }
-      .footer-bottom { flex-direction: column; text-align: center; }
-    }
-    @media (max-width: 480px) {
-      .hero h1 { font-size: 28px; }
-      .hero .tagline { font-size: 15px; }
-      .btn { width: 100%; max-width: 300px; justify-content: center; }
-      .trust-grid { grid-template-columns: 1fr; }
-    }
-
-    /* ── PORTAL ELECTORAL (overlay) ── */
-    #portal-electoral{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;background:linear-gradient(160deg,var(--color-primary) 0%,#0a1f5c 35%,#001a40 100%);overflow-y:auto}
-    #portal-electoral.active{display:flex;flex-direction:column;align-items:center}
-    .portal-elec-hero{text-align:center;padding:32px 20px 24px;color:white;width:100%;max-width:480px}
-    .portal-elec-hero .hero-circle{width:64px;height:64px;border-radius:50%;border:3px solid #C5A864;background:white;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;box-shadow:0 0 30px rgba(197,168,100,0.25),0 4px 20px rgba(0,0,0,0.3)}
-    .portal-elec-hero .hero-circle span{font-weight:900;font-size:18px;color:var(--color-primary);letter-spacing:1px}
-    .portal-elec-hero h1{font-size:22px;font-weight:900;margin-bottom:2px}
-    .portal-elec-hero p{font-size:12px;opacity:0.7}
-    .portal-elec-wrap{width:100%;max-width:480px;padding:0 16px 24px}
-    .close-portal{position:fixed;top:16px;right:16px;z-index:1001;background:rgba(255,255,255,0.15);border:none;color:white;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;display:none;backdrop-filter:blur(8px);transition:all .2s;border:1px solid rgba(255,255,255,0.2)}
-    .close-portal:hover{background:rgba(255,255,255,0.25)}
-    #portal-electoral.active .close-portal{display:block}
-    .pe-step{display:none}.pe-step.active{display:block}
-    .pe-card{background:white;border-radius:20px;box-shadow:0 4px 24px rgba(0,0,0,0.08);overflow:hidden;margin-bottom:16px}
-    .pe-card-header{background:linear-gradient(135deg,var(--color-primary),#0a1f5c);padding:16px 20px;color:white}
-    .pe-card-header h2{font-size:16px;font-weight:800}.pe-card-header p{font-size:12px;opacity:0.7;margin-top:2px}
-    .pe-card-body{padding:20px}
-    .pe-campo{margin-bottom:12px}
-    .pe-campo label{display:block;font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:5px}
-    .pe-campo input,.pe-campo select{width:100%;padding:11px 14px;border:2px solid #e2e8f0;border-radius:12px;font-size:14px;outline:none;font-family:inherit;background:white;transition:border .2s}
-    .pe-campo input:focus{border-color:var(--color-primary)}
-    .pe-pin-row{display:flex;gap:10px;justify-content:center;margin-bottom:12px}
-    .pe-pin-row input{width:50px;height:56px;text-align:center;font-size:20px;font-weight:900;border-radius:12px;border:2px solid #e2e8f0;outline:none;font-family:inherit;transition:border .2s}
-    .pe-pin-row input:focus{border-color:var(--color-primary)}
-    .pe-btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;touch-action:manipulation;font-family:inherit;margin-bottom:8px;transition:all .15s}
-    .pe-btn:active{transform:scale(0.97)}
-    .pe-btn-azul{background:var(--color-primary);color:white}.pe-btn-verde{background:#16a34a;color:white}.pe-btn-gris{background:#f1f5f9;color:#64748b}.pe-btn-rojo{background:#dc2626;color:white}.pe-btn-oro{background:#C5A864;color:#001a40}
-    .pe-error-box{background:#fef2f2;border:2px solid #fecaca;border-radius:10px;padding:10px 12px;font-size:13px;color:#dc2626;font-weight:600;margin-bottom:10px;display:none}
-    .pe-info-box{background:#eff6ff;border:2px solid #bfdbfe;border-radius:10px;padding:10px 12px;font-size:12px;color:#1e40af;margin-bottom:12px}
-    .pe-role-grid{display:grid;gap:12px;margin-bottom:16px}
-    .pe-role-card{position:relative;display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid #e8edf5;border-radius:18px;background:linear-gradient(135deg,#ffffff 0%,#f8fafd 100%);cursor:pointer;transition:all .2s cubic-bezier(.4,0,.2,1);touch-action:manipulation;box-shadow:0 1px 2px rgba(15,23,42,.04)}
-    .pe-role-card:active{transform:scale(0.98)}
-    .pe-role-card:hover{border-color:rgba(15,23,42,.18);background:linear-gradient(135deg,#ffffff 0%,#f1f5fb 100%);box-shadow:0 8px 24px rgba(15,23,42,.10);transform:translateY(-2px)}
-    .pe-role-card .rc-icon{font-size:24px;width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 2px 6px rgba(15,23,42,.08)}
-    .pe-role-card .rc-text{flex:1}.pe-role-card .rc-title{font-size:14px;font-weight:800;color:#0f172a;letter-spacing:-.01em}.pe-role-card .rc-sub{font-size:11px;color:#64748b;margin-top:2px;line-height:1.4}
-    .pe-role-card .rc-arrow{width:30px;height:30px;border-radius:50%;background:#eef2f8;color:#334155;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:all .2s}
-    .pe-role-card:hover .rc-arrow{background:var(--color-primary);color:#fff;transform:translateX(2px)}
-    .pe-portal-top{display:flex;gap:8px;margin-bottom:16px}
-    .pe-portal-top .pe-btn{flex:1}
-    .pe-portal-section{margin-bottom:14px}
-    .pe-portal-section-title{font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-left:4px;display:flex;align-items:center;gap:6px}
-    .pe-portal-section-title::after{content:'';flex:1;height:1px;background:#e2e8f0}
-    .pe-reg-options{display:grid;gap:8px}
-    .pe-reg-opt{display:flex;align-items:center;gap:10px;padding:14px;border:2px solid #e2e8f0;border-radius:14px;background:white;cursor:pointer;transition:all .15s;touch-action:manipulation;text-align:left}
-    .pe-reg-opt:active{transform:scale(0.97)}
-    .pe-reg-opt:hover{border-color:#16a34a;background:#f0fdf4}
-    .pe-reg-opt.selected{border-color:var(--color-primary);background:#eff6ff}
-    .pe-reg-opt .ro-icon{font-size:22px;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .pe-reg-opt .ro-text{flex:1}.pe-reg-opt .ro-title{font-size:13px;font-weight:800;color:#1e293b}.pe-reg-opt .ro-desc{font-size:10px;color:#64748b;margin-top:1px}
-    .toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:400px;margin:0 auto;padding:13px 18px;border-radius:14px;font-size:14px;font-weight:700;z-index:9999;text-align:center;display:none;font-family:'Plus Jakarta Sans',sans-serif}
-    .toast-ok{background:#16a34a;color:white}.toast-error{background:#dc2626;color:white}.toast-info{background:var(--color-primary);color:white}
-    @media(min-width:480px){.pe-card{box-shadow:0 8px 40px rgba(0,0,0,0.1)}}
-  </style>
+.footer{background:var(--primary);color:#fff;padding:64px 0 32px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}
+.footer-brand{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.footer-brand-icon{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center}
+.footer-brand-icon svg{width:20px;height:20px;color:#fff}
+.footer-brand span{font-weight:700;font-size:15px}
+.footer-desc{font-size:14px;color:rgba(255,255,255,.4);line-height:1.7;max-width:280px}
+.footer-col h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:20px}
+.footer-col a{display:block;font-size:14px;color:rgba(255,255,255,.5);padding:4px 0;transition:color .3s}
+.footer-col a:hover{color:#fff}
+.footer-contact-item{display:flex;align-items:center;gap:8px;font-size:14px;color:rgba(255,255,255,.5)}
+.footer-contact-item svg{width:14px;height:14px;flex-shrink:0}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.06);margin-top:48px;padding-top:24px;display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font-size:12px;color:rgba(255,255,255,.3)}
+.footer-legal{display:flex;gap:24px}
+.footer-legal a{font-size:12px;color:rgba(255,255,255,.3);transition:color .3s}
+.footer-legal a:hover{color:rgba(255,255,255,.6)}
+@keyframes mesh-drift{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-20px)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes shield-pulse{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
+@keyframes shield-impact{0%,100%{transform:translate(0,0)}10%{transform:translate(-1px,1px)}20%{transform:translate(1px,-1px)}30%{transform:translate(0,0)}}
+@keyframes float-slow{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes ring-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes mesh-float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-12px) scale(1.02)}}
+@keyframes mesh-blink{0%,90%,100%{ry:30}95%{ry:3}}
+.mesh-character{animation:mesh-float 3s ease-in-out infinite;pointer-events:none;z-index:5}
+.mesh-character svg{width:100%;height:100%}
+.info-popover{position:relative;display:inline-flex}
+.info-popover-btn{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;border:1px solid rgba(0,30,80,.12);background:#fff;cursor:pointer;transition:all .2s;color:var(--muted)}
+.info-popover-btn:hover{background:rgba(79,125,245,.08);border-color:rgba(79,125,245,.3);color:var(--accent)}
+.info-popover-btn svg{width:14px;height:14px}
+.info-popover-content{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);width:240px;padding:12px;border-radius:12px;background:#fff;border:1px solid rgba(0,30,80,.10);box-shadow:0 8px 24px rgba(0,0,0,.10);z-index:100;opacity:0;visibility:hidden;transition:all .2s}
+.info-popover-content::before{content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%) rotate(45deg);width:10px;height:10px;background:#fff;border-left:1px solid rgba(0,30,80,.10);border-top:1px solid rgba(0,30,80,.10)}
+.info-popover.open .info-popover-content{opacity:1;visibility:visible}
+.info-popover-title{font-size:12px;font-weight:700;color:var(--primary);margin-bottom:4px}
+.info-popover-desc{font-size:11px;color:var(--muted);line-height:1.5}
+.mesh-eye{animation:mesh-blink 3s infinite ease-in-out;fill:currentColor}
+@media(max-width:1024px){
+.hero-grid{grid-template-columns:1fr;gap:40px}
+.shield-visual{display:none}
+.bento-grid{grid-template-columns:repeat(2,1fr)}
+.bento-card-lg{grid-row:span 1}
+.bento-card-wide{grid-column:span 2}
+.steps-grid{grid-template-columns:repeat(2,1fr)}
+.producto-bento{grid-template-columns:repeat(2,1fr)}
+.producto-card-lg{grid-row:span 1}
+.historia-grid{grid-template-columns:1fr}
+.historia-sidebar{position:static}
+.footer-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+.section{padding:80px 0}
+.bento-grid,.steps-grid,.producto-bento,.mvv-grid{grid-template-columns:1fr}
+.bento-card-wide,.producto-card-wide{grid-column:span 1}
+.nav-btns{display:none}
+.nav-burger{display:flex}
+.footer-grid{grid-template-columns:1fr}
+.footer-bottom{flex-direction:column;gap:16px;text-align:center}
+.footer-legal{justify-content:center}
+}
+</style>
 </head>
 <body>
 
+
 <!-- NAV -->
-<nav class="nav">
+<nav class="nav" id="mainNav">
   <div class="nav-inner">
     <a href="#" class="nav-logo">
-      <img src="img/logo-pro.svg" alt="SISTEPARD" style="height:42px;width:auto;border-radius:50%;">
-    </a>
-    <span class="nav-sistema">Sistema Electoral Digital</span>
-    <div class="nav-links">
-      <a href="#seguridad" class="hide-mobile">Seguridad</a>
-      <a href="#como-funciona" class="hide-mobile">Cómo Funciona</a>
-      <a href="#producto" class="hide-mobile">Producto</a>
-      <button class="btn-nav btn-nav-ghost" onclick="abrirModalMas()" style="cursor:pointer;font-family:inherit">Más <i class="fa-solid fa-chevron-down" style="font-size:10px;margin-left:2px"></i></button>
-      <button class="btn-nav" onclick="abrirPortalElectoral()" style="border:none;cursor:pointer;font-family:inherit">Iniciar Sesión</button>
-      <button class="btn-nav" onclick="abrirPortalElectoral('registro')" style="border:none;cursor:pointer;font-family:inherit;background:var(--accent);color:var(--primary-dark)">Registrarse</button>
-    </div>
-    <button class="nav-burger" onclick="toggleNavMenu()" aria-label="Menú"><i class="fa-solid fa-bars"></i></button>
-    <div class="nav-dropdown" id="nav-dropdown">
-      <a href="index.html">Inicio</a>
-      <a href="#seguridad">Seguridad</a>
-      <a href="#como-funciona">Cómo Funciona</a>
-      <a href="#producto">Producto</a>
-      <a href="#creador">Sobre el Creador</a>
-      <div style="border-top:1px solid var(--border);margin:8px 0"></div>
-      <a href="legisladores.html">Representantes</a>
-      <a href="geografia.html">Geografía</a>
-      <div class="dd-btns">
-        <button class="btn btn-primary" onclick="abrirPortalElectoral()" style="border:none;cursor:pointer;font-family:inherit">Iniciar Sesión</button>
-        <button class="btn btn-accent" onclick="abrirPortalElectoral('registro')" style="border:none;cursor:pointer;font-family:inherit">Registrarse</button>
+      <div class="nav-logo-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
       </div>
+      <span class="nav-logo-text">SISTEPARD</span>
+    </a>
+    <div class="nav-btns">
+      <div class="mas-dropdown" id="masDropdown">
+        <div class="mas-btn">
+          <button onclick="toggleMasMenu()">Mas <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg></button>
+        </div>
+        <div class="mas-menu" id="masMenu">
+          <a href="legisladores.html">
+            <div class="mm-icon" style="background:linear-gradient(135deg,var(--accent),var(--accent-2))">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z"/></svg>
+            </div>
+            <div><h4>Representantes</h4><p>Estructura de liderazgo y candidaturas</p></div>
+          </a>
+          <a href="geografia.html">
+            <div class="mm-icon" style="background:linear-gradient(135deg,var(--color-primary),var(--accent))">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+            </div>
+            <div><h4>Geografia</h4><p>Municipios y estructura territorial</p></div>
+          </a>
+        </div>
+      </div>
+      <button class="nav-link" onclick="abrirPortalElectoral()">Iniciar Sesion</button>
+      <button class="nav-btn-primary" onclick="abrirPortalElectoral('registro')">Registrarse</button>
+    </div>
+    <button class="nav-burger" id="navBurger" onclick="toggleMobileMenu()">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="legisladores.html">Representantes</a>
+    <a href="geografia.html">Geografia</a>
+    <a href="#creador">Sobre el Creador</a>
+    <div class="mob-btns">
+      <button class="nav-link" onclick="abrirPortalElectoral()" style="width:100%;text-align:center">Iniciar Sesion</button>
+      <button class="nav-btn-primary" onclick="abrirPortalElectoral('registro')" style="width:100%;text-align:center">Registrarse</button>
     </div>
   </div>
 </nav>
 
+
 <!-- HERO -->
 <section class="hero">
-  <div class="container">
-    <img class="hero-emblem" src="img/logo-pro.svg" alt="SISTEPARD" style="border-radius:50%;width:150px;height:150px;">
-
-    <p class="subtitle">Gestión Electoral Digital</p>
-    <h1>La plataforma que tu<br>partido <span class="accent">necesita</span></h1>
-    <p class="tagline">Gestión electoral interna con trazabilidad completa, seguridad de nivel empresarial y herramientas diseñadas para el terreno político dominicano.</p>
-
-    <div class="hero-ctas">
-      <button onclick="abrirPortalElectoral('registro')" class="btn btn-accent">
-        <i class="fa-solid fa-rocket"></i> Solicitar Demo
-      </button>
-      <a href="#como-funciona" class="btn btn-secondary">
-        <i class="fa-solid fa-arrow-down"></i> Conocer Más
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- SEGURIDAD Y CONFIANZA -->
-<section class="section trust-section" id="seguridad">
-  <div class="container">
-    <div class="section-label reveal">Seguridad y Confianza</div>
-    <h2 class="section-title reveal">Diseñado para la<br>seriedad electoral</h2>
-    <p class="section-subtitle reveal">Cada componente del sistema está construido con los mismos estándares que usan las instituciones financieras y gubernamentales.</p>
-
-    <div class="trust-grid">
-      <div class="trust-card reveal reveal-delay-1">
-        <div class="trust-icon"><i class="fa-solid fa-shield-halved"></i></div>
-        <h4>Row Level Security</h4>
-        <p>Cada usuario solo ve los datos que le corresponden. Sin acceso cruzado entre zonas o candidaturas.</p>
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+  <div class="container hero-content">
+    <div class="hero-grid">
+      <div>
+        <div class="reveal">
+          <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            <span class="hero-badge-text">Gestion Electoral Digital</span>
+          </div>
+        </div>
+        <h1 class="reveal">
+          <span class="line">La plataforma</span>
+          <span class="line">que tu partido</span>
+          <span class="line-accent">necesita</span>
+        </h1>
+        <p class="hero-desc reveal rd1">Gestion electoral interna con trazabilidad completa, seguridad de nivel empresarial y herramientas disenadas para el terreno politico dominicano.</p>
+        <div class="hero-ctas reveal rd2">
+          <button class="btn-hero-primary" onclick="abrirPortalElectoral('registro')">
+            <span>Solicitar Demo</span>
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+          </button>
+          <a href="#como-funciona" class="btn-hero-secondary">
+            Conocer Mas
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"/></svg>
+          </a>
+        </div>
       </div>
-      <div class="trust-card reveal reveal-delay-2">
-        <div class="trust-icon"><i class="fa-solid fa-key"></i></div>
-        <h4>Autenticación JWT</h4>
-        <p>Sesiones firmadas con tokens de corta vida. Requiere cédula + PIN personal para acceder.</p>
-      </div>
-      <div class="trust-card reveal reveal-delay-3">
-        <div class="trust-icon"><i class="fa-solid fa-clipboard-list"></i></div>
-        <h4>Auditoría Completa</h4>
-        <p>Cada acción queda registrada con fecha, usuario y tipo de operación. Trazabilidad total.</p>
-      </div>
-      <div class="trust-card reveal reveal-delay-3">
-        <div class="trust-icon"><i class="fa-solid fa-lock"></i></div>
-        <h4>Datos Cifrados</h4>
-        <p>Información sensible protegida en tránsito y en reposo. Cumplimiento con estándares de seguridad.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CÓMO FUNCIONA -->
-<section class="section" id="como-funciona" style="background: white;">
-  <div class="container">
-    <div class="section-label reveal">Cómo Funciona</div>
-    <h2 class="section-title reveal">Tres pasos para<br>modernizar tu partido</h2>
-    <p class="section-subtitle reveal">Desde la inscripción de militantes hasta la generación de actas. Un solo sistema para todo el proceso electoral.</p>
-
-    <div class="steps-grid">
-      <div class="step-card reveal reveal-delay-1">
-        <div class="step-number">1</div>
-        <span class="step-icon">📋</span>
-        <h3>Registra tu Estructura</h3>
-        <p>Candidatos, dirigentes, delegados y coordinadores se registran con su cédula. El sistema valida y organiza automáticamente por zona y municipio.</p>
-      </div>
-      <div class="step-card reveal reveal-delay-2">
-        <div class="step-number">2</div>
-        <span class="step-icon">🗳️</span>
-        <h3>Gestiona el Proceso</h3>
-        <p>Planifica elecciones internas, genera actas electrónicas con código QR de verificación, y gestiona las mesas de votación en tiempo real.</p>
-      </div>
-      <div class="step-card reveal reveal-delay-3">
-        <div class="step-number">3</div>
-        <span class="step-icon">📊</span>
-        <h3>Verifica y Audita</h3>
-        <p>Cada acta tiene un código QR único. Cualquier persona puede verificar la autenticidad del documento. Auditoría completa de cada acción.</p>
+      <div class="reveal rd2" style="display:flex;justify-content:center;align-items:center">
+        <div class="shield-visual">
+          <svg class="shield-rings" viewBox="0 0 340 340">
+            <circle cx="170" cy="170" r="155" fill="none" stroke="#4f7df5" stroke-width="0.5" stroke-dasharray="6 10" style="animation:ring-spin 60s linear infinite"/>
+            <circle cx="170" cy="170" r="125" fill="none" stroke="#a78bfa" stroke-width="0.5" stroke-dasharray="4 14" style="animation:ring-spin 45s linear infinite reverse"/>
+          </svg>
+          <svg class="shield-particles" viewBox="0 0 340 340">
+            <circle cx="0" cy="0" r="2.5" fill="#C8102E" opacity="0.8"><animate attributeName="cx" values="0;155" dur="2s" repeatCount="indefinite"/><animate attributeName="cy" values="0;155" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0.8;0;0" dur="2s" repeatCount="indefinite"/></circle>
+            <circle cx="0" cy="0" r="1.5" fill="#C8102E" opacity="0.5"><animate attributeName="cx" values="0;160" dur="2.3s" repeatCount="indefinite" begin="0.7s"/><animate attributeName="cy" values="10;150" dur="2.3s" repeatCount="indefinite" begin="0.7s"/><animate attributeName="opacity" values="0.5;0.5;0;0" dur="2.3s" repeatCount="indefinite" begin="0.7s"/></circle>
+            <circle cx="340" cy="0" r="2" fill="#f5a623" opacity="0.7"><animate attributeName="cx" values="340;185" dur="1.8s" repeatCount="indefinite" begin="0.3s"/><animate attributeName="cy" values="0;155" dur="1.8s" repeatCount="indefinite" begin="0.3s"/><animate attributeName="opacity" values="0.7;0.7;0;0" dur="1.8s" repeatCount="indefinite" begin="0.3s"/></circle>
+            <circle cx="340" cy="20" r="1.5" fill="#C8102E" opacity="0.6"><animate attributeName="cx" values="340;180" dur="2.5s" repeatCount="indefinite" begin="1.2s"/><animate attributeName="cy" values="20;160" dur="2.5s" repeatCount="indefinite" begin="1.2s"/><animate attributeName="opacity" values="0.6;0.6;0;0" dur="2.5s" repeatCount="indefinite" begin="1.2s"/></circle>
+            <circle cx="0" cy="340" r="2" fill="#f5a623" opacity="0.7"><animate attributeName="cx" values="0;155" dur="2.1s" repeatCount="indefinite" begin="0.5s"/><animate attributeName="cy" values="340;185" dur="2.1s" repeatCount="indefinite" begin="0.5s"/><animate attributeName="opacity" values="0.7;0.7;0;0" dur="2.1s" repeatCount="indefinite" begin="0.5s"/></circle>
+            <circle cx="340" cy="340" r="2.5" fill="#C8102E" opacity="0.8"><animate attributeName="cx" values="340;185" dur="1.9s" repeatCount="indefinite" begin="0.8s"/><animate attributeName="cy" values="340;185" dur="1.9s" repeatCount="indefinite" begin="0.8s"/><animate attributeName="opacity" values="0.8;0.8;0;0" dur="1.9s" repeatCount="indefinite" begin="0.8s"/></circle>
+            <circle cx="0" cy="170" r="1.5" fill="#C8102E" opacity="0.6"><animate attributeName="cx" values="0;145" dur="1.7s" repeatCount="indefinite" begin="1.5s"/><animate attributeName="opacity" values="0.6;0.6;0;0" dur="1.7s" repeatCount="indefinite" begin="1.5s"/></circle>
+            <circle cx="340" cy="170" r="2" fill="#f5a623" opacity="0.5"><animate attributeName="cx" values="340;195" dur="2.2s" repeatCount="indefinite" begin="1.8s"/><animate attributeName="opacity" values="0.5;0.5;0;0" dur="2.2s" repeatCount="indefinite" begin="1.8s"/></circle>
+            <circle cx="155" cy="155" r="0" fill="#C8102E" opacity="0"><animate attributeName="r" values="0;15;0" dur="0.3s" repeatCount="indefinite" begin="1.95s"/><animate attributeName="opacity" values="0;0.4;0" dur="0.3s" repeatCount="indefinite" begin="1.95s"/></circle>
+            <circle cx="185" cy="155" r="0" fill="#f5a623" opacity="0"><animate attributeName="r" values="0;12;0" dur="0.3s" repeatCount="indefinite" begin="2.05s"/><animate attributeName="opacity" values="0;0.3;0" dur="0.3s" repeatCount="indefinite" begin="2.05s"/></circle>
+            <circle cx="170" cy="185" r="0" fill="#C8102E" opacity="0"><animate attributeName="r" values="0;14;0" dur="0.3s" repeatCount="indefinite" begin="2.6s"/><animate attributeName="opacity" values="0;0.35;0" dur="0.3s" repeatCount="indefinite" begin="2.6s"/></circle>
+          </svg>
+          <div class="shield-center">
+            <div class="shield-glow"></div>
+            <div class="shield-body">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+          </div>
+          <div class="shield-badge-1">&#128274; JWT Auth</div>
+          <div class="shield-badge-2">&#128737; RLS</div>
+          <div class="shield-badge-3">&#9889; AES-256</div>
+        </div>
       </div>
     </div>
   </div>
-</section>
-
-<!-- PRODUCTO EN ACCIÓN -->
-<section class="section product-section" id="producto">
-  <div class="container">
-    <div class="section-label reveal">El Sistema</div>
-    <h2 class="section-title reveal">Herramientas reales<br>para trabajo real</h2>
-    <p class="section-subtitle reveal">No es una promesa — es un sistema funcionando. Estas son las herramientas que ya están disponibles.</p>
-
-    <div class="product-grid">
-      <div class="product-card reveal reveal-delay-1">
-        <div class="product-icon"><i class="fa-solid fa-users"></i></div>
-        <h3>Portal de Dirigentes</h3>
-        <p>Gestión completa de la estructura del partido. Cada dirigente tiene su perfil, zona asignada y herramientas de comunicación.</p>
-      </div>
-      <div class="product-card reveal reveal-delay-2">
-        <div class="product-icon"><i class="fa-solid fa-file-lines"></i></div>
-        <h3>Actas Electrónicas</h3>
-        <p>Generación automática de actas con código QR de verificación. Sin papel, sin errores, con trazabilidad completa.</p>
-      </div>
-      <div class="product-card reveal reveal-delay-3">
-        <div class="product-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-        <h3>Gestión Zonal</h3>
-        <p>Organización geográfica por municipios y zonas políticas. Asignación automática de delegados y estructura de base.</p>
-      </div>
-    </div>
+  <div class="hero-bottom-fade"></div>
+  <div class="scroll-indicator reveal rd4">
+    <span>Scroll</span>
+    <div class="scroll-indicator-box"><div class="scroll-indicator-dot"></div></div>
   </div>
 </section>
 
-<!-- CÓMO NACIÓ SISTEPARD -->
-<section class="section" id="historia" style="background: white;">
-  <div class="container">
-    <div class="section-label reveal">Nuestra Historia</div>
-    <h2 class="section-title reveal">Cómo Nació SISTEPARD</h2>
 
-    <div class="origen-card reveal">
-      <div class="origen-text">
-        <p>Nadie me lo pidió. No había presupuesto, ni equipo, ni certeza de que fuera a funcionar. Solo la experiencia de estar en el terreno como dirigente de zona y ver, de cerca, todo lo que faltaba.</p>
-        <p>La idea llegó antes que las herramientas para construirla. Durante mucho tiempo existió solo en mi cabeza, dando vueltas, hasta que decidí que tenía que dejar de ser una idea y convertirse en algo real. Aprendí lo que hizo falta aprender. Encontré tiempo donde no lo había. Seguí cuando lo lógico hubiera sido parar.</p>
-        <p>SISTEPARD no nació en un laboratorio ni en una oficina central. Nació donde nace el trabajo político de verdad: en la base. Lo construyó alguien que conoce ese trabajo porque lo vivió primero, y que decidió que la militancia también merece herramientas hechas con la misma seriedad con la que se hacen las cosas importantes.</p>
+<!-- SEGURIDAD -->
+<section id="seguridad" class="section sh-security">
+  <div class="container">
+    <div class="section-header reveal">
+      <div style="display:flex;align-items:center;gap:8px;justify-content:center">
+        <div class="section-badge"><span class="section-badge-text">Seguridad y Confianza</span></div>
+        <div class="info-popover" onclick="this.classList.toggle('open')">
+          <button class="info-popover-btn" type="button">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </button>
+          <div class="info-popover-content">
+            <div class="info-popover-title">Seguridad Empresarial</div>
+            <div class="info-popover-desc">Cada componente usa los mismos estandares que las instituciones financieras y gubernamentales.</div>
+          </div>
+        </div>
       </div>
-      <div class="origen-author">
-        <div class="origen-avatar">GV</div>
+      <h2 class="section-title">Disenado para la <span class="gradient">seriedad electoral</span></h2>
+      <p class="section-subtitle">Cada componente del sistema esta construido con los mismos estandares que usan las instituciones financieras y gubernamentales.</p>
+    </div>
+    <div class="bento-grid">
+      <div class="bento-card bento-card-lg reveal">
+        <div class="bento-glow"></div>
+        <div class="bento-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <h3>Row Level Security</h3>
+        <p>Cada usuario solo ve los datos que le corresponden. Sin acceso cruzado entre zonas. Aislamiento total a nivel de base de datos Supabase.</p>
+        <div class="bento-tag"><span class="bento-tag-dot"></span> Proteccion por politica RLS</div>
+      </div>
+      <div class="bento-card bento-card-sm reveal rd1">
+        <div class="bento-icon" style="background:rgba(167,139,250,.10)">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"/></svg>
+        </div>
+        <h3>Autenticacion JWT</h3>
+        <p>Sesiones firmadas con tokens de corta vida. Requiere cedula + PIN personal.</p>
+      </div>
+      <div class="bento-card bento-card-sm reveal rd2">
+        <div class="bento-icon" style="background:rgba(233,236,243,.6)">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="color:var(--muted)"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/></svg>
+        </div>
+        <h3>Auditoria Completa</h3>
+        <p>Cada accion queda registrada con fecha, usuario y tipo. Trazabilidad total.</p>
+      </div>
+      <div class="bento-card bento-card-wide reveal rd3">
+        <div class="bento-icon" style="background:rgba(245,166,35,.10)">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="color:var(--gold)"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+        </div>
         <div>
-          <div class="origen-name">Gritzewsky Ventura</div>
-          <div class="origen-role">Fundador, SISTEPARD</div>
+          <h3>Datos Cifrados</h3>
+          <p>Informacion sensible protegida en transito y en reposo. Cumplimiento con estandares internacionales de seguridad.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- MISIÓN / VISIÓN / VALORES -->
-<section class="section" id="mision">
+
+<!-- COMO FUNCIONA -->
+<section id="como-funciona" class="section sh-como">
   <div class="container">
-    <div class="section-label reveal">Nuestro Propósito</div>
-    <h2 class="section-title reveal">Misión, Visión y Valores</h2>
+    <div class="section-header reveal">
+      <div class="section-badge"><span class="section-badge-text">Como Funciona</span></div>
+      <h2 class="section-title">Tres pasos para modernizar</h2>
+      <p class="section-subtitle">Desde la inscripcion de militantes hasta la generacion de actas. Un solo sistema para todo el proceso electoral.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card reveal rd1">
+        <div class="step-glow"></div>
+        <div class="step-number-bg">01</div>
+        <div class="step-inner">
+          <div class="step-icon"><span>01</span></div>
+          <h3>Registra tu Estructura</h3>
+          <p>Candidatos, dirigentes, delegados y coordinadores se registran con su cedula. El sistema valida y organiza automaticamente por zona y municipio.</p>
+        </div>
+      </div>
+      <div class="step-card reveal rd2">
+        <div class="step-glow"></div>
+        <div class="step-number-bg">02</div>
+        <div class="step-inner">
+          <div class="step-icon"><span>02</span></div>
+          <h3>Gestiona el Proceso</h3>
+          <p>Planifica elecciones internas, genera actas electronicas con codigo QR de verificacion, y gestiona las mesas de votacion en tiempo real.</p>
+        </div>
+      </div>
+      <div class="step-card reveal rd3">
+        <div class="step-glow"></div>
+        <div class="step-number-bg">03</div>
+        <div class="step-inner">
+          <div class="step-icon"><span>03</span></div>
+          <h3>Verifica y Audita</h3>
+          <p>Cada acta tiene un codigo QR unico. Cualquier persona puede verificar la autenticidad del documento. Auditoria completa.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- PRODUCTO -->
+<section id="producto" class="section sh-producto">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-badge"><span class="section-badge-text">El Sistema</span></div>
+      <h2 class="section-title">Herramientas reales para<br><span class="gradient">trabajo real</span></h2>
+      <p class="section-subtitle">No es una promesa -- es un sistema funcionando. Estas son las herramientas que ya estan disponibles.</p>
+    </div>
+    <div class="producto-bento">
+      <div class="producto-card-lg reveal">
+        <div class="bento-glow"></div>
+        <div class="bento-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+        </div>
+        <h3>Actas Electronicas</h3>
+        <p>Generacion automatica de actas con codigo QR de verificacion. Sin papel, sin errores, con trazabilidad completa.</p>
+        <div class="bento-tag"><span class="bento-tag-dot" style="background:var(--accent-2)"></span> Codigo QR unico por acta</div>
+      </div>
+      <div class="producto-card-sm reveal rd1">
+        <div class="bento-icon" style="background:rgba(79,125,245,.10)">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="color:var(--accent)"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
+        </div>
+        <h3>Portal de Dirigentes</h3>
+        <p>Gestion completa de la estructura del partido. Perfil, zona y herramientas de comunicacion.</p>
+      </div>
+      <div class="producto-card-sm reveal rd2">
+        <div class="bento-icon" style="background:rgba(245,166,35,.10)">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="color:var(--gold)"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+        </div>
+        <h3>Gestion Zonal</h3>
+        <p>Organizacion por municipios y zonas politicas. Asignacion automatica de delegados.</p>
+      </div>
+      <div class="producto-card-wide reveal rd3">
+        <div class="bento-icon" style="background:rgba(79,125,245,.10)">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" style="color:var(--accent)"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5"/></svg>
+        </div>
+        <div>
+          <h3>Dashboard en Tiempo Real</h3>
+          <p>Monitoreo de mesas, votos contados y resultados parciales al instante. Actualizacion automatica cada 30 segundos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- HISTORIA -->
+<section class="section sh-historia">
+  <div class="container">
+    <div class="reveal" style="max-width:1000px;margin:0 auto">
+      <div class="historia-grid">
+        <div class="historia-sidebar">
+          <div class="section-badge"><span class="section-badge-text">Nuestra Historia</span></div>
+          <h2 class="section-title" style="font-size:clamp(1.75rem,4vw,2.5rem)">Como Nacio SISTEPARD</h2>
+          <div class="mesh-character" style="position:relative;bottom:auto;right:auto;width:180px;height:220px;margin-top:32px">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 231 289">
+              <defs>
+                <clipPath id="meshClipH">
+                  <path d="M230.809 115.385V249.411C230.809 269.923 214.985 287.282 194.495 288.411C184.544 288.949 175.364 285.718 168.26 280C159.746 273.154 147.769 273.461 139.178 280.23C132.638 285.384 124.381 288.462 115.379 288.462C106.377 288.462 98.1451 285.384 91.6055 280.23C82.912 273.385 70.9353 273.385 62.2415 280.23C55.7532 285.334 47.598 288.411 38.7246 288.462C17.4132 288.615 0 270.667 0 249.359V115.385C0 51.6667 51.6756 0 115.404 0C179.134 0 230.809 51.6667 230.809 115.385Z"/>
+                </clipPath>
+              </defs>
+              <g clip-path="url(#meshClipH)">
+                <rect width="231" height="289" fill="url(#meshGradH)"/>
+                <defs>
+                  <linearGradient id="meshGradH" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FFB3D9">
+                      <animate attributeName="stop-color" values="#FFB3D9;#87CEEB;#4A90E2;#FFB3D9" dur="8s" repeatCount="indefinite"/>
+                    </stop>
+                    <stop offset="50%" stop-color="#4A90E2">
+                      <animate attributeName="stop-color" values="#4A90E2;#2C3E50;#1A1A2E;#4A90E2" dur="8s" repeatCount="indefinite"/>
+                    </stop>
+                    <stop offset="100%" stop-color="#1A1A2E">
+                      <animate attributeName="stop-color" values="#1A1A2E;#FFB3D9;#87CEEB;#1A1A2E" dur="8s" repeatCount="indefinite"/>
+                    </stop>
+                  </linearGradient>
+                </defs>
+              </g>
+              <ellipse class="mesh-eye" cx="80" cy="120" rx="20" ry="30" fill="#1A1A2E" id="meshEyeL"/>
+              <ellipse class="mesh-eye" cx="150" cy="120" rx="20" ry="30" fill="#1A1A2E" id="meshEyeR"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <p class="historia-quote q1 reveal">Nadie me lo pidio. No habia presupuesto, ni equipo, ni certeza de que fuera a funcionar. Solo la experiencia de estar en el terreno como dirigente de zona y ver, de cerca, todo lo que faltaba.</p>
+          <p class="historia-quote q2 reveal rd1">La idea llego antes que las herramientas para construirla. Durante mucho tiempo existio solo en mi cabeza, dando vueltas, hasta que decidi que tenia que dejar de ser una idea y convertirse en algo real. Aprendi lo que hizo falta aprender. Encontre tiempo donde no lo habia. Segui cuando lo logico hubiera sido parar.</p>
+          <p class="historia-quote q3 reveal rd2">SISTEPARD no nacio en un laboratorio ni en una oficina central. Nacio donde nace el trabajo politico de verdad: en la base. Lo construyo alguien que conoce ese trabajo porque lo vivio primero, y que decidio que la militancia tambien merece herramientas hechas con la misma seriedad con la que se hacen las cosas importantes.</p>
+          <div class="historia-author reveal rd3">
+            <div class="historia-avatar">GV</div>
+            <div>
+              <div class="historia-author-name">Gritzewsky Ventura</div>
+              <div class="historia-author-role">Fundador, SISTEPARD</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MVV -->
+<section class="section sh-mvv">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-badge"><span class="section-badge-text">Nuestro Proposito</span></div>
+      <h2 class="section-title">Mision, Vision y Valores</h2>
+    </div>
     <div class="mvv-grid">
-      <div class="mvv-card reveal reveal-delay-1">
-        <div class="mvv-icon i-mision">🎯</div>
-        <h3>Misión</h3>
-        <p>SISTEPARD ofrece a los partidos políticos dominicanos una plataforma digital segura para gestionar su democracia interna — desde el padrón de militantes hasta el acta final, con trazabilidad completa en cada paso.</p>
+      <div class="mvv-card reveal rd1">
+        <div class="mvv-emoji">&#127919;</div>
+        <h3>Mision</h3>
+        <p>Ofrecer a los partidos politicos dominicanos una plataforma digital segura para gestionar su democracia interna -- desde el padron de militantes hasta el acta final, con trazabilidad completa en cada paso.</p>
       </div>
-
-      <div class="mvv-card reveal reveal-delay-2">
-        <div class="mvv-icon i-vision">🔭</div>
-        <h3>Visión</h3>
-        <p>Convertirse en el sistema de referencia para la gestión electoral interna de los partidos políticos en República Dominicana.</p>
+      <div class="mvv-card reveal rd2">
+        <div class="mvv-emoji">&#128301;</div>
+        <h3>Vision</h3>
+        <p>Convertirse en el sistema de referencia para la gestion electoral interna de los partidos politicos en Republica Dominicana.</p>
       </div>
-
-      <div class="mvv-card reveal reveal-delay-3">
-        <div class="mvv-icon i-valores">💎</div>
+      <div class="mvv-card reveal rd3">
+        <div class="mvv-emoji">&#128142;</div>
         <h3>Valores</h3>
-        <ul class="valores-list">
-          <li>Transparencia</li>
-          <li>Seguridad</li>
-          <li>Democracia Interna</li>
-          <li>Trazabilidad</li>
-          <li>Accesibilidad</li>
+        <ul class="mvv-list">
+          <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Transparencia</li>
+          <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Seguridad</li>
+          <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Democracia Interna</li>
+          <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Trazabilidad</li>
+          <li><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>Accesibilidad</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SOBRE EL CREADOR -->
-<section class="section creator-section" id="creador">
+
+<!-- CREADOR -->
+<section id="creador" class="section creador-section sh-creador">
+  <div class="creador-bg"></div>
   <div class="container">
-    <div class="creator-card reveal">
-      <div class="creator-avatar">GV</div>
-      <div class="section-label">Sobre el Creador</div>
-      <div class="creator-name">Gritzewsky Ventura</div>
-      <div class="creator-role">Fundador y Creador de SISTEPARD</div>
-      <p class="creator-bio">Dirigente político con experiencia real en el terreno electoral dominicano. SISTEPARD nació de esa vivencia: la de ver lo que falta y decidir construirlo. Sigo trabajando en la base mientras desarrollo herramientas que dignifiquen el trabajo político.</p>
-      <div class="creator-social">
-        <a href="https://www.linkedin.com/in/josh-gritz-ventura" class="btn-social linkedin" target="_blank" title="LinkedIn">
-          <i class="fa-brands fa-linkedin-in"></i> LinkedIn
+    <div class="creador-card reveal">
+      <div class="section-badge"><span class="section-badge-text">Sobre el Creador</span></div>
+      <div class="creador-avatar">GV</div>
+      <h2 style="font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;letter-spacing:-.02em">Gritzewsky Ventura</h2>
+      <h3>Fundador y Creador de SISTEPARD</h3>
+      <p class="creador-bio">Dirigente politico con experiencia real en el terreno electoral dominicano. SISTEPARD nacio de esa vivencia: la de ver lo que falta y decidir construirlo. Sigo trabajando en la base mientras desarrollo herramientas que dignifiquen el trabajo politico.</p>
+      <div class="creador-social">
+        <a href="https://www.linkedin.com/in/josh-gritz-ventura" target="_blank" title="LinkedIn">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
         </a>
-        <a href="https://www.instagram.com/joshgritzvent/" class="btn-social instagram" target="_blank" title="Instagram">
-          <i class="fa-brands fa-instagram"></i> Instagram
+        <a href="https://www.instagram.com/joshgritzvent/" target="_blank" title="Instagram">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
         </a>
-        <a href="https://linktr.ee/joshgritzventura" class="btn-social linktree" target="_blank" title="Linktree">
-          <i class="fa-solid fa-link"></i> Linktree
+        <a href="https://linktr.ee/joshgritzventura" target="_blank" title="Linktree">
+          <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.568 8.16c-.18 1.897-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.12.098.153.229.169.334.016.099.036.324.02.498z"/></svg>
         </a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA FINAL -->
-<section class="cta-final">
+<!-- CTA -->
+<section class="section cta-section">
+  <div class="cta-bg"></div>
   <div class="container">
-    <h2 class="reveal">¿Listo para modernizar<br>tu partido?</h2>
-    <p class="reveal">Solicita una demostración sin compromiso y descubre cómo SISTEPARD puede transformar la gestión electoral de tu organización.</p>
-    <button onclick="abrirPortalElectoral('registro')" class="btn btn-accent reveal">
-      <i class="fa-solid fa-rocket"></i> Solicitar Demo
-    </button>
+    <div class="cta-content reveal">
+      <h2>¿Listo para modernizar<br><span class="gradient">tu partido?</span></h2>
+      <p>Solicita una demostracion sin compromiso y descubre como SISTEPARD puede transformar la gestion electoral de tu organizacion.</p>
+      <button class="btn-cta" onclick="abrirPortalElectoral('registro')">
+        <span>Solicitar Demo</span>
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+      </button>
+    </div>
   </div>
 </section>
 
+
 <!-- FOOTER -->
-<footer class="footer" id="contacto">
+<footer class="footer">
   <div class="container">
     <div class="footer-grid">
       <div>
-        <div class="footer-brand">SISTEPARD</div>
-        <p class="footer-desc">Sistema Electoral de Partidos RD. Plataforma digital para la gestión electoral interna de partidos políticos en República Dominicana.</p>
+        <div class="footer-brand">
+          <div class="footer-brand-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <span>SISTEPARD</span>
+        </div>
+        <p class="footer-desc">Sistema Electoral Digital para partidos politicos dominicanos. Gestion electoral segura y moderna.</p>
       </div>
       <div class="footer-col">
-        <h4>Navegación</h4>
+        <h4>Producto</h4>
+        <a href="#producto">Portal de Dirigentes</a>
+        <a href="#producto">Actas Electronicas</a>
+        <a href="#producto">Gestion Zonal</a>
+        <a href="#producto">Dashboard en Tiempo Real</a>
+      </div>
+      <div class="footer-col">
+        <h4>Plataforma</h4>
         <a href="#seguridad">Seguridad</a>
-        <a href="#como-funciona">Cómo Funciona</a>
-        <a href="#producto">Producto</a>
+        <a href="#como-funciona">Como Funciona</a>
         <a href="#creador">Sobre el Creador</a>
+        <a href="index.html">Solicitar Demo</a>
       </div>
       <div class="footer-col">
         <h4>Contacto</h4>
-        <a href="mailto:info@sistepard.com"><i class="fa-solid fa-envelope" style="margin-right:6px"></i>info@sistepard.com</a>
-        <a href="#" onclick="abrirPortalElectoral('registro');return false"><i class="fa-solid fa-rocket" style="margin-right:6px"></i>Solicitar Información</a>
+        <a href="mailto:info@sistepard.com" class="footer-contact-item">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+          info@sistepard.com
+        </a>
+        <a href="#" class="footer-contact-item" onclick="abrirPortalElectoral('registro');return false">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+          Solicitar Informacion
+        </a>
       </div>
     </div>
     <div class="footer-bottom">
       <div class="footer-copy">&copy; 2026 SISTEPARD. Todos los derechos reservados.</div>
-      <div class="footer-social">
-        <a href="https://www.linkedin.com/in/josh-gritz-ventura" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="https://www.instagram.com/joshgritzvent/" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://linktr.ee/joshgritzventura" target="_blank" title="Linktree"><i class="fa-solid fa-link"></i></a>
+      <div class="footer-legal">
+        <a href="#">Politica de Privacidad</a>
+        <a href="#">Politica de Cookies</a>
+        <a href="#">Terminos</a>
       </div>
     </div>
   </div>
 </footer>
 
+
 <!-- PORTAL ELECTORAL (overlay) -->
 <div id="portal-electoral">
   <button class="close-portal" onclick="cerrarPortalElectoral()"><i class="fa-solid fa-xmark"></i></button>
-  <div class="portal-elec-hero">
-    <div class="hero-circle"><img src="img/logo-pro.svg" alt="SISTEPARD" style="width:54px;height:auto;border-radius:50%;"></div>
-    <h1 id="portal-title">Portal Electoral SISTEPARD</h1>
-    <p>República Dominicana 2026</p>
-  </div>
-  <div class="portal-elec-wrap">
-
-    <!-- STEP PORTAL -->
-    <div id="pe-step-portal" class="pe-step active">
-      <div class="pe-portal-top">
-        <button class="pe-btn pe-btn-azul" onclick="peIrStep('pe-step-cedula')">🔑 Iniciar</button>
-        <button class="pe-btn pe-btn-verde" onclick="peIrStep('pe-step-registro-rol')">📝 Registrarse</button>
-        <button class="pe-btn pe-btn-gris" onclick="peEntrarRol('admin')" style="flex:0 0 auto;padding:13px 16px"><i class="fa-solid fa-gear"></i></button>
+  <div class="pe-modal">
+    <!-- LADO IZQUIERDO: Branding -->
+    <div class="pe-left">
+      <div class="pe-left-logo">
+        <div class="pe-left-logo-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
+        <span>SISTEPARD</span>
       </div>
-      <div class="pe-portal-section">
-        <div class="pe-portal-section-title">Estructura del Partido</div>
-        <div class="pe-role-grid">
-          <div class="pe-role-card" onclick="peEntrarRol('dirigente')"><div class="rc-icon" style="background:linear-gradient(135deg,#dcfce7,#bbf7d0)">🤝</div><div class="rc-text"><div class="rc-title">Dirigente de Base</div><div class="rc-sub">Comité de base y estructura zonal</div></div><div class="rc-arrow">›</div></div>
-          <div class="pe-role-card" onclick="peEntrarRol('zona')"><div class="rc-icon" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">🏛️</div><div class="rc-text"><div class="rc-title">Portal Zonal</div><div class="rc-sub">Gestión de zona, dirigentes y planchas</div></div><div class="rc-arrow">›</div></div>
-          <div class="pe-role-card" onclick="peEntrarRol('delegado')"><div class="rc-icon" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8)">📋</div><div class="rc-text"><div class="rc-title">Delegado</div><div class="rc-sub">Mesas, actas y votantes del día</div></div><div class="rc-arrow">›</div></div>
-        </div>
-      </div>
-      <div class="pe-portal-section">
-        <div class="pe-portal-section-title">Candidaturas</div>
-        <div class="pe-role-grid">
-          <div class="pe-role-card" onclick="peEntrarRol('candidato')"><div class="rc-icon" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">🗳️</div><div class="rc-text"><div class="rc-title">Candidato / Pre-candidato</div><div class="rc-sub">Portal de candidatura y estructura</div></div><div class="rc-arrow">›</div></div>
-          <div class="pe-role-card" onclick="peEntrarRol('miembro')"><div class="rc-icon" style="background:linear-gradient(135deg,#f3e8ff,#e9d5ff)">👥</div><div class="rc-text"><div class="rc-title">Miembro de Estructura</div><div class="rc-sub">Parte de una estructura existente</div></div><div class="rc-arrow">›</div></div>
-          <div class="pe-role-card" onclick="peEntrarRol('coordinador')"><div class="rc-icon" style="background:linear-gradient(135deg,#fef3c7,#fde68a)">🔱</div><div class="rc-text"><div class="rc-title">Coordinador</div><div class="rc-sub">Coordinación de zona o candidatura</div></div><div class="rc-arrow">›</div></div>
-        </div>
-      </div>
-      <div style="text-align:center;margin-bottom:12px">
-        <button onclick="peIrStep('pe-step-recuperar')" style="background:none;border:none;color:#94a3b8;font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline">🔑 ¿Olvidaste tu PIN?</button>
+      <h2>Gestion electoral segura para el partido</h2>
+      <p>Plataforma integral de gestion politica con trazabilidad completa y herramientas disenadas para el terreno dominicano.</p>
+      <div class="pe-left-features">
+        <div class="pe-left-feat"><div class="pe-left-feat-icon">&#128737;</div><div class="pe-left-feat-text"><h4>Seguridad Empresarial</h4><p>Cifrado de extremo a extremo y autenticacion segura</p></div></div>
+        <div class="pe-left-feat"><div class="pe-left-feat-icon">&#128200;</div><div class="pe-left-feat-text"><h4>Datos en Tiempo Real</h4><p>Dashboard actualizado con resultados y avances</p></div></div>
+        <div class="pe-left-feat"><div class="pe-left-feat-icon">&#127758;</div><div class="pe-left-feat-text"><h4>Gestion Zonal</h4><p>Estructura completa por zona, municipio y sector</p></div></div>
       </div>
     </div>
-
-    <!-- STEP CEDULA -->
-    <div id="pe-step-cedula" class="pe-step">
-      <div class="pe-card">
-        <div class="pe-card-header"><h2 id="pe-ced-titulo">🔍 Identificación</h2><p id="pe-ced-sub">Ingresa tu cédula para continuar</p></div>
-        <div class="pe-card-body">
+    <!-- LADO DERECHO: Formulario -->
+    <div class="pe-right">
+      <!-- STEP: Login principal -->
+      <div id="pe-step-portal" class="pe-step active">
+        <h3>Iniciar Sesion</h3>
+        <p class="pe-subtitle">Bienvenido de vuelta. Ingresa tus credenciales.</p>
+        <div class="pe-social-btns">
+          <button class="pe-social-btn" onclick="authHelper.loginWithGoogle()"><svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Continuar con Google</button>
+        </div>
+        <div style="margin-bottom:20px"></div>
+        <div id="pe-login-form">
           <div class="pe-error-box" id="pe-err-cedula"></div>
-          <div class="pe-campo"><label>Cédula de identidad</label><input type="tel" id="pe-inp-cedula" placeholder="000-0000000-0" maxlength="13" oninput="peFmtCedula(this)" onkeyup="if(event.key==='Enter')peBuscarCedula()" style="font-family:monospace;letter-spacing:1px"></div>
-          <button class="pe-btn pe-btn-azul" onclick="peBuscarCedula()">Continuar →</button>
-          <button class="pe-btn pe-btn-gris" onclick="peIrStep('pe-step-portal')">← Volver al portal</button>
+          <div class="pe-campo"><label>Cedula de identidad</label><input type="tel" id="pe-inp-cedula" placeholder="000-0000000-0" maxlength="13" oninput="peFmtCedula(this)" onkeyup="if(event.key==='Enter')peBuscarCedula()" style="font-family:monospace;letter-spacing:1px"></div>
+          <div class="pe-campo"><label>Contrasena</label><input type="password" id="pe-inp-pass" placeholder="Tu contrasena" onkeyup="if(event.key==='Enter')peBuscarCedula()"></div>
+          <div class="pe-forgot"><a href="#" onclick="peIrStep('pe-step-recuperar');return false">Olvidaste tu contrasena?</a></div>
+          <button class="pe-btn pe-btn-primary" onclick="peBuscarCedula()">Continuar</button>
+        </div>
+        <div class="pe-switch">No tienes cuenta? <a href="#" onclick="peIrStep('pe-step-registro-rol');return false">Registrate</a></div>
+        <div class="pe-legal">Al continuar aceptas nuestros <a href="#">Terminos</a> y <a href="#">Politica de Privacidad</a>.</div>
+      </div>
+      <!-- STEP: Registro - seleccion de rol -->
+      <div id="pe-step-registro-rol" class="pe-step">
+        <h3>Crear Cuenta</h3>
+        <p class="pe-subtitle">En que rol quieres participar?</p>
+        <div class="pe-social-btns">
+          <button class="pe-social-btn" onclick="authHelper.loginWithGoogle()"><svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Registrarme con Google</button>
+        </div>
+        <div style="margin-bottom:20px"></div>
+        <div class="pe-reg-options">
+          <button class="pe-reg-opt" onclick="peSeleccionarRolReg('candidato',this)"><div class="ro-icon">&#128499;</div><div class="ro-text"><div class="ro-title">Candidato / Pre-candidato</div><div class="ro-desc">Postularme para un cargo electivo</div></div></button>
+          <button class="pe-reg-opt" onclick="peSeleccionarRolReg('dirigente',this)"><div class="ro-icon">&#129309;</div><div class="ro-text"><div class="ro-title">Dirigente de Base</div><div class="ro-desc">Liderar un comite de base</div></div></button>
+          <button class="pe-reg-opt" onclick="peSeleccionarRolReg('delegado',this)"><div class="ro-icon">&#128203;</div><div class="ro-text"><div class="ro-title">Delegado</div><div class="ro-desc">Mesas, actas y votantes del dia</div></div></button>
+        </div>
+        <div class="pe-switch" style="margin-top:16px">Ya tienes cuenta? <a href="#" onclick="peIrStep('pe-step-portal');return false">Iniciar sesion</a></div>
+      </div>
+      <!-- STEP: Registro - formulario -->
+      <div id="pe-step-registro" class="pe-step">
+        <h3 id="pe-reg-titulo">Registro</h3>
+        <p class="pe-subtitle" id="pe-reg-sub">Completa tu informacion</p>
+        <div class="pe-error-box" id="pe-err-reg"></div>
+        <div class="pe-campo"><label>Nombre completo</label><input type="text" id="pe-reg-nombre" placeholder="Tu nombre completo"></div>
+        <div class="pe-campo"><label>Cedula de identidad</label><input type="tel" id="pe-reg-cedula" placeholder="000-0000000-0" maxlength="13" oninput="peFmtCedula(this)" style="font-family:monospace;letter-spacing:1px"></div>
+        <div class="pe-campo" id="pe-reg-campo-municipio"><label>Municipio</label><select id="pe-reg-municipio" onchange="peCargarZonasReg()"><option value="">Selecciona municipio...</option><option value="MAO">Mao (Cabecera)</option><option value="ESPERANZA">Esperanza</option><option value="LAGUNA_SALADA">Laguna Salada</option><option value="AMINA">Amina (D.M.)</option><option value="GUATAPANAL">Guatapanal (D.M.)</option><option value="JAIBON">Jaibon (D.M.)</option><option value="POTRERO">Potrero (D.M.)</option></select></div>
+        <div class="pe-campo" id="pe-reg-campo-zona"><label>Zona Politica</label><select id="pe-reg-zona"><option value="">Primero selecciona municipio</option></select></div>
+        <div class="pe-campo" id="pe-reg-campo-sector" style="display:none"><label>Sector / Barrio</label><input type="text" id="pe-reg-sector" placeholder="Ej: Los Multis, El Centro..."></div>
+        <div id="pe-reg-campos-candidato" style="display:none"><div class="pe-campo"><label>Tipo</label><select id="pe-reg-tipo"><option value="precandidato">Pre-candidato</option><option value="candidato">Candidato inscrito</option></select></div><div class="pe-campo"><label>Cargo que busca</label><select id="pe-reg-cargo"><option value="">Selecciona cargo...</option><option value="SENADOR">Senador</option><option value="DIPUTADO">Diputado</option><option value="ALCALDE">Alcalde</option><option value="REGIDOR">Regidor</option><option value="DIRIGENTE_ZONAL">Dirigente Zonal</option></select></div></div>
+        <div id="pe-reg-campos-coordinador" style="display:none"><div class="pe-campo"><label>Candidato que apoyas</label><select id="pe-reg-candidato-apoyo"><option value="">Cargando candidatos...</option></select></div></div>
+        <div id="pe-reg-campos-miembro" style="display:none"><div class="pe-campo"><label>Estructura / Candidato a unirse</label><select id="pe-reg-estructura-miembro"><option value="">Cargando estructuras...</option></select></div><div class="pe-campo"><label>Quien te invito?</label><input type="tel" id="pe-reg-invitador" placeholder="Cedula del dirigente que te invita"></div></div>
+        <div class="pe-campo"><label>Telefono</label><input type="tel" id="pe-reg-telefono" placeholder="809-000-0000"></div>
+        <div class="pe-campo"><label>Email</label><input type="email" id="pe-reg-email" placeholder="tucorreo@email.com"></div>
+        <div class="pe-campo"><label>Contrasena</label><input type="password" id="pe-reg-pass" placeholder="Crea una contrasena segura"></div>
+        <div class="pe-campo"><label>Confirmar contrasena</label><input type="password" id="pe-reg-pass2" placeholder="Repite tu contrasena"></div>
+        <button class="pe-btn pe-btn-primary" onclick="peCompletarRegistro()">Registrarme</button>
+        <div class="pe-switch"><a href="#" onclick="peIrStep('pe-step-registro-rol');return false">Volver</a></div>
+        <div class="pe-legal">Al registrarte aceptas nuestros <a href="#">Terminos</a> y <a href="#">Politica de Privacidad</a>.</div>
+      </div>
+      <!-- STEP: PIN / password (kept for compatibility) -->
+      <div id="pe-step-pin" class="pe-step">
+        <h3>Verificacion</h3>
+        <p class="pe-subtitle" id="pe-pin-sub">Ingresa tu PIN de verificacion</p>
+        <div class="pe-error-box" id="pe-err-pin"></div>
+        <div class="pe-pin-row">
+          <input type="tel" maxlength="1" id="pe-p0" oninput="peMover(this,1)">
+          <input type="tel" maxlength="1" id="pe-p1" oninput="peMover(this,2)">
+          <input type="tel" maxlength="1" id="pe-p2" oninput="peMover(this,3)">
+          <input type="tel" maxlength="1" id="pe-p3" oninput="peMover(this,null)" onkeyup="if(event.key==='Enter')peVerificarPin()">
+        </div>
+        <button class="pe-btn pe-btn-primary" onclick="peVerificarPin()">Entrar</button>
+        <div class="pe-forgot"><a href="#" onclick="peIrStep('pe-step-recuperar');return false">Olvidaste tu contrasena?</a></div>
+        <div class="pe-switch"><a href="#" onclick="peIrStep('pe-step-portal');return false">Usar otra cuenta</a></div>
+      </div>
+      <!-- STEP: Destino post-login -->
+      <div id="pe-step-destino" class="pe-step">
+        <h3>Bienvenido</h3>
+        <p class="pe-subtitle" id="pe-destino-nombre">A donde quieres ir?</p>
+        <div class="pe-error-box" id="pe-err-destino"></div>
+        <div class="pe-role-grid">
+          <div class="pe-role-card" onclick="peIrA('perfil')"><div class="rc-icon">&#128100;</div><div class="rc-text"><div class="rc-title">Mi Perfil</div><div class="rc-sub">Ver y editar mi informacion personal</div></div><div class="rc-arrow">&#8250;</div></div>
+          <div class="pe-role-card" onclick="peIrA('candidatos')"><div class="rc-icon">&#128499;</div><div class="rc-text"><div class="rc-title">Candidatos</div><div class="rc-sub">Portal de candidaturas y estructura</div></div><div class="rc-arrow">&#8250;</div></div>
+          <div class="pe-role-card" onclick="peIrA('zona')"><div class="rc-icon">&#127963;</div><div class="rc-text"><div class="rc-title">Mi Zona</div><div class="rc-sub">Gestion zonal, dirigentes y planchas</div></div><div class="rc-arrow">&#8250;</div></div>
         </div>
       </div>
-    </div>
-
-    <!-- STEP PIN -->
-    <div id="pe-step-pin" class="pe-step">
-      <div class="pe-card">
-        <div class="pe-card-header"><h2>🔐 PIN de acceso</h2><p id="pe-pin-sub">Ingresa tu PIN de 4 dígitos</p></div>
-        <div class="pe-card-body">
-          <div class="pe-error-box" id="pe-err-pin"></div>
-          <div class="pe-pin-row">
-            <input type="tel" maxlength="1" id="pe-p0" oninput="peMover(this,1)">
-            <input type="tel" maxlength="1" id="pe-p1" oninput="peMover(this,2)">
-            <input type="tel" maxlength="1" id="pe-p2" oninput="peMover(this,3)">
-            <input type="tel" maxlength="1" id="pe-p3" oninput="peMover(this,null)" onkeyup="if(event.key==='Enter')peVerificarPin()">
-          </div>
-          <button class="pe-btn pe-btn-azul" onclick="peVerificarPin()">Entrar al sistema</button>
-          <div style="text-align:center;margin:4px 0 8px"><button onclick="peIrStep('pe-step-recuperar')" style="background:none;border:none;color:#94a3b8;font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline">¿Olvidaste tu PIN?</button></div>
-          <button class="pe-btn pe-btn-gris" onclick="peIrStep('pe-step-cedula')">← Cambiar cédula</button>
+      <!-- STEP: Recuperar contrasena -->
+      <div id="pe-step-recuperar" class="pe-step">
+        <h3>Recuperar Contrasena</h3>
+        <p class="pe-subtitle">Te enviaremos un codigo a tu email</p>
+        <div class="pe-error-box" id="pe-err-recuperar"></div>
+        <div id="pe-rec-email-box">
+          <div class="pe-campo"><label>Email registrado</label><input type="email" id="pe-rec-email" placeholder="tucorreo@email.com"></div>
+          <button class="pe-btn pe-btn-primary" onclick="peEnviarRecuperacion()">Enviar codigo</button>
         </div>
+        <div id="pe-rec-codigo-box" style="display:none">
+          <div class="pe-info-box">Codigo enviado. Revisa tu bandeja.</div>
+          <div class="pe-campo"><label>Codigo recibido</label><input type="tel" id="pe-rec-codigo" placeholder="000000" maxlength="6" style="font-size:22px;font-family:monospace;text-align:center;letter-spacing:6px"></div>
+          <div class="pe-campo"><label>Nueva contrasena</label><input type="password" id="pe-rec-pass" placeholder="Nueva contrasena"></div>
+          <button class="pe-btn pe-btn-primary" onclick="peConfirmarRecuperacion()">Cambiar contrasena</button>
+        </div>
+        <div class="pe-switch"><a href="#" onclick="peIrStep('pe-step-portal');return false">Volver al login</a></div>
       </div>
     </div>
-
-    <!-- STEP DESTINO DESPUÉS DE LOGIN -->
-    <div id="pe-step-destino" class="pe-step">
-      <div class="pe-card">
-        <div class="pe-card-header"><h2>👋 Bienvenido</h2><p id="pe-destino-nombre">¿A dónde quieres ir?</p></div>
-        <div class="pe-card-body">
-          <div class="pe-error-box" id="pe-err-destino"></div>
-          <div class="pe-role-grid">
-            <div class="pe-role-card" onclick="peIrA('perfil')"><div class="rc-icon" style="background:#dbeafe">👤</div><div class="rc-text"><div class="rc-title">Mi Perfil</div><div class="rc-sub">Ver y editar mi información personal</div></div><div class="rc-arrow">›</div></div>
-            <div class="pe-role-card" onclick="peIrA('candidatos')"><div class="rc-icon" style="background:#fef3c7">🗳️</div><div class="rc-text"><div class="rc-title">Candidatos</div><div class="rc-sub">Portal de candidaturas y estructura</div></div><div class="rc-arrow">›</div></div>
-            <div class="pe-role-card" onclick="peIrA('zona')"><div class="rc-icon" style="background:#dcfce7">🏛️</div><div class="rc-text"><div class="rc-title">Mi Zona</div><div class="rc-sub">Gestión zonal, dirigentes y planchas</div></div><div class="rc-arrow">›</div></div>
-          </div>
-          <div style="text-align:center;margin-top:8px">
-            <button onclick="cerrarPortalElectoral()" style="background:none;border:none;color:#94a3b8;font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline">Cerrar y volver al portal</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP CREAR PIN -->
-    <div id="pe-step-cambiar-pin" class="pe-step">
-      <div class="pe-card">
-        <div class="pe-card-header" style="background:linear-gradient(135deg,#92400e,#b45309)"><h2>🔑 Crear tu PIN</h2><p>Crea tu PIN personal de acceso</p></div>
-        <div class="pe-card-body">
-          <div class="pe-info-box">Crea un PIN de 4 dígitos para acceder al sistema.</div>
-          <div class="pe-error-box" id="pe-err-nuevo-pin"></div>
-          <div class="pe-campo"><label>Nuevo PIN</label><div class="pe-pin-row"><input type="tel" maxlength="1" id="pe-np0" oninput="peMoverN(this,1)"><input type="tel" maxlength="1" id="pe-np1" oninput="peMoverN(this,2)"><input type="tel" maxlength="1" id="pe-np2" oninput="peMoverN(this,3)"><input type="tel" maxlength="1" id="pe-np3" oninput="peMoverN(this,null)"></div></div>
-          <div class="pe-campo"><label>Confirmar PIN</label><div class="pe-pin-row"><input type="tel" maxlength="1" id="pe-np4" oninput="peMoverN(this,5)"><input type="tel" maxlength="1" id="pe-np5" oninput="peMoverN(this,6)"><input type="tel" maxlength="1" id="pe-np6" oninput="peMoverN(this,7)"><input type="tel" maxlength="1" id="pe-np7" oninput="peMoverN(this,null)"></div></div>
-          <button class="pe-btn pe-btn-verde" onclick="peGuardarNuevoPin()">✅ Guardar y entrar</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP RECUPERAR PIN -->
-    <div id="pe-step-recuperar" class="pe-step">
-      <div class="pe-card">
-        <div class="pe-card-header" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)"><h2>🔑 Recuperar PIN</h2><p>Te enviaremos un código a tu email</p></div>
-        <div class="pe-card-body">
-          <div class="pe-error-box" id="pe-err-recuperar"></div>
-          <div id="pe-rec-email-box">
-            <div class="pe-info-box">Ingresa el email que registraste en tu cuenta.</div>
-            <div class="pe-campo"><label>Tu email</label><input type="email" id="pe-rec-email" placeholder="tucorreo@email.com"></div>
-            <button class="pe-btn pe-btn-azul" onclick="peEnviarRecuperacion()">📧 Enviar código</button>
-          </div>
-          <div id="pe-rec-codigo-box" style="display:none">
-            <div style="background:#f0fdf4;border:2px solid #bbf7d0;border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:#166534">✅ Código enviado. Revisa tu bandeja.</div>
-            <div class="pe-campo"><label>Código recibido</label><input type="tel" id="pe-rec-codigo" placeholder="000000" maxlength="6" style="font-size:22px;font-family:monospace;text-align:center;letter-spacing:6px"></div>
-            <div class="pe-campo"><label>Nuevo PIN</label><div class="pe-pin-row"><input type="tel" maxlength="1" id="pe-rp0"><input type="tel" maxlength="1" id="pe-rp1"><input type="tel" maxlength="1" id="pe-rp2"><input type="tel" maxlength="1" id="pe-rp3"></div></div>
-            <button class="pe-btn pe-btn-verde" onclick="peConfirmarRecuperacion()">✅ Cambiar PIN</button>
-          </div>
-          <button class="pe-btn pe-btn-gris" onclick="peIrStep('pe-step-portal')">← Volver al portal</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP REGISTRO ROL -->
-    <div id="pe-step-registro-rol" class="pe-step">
-      <div class="pe-card">
-        <div class="pe-card-header" style="background:linear-gradient(135deg,#16a34a,#15803d)"><h2>📝 Crear Cuenta</h2><p>¿En qué rol quieres participar?</p></div>
-        <div class="pe-card-body">
-          <div class="pe-reg-options">
-            <button class="pe-reg-opt" onclick="peSeleccionarRolReg('candidato',this)"><div class="ro-icon" style="background:#dbeafe">🗳️</div><div class="ro-text"><div class="ro-title">Candidato / Pre-candidato</div><div class="ro-desc">Postularme para un cargo electivo</div></div></button>
-            <button class="pe-reg-opt" onclick="peSeleccionarRolReg('dirigente',this)"><div class="ro-icon" style="background:#dcfce7">🤝</div><div class="ro-text"><div class="ro-title">Dirigente de Base</div><div class="ro-desc">Liderar un comité de base</div></div></button>
-            <button class="pe-reg-opt" onclick="peSeleccionarRolReg('delegado',this)"><div class="ro-icon" style="background:#fce7f3">📋</div><div class="ro-text"><div class="ro-title">Delegado</div><div class="ro-desc">Mesas, actas y votantes del día</div></div></button>
-          </div>
-          <button class="pe-btn pe-btn-gris" style="margin-top:10px" onclick="peIrStep('pe-step-portal')">← Volver</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP FORMULARIO REGISTRO -->
-    <div id="pe-step-registro" class="pe-step">
-      <div class="pe-card">
-        <div class="pe-card-header" style="background:linear-gradient(135deg,#16a34a,#15803d)"><h2 id="pe-reg-titulo">📝 Registro</h2><p id="pe-reg-sub">Completa tu información</p></div>
-        <div class="pe-card-body">
-          <div class="pe-error-box" id="pe-err-reg"></div>
-          <div class="pe-campo"><label>Nombre completo</label><input type="text" id="pe-reg-nombre" placeholder="Tu nombre completo"></div>
-          <div class="pe-campo"><label>Cédula de identidad</label><input type="tel" id="pe-reg-cedula" placeholder="000-0000000-0" maxlength="13" oninput="peFmtCedula(this)" style="font-family:monospace;letter-spacing:1px"></div>
-          <div class="pe-campo" id="pe-reg-campo-municipio"><label>Municipio</label><select id="pe-reg-municipio" onchange="peCargarZonasReg()"><option value="">Selecciona municipio...</option><option value="MAO">Mao (Cabecera)</option><option value="ESPERANZA">Esperanza</option><option value="LAGUNA_SALADA">Laguna Salada</option><option value="AMINA">Amina (D.M.)</option><option value="GUATAPANAL">Guatapanal (D.M.)</option><option value="JAIBON">Jaibón (D.M.)</option><option value="POTRERO">Potrero (D.M.)</option></select></div>
-          <div class="pe-campo" id="pe-reg-campo-zona"><label>Zona Política</label><select id="pe-reg-zona"><option value="">Primero selecciona municipio</option></select></div>
-          <div class="pe-campo" id="pe-reg-campo-sector" style="display:none"><label>Sector / Barrio</label><input type="text" id="pe-reg-sector" placeholder="Ej: Los Multis, El Centro..."></div>
-          <div id="pe-reg-campos-candidato" style="display:none"><div class="pe-campo"><label>Tipo</label><select id="pe-reg-tipo"><option value="precandidato">Pre-candidato</option><option value="candidato">Candidato inscrito</option></select></div><div class="pe-campo"><label>Cargo que busca</label><select id="pe-reg-cargo"><option value="">Selecciona cargo...</option><option value="SENADOR">Senador</option><option value="DIPUTADO">Diputado</option><option value="ALCALDE">Alcalde</option><option value="REGIDOR">Regidor</option><option value="DIRIGENTE_ZONAL">Dirigente Zonal</option></select></div></div>
-          <div id="pe-reg-campos-coordinador" style="display:none"><div class="pe-campo"><label>Candidato que apoyas</label><select id="pe-reg-candidato-apoyo"><option value="">Cargando candidatos...</option></select></div></div>
-          <div id="pe-reg-campos-miembro" style="display:none"><div class="pe-campo"><label>Estructura / Candidato a unirse</label><select id="pe-reg-estructura-miembro"><option value="">Cargando estructuras...</option></select></div><div class="pe-campo"><label>¿Quién te invitó?</label><input type="tel" id="pe-reg-invitador" placeholder="Cédula del dirigente que te invita"></div></div>
-          <div class="pe-campo"><label>Teléfono</label><input type="tel" id="pe-reg-telefono" placeholder="809-000-0000"></div>
-          <div class="pe-campo"><label>Email (para recuperar PIN)</label><input type="email" id="pe-reg-email" placeholder="tucorreo@email.com"></div>
-          <div class="pe-campo"><label>Crear PIN (4 dígitos)</label><div class="pe-pin-row"><input type="tel" maxlength="1" id="pe-rpin0" oninput="peMoverR(this,1)"><input type="tel" maxlength="1" id="pe-rpin1" oninput="peMoverR(this,2)"><input type="tel" maxlength="1" id="pe-rpin2" oninput="peMoverR(this,3)"><input type="tel" maxlength="1" id="pe-rpin3" oninput="peMoverR(this,null)"></div></div>
-          <button class="pe-btn pe-btn-verde" onclick="peCompletarRegistro()">✅ Registrarme</button>
-          <button class="pe-btn pe-btn-gris" onclick="peIrStep('pe-step-registro-rol')">← Volver</button>
-        </div>
-      </div>
-    </div>
-
   </div>
 </div>
-
 <div id="toast" class="toast"></div>
-
-<!-- MODAL "MÁS" -->
+<!-- MODAL "MAS" -->
 <div class="modal-mas-overlay" id="modal-mas" onclick="if(event.target===this)cerrarModalMas()">
   <div class="modal-mas">
     <button class="modal-mas-close" onclick="cerrarModalMas()" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
@@ -974,13 +868,111 @@
     </a>
     <a href="geografia.html" class="modal-mas-item">
       <div class="mm-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-      <div class="mm-text"><h4>Geografía</h4><p>Municipios y estructura territorial</p></div>
+      <div class="mm-text"><h4>Geografia</h4><p>Municipios y estructura territorial</p></div>
     </a>
   </div>
 </div>
 
+<style>
+.close-portal{position:fixed;top:20px;right:20px;z-index:1001;background:rgba(0,0,0,.06);border:none;color:#64748b;width:40px;height:40px;border-radius:10px;font-size:18px;cursor:pointer;display:none;transition:all .3s}
+.close-portal:hover{background:rgba(0,0,0,.1);color:#0f172a}
+#portal-electoral{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;background:rgba(15,23,42,.45);backdrop-filter:blur(8px);overflow-y:auto;display:none;align-items:center;justify-content:center}
+#portal-electoral.active{display:flex}
+#portal-electoral.active .close-portal{display:block}
+.pe-modal{display:flex;width:100%;max-width:860px;min-height:540px;border-radius:24px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.18);position:relative;margin:20px}
+.pe-left{flex:0 0 380px;background:linear-gradient(135deg,#0a1128 0%,#1a365d 50%,#0f2240 100%);padding:48px 36px;display:flex;flex-direction:column;justify-content:center;color:white;position:relative;overflow:hidden}
+.pe-left::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:rgba(79,125,245,.12)}
+.pe-left::after{content:'';position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;border-radius:50%;background:rgba(167,139,250,.08)}
+.pe-left-logo{display:flex;align-items:center;gap:12px;margin-bottom:32px;position:relative;z-index:1}
+.pe-left-logo-icon{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(79,125,245,.3)}
+.pe-left-logo-icon svg{width:22px;height:22px;color:#fff}
+.pe-left-logo span{font-weight:800;font-size:16px}
+.pe-left h2{font-size:28px;font-weight:800;line-height:1.2;margin-bottom:12px;position:relative;z-index:1}
+.pe-left p{font-size:14px;color:rgba(255,255,255,.55);line-height:1.7;position:relative;z-index:1}
+.pe-left-features{margin-top:36px;display:flex;flex-direction:column;gap:16px;position:relative;z-index:1}
+.pe-left-feat{display:flex;align-items:flex-start;gap:12px}
+.pe-left-feat-icon{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.pe-left-feat-text h4{font-size:13px;font-weight:700;margin-bottom:2px}
+.pe-left-feat-text p{font-size:11px;color:rgba(255,255,255,.45);line-height:1.4}
+.pe-right{flex:1;background:white;padding:44px 40px;display:flex;flex-direction:column;justify-content:center}
+.pe-right h3{font-size:22px;font-weight:800;color:#0f172a;margin-bottom:4px;letter-spacing:-.3px}
+.pe-right .pe-subtitle{font-size:13px;color:#64748b;margin-bottom:24px}
+.pe-social-btns{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.pe-social-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;border:1px solid #e2e8f0;border-radius:12px;background:white;font-size:14px;font-weight:600;color:#1e293b;cursor:pointer;transition:all .2s;font-family:inherit}
+.pe-social-btn:hover{background:#f8fafc;border-color:#cbd5e1;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.pe-social-btn svg{width:20px;height:20px;flex-shrink:0}
+.pe-divider{display:flex;align-items:center;gap:14px;margin:20px 0;color:#94a3b8;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.pe-divider::before,.pe-divider::after{content:'';flex:1;height:1px;background:#e2e8f0}
+.pe-campo{margin-bottom:14px}
+.pe-campo label{display:block;font-size:12px;font-weight:700;color:#374151;margin-bottom:6px}
+.pe-campo input,.pe-campo select{width:100%;padding:12px 14px;border:1.5px solid #e2e8f0;border-radius:12px;font-size:14px;outline:none;font-family:inherit;background:white;color:#0f172a;transition:all .2s}
+.pe-campo input::placeholder{color:#9ca3af}
+.pe-campo input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,125,245,.1)}
+.pe-campo select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.pe-btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;touch-action:manipulation;font-family:inherit;margin-bottom:10px;transition:all .2s}
+.pe-btn:active{transform:scale(.98)}
+.pe-btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:white;box-shadow:0 4px 16px rgba(79,125,245,.2)}
+.pe-btn-primary:hover{box-shadow:0 6px 20px rgba(79,125,245,.3);transform:translateY(-1px)}
+.pe-btn-azul{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:white;box-shadow:0 4px 16px rgba(79,125,245,.2)}
+.pe-btn-verde{background:linear-gradient(135deg,#16a34a,#15803d);color:white}
+.pe-btn-gris{background:#f1f5f9;color:#64748b}
+.pe-btn-gris:hover{background:#e2e8f0}
+.pe-btn-rojo{background:linear-gradient(135deg,#dc2626,#b91c1c);color:white}
+.pe-btn-oro{background:linear-gradient(135deg,#C5A864,#a8904a);color:#0a1128}
+.pe-forgot{text-align:right;margin:-6px 0 16px}
+.pe-forgot a{font-size:12px;font-weight:600;color:var(--accent);text-decoration:none;transition:color .2s}
+.pe-forgot a:hover{color:var(--accent-2)}
+.pe-switch{text-align:center;margin-top:16px;font-size:13px;color:#64748b}
+.pe-switch a{font-weight:700;color:var(--accent);text-decoration:none;transition:color .2s}
+.pe-switch a:hover{color:var(--accent-2)}
+.pe-legal{text-align:center;margin-top:16px;font-size:11px;color:#9ca3af;line-height:1.5}
+.pe-legal a{color:#64748b;text-decoration:underline}
+.pe-step{display:none}.pe-step.active{display:block}
+.pe-error-box{background:#fef2f2;border:1.5px solid #fecaca;border-radius:10px;padding:10px 12px;font-size:13px;color:#dc2626;font-weight:600;margin-bottom:10px;display:none}
+.pe-info-box{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:10px;padding:10px 12px;font-size:12px;color:#1e40af;margin-bottom:12px}
+.pe-role-grid{display:grid;gap:10px;margin-bottom:16px}
+.pe-role-card{position:relative;display:flex;align-items:center;gap:14px;padding:14px 16px;border:1.5px solid #e2e8f0;border-radius:16px;background:white;cursor:pointer;transition:all .2s cubic-bezier(.4,0,.2,1);touch-action:manipulation}
+.pe-role-card:active{transform:scale(.98)}
+.pe-role-card:hover{border-color:var(--accent);box-shadow:0 4px 16px rgba(79,125,245,.1);transform:translateY(-2px)}
+.pe-role-card .rc-icon{font-size:22px;width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#f8fafc}
+.pe-role-card .rc-text{flex:1}.pe-role-card .rc-title{font-size:13px;font-weight:800;color:#0f172a}.pe-role-card .rc-sub{font-size:11px;color:#64748b;margin-top:2px;line-height:1.4}
+.pe-role-card .rc-arrow{width:30px;height:30px;border-radius:50%;background:#f1f5f9;color:#64748b;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:all .2s}
+.pe-role-card:hover .rc-arrow{background:var(--accent);color:#fff;transform:translateX(2px)}
+.pe-portal-top{display:flex;gap:8px;margin-bottom:16px}
+.pe-portal-top .pe-btn{flex:1}
+.pe-portal-section{margin-bottom:14px}
+.pe-portal-section-title{font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-left:4px;display:flex;align-items:center;gap:6px}
+.pe-portal-section-title::after{content:'';flex:1;height:1px;background:#e2e8f0}
+.pe-reg-options{display:grid;gap:8px}
+.pe-reg-opt{display:flex;align-items:center;gap:12px;padding:14px;border:1.5px solid #e2e8f0;border-radius:14px;background:white;cursor:pointer;transition:all .15s;touch-action:manipulation;text-align:left}
+.pe-reg-opt:active{transform:scale(.97)}
+.pe-reg-opt:hover{border-color:#16a34a;background:#f0fdf4}
+.pe-reg-opt.selected{border-color:var(--accent);background:#eff6ff}
+.pe-reg-opt .ro-icon{font-size:20px;width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#f8fafc}
+.pe-reg-opt .ro-text{flex:1}.pe-reg-opt .ro-title{font-size:13px;font-weight:800;color:#1e293b}.pe-reg-opt .ro-desc{font-size:10px;color:#64748b;margin-top:1px}
+.pe-pin-row{display:flex;gap:10px;justify-content:center;margin-bottom:12px}
+.pe-pin-row input{width:52px;height:56px;text-align:center;font-size:20px;font-weight:800;border-radius:12px;border:1.5px solid #e2e8f0;outline:none;font-family:inherit;transition:all .2s;background:white;color:#0f172a}
+.pe-pin-row input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,125,245,.1)}
+.toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:400px;margin:0 auto;padding:13px 18px;border-radius:14px;font-size:14px;font-weight:700;z-index:9999;text-align:center;display:none;font-family:'Plus Jakarta Sans',sans-serif}
+.toast-ok{background:#16a34a;color:white}.toast-error{background:#dc2626;color:white}.toast-info{background:var(--accent);color:white}
+@media(max-width:768px){.pe-modal{flex-direction:column;max-width:440px;margin:12px;min-height:auto}.pe-left{flex:none;padding:32px 24px}.pe-right{padding:28px 24px}}
+@media(max-width:480px){.pe-modal{margin:8px;border-radius:16px}.pe-left{display:none}.pe-right{padding:24px 20px}}
+
+.modal-mas-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,34,64,.5);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center}
+.modal-mas-overlay.active{display:flex}
+.modal-mas{background:white;border-radius:20px;padding:36px 32px;max-width:380px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.2);position:relative}
+.modal-mas-close{position:absolute;top:14px;right:14px;background:none;border:none;font-size:18px;color:var(--muted);cursor:pointer;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.modal-mas-close:hover{background:var(--bg);color:var(--text)}
+.modal-mas h3{font-size:18px;font-weight:800;color:var(--primary);margin-bottom:20px}
+.modal-mas-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:12px;text-decoration:none;color:var(--text);transition:all .2s;border:1px solid transparent}
+.modal-mas-item:hover{background:var(--bg);border-color:var(--border)}
+.modal-mas-item .mm-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background:linear-gradient(135deg,var(--primary),#2a4a7f);color:white}
+.modal-mas-item .mm-text h4{font-size:14px;font-weight:700;color:var(--primary);margin-bottom:2px}
+.modal-mas-item .mm-text p{font-size:12px;color:var(--muted)}
+</style>
+
 <script>
-// ═══════════ PORTAL PÚBLICO ═══════════
+// ═══════════ PORTAL PUBLICO ═══════════
 function abrirPortalElectoral(modo) {
   document.getElementById('portal-electoral').classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -988,8 +980,8 @@ function abrirPortalElectoral(modo) {
     peIrStep('pe-step-registro-rol');
   } else {
     E.rolDeseado = null;
-    document.getElementById('pe-ced-titulo').textContent = '🔍 Identificación';
-    document.getElementById('pe-ced-sub').textContent = 'Ingresa tu cédula para continuar';
+    document.getElementById('pe-ced-titulo').textContent = '\uD83D\uDD0D Identificacion';
+    document.getElementById('pe-ced-sub').textContent = 'Ingresa tu cedula para continuar';
     peIrStep('pe-step-cedula');
     setTimeout(() => document.getElementById('pe-inp-cedula').focus(), 300);
   }
@@ -1030,11 +1022,11 @@ let E = {
 const ZONAS = {
   MAO: ['Zona A','Zona B','Zona C','Zona D','Zona E','Zona F'],
   ESPERANZA: ['Zona 1','Zona 2','Zona 3'],
-  LAGUNA_SALADA: ['Zona Única'], AMINA: ['Zona Única'],
-  GUATAPANAL: ['Zona Única'], JAIBON: ['Zona Única'], POTRERO: ['Zona Única']
+  LAGUNA_SALADA: ['Zona Unica'], AMINA: ['Zona Unica'],
+  GUATAPANAL: ['Zona Unica'], JAIBON: ['Zona Unica'], POTRERO: ['Zona Unica']
 };
 
-// ═══════════ NAVEGACIÓN ═══════════
+// ═══════════ NAVEGACION ═══════════
 function peIrStep(id) {
   document.querySelectorAll('.pe-step').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -1049,21 +1041,21 @@ function peEntrarRol(rol) {
   }
   E.rolDeseado = rol;
   const titulos = {
-    candidato: '🗳️ Portal de Candidato', dirigente: '🤝 Portal de Dirigente',
-    coordinador: '🔱 Portal de Coordinador', miembro: '👥 Portal de Miembro',
-    zona: '🏛️ Portal Zonal', delegado: '📋 Portal de Delegado'
+    candidato: '\uD83D\uDDF3 Portal de Candidato', dirigente: '\uD83E\uDD1D Portal de Dirigente',
+    coordinador: '\uD83D\uDD31 Portal de Coordinador', miembro: '\uD83D\uDC65 Portal de Miembro',
+    zona: '\uD83C\uDFDB\uFE0F Portal Zonal', delegado: '\uD83D\uDCCB Portal de Delegado'
   };
-  document.getElementById('pe-ced-titulo').textContent = titulos[rol] || '🔍 Identificación';
-  document.getElementById('pe-ced-sub').textContent = 'Identifícate con tu cédula';
+  document.getElementById('pe-ced-titulo').textContent = titulos[rol] || '\uD83D\uDD0D Identificacion';
+  document.getElementById('pe-ced-sub').textContent = 'Identificate con tu cedula';
   peIrStep('pe-step-cedula');
   setTimeout(() => document.getElementById('pe-inp-cedula').focus(), 300);
 }
 
-// ═══════════ BUSCAR CÉDULA ═══════════
+// ═══════════ BUSCAR CEDULA ═══════════
 async function peBuscarCedula() {
   const raw = document.getElementById('pe-inp-cedula').value;
   const limpia = raw.replace(/\D/g, '');
-  if (limpia.length < 11) { peErr('pe-err-cedula', 'Ingresa tu cédula completa (11 dígitos)'); return; }
+  if (limpia.length < 11) { peErr('pe-err-cedula', 'Ingresa tu cedula completa (11 digitos)'); return; }
   const cedFmt = limpia.slice(0,3)+'-'+limpia.slice(3,10)+'-'+limpia.slice(10);
   E.cedula = limpia; E.cedFmt = cedFmt;
   peHide('pe-err-cedula');
@@ -1080,16 +1072,17 @@ async function peBuscarCedula() {
       if (usr) { E.rolSistema = usr.rol; E.zona = usr.zona || E.zona; E.municipio = usr.municipio || E.municipio; E.nombre = E.nombre || usr.nombre; }
     } catch(e) { console.error(e); }
   }
-  if (!E.nombre) E.nombre = 'Militante · ' + cedFmt;
+  if (!E.nombre) E.nombre = 'Militante \u00B7 ' + cedFmt;
   peIrStep('pe-step-pin');
-  document.getElementById('pe-pin-sub').textContent = 'Hola ' + E.nombre.split(',')[0] + ' — ingresa tu PIN';
+  document.getElementById('pe-pin-sub').textContent = 'Hola ' + E.nombre.split(',')[0] + ' \u2014 ingresa tu PIN';
   setTimeout(() => document.getElementById('pe-p0').focus(), 300);
 }
+
 
 // ═══════════ VERIFICAR PIN ═══════════
 async function peVerificarPin() {
   const pin = ['pe-p0','pe-p1','pe-p2','pe-p3'].map(id => document.getElementById(id).value).join('');
-  if (pin.length < 4) { peErr('pe-err-pin', 'Ingresa los 4 dígitos'); return; }
+  if (pin.length < 4) { peErr('pe-err-pin', 'Ingresa los 4 digitos'); return; }
   peHide('pe-err-pin');
   if (sb) {
     try {
@@ -1103,22 +1096,19 @@ async function peVerificarPin() {
       const authData = result;
       const claims = authData.user || {};
       const sess = {
-        cedula: E.cedFmt,
-        nombre: E.nombre,
-        zona: claims.zona || E.zona,
-        municipio: claims.municipio || E.municipio,
+        cedula: E.cedFmt, nombre: E.nombre,
+        zona: claims.zona || E.zona, municipio: claims.municipio || E.municipio,
         rol: claims.role || E.rolSistema || 'dirigente_base',
         token: authData.session.access_token,
         auth_user_id: authData.user.id,
-        foto_url: E.foto_url || null,
-        foto_base64: E.foto || null
+        foto_url: E.foto_url || null, foto_base64: E.foto || null
       };
       peGuardarSesion(sess);
       peRedirigir(sess);
       return;
     } catch(e) {
       console.error('Auth error:', e);
-      peErr('pe-err-pin', 'Error de conexión');
+      peErr('pe-err-pin', 'Error de conexion');
       return;
     }
   }
@@ -1134,17 +1124,17 @@ async function peGuardarNuevoPin() {
   if (p1 !== p2) { peErr('pe-err-nuevo-pin', 'Los PINs no coinciden'); return; }
   if (sb) {
     const token = localStorage.getItem('prm_sesion') ? JSON.parse(localStorage.getItem('prm_sesion')).token : null;
-    if (!token) { peErr('pe-err-nuevo-pin', 'Sesión expirada'); return; }
+    if (!token) { peErr('pe-err-nuevo-pin', 'Sesion expirada'); return; }
     const result = await window.authHelper.changePin(p1, token);
     if (!result.ok) { peErr('pe-err-nuevo-pin', result.error || 'Error al guardar PIN'); return; }
   }
-  peToast('✅ PIN guardado', 'ok');
+  peToast('PIN guardado', 'ok');
   setTimeout(() => peRedirigir({ rol: E.rolSistema }), 1000);
 }
 
-// ═══════════ REDIRECCIÓN ═══════════
+// ═══════════ REDIRECCION ═══════════
 function peRedirigir(data) {
-  document.getElementById('pe-destino-nombre').textContent = 'Hola ' + (E.nombre || '').split(',')[0] + ' — ¿A dónde quieres ir?';
+  document.getElementById('pe-destino-nombre').textContent = 'Hola ' + (E.nombre || '').split(',')[0] + ' \u2014 \u00BF A donde quieres ir?';
   peIrStep('pe-step-destino');
 }
 
@@ -1162,23 +1152,19 @@ async function peAccederCandidato() {
   if (!sb || !E.cedFmt) { window.location.href = 'candidato.html'; return; }
   try {
     const { data: existente } = await sb.from('candidatos')
-      .select('id, tipo, nombre')
-      .eq('id', E.cedFmt)
-      .maybeSingle();
-
+      .select('id, tipo, nombre').eq('id', E.cedFmt).maybeSingle();
     if (existente) {
       peToast('Accediendo...', 'info');
       setTimeout(() => { window.location.href = 'candidato.html'; }, 600);
       return;
     }
-
-    peErr('pe-err-destino', '⚠️ No estás registrado como candidato. Regístrate primero con el botón "Registrarse".');
-
+    peErr('pe-err-destino', '\u26A0\uFE0F No estas registrado como candidato. Registrate primero con el boton "Registrarse".');
   } catch(e) {
     console.error(e);
     window.location.href = 'candidato.html';
   }
 }
+
 function peGetDestino(rol) {
   const map = { ADMIN_SISTEMA: 'admin.html', super_admin: 'admin.html', dirigente_zonal: 'admin.html', admin: 'admin.html' };
   if (map[rol]) return map[rol];
@@ -1193,8 +1179,8 @@ function peSeleccionarRolReg(rol, el) {
   document.querySelectorAll('.pe-reg-opt').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
   E.rolDeseado = rol;
-  const titulos = { candidato: '🗳️ Registro de Candidato', dirigente: '🤝 Registro de Dirigente', delegado: '📋 Registro de Delegado' };
-  document.getElementById('pe-reg-titulo').textContent = titulos[rol] || '📝 Registro';
+  const titulos = { candidato: '\uD83D\uDDF3 Registro de Candidato', dirigente: '\uD83E\uDD1D Registro de Dirigente', delegado: '\uD83D\uDCCB Registro de Delegado' };
+  document.getElementById('pe-reg-titulo').textContent = titulos[rol] || '\uD83D\uDCDD Registro';
   document.getElementById('pe-reg-sub').textContent = 'Crea tu cuenta en el sistema';
   document.getElementById('pe-reg-campos-candidato').style.display = rol === 'candidato' ? 'block' : 'none';
   document.getElementById('pe-reg-campos-coordinador').style.display = 'none';
@@ -1208,10 +1194,10 @@ function peSeleccionarRolReg(rol, el) {
 
 async function peCargarCandidatosReg() {
   const sel = document.getElementById(E.rolDeseado === 'coordinador' ? 'pe-reg-candidato-apoyo' : 'pe-reg-estructura-miembro');
-  if (!sb) { sel.innerHTML = '<option value="">Sin conexión</option>'; return; }
+  if (!sb) { sel.innerHTML = '<option value="">Sin conexion</option>'; return; }
   const { data } = await sb.from('candidatos').select('id, nombre, cargo, tipo').eq('activo', true).order('nombre');
   sel.innerHTML = '<option value="">Selecciona...</option>';
-  (data || []).forEach(c => { const op = document.createElement('option'); op.value = c.id; op.textContent = c.nombre + ' — ' + c.cargo + ' (' + c.tipo + ')'; sel.appendChild(op); });
+  (data || []).forEach(c => { const op = document.createElement('option'); op.value = c.id; op.textContent = c.nombre + ' \u2014 ' + c.cargo + ' (' + c.tipo + ')'; sel.appendChild(op); });
 }
 
 async function peCompletarRegistro() {
@@ -1224,13 +1210,12 @@ async function peCompletarRegistro() {
   const email = document.getElementById('pe-reg-email').value.trim();
   const pin = ['pe-rpin0','pe-rpin1','pe-rpin2','pe-rpin3'].map(id => document.getElementById(id).value).join('');
   if (!nombre) { peErr('pe-err-reg', 'Ingresa tu nombre'); return; }
-  if (cedula.length < 11) { peErr('pe-err-reg', 'Ingresa tu cédula completa'); return; }
+  if (cedula.length < 11) { peErr('pe-err-reg', 'Ingresa tu cedula completa'); return; }
   if (!mun && E.rolDeseado !== 'miembro') { peErr('pe-err-reg', 'Selecciona tu municipio'); return; }
   if (!zona && E.rolDeseado !== 'miembro') { peErr('pe-err-reg', 'Selecciona tu zona'); return; }
-  if (pin.length < 4) { peErr('pe-err-reg', 'Crea tu PIN de 4 dígitos'); return; }
+  if (pin.length < 4) { peErr('pe-err-reg', 'Crea tu PIN de 4 digitos'); return; }
   const cedFmt = cedula.slice(0,3)+'-'+cedula.slice(3,10)+'-'+cedula.slice(10);
   if (sb) {
-    // Registro seguro via Edge Function (password construido server-side)
     const result = await window.authHelper.register({
       cedula: cedFmt, pin, nombre, telefono: tel, sector,
       zona: zona || null, municipio: mun || null,
@@ -1246,37 +1231,39 @@ async function peCompletarRegistro() {
       await sb.from('candidatos').insert({ id: cedFmt, nombre, cargo, tipo, activo: true });
     }
   }
-  peToast('���� Solicitud enviada — pendiente de aprobación', 'info');
+  peToast('Solicitud enviada \u2014 pendiente de aprobacion', 'info');
   setTimeout(() => { E.rolDeseado = null; peIrStep('pe-step-cedula'); document.getElementById('pe-inp-cedula').value = ''; }, 1500);
 }
 
-// ════════════════════════ VERIFICAR APROBACION ══════════════════════════
+
+// ═══════════ VERIFICAR APROBACION ═══════════
 async function peVerificarAprobacion(cedFmt) {
   const { data } = await sb.from('dirigentes').select('activo').eq('cedula', cedFmt).maybeSingle();
   return data?.activo === true;
 }
 
-// ═══════════════════════════════ RECUPERAR PIN ═══════════════════════
+// ═══════════ RECUPERAR PIN ═══════════
 async function peEnviarRecuperacion() {
   const email = document.getElementById('pe-rec-email').value.trim();
   if (!email) { peErr('pe-err-recuperar', 'Ingresa tu email'); return; }
   if (sb) {
     const { data: dir, error: dirErr } = await sb.rpc('recuperar_por_email', { p_email: email });
-    if (dirErr || !dir || dir.length === 0) { peErr('pe-err-recuperar', 'Este email no está registrado en el sistema'); return; }
+    if (dirErr || !dir || dir.length === 0) { peErr('pe-err-recuperar', 'Este email no esta registrado en el sistema'); return; }
     const { error } = await sb.auth.signInWithOtp({
       email: email,
       options: { shouldCreateUser: true }
     });
-    if (error) { peErr('pe-err-recuperar', 'No se pudo enviar el código: ' + error.message); return; }
+    if (error) { peErr('pe-err-recuperar', 'No se pudo enviar el codigo: ' + error.message); return; }
   }
   document.getElementById('pe-rec-email-box').style.display = 'none';
   document.getElementById('pe-rec-codigo-box').style.display = 'block';
 }
+
 async function peConfirmarRecuperacion() {
   const email = document.getElementById('pe-rec-email').value.trim();
   const codigo = document.getElementById('pe-rec-codigo').value.trim();
   const pin = ['pe-rp0','pe-rp1','pe-rp2','pe-rp3'].map(id => document.getElementById(id).value).join('');
-  if (codigo.length < 6) { peErr('pe-err-recuperar', 'Ingresa el código de 6 dígitos'); return; }
+  if (codigo.length < 6) { peErr('pe-err-recuperar', 'Ingresa el codigo de 6 digitos'); return; }
   if (pin.length < 4) { peErr('pe-err-recuperar', 'Ingresa tu nuevo PIN'); return; }
   if (sb) {
     const result = await window.authHelper.recoverPin(email, codigo, pin, 'magiclink');
@@ -1284,7 +1271,6 @@ async function peConfirmarRecuperacion() {
       peErr('pe-err-recuperar', result.error || 'Error al actualizar PIN');
       return;
     }
-    // Si devolvió sesión, guardarla
     if (result.session) {
       const claims = result.user || {};
       const sess = {
@@ -1300,11 +1286,11 @@ async function peConfirmarRecuperacion() {
     }
     if (result.user?.cedula) E.cedFmt = result.user.cedula;
   }
-  peToast('✅ PIN actualizado', 'ok');
+  peToast('PIN actualizado', 'ok');
   setTimeout(() => peIrStep('pe-step-portal'), 1500);
 }
 
-// ═══════════ SESIÓN ═══════════
+// ═══════════ SESION ═══════════
 function peGuardarSesion(data) {
   const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
   localStorage.setItem(sk, JSON.stringify({ cedula: data.cedula, nombre: data.nombre, zona: data.zona, municipio: data.municipio, rol: data.rol, token: data.token, auth_user_id: data.auth_user_id || null, foto_url: data.foto_url || null, foto_base64: data.foto_base64 || null, rolDeseado: E.rolDeseado || null, expires: Date.now() + 86400000 }));
@@ -1338,22 +1324,7 @@ function peErr(id, msg) { const el=document.getElementById(id); if(el){el.textCo
 function peHide(id) { const el=document.getElementById(id); if(el) el.style.display='none'; }
 let _tt; function peToast(msg, tipo) { const el=document.getElementById('toast'); clearTimeout(_tt); el.textContent=msg; el.className='toast toast-'+tipo; el.style.display='block'; _tt=setTimeout(()=>el.style.display='none',3000); }
 
-// ═══════════ SCROLL REVEAL ═══════════
-function initScrollReveal() {
-  const reveals = document.querySelectorAll('.reveal');
-  if (!reveals.length) return;
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-  reveals.forEach(el => observer.observe(el));
-}
-
-// Expose
+// ═══════════ EXPOSE ═══════════
 window.abrirPortalElectoral = abrirPortalElectoral;
 window.cerrarPortalElectoral = cerrarPortalElectoral;
 window.abrirModalMas = abrirModalMas;
@@ -1375,6 +1346,61 @@ window.peMover = peMover;
 window.peMoverN = peMoverN;
 window.peMoverR = peMoverR;
 
+// ═══════════ NEW INTERACTIVITY ═══════════
+// Scroll handler for navbar
+window.addEventListener('scroll', function() {
+  var nav = document.getElementById('mainNav');
+  if (nav) {
+    if (window.scrollY > 40) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  }
+}, { passive: true });
+
+// Click-outside handler for mas dropdown
+document.addEventListener('mousedown', function(e) {
+  var dropdown = document.getElementById('masDropdown');
+  if (dropdown && !dropdown.contains(e.target)) {
+    var menu = document.getElementById('masMenu');
+    if (menu) menu.classList.remove('open');
+    var btn = dropdown.querySelector('.mas-btn');
+    if (btn) btn.classList.remove('open');
+  }
+});
+
+// Toggle mas menu
+function toggleMasMenu() {
+  var menu = document.getElementById('masMenu');
+  var btn = document.querySelector('.mas-btn');
+  if (menu) menu.classList.toggle('open');
+  if (btn) btn.classList.toggle('open');
+}
+window.toggleMasMenu = toggleMasMenu;
+
+// Mobile menu toggle
+function toggleMobileMenu() {
+  var menu = document.getElementById('mobileMenu');
+  if (menu) menu.classList.toggle('open');
+}
+window.toggleMobileMenu = toggleMobileMenu;
+
+// ═══════════ SCROLL REVEAL ═══════════
+function initScrollReveal() {
+  var reveals = document.querySelectorAll('.reveal');
+  if (!reveals.length) return;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.06, rootMargin: '0px 0px -80px 0px' });
+  reveals.forEach(function(el) { obs.observe(el); });
+}
+
 // ═══════════ AUTO-LOGIN / LOGOUT ═══════════
 window.addEventListener('DOMContentLoaded', function() {
   initScrollReveal();
@@ -1391,8 +1417,8 @@ window.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('portal-logo-text')) document.getElementById('portal-logo-text').textContent = b.logoText || b.initials || '';
     if (document.getElementById('portal-title')) document.getElementById('portal-title').textContent = (u.tituloSistema || 'Portal Electoral') + ' ' + b.name;
   }
-  const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
-  const params = new URLSearchParams(window.location.search);
+  var sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
+  var params = new URLSearchParams(window.location.search);
   if (params.get('portal') === '1' || params.get('registro') === '1') {
     abrirPortalElectoral(params.get('registro') === '1' ? 'registro' : undefined);
     return;
@@ -1400,19 +1426,19 @@ window.addEventListener('DOMContentLoaded', function() {
   if (params.get('from') === 'logout') {
     if (_sb) _sb.auth.signOut();
     if (typeof auditLogger !== 'undefined' && _sb) {
-      const oldRaw = localStorage.getItem(sk);
+      var oldRaw = localStorage.getItem(sk);
       if (oldRaw) {
-        try { const old = JSON.parse(oldRaw); auditLogger.init(_sb, old); auditLogger.logout(); } catch(e) {}
+        try { var old = JSON.parse(oldRaw); auditLogger.init(_sb, old); auditLogger.logout(); } catch(e) {}
       }
     }
     localStorage.removeItem(sk);
     setTimeout(function() { abrirPortalElectoral(); }, 200);
     return;
   }
-  const raw = localStorage.getItem(sk);
+  var raw = localStorage.getItem(sk);
   if (raw) {
     try {
-      const s = JSON.parse(raw);
+      var s = JSON.parse(raw);
       if (s.expires > Date.now() && s.token && !s.token.startsWith('demo-')) {
         E.rolDeseado = s.rolDeseado || null;
         window.location.href = peGetDestino(s.rol);
@@ -1422,7 +1448,27 @@ window.addEventListener('DOMContentLoaded', function() {
     } catch(e) { localStorage.removeItem(sk); }
   }
 });
+document.addEventListener('mousemove',function(e){
+  var svg=document.querySelector('.mesh-character svg');
+  if(!svg)return;
+  var rect=svg.getBoundingClientRect();
+  var cx=rect.left+rect.width/2;
+  var cy=rect.top+rect.height/2;
+  var dx=(e.clientX-cx)*0.08;
+  var dy=(e.clientY-cy)*0.08;
+  var max=8;
+  dx=Math.max(-max,Math.min(max,dx));
+  dy=Math.max(-max,Math.min(max,dy));
+  var el=document.getElementById('meshEyeL');
+  var er=document.getElementById('meshEyeR');
+  if(el){el.setAttribute('cx',80+dx);el.setAttribute('cy',120+dy)}
+  if(er){er.setAttribute('cx',150+dx);er.setAttribute('cy',120+dy)}
+});
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.info-popover')){
+    document.querySelectorAll('.info-popover.open').forEach(function(p){p.classList.remove('open')});
+  }
+});
 </script>
-
 </body>
 </html>

@@ -9,396 +9,278 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    :root {
-      --color-primary: #003087;
-      --color-secondary: #C8102E;
-      --color-accent: #F5A623;
+:root{--color-primary:#003087;--color-secondary:#C8102E;--color-accent:#F5A623;--primary:#0a1128;--accent:#4f7df5;--accent-2:#a78bfa;--gold:#f5a623;--bg:#e9ecf3;--surface:#fff;--surface-2:#dde2ed;--text:#0a1128;--muted:#4a5568;--border:rgba(0,30,80,.10);--radius:16px;--shadow:0 4px 24px rgba(26,54,93,0.08);--shadow-lg:0 8px 40px rgba(26,54,93,0.12)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+a{text-decoration:none;color:inherit}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.revealed{opacity:1;transform:translateY(0)}
+.rd1{transition-delay:.1s}.rd2{transition-delay:.2s}.rd3{transition-delay:.3s}.rd4{transition-delay:.4s}
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:all .7s}
+.nav.scrolled{background:rgba(245,247,250,.7);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(10,17,40,.04)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;height:72px}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo-icon{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(79,125,245,.2)}
+.nav-logo-icon svg{width:20px;height:20px;color:#fff}
+.nav-logo-text{font-weight:700;font-size:15px;letter-spacing:-.02em;color:var(--primary)}
+.nav-btns{display:flex;align-items:center;gap:12px}
+.mas-dropdown{position:relative}
+.mas-btn button{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--primary);padding:10px 16px;border-radius:12px;border:1px solid rgba(0,30,80,.12);background:transparent;cursor:pointer;transition:all .3s;font-family:inherit}
+.mas-btn button:hover{background:rgba(233,236,243,.6);border-color:rgba(79,125,245,.3)}
+.mas-btn svg{width:12px;height:12px;transition:transform .2s}
+.mas-btn.open svg{transform:rotate(180deg)}
+.mas-menu{position:absolute;right:0;top:calc(100% + 8px);width:280px;padding:8px;border-radius:16px;background:#fff;border:1px solid rgba(0,30,80,.10);box-shadow:0 20px 40px rgba(10,17,40,.10);z-index:50;display:none}
+.mas-menu.open{display:block}
+.mas-menu a{display:flex;align-items:center;gap:14px;padding:12px;border-radius:12px;transition:all .2s;text-decoration:none;color:var(--text)}
+.mas-menu a:hover{background:rgba(233,236,243,.6)}
+.mas-menu .mm-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mas-menu .mm-icon svg{width:20px;height:20px;color:#fff}
+.mas-menu h4{font-size:13px;font-weight:700;color:var(--primary)}
+.mas-menu p{font-size:11px;color:var(--muted)}
+.nav-link{font-size:13px;font-weight:600;color:var(--muted);padding:10px 16px;border-radius:8px;transition:all .3s;cursor:pointer;background:none;border:none;font-family:inherit}
+.nav-link:hover{color:var(--primary);background:rgba(233,236,243,.6)}
+.nav-btn-primary{font-size:13px;font-weight:600;color:#fff;padding:10px 20px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));border:none;cursor:pointer;transition:all .3s;font-family:inherit}
+.nav-btn-primary:hover{box-shadow:0 4px 16px rgba(79,125,245,.25)}
+.nav-burger{display:none;padding:8px;border-radius:8px;border:none;background:transparent;cursor:pointer;transition:background .2s}
+.nav-burger:hover{background:rgba(233,236,243,.6)}
+.nav-burger svg{width:20px;height:20px;color:var(--primary)}
+.mobile-menu{display:none;position:absolute;top:72px;left:0;right:0;background:rgba(255,255,255,.95);backdrop-filter:blur(24px);border-bottom:1px solid rgba(10,17,40,.04);padding:16px 24px}
+.mobile-menu.open{display:block}
+.mobile-menu a{display:block;padding:12px 16px;font-size:14px;color:var(--muted);border-radius:8px;transition:all .2s;text-decoration:none}
+.mobile-menu a:hover{color:var(--primary);background:rgba(233,236,243,.6)}
+.mobile-menu .mob-btns{padding-top:12px;border-top:1px solid rgba(10,17,40,.04);display:flex;flex-direction:column;gap:8px}
+.hero{padding:120px 0 48px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 75% 50%,rgba(0,48,135,.06) 0%,transparent 65%),radial-gradient(ellipse 50% 60% at 20% 30%,rgba(200,16,46,.03) 0%,transparent 55%)}
+.hero-badge{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border-radius:999px;background:rgba(0,48,135,.08);border:1px solid rgba(0,48,135,.15);margin-bottom:20px}
+.hero-badge-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.hero-badge-text{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px}
+.hero h1{font-size:42px;font-weight:800;color:var(--primary);letter-spacing:-1.5px;margin-bottom:14px;line-height:1.1}
+.hero .tagline{font-size:16px;color:var(--muted);max-width:520px;margin:0 auto;line-height:1.7}
+.section{padding:72px 0}
+.section-label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-bottom:8px}
+.section-title{font-size:26px;font-weight:800;color:var(--primary);margin-bottom:12px;letter-spacing:-0.5px}
+.accent{color:var(--accent)}
+.section-dark{background:var(--primary);color:white}
+.section-dark .section-label{color:var(--accent)}
+.section-dark .section-title{color:white}
+.dark-sub{color:var(--muted);font-size:14px;margin-bottom:28px;max-width:560px}
+.person-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.person-card{background:var(--surface);border-top:4px solid transparent;border-image:linear-gradient(135deg,var(--accent),var(--accent-2)) 1;border-radius:0 0 20px 20px;padding:32px 20px;text-align:center;transition:all .4s cubic-bezier(.16,1,.3,1);position:relative;box-shadow:0 2px 12px rgba(0,0,0,0.04);border-left:1px solid var(--border);border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+.person-card:hover{transform:translateY(-8px);box-shadow:0 20px 48px rgba(79,125,245,0.12)}
+.person-foto{width:130px;height:130px;border-radius:50%;margin:0 auto 18px;background:linear-gradient(135deg,var(--accent),var(--accent-2));background-size:cover;background-position:center;border:4px solid var(--surface);box-shadow:0 4px 20px rgba(79,125,245,0.2);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:900;color:white;transition:all .4s}
+.person-card:hover .person-foto{box-shadow:0 8px 32px rgba(79,125,245,0.3);transform:scale(1.03)}
+.person-nombre{font-size:18px;font-weight:900;color:#0f172a;line-height:1.2}
+.person-cargo{font-size:13px;color:var(--primary);font-weight:700;margin-top:6px}
+.person-partido{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;background:#f0f4ff;color:var(--primary)}
+.person-partido img{width:16px;height:16px;border-radius:3px;object-fit:contain}
+.person-muni{font-size:11px;color:#94a3b8;margin-top:4px}
+.person-detail{font-size:12px;color:#64748b;margin-top:6px;font-style:italic}
+.person-demarcacion{position:absolute;top:12px;right:12px;padding:4px 12px;border-radius:12px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px}
+.badge-municipio{background:#eff6ff;color:#2563eb}
+.badge-distrito{background:#f0fdf4;color:#16a34a}
+.badge-senador{background:#fff7ed;color:#b8941f;font-size:11px;padding:5px 14px}
+.badge-diputado{background:#eff6ff;color:var(--primary);font-size:11px;padding:5px 14px}
+.person-card.featured{grid-column:span 3;border-top-width:0;border-image:none;border-top:4px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(135deg,var(--accent),var(--accent-2)) border-box;padding:40px 32px;max-width:420px;margin:0 auto}
+.person-card.featured .person-foto{width:160px;height:160px;border-width:5px;font-size:42px;box-shadow:0 8px 32px rgba(79,125,245,0.25)}
+.person-card.featured .person-nombre{font-size:24px}
+.person-card.featured .person-cargo{font-size:16px}
+.est-subtitle{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--primary);margin:48px 0 20px;padding:12px 0 12px 16px;border-bottom:none;border-left:4px solid var(--accent);background:linear-gradient(90deg,rgba(79,125,245,0.06),transparent);border-radius:0 8px 8px 0}
+.est-subtitle i{color:var(--accent);font-size:15px}
+.muni-group{margin-bottom:22px}
+.muni-group h4{font-size:14px;font-weight:800;color:var(--primary);margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:8px}
+.muni-group h4 i{color:var(--accent);font-size:13px}
+.regidores-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.regidor-row{display:flex;align-items:center;gap:10px;background:var(--surface);border-radius:10px;padding:10px 12px;border:1px solid var(--border)}
+.regidor-row .init{width:34px;height:34px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.regidor-row .info{min-width:0}
+.regidor-row h5{font-size:12px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.regidor-row .rol{font-size:10px;color:var(--muted);font-weight:600}
+.badge-partido{margin-left:auto;flex-shrink:0;font-size:9px;font-weight:800;padding:2px 8px;border-radius:6px;letter-spacing:0.5px}
+.b-prm{background:#003da5;color:white}
+.b-pld{background:#7c1d3f;color:white}
+.b-fp{background:#1e7a34;color:white}
+.b-pasove{background:#c96f1f;color:white}
+.footer{background:var(--primary);color:#fff;padding:64px 0 32px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}
+.footer-brand{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.footer-brand-icon{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center}
+.footer-brand-icon svg{width:20px;height:20px;color:#fff}
+.footer-brand span{font-weight:700;font-size:15px}
+.footer-desc{font-size:14px;color:rgba(255,255,255,.4);line-height:1.7;max-width:280px}
+.footer-col h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:20px}
+.footer-col a{display:block;font-size:14px;color:rgba(255,255,255,.5);padding:4px 0;transition:color .3s;text-decoration:none}
+.footer-col a:hover{color:#fff}
+.footer-contact-item{display:flex;align-items:center;gap:8px;font-size:14px;color:rgba(255,255,255,.5)}
+.footer-contact-item svg{width:14px;height:14px;flex-shrink:0}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.06);margin-top:48px;padding-top:24px;display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font-size:12px;color:rgba(255,255,255,.3)}
+.footer-legal{display:flex;gap:24px}
+.footer-legal a{font-size:12px;color:rgba(255,255,255,.3);transition:color .3s;text-decoration:none}
+.footer-legal a:hover{color:rgba(255,255,255,.6)}
+.dash-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px}
+.dash-card{background:var(--surface);border-radius:var(--radius);padding:20px 14px;box-shadow:var(--shadow);border:1px solid var(--border);text-align:center;transition:all .3s}
+.dash-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.1)}
+.dash-card .dash-icon{width:44px;height:44px;border-radius:12px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.dash-card .dash-icon img{width:30px;height:30px;object-fit:contain}
+.dash-card .dash-num{font-size:28px;font-weight:800;color:var(--primary);line-height:1}
+.dash-card .dash-label{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-top:6px}
+.dash-card.c-prm{border-top:4px solid #02468c}
+.dash-card.c-pld{border-top:4px solid #812990}
+.dash-card.c-fp{border-top:4px solid #059e55}
+.dash-card.c-otros{border-top:4px solid #476f4b}
+.votes-card{background:var(--surface);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:28px;transition:all .3s}
+.votes-card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.08)}
+.votes-card h3{font-size:15px;font-weight:800;color:var(--primary);margin-bottom:18px}
+.vote-row{display:grid;grid-template-columns:220px 1fr 90px;gap:12px;align-items:center;margin-bottom:12px}
+.vote-name{font-size:12px;font-weight:700;color:var(--text);line-height:1.3}
+.vote-track{height:12px;background:#eef2f7;border-radius:8px;overflow:hidden}
+.vote-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2))!important;position:relative;overflow:hidden;border-radius:8px}
+.vote-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);animation:shimmer 2s infinite}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.vote-num{font-size:13px;font-weight:800;color:var(--primary);text-align:right}
+.vote-note{font-size:11px;color:var(--muted);margin:-4px 0 14px;padding-left:232px}
+.data-note{margin-top:24px;padding:14px 18px;border-radius:12px;background:#fdf6e3;border:1px solid #f0e0b0;color:#8a6d1a;font-size:12px;font-weight:600;text-align:center}
+.conc-muni{margin-bottom:20px}
+.conc-muni:last-child{margin-bottom:0}
+.conc-head{font-size:13px;font-weight:800;color:var(--primary);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.conc-total{font-size:10px;font-weight:700;color:var(--muted);background:#eef2f7;padding:2px 10px;border-radius:10px}
+.conc-stack{display:flex;height:22px;border-radius:11px;overflow:hidden;box-shadow:inset 0 0 0 1px var(--border);margin-bottom:10px}
+.conc-seg{height:100%;transition:filter .2s}
+.conc-seg:hover{filter:brightness(1.15)}
+.conc-legend{display:flex;flex-wrap:wrap;gap:8px 18px}
+.conc-item{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--text)}
+.conc-item img{width:18px;height:18px;border-radius:4px;object-fit:contain;background:white;padding:1px;border:1px solid var(--border)}
+.conc-item b{color:var(--primary);font-size:12px}
+.conc-item em{font-style:normal;font-size:10px;color:var(--muted);font-weight:600}
+.table-wrap{overflow-x:auto;background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border)}
+.leg-table{width:100%;border-collapse:collapse;font-size:12px;min-width:680px}
+.leg-table th{background:var(--primary);color:white;text-align:left;padding:12px 14px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap}
+.leg-table td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+.leg-table tr:last-child td{border-bottom:none}
+.leg-table tr:hover td{background:#f6f8fc}
+.leg-table .cargo-cell{font-weight:700;color:var(--text)}
+.leg-table .dem-cell{color:var(--muted)}
+.leg-table .num-cell{font-weight:800;color:var(--primary);text-align:right;white-space:nowrap}
+.p-badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:10px;font-size:10px;font-weight:800;letter-spacing:0.5px;white-space:nowrap}
+.p-badge img{width:14px;height:14px;border-radius:3px;object-fit:contain}
+.p-badge.b-prm{background:#fdecec;color:#b91c1c}
+.p-badge.b-pld{background:#e8efff;color:#1e40af}
+.p-badge.b-fp{background:#f5eafa;color:#7a1fa2}
+.p-badge.b-otros{background:#fdf6e3;color:#92600a}
+.votos-nd{color:#b0b9c4;font-weight:600}
+@media(max-width:1024px){
+.person-grid{grid-template-columns:repeat(2,1fr)}
+.person-card.featured{grid-column:span 2}
+.dash-grid{grid-template-columns:repeat(3,1fr)}
+.footer-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+.hero h1{font-size:26px}
+.regidores-grid{grid-template-columns:1fr}
+.section-title{font-size:22px}
+.person-grid{grid-template-columns:repeat(2,1fr)}
+.person-card.featured{grid-column:span 2}
+.dash-grid{grid-template-columns:repeat(2,1fr)}
+.vote-row{grid-template-columns:1fr;gap:4px}
+.vote-num{text-align:left}
+.vote-note{padding-left:0}
+.nav-btns{display:none}
+.nav-burger{display:flex}
+.footer-grid{grid-template-columns:1fr}
+.footer-bottom{flex-direction:column;gap:16px;text-align:center}
+.footer-legal{justify-content:center}
+}
+@media(max-width:600px){
+.person-grid{grid-template-columns:1fr}
+.person-card.featured{grid-column:span 1}
+.dash-grid{grid-template-columns:repeat(2,1fr)}
+}
+.close-portal{position:fixed;top:20px;right:20px;z-index:1001;background:rgba(0,0,0,.06);border:none;color:#64748b;width:40px;height:40px;border-radius:10px;font-size:18px;cursor:pointer;display:none;transition:all .3s}
+.close-portal:hover{background:rgba(0,0,0,.1);color:#0f172a}
+#portal-electoral{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;background:rgba(15,23,42,.45);backdrop-filter:blur(8px);overflow-y:auto;display:none;align-items:center;justify-content:center}
+#portal-electoral.active{display:flex}
+#portal-electoral.active .close-portal{display:block}
+.pe-modal{display:flex;width:100%;max-width:860px;min-height:540px;border-radius:24px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.18);position:relative;margin:20px}
+.pe-left{flex:0 0 380px;background:linear-gradient(135deg,#0a1128 0%,#1a365d 50%,#0f2240 100%);padding:48px 36px;display:flex;flex-direction:column;justify-content:center;color:white;position:relative;overflow:hidden}
+.pe-left::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:rgba(79,125,245,.12)}
+.pe-left::after{content:'';position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;border-radius:50%;background:rgba(167,139,250,.08)}
+.pe-left-logo{display:flex;align-items:center;gap:12px;margin-bottom:32px;position:relative;z-index:1}
+.pe-left-logo-icon{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(79,125,245,.3)}
+.pe-left-logo-icon svg{width:22px;height:22px;color:#fff}
+.pe-left-logo span{font-weight:800;font-size:16px}
+.pe-left h2{font-size:28px;font-weight:800;line-height:1.2;margin-bottom:12px;position:relative;z-index:1}
+.pe-left p{font-size:14px;color:rgba(255,255,255,.55);line-height:1.7;position:relative;z-index:1}
+.pe-left-features{margin-top:36px;display:flex;flex-direction:column;gap:16px;position:relative;z-index:1}
+.pe-left-feat{display:flex;align-items:flex-start;gap:12px}
+.pe-left-feat-icon{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.pe-left-feat-text h4{font-size:13px;font-weight:700;margin-bottom:2px}
+.pe-left-feat-text p{font-size:11px;color:rgba(255,255,255,.45);line-height:1.4}
+.pe-right{flex:1;background:white;padding:44px 40px;display:flex;flex-direction:column;justify-content:center}
+.pe-right h3{font-size:22px;font-weight:800;color:#0f172a;margin-bottom:4px;letter-spacing:-.3px}
+.pe-right .pe-subtitle{font-size:13px;color:#64748b;margin-bottom:24px}
+.pe-social-btns{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.pe-social-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;border:1px solid #e2e8f0;border-radius:12px;background:white;font-size:14px;font-weight:600;color:#1e293b;cursor:pointer;transition:all .2s;font-family:inherit}
+.pe-social-btn:hover{background:#f8fafc;border-color:#cbd5e1;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.pe-social-btn svg{width:20px;height:20px;flex-shrink:0}
+.pe-divider{display:flex;align-items:center;gap:14px;margin:20px 0;color:#94a3b8;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.pe-divider::before,.pe-divider::after{content:'';flex:1;height:1px;background:#e2e8f0}
+.pe-campo{margin-bottom:14px}
+.pe-campo label{display:block;font-size:12px;font-weight:700;color:#374151;margin-bottom:6px}
+.pe-campo input,.pe-campo select{width:100%;padding:12px 14px;border:1.5px solid #e2e8f0;border-radius:12px;font-size:14px;outline:none;font-family:inherit;background:white;color:#0f172a;transition:all .2s}
+.pe-campo input::placeholder{color:#9ca3af}
+.pe-campo input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,125,245,.1)}
+.pe-campo select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.pe-btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;touch-action:manipulation;font-family:inherit;margin-bottom:10px;transition:all .2s}
+.pe-btn:active{transform:scale(.98)}
+.pe-btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:white;box-shadow:0 4px 16px rgba(79,125,245,.2)}
+.pe-btn-primary:hover{box-shadow:0 6px 20px rgba(79,125,245,.3);transform:translateY(-1px)}
+.pe-btn-azul{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:white;box-shadow:0 4px 16px rgba(79,125,245,.2)}
+.pe-btn-verde{background:linear-gradient(135deg,#16a34a,#15803d);color:white}
+.pe-btn-gris{background:#f1f5f9;color:#64748b}
+.pe-btn-gris:hover{background:#e2e8f0}
+.pe-btn-rojo{background:linear-gradient(135deg,#dc2626,#b91c1c);color:white}
+.pe-btn-oro{background:linear-gradient(135deg,#C5A864,#a8904a);color:#0a1128}
+.pe-forgot{text-align:right;margin:-6px 0 16px}
+.pe-forgot a{font-size:12px;font-weight:600;color:var(--accent);text-decoration:none;transition:color .2s}
+.pe-forgot a:hover{color:var(--accent-2)}
+.pe-switch{text-align:center;margin-top:16px;font-size:13px;color:#64748b}
+.pe-switch a{font-weight:700;color:var(--accent);text-decoration:none;transition:color .2s}
+.pe-switch a:hover{color:var(--accent-2)}
+.pe-legal{text-align:center;margin-top:16px;font-size:11px;color:#9ca3af;line-height:1.5}
+.pe-legal a{color:#64748b;text-decoration:underline}
+.pe-step{display:none}.pe-step.active{display:block}
+.pe-error-box{background:#fef2f2;border:1.5px solid #fecaca;border-radius:10px;padding:10px 12px;font-size:13px;color:#dc2626;font-weight:600;margin-bottom:10px;display:none}
+.pe-info-box{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:10px;padding:10px 12px;font-size:12px;color:#1e40af;margin-bottom:12px}
+.pe-role-grid{display:grid;gap:10px;margin-bottom:16px}
+.pe-role-card{position:relative;display:flex;align-items:center;gap:14px;padding:14px 16px;border:1.5px solid #e2e8f0;border-radius:16px;background:white;cursor:pointer;transition:all .2s cubic-bezier(.4,0,.2,1);touch-action:manipulation}
+.pe-role-card:active{transform:scale(.98)}
+.pe-role-card:hover{border-color:var(--accent);box-shadow:0 4px 16px rgba(79,125,245,.1);transform:translateY(-2px)}
+.pe-role-card .rc-icon{font-size:22px;width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#f8fafc}
+.pe-role-card .rc-text{flex:1}.pe-role-card .rc-title{font-size:13px;font-weight:800;color:#0f172a}.pe-role-card .rc-sub{font-size:11px;color:#64748b;margin-top:2px;line-height:1.4}
+.pe-role-card .rc-arrow{width:30px;height:30px;border-radius:50%;background:#f1f5f9;color:#64748b;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:all .2s}
+.pe-role-card:hover .rc-arrow{background:var(--accent);color:#fff;transform:translateX(2px)}
+.pe-portal-top{display:flex;gap:8px;margin-bottom:16px}
+.pe-portal-top .pe-btn{flex:1}
+.pe-portal-section{margin-bottom:14px}
+.pe-portal-section-title{font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-left:4px;display:flex;align-items:center;gap:6px}
+.pe-portal-section-title::after{content:'';flex:1;height:1px;background:#e2e8f0}
+.pe-reg-options{display:grid;gap:8px}
+.pe-reg-opt{display:flex;align-items:center;gap:12px;padding:14px;border:1.5px solid #e2e8f0;border-radius:14px;background:white;cursor:pointer;transition:all .15s;touch-action:manipulation;text-align:left}
+.pe-reg-opt:active{transform:scale(.97)}
+.pe-reg-opt:hover{border-color:#16a34a;background:#f0fdf4}
+.pe-reg-opt.selected{border-color:var(--accent);background:#eff6ff}
+.pe-reg-opt .ro-icon{font-size:20px;width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#f8fafc}
+.pe-reg-opt .ro-text{flex:1}.pe-reg-opt .ro-title{font-size:13px;font-weight:800;color:#1e293b}.pe-reg-opt .ro-desc{font-size:10px;color:#64748b;margin-top:1px}
+.pe-pin-row{display:flex;gap:10px;justify-content:center;margin-bottom:12px}
+.pe-pin-row input{width:52px;height:56px;text-align:center;font-size:20px;font-weight:800;border-radius:12px;border:1.5px solid #e2e8f0;outline:none;font-family:inherit;transition:all .2s;background:white;color:#0f172a}
+.pe-pin-row input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,125,245,.1)}
+.toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:400px;margin:0 auto;padding:13px 18px;border-radius:14px;font-size:14px;font-weight:700;z-index:9999;text-align:center;display:none;font-family:'Plus Jakarta Sans',sans-serif}
+.toast-ok{background:#16a34a;color:white}.toast-error{background:#dc2626;color:white}.toast-info{background:var(--accent);color:white}
+@media(max-width:768px){.pe-modal{flex-direction:column;max-width:440px;margin:12px;min-height:auto}.pe-left{flex:none;padding:32px 24px}.pe-right{padding:28px 24px}}
+@media(max-width:480px){.pe-modal{margin:8px;border-radius:16px}.pe-left{display:none}.pe-right{padding:24px 20px}}
 
-      --primary: #1a365d;
-      --primary-light: #2a4a7f;
-      --primary-dark: #0f2240;
-      --accent: #d4af37;
-      --accent-light: #e6c65a;
-      --accent-dark: #b8941f;
-      --bg: #F7F9FC;
-      --surface: #FFFFFF;
-      --text: #2C3E50;
-      --muted: #7F8C9B;
-      --border: #E1E8EF;
-      --radius: 16px;
-      --shadow: 0 4px 24px rgba(26,54,93,0.08);
-      --shadow-lg: 0 8px 40px rgba(26,54,93,0.12);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-
-    /* ── NAV ── */
-    .nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-inner {
-      max-width: 1100px; margin: 0 auto; padding: 14px 20px;
-      display: flex; justify-content: space-between; align-items: center;
-      position: relative;
-    }
-    .nav-logo {
-      display: flex; align-items: center; gap: 10px;
-      text-decoration: none; color: var(--primary);
-    }
-    .nav-logo svg { width: 32px; height: 32px; }
-    .nav-logo span { font-weight: 800; font-size: 16px; }
-    .nav-links { display: flex; align-items: center; gap: 24px; }
-    .nav-links a {
-      color: var(--muted); text-decoration: none; font-size: 13px;
-      font-weight: 600; transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--primary); }
-    .nav-links a.active { color: var(--primary); font-weight: 800; }
-    .btn-nav {
-      background: var(--primary); color: white !important; padding: 8px 18px;
-      border-radius: 10px; font-size: 13px; font-weight: 700;
-      text-decoration: none; transition: all 0.2s;
-    }
-    .btn-nav:hover { background: var(--primary-light); }
-    .btn-nav-ghost { background: transparent; color: var(--primary) !important; border: 1.5px solid var(--border) !important; }
-    .btn-nav-ghost:hover { border-color: var(--accent) !important; color: var(--accent-dark) !important; background: rgba(212,175,55,0.06); }
-    .modal-mas-overlay {
-      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(15,34,64,0.5); backdrop-filter: blur(4px);
-      z-index: 200; align-items: center; justify-content: center;
-    }
-    .modal-mas-overlay.active { display: flex; }
-    .modal-mas {
-      background: white; border-radius: 20px; padding: 36px 32px;
-      max-width: 380px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-      position: relative;
-    }
-    .modal-mas-close {
-      position: absolute; top: 14px; right: 14px;
-      background: none; border: none; font-size: 18px; color: var(--muted);
-      cursor: pointer; width: 32px; height: 32px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s;
-    }
-    .modal-mas-close:hover { background: var(--bg); color: var(--text); }
-    .modal-mas h3 {
-      font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 20px;
-    }
-    .modal-mas-item {
-      display: flex; align-items: center; gap: 14px; padding: 14px 16px;
-      border-radius: 12px; text-decoration: none; color: var(--text);
-      transition: all 0.2s; border: 1px solid transparent;
-    }
-    .modal-mas-item:hover { background: var(--bg); border-color: var(--border); }
-    .modal-mas-item .mm-icon {
-      width: 42px; height: 42px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; flex-shrink: 0;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: white;
-    }
-    .modal-mas-item .mm-text h4 { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
-    .modal-mas-item .mm-text p { font-size: 12px; color: var(--muted); }
-    .nav-burger {
-      display: none; margin-left: auto;
-      background: none; border: 2px solid var(--border); border-radius: 10px;
-      width: 42px; height: 42px; font-size: 17px; color: var(--primary);
-      cursor: pointer; align-items: center; justify-content: center;
-    }
-    .nav-burger:active { transform: scale(0.95); }
-    .nav-dropdown {
-      display: none; position: absolute; top: 100%; left: 0; right: 0;
-      background: white; border-bottom: 1px solid var(--border);
-      box-shadow: 0 12px 32px rgba(26,54,93,0.12);
-      padding: 10px 20px 18px; z-index: 99;
-    }
-    .nav-dropdown.open { display: block; }
-    .nav-dropdown a {
-      display: block; padding: 13px 4px; color: var(--text);
-      text-decoration: none; font-size: 14px; font-weight: 600;
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-dropdown a:hover { color: var(--primary); }
-    .nav-dropdown .dd-btns { display: flex; gap: 10px; margin-top: 14px; }
-    .nav-dropdown .dd-btns .btn { flex: 1; justify-content: center; padding: 13px 14px; }
-
-    /* ── HERO PEQUEÑO ── */
-    .hero { padding: 56px 0 40px; text-align: center; }
-    .hero .subtitle {
-      font-size: 13px; font-weight: 700; color: var(--accent);
-      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;
-    }
-    .hero h1 { font-size: 34px; font-weight: 800; color: var(--primary); letter-spacing: -1px; margin-bottom: 10px; }
-    .hero .tagline {
-      font-size: 15px; color: var(--muted); max-width: 560px;
-      margin: 0 auto; line-height: 1.7;
-    }
-
-    /* ── SECTION ── */
-    .section { padding: 64px 0; }
-    .section-label {
-      font-size: 12px; font-weight: 800; text-transform: uppercase;
-      letter-spacing: 1.5px; color: var(--accent); margin-bottom: 8px;
-    }
-    .section-title {
-      font-size: 26px; font-weight: 800; color: var(--primary);
-      margin-bottom: 12px; letter-spacing: -0.5px;
-    }
-    .accent { color: var(--accent-dark); }
-
-    /* ── SECCIÓN OSCURA (Legisladores) ── */
-    .section-dark { background: var(--primary); color: white; }
-    .section-dark .section-label { color: var(--accent-light); }
-    .section-dark .section-title { color: white; }
-    .dark-sub { color: rgba(255,255,255,0.7); font-size: 14px; margin-bottom: 28px; max-width: 560px; }
-    .person-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .person-card {
-      background: white; border-top: 4px solid var(--accent); border-radius: 20px;
-      padding: 28px 20px; text-align: center; transition: all .3s; position: relative;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
-    .person-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
-    .person-foto {
-      width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 16px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      background-size: cover; background-position: center;
-      border: 4px solid var(--accent); display: flex; align-items: center; justify-content: center;
-      font-size: 36px; font-weight: 900; color: white;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-    }
-    .person-nombre { font-size: 18px; font-weight: 900; color: #0f172a; line-height: 1.2; }
-    .person-cargo { font-size: 13px; color: var(--primary); font-weight: 700; margin-top: 6px; }
-    .person-partido {
-      display: inline-flex; align-items: center; gap: 4px; margin-top: 8px;
-      padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 800;
-      text-transform: uppercase; letter-spacing: 0.5px;
-      background: #f0f4ff; color: var(--primary);
-    }
-    .person-partido img { width: 16px; height: 16px; border-radius: 3px; object-fit: contain; }
-    .person-muni { font-size: 11px; color: #94a3b8; margin-top: 4px; }
-    .person-detail { font-size: 12px; color: #64748b; margin-top: 6px; font-style: italic; }
-    .person-demarcacion {
-      position: absolute; top: 12px; right: 12px; padding: 4px 12px;
-      border-radius: 12px; font-size: 10px; font-weight: 800;
-      text-transform: uppercase; letter-spacing: 0.5px;
-    }
-    .badge-municipio { background: #eff6ff; color: #2563eb; }
-    .badge-distrito { background: #f0fdf4; color: #16a34a; }
-    .badge-senador { background: #fff7ed; color: #b8941f; font-size: 11px; padding: 5px 14px; }
-    .badge-diputado { background: #eff6ff; color: var(--primary); font-size: 11px; padding: 5px 14px; }
-    .person-card.featured { grid-column: span 3; border-top-width: 6px; padding: 36px 28px; max-width: 420px; margin: 0 auto; }
-    .person-card.featured .person-foto { width: 140px; height: 140px; border-width: 5px; font-size: 42px; }
-    .person-card.featured .person-nombre { font-size: 22px; }
-    .person-card.featured .person-cargo { font-size: 15px; }
-    .est-subtitle {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
-      color: white; margin: 36px 0 16px; padding-bottom: 10px;
-      border-bottom: 2px solid rgba(255,255,255,0.15);
-    }
-    .est-subtitle i { color: var(--accent); font-size: 15px; }
-
-    /* ── REGIDORES ── */
-    .muni-group { margin-bottom: 22px; }
-    .muni-group h4 {
-      font-size: 14px; font-weight: 800; color: white;
-      margin-bottom: 10px; padding-bottom: 8px;
-      border-bottom: 2px solid rgba(255,255,255,0.15);
-      display: flex; align-items: center; gap: 8px;
-    }
-    .muni-group h4 i { color: var(--accent-light); font-size: 13px; }
-    .regidores-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 10px;
-    }
-    .regidor-row {
-      display: flex; align-items: center; gap: 10px;
-      background: var(--surface); border-radius: 10px; padding: 10px 12px;
-      border: 1px solid var(--border);
-    }
-    .regidor-row .init {
-      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: white; display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 800;
-    }
-    .regidor-row .info { min-width: 0; }
-    .regidor-row h5 { font-size: 12px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .regidor-row .rol { font-size: 10px; color: var(--muted); font-weight: 600; }
-    .badge-partido {
-      margin-left: auto; flex-shrink: 0; font-size: 9px; font-weight: 800;
-      padding: 2px 8px; border-radius: 6px; letter-spacing: 0.5px;
-    }
-    .b-prm { background: #003da5; color: white; }
-    .b-pld { background: #7c1d3f; color: white; }
-    .b-fp { background: #1e7a34; color: white; }
-    .b-pasove { background: #c96f1f; color: white; }
-
-    /* ── FOOTER ── */
-    .footer { background: var(--primary); color: white; padding: 40px 0; text-align: center; }
-    .footer-brand { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
-    .footer-sub { font-size: 12px; opacity: 0.6; margin-bottom: 20px; }
-    .footer-copy { font-size: 11px; opacity: 0.4; }
-
-    /* ── DASHBOARD Y TABLA ── */
-    .dash-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 28px; }
-    .dash-card {
-      background: var(--surface); border-radius: var(--radius); padding: 20px 14px;
-      box-shadow: var(--shadow); border: 1px solid var(--border); text-align: center;
-    }
-    .dash-card .dash-icon {
-      width: 44px; height: 44px; border-radius: 12px; margin: 0 auto 10px;
-      display: flex; align-items: center; justify-content: center; font-size: 20px;
-    }
-    .dash-card .dash-icon img { width: 30px; height: 30px; object-fit: contain; }
-    .dash-card .dash-num { font-size: 28px; font-weight: 800; color: var(--primary); line-height: 1; }
-    .dash-card .dash-label { font-size: 10px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 6px; }
-    .dash-card.c-prm { border-top: 4px solid #02468c; }
-    .dash-card.c-pld { border-top: 4px solid #812990; }
-    .dash-card.c-fp { border-top: 4px solid #059e55; }
-    .dash-card.c-otros { border-top: 4px solid #476f4b; }
-
-    .votes-card {
-      background: var(--surface); border-radius: var(--radius); padding: 24px;
-      box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 28px;
-    }
-    .votes-card h3 { font-size: 15px; font-weight: 800; color: var(--primary); margin-bottom: 18px; }
-    .vote-row { display: grid; grid-template-columns: 220px 1fr 90px; gap: 12px; align-items: center; margin-bottom: 12px; }
-    .vote-name { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.3; }
-    .vote-track { height: 12px; background: #eef2f7; border-radius: 8px; overflow: hidden; }
-    .vote-fill { height: 100%; background: #02468c; border-radius: 8px; }
-    .vote-num { font-size: 13px; font-weight: 800; color: var(--primary); text-align: right; }
-    .vote-note { font-size: 11px; color: var(--muted); margin: -4px 0 14px; padding-left: 232px; }
-    .data-note {
-      margin-top: 24px; padding: 14px 18px; border-radius: 12px;
-      background: #fdf6e3; border: 1px solid #f0e0b0; color: #8a6d1a;
-      font-size: 12px; font-weight: 600; text-align: center;
-    }
-
-    /* ── COMPOSICIÓN CONCEJOS ── */
-    .conc-muni { margin-bottom: 20px; }
-    .conc-muni:last-child { margin-bottom: 0; }
-    .conc-head { font-size: 13px; font-weight: 800; color: var(--primary); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-    .conc-total { font-size: 10px; font-weight: 700; color: var(--muted); background: #eef2f7; padding: 2px 10px; border-radius: 10px; }
-    .conc-stack { display: flex; height: 22px; border-radius: 11px; overflow: hidden; box-shadow: inset 0 0 0 1px var(--border); margin-bottom: 10px; }
-    .conc-seg { height: 100%; transition: filter .2s; }
-    .conc-seg:hover { filter: brightness(1.15); }
-    .conc-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; }
-    .conc-item {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 11px; font-weight: 700; color: var(--text);
-    }
-    .conc-item img { width: 18px; height: 18px; border-radius: 4px; object-fit: contain; background: white; padding: 1px; border: 1px solid var(--border); }
-    .conc-item b { color: var(--primary); font-size: 12px; }
-    .conc-item em { font-style: normal; font-size: 10px; color: var(--muted); font-weight: 600; }
-
-    .table-wrap { overflow-x: auto; background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); }
-    .leg-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 680px; }
-    .leg-table th {
-      background: var(--primary); color: white; text-align: left; padding: 12px 14px;
-      font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
-      white-space: nowrap;
-    }
-    .leg-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-    .leg-table tr:last-child td { border-bottom: none; }
-    .leg-table tr:hover td { background: #f6f8fc; }
-    .leg-table .cargo-cell { font-weight: 700; color: var(--text); }
-    .leg-table .dem-cell { color: var(--muted); }
-    .leg-table .num-cell { font-weight: 800; color: var(--primary); text-align: right; white-space: nowrap; }
-    .p-badge {
-      display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 10px;
-      font-size: 10px; font-weight: 800; letter-spacing: 0.5px; white-space: nowrap;
-    }
-    .p-badge img { width: 14px; height: 14px; border-radius: 3px; object-fit: contain; }
-    .p-badge.b-prm { background: #fdecec; color: #b91c1c; }
-    .p-badge.b-pld { background: #e8efff; color: #1e40af; }
-    .p-badge.b-fp { background: #f5eafa; color: #7a1fa2; }
-    .p-badge.b-otros { background: #fdf6e3; color: #92600a; }
-    .votos-nd { color: #b0b9c4; font-weight: 600; }
-
-    @media (max-width: 900px) { .dash-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 600px) {
-      .dash-grid { grid-template-columns: repeat(2, 1fr); }
-      .vote-row { grid-template-columns: 1fr; gap: 4px; }
-      .vote-num { text-align: left; }
-      .vote-note { padding-left: 0; }
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) { .person-grid { grid-template-columns: repeat(2, 1fr); } .person-card.featured { grid-column: span 2; } }
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 26px; }
-      .regidores-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
-      .nav-burger { display: flex; }
-      .section-title { font-size: 22px; }
-    }
-    @media (max-width: 600px) { .person-grid { grid-template-columns: 1fr; } .person-card.featured { grid-column: span 1; } }
-      /* ── PORTAL ELECTORAL (overlay) ── */
-    #portal-electoral{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:1000;background:linear-gradient(160deg,var(--color-primary) 0%,#0a1f5c 35%,#001a40 100%);overflow-y:auto}
-    #portal-electoral.active{display:flex;flex-direction:column;align-items:center}
-    .portal-elec-hero{text-align:center;padding:32px 20px 24px;color:white;width:100%;max-width:480px}
-    .portal-elec-hero .hero-circle{width:64px;height:64px;border-radius:50%;border:3px solid #C5A864;background:white;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;box-shadow:0 0 30px rgba(197,168,100,0.25),0 4px 20px rgba(0,0,0,0.3)}
-    .portal-elec-hero .hero-circle span{font-weight:900;font-size:18px;color:var(--color-primary);letter-spacing:1px}
-    .portal-elec-hero h1{font-size:22px;font-weight:900;margin-bottom:2px}
-    .portal-elec-hero p{font-size:12px;opacity:0.7}
-    .portal-elec-wrap{width:100%;max-width:480px;padding:0 16px 24px}
-    .close-portal{position:fixed;top:16px;right:16px;z-index:1001;background:rgba(255,255,255,0.15);border:none;color:white;width:40px;height:40px;border-radius:50%;font-size:18px;cursor:pointer;display:none;backdrop-filter:blur(8px);transition:all .2s;border:1px solid rgba(255,255,255,0.2)}
-    .close-portal:hover{background:rgba(255,255,255,0.25)}
-    #portal-electoral.active .close-portal{display:block}
-    .pe-step{display:none}.pe-step.active{display:block}
-    .pe-card{background:white;border-radius:20px;box-shadow:0 4px 24px rgba(0,0,0,0.08);overflow:hidden;margin-bottom:16px}
-    .pe-card-header{background:linear-gradient(135deg,var(--color-primary),#0a1f5c);padding:16px 20px;color:white}
-    .pe-card-header h2{font-size:16px;font-weight:800}.pe-card-header p{font-size:12px;opacity:0.7;margin-top:2px}
-    .pe-card-body{padding:20px}
-    .pe-campo{margin-bottom:12px}
-    .pe-campo label{display:block;font-size:10px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:5px}
-    .pe-campo input,.pe-campo select{width:100%;padding:11px 14px;border:2px solid #e2e8f0;border-radius:12px;font-size:14px;outline:none;font-family:inherit;background:white;transition:border .2s}
-    .pe-campo input:focus{border-color:var(--color-primary)}
-    .pe-pin-row{display:flex;gap:10px;justify-content:center;margin-bottom:12px}
-    .pe-pin-row input{width:50px;height:56px;text-align:center;font-size:20px;font-weight:900;border-radius:12px;border:2px solid #e2e8f0;outline:none;font-family:inherit;transition:border .2s}
-    .pe-pin-row input:focus{border-color:var(--color-primary)}
-    .pe-btn{width:100%;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;touch-action:manipulation;font-family:inherit;margin-bottom:8px;transition:all .15s}
-    .pe-btn:active{transform:scale(0.97)}
-    .pe-btn-azul{background:var(--color-primary);color:white}.pe-btn-verde{background:#16a34a;color:white}.pe-btn-gris{background:#f1f5f9;color:#64748b}.pe-btn-rojo{background:#dc2626;color:white}.pe-btn-oro{background:#C5A864;color:#001a40}
-    .pe-error-box{background:#fef2f2;border:2px solid #fecaca;border-radius:10px;padding:10px 12px;font-size:13px;color:#dc2626;font-weight:600;margin-bottom:10px;display:none}
-    .pe-info-box{background:#eff6ff;border:2px solid #bfdbfe;border-radius:10px;padding:10px 12px;font-size:12px;color:#1e40af;margin-bottom:12px}
-    .pe-role-grid{display:grid;gap:12px;margin-bottom:16px}
-    .pe-role-card{position:relative;display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid #e8edf5;border-radius:18px;background:linear-gradient(135deg,#ffffff 0%,#f8fafd 100%);cursor:pointer;transition:all .2s cubic-bezier(.4,0,.2,1);touch-action:manipulation;box-shadow:0 1px 2px rgba(15,23,42,.04)}
-    .pe-role-card:active{transform:scale(0.98)}
-    .pe-role-card:hover{border-color:rgba(15,23,42,.18);background:linear-gradient(135deg,#ffffff 0%,#f1f5fb 100%);box-shadow:0 8px 24px rgba(15,23,42,.10);transform:translateY(-2px)}
-    .pe-role-card .rc-icon{font-size:24px;width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 2px 6px rgba(15,23,42,.08)}
-    .pe-role-card .rc-text{flex:1}.pe-role-card .rc-title{font-size:14px;font-weight:800;color:#0f172a;letter-spacing:-.01em}.pe-role-card .rc-sub{font-size:11px;color:#64748b;margin-top:2px;line-height:1.4}
-    .pe-role-card .rc-arrow{width:30px;height:30px;border-radius:50%;background:#eef2f8;color:#334155;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:all .2s}
-    .pe-role-card:hover .rc-arrow{background:var(--color-primary);color:#fff;transform:translateX(2px)}
-    .pe-portal-top{display:flex;gap:8px;margin-bottom:16px}
-    .pe-portal-top .pe-btn{flex:1}
-    .pe-portal-section{margin-bottom:14px}
-    .pe-portal-section-title{font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;padding-left:4px;display:flex;align-items:center;gap:6px}
-    .pe-portal-section-title::after{content:'';flex:1;height:1px;background:#e2e8f0}
-    .pe-reg-options{display:grid;gap:8px}
-    .pe-reg-opt{display:flex;align-items:center;gap:10px;padding:14px;border:2px solid #e2e8f0;border-radius:14px;background:white;cursor:pointer;transition:all .15s;touch-action:manipulation;text-align:left}
-    .pe-reg-opt:active{transform:scale(0.97)}
-    .pe-reg-opt:hover{border-color:#16a34a;background:#f0fdf4}
-    .pe-reg-opt.selected{border-color:var(--color-primary);background:#eff6ff}
-    .pe-reg-opt .ro-icon{font-size:22px;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .pe-reg-opt .ro-text{flex:1}.pe-reg-opt .ro-title{font-size:13px;font-weight:800;color:#1e293b}.pe-reg-opt .ro-desc{font-size:10px;color:#64748b;margin-top:1px}
-    .toast{position:fixed;bottom:20px;left:16px;right:16px;max-width:400px;margin:0 auto;padding:13px 18px;border-radius:14px;font-size:14px;font-weight:700;z-index:9999;text-align:center;display:none;font-family:'Plus Jakarta Sans',sans-serif}
-    .toast-ok{background:#16a34a;color:white}.toast-error{background:#dc2626;color:white}.toast-info{background:var(--color-primary);color:white}
-    @media(min-width:480px){.pe-card{box-shadow:0 8px 40px rgba(0,0,0,0.1)}}
   </style>
   <script src="js/config_loader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -417,49 +299,65 @@
   </script>
 </head>
 <body>
-
 <!-- NAV -->
-<nav class="nav">
+<nav class="nav" id="mainNav">
   <div class="nav-inner">
     <a href="index.html" class="nav-logo">
-      <img src="img/logo-pro.svg" alt="SISTEPARD" style="height:42px;width:auto;border-radius:50%;">
-    </a>
-    <div class="nav-links">
-      <a href="index.html" class="hide-mobile">Inicio</a>
-      <a href="legisladores.html" class="hide-mobile active">Representantes</a>
-      <button class="btn-nav btn-nav-ghost" onclick="abrirModalMas()" style="cursor:pointer;font-family:inherit">Más <i class="fa-solid fa-chevron-down" style="font-size:10px;margin-left:2px"></i></button>
-      <button class="btn-nav" onclick="abrirPortalElectoral()" style="border:none;cursor:pointer;font-family:inherit">Iniciar</button>
-      <button class="btn-nav" onclick="abrirPortalElectoral('registro')" style="border:none;cursor:pointer;font-family:inherit;background:var(--accent);color:var(--primary-dark)">Registrarse</button>
-    </div>
-    <button class="nav-burger" onclick="toggleNavMenu()" aria-label="Menú"><i class="fa-solid fa-bars"></i></button>
-    <div class="nav-dropdown" id="nav-dropdown">
-      <a href="index.html">Inicio</a>
-      <a href="legisladores.html">Representantes</a>
-      <a href="geografia.html">Geografía</a>
-      <div class="dd-btns">
-        <button class="btn btn-primary" onclick="abrirPortalElectoral()" style="border:none;cursor:pointer;font-family:inherit">Iniciar</button>
-        <button class="btn btn-accent" onclick="abrirPortalElectoral('registro')" style="border:none;cursor:pointer;font-family:inherit">Registrarse</button>
+      <div class="nav-logo-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
       </div>
+      <span class="nav-logo-text">SISTEPARD</span>
+    </a>
+    <div class="nav-btns">
+      <div class="mas-dropdown" id="masDropdown">
+        <div class="mas-btn">
+          <button onclick="toggleMasMenu()">Mas <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg></button>
+        </div>
+        <div class="mas-menu" id="masMenu">
+          <a href="legisladores.html" style="background:rgba(233,236,243,.6)">
+            <div class="mm-icon" style="background:linear-gradient(135deg,var(--accent),var(--accent-2))">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z"/></svg>
+            </div>
+            <div><h4>Representantes</h4><p>Estructura de liderazgo y candidaturas</p></div>
+          </a>
+          <a href="geografia.html">
+            <div class="mm-icon" style="background:linear-gradient(135deg,var(--color-primary),var(--accent))">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+            </div>
+            <div><h4>Geografia</h4><p>Municipios y estructura territorial</p></div>
+          </a>
+        </div>
+      </div>
+      <button class="nav-link" onclick="abrirPortalElectoral()">Iniciar Sesion</button>
+      <button class="nav-btn-primary" onclick="abrirPortalElectoral('registro')">Registrarse</button>
+    </div>
+    <button class="nav-burger" id="navBurger" onclick="toggleMobileMenu()">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="legisladores.html" style="color:var(--primary);font-weight:700">Representantes</a>
+    <a href="geografia.html">Geografia</a>
+    <div class="mob-btns">
+      <button class="nav-link" onclick="abrirPortalElectoral()" style="width:100%;text-align:center">Iniciar Sesion</button>
+      <button class="nav-btn-primary" onclick="abrirPortalElectoral('registro')" style="width:100%;text-align:center">Registrarse</button>
     </div>
   </div>
 </nav>
-
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <div class="subtitle">SISTEPARD · Mandato 2024-2028</div>
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      <span class="hero-badge-text">SISTEPARD &middot; Mandato 2024-2028</span>
+    </div>
     <h1>Legisladores de Valverde</h1>
-    <p class="tagline">Representación legislativa y municipal de la provincia: senador, diputados, síndicos, regidores y juntas distritales.</p>
+    <p class="tagline">Representaci&oacute;n legislativa y municipal de la provincia: senador, diputados, s&iacute;ndicos, regidores y juntas distritales.</p>
   </div>
 </section>
 
-<section class="section section-dark" id="legisladores">
+<section class="section" id="legisladores">
   <div class="container">
-    <div class="section-label">Mandato 2024-2028</div>
-    <h2 class="section-title">Legisladores de <span class="accent">Valverde</span></h2>
-    <p class="dark-sub">
-      Representación legislativa y municipal de la provincia: senador, diputados, síndicos, regidores y juntas distritales.
-    </p>
 
     <!-- SENADOR -->
     <h3 class="est-subtitle"><i class="fa-solid fa-landmark"></i> Senador de Valverde</h3>
@@ -467,7 +365,7 @@
       <div class="person-card featured">
         <div class="person-demarcacion badge-senador">Senador</div>
         <div class="person-foto" style="background-image:url('img/odalis.jpg')"></div>
-        <div class="person-nombre">Odalis Rodríguez</div>
+        <div class="person-nombre">Odalis Rodr&iacute;guez</div>
         <div class="person-cargo">Senador por Valverde</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-detail">Ex Alcalde de Mao (2006-2024)</div>
@@ -475,12 +373,12 @@
     </div>
 
     <!-- DIPUTADOS -->
-    <h3 class="est-subtitle"><i class="fa-solid fa-users"></i> Cámara de Diputados</h3>
+    <h3 class="est-subtitle"><i class="fa-solid fa-users"></i> C&aacute;mara de Diputados</h3>
     <div class="person-grid">
       <div class="person-card">
         <div class="person-demarcacion badge-diputado">Diputada</div>
         <div class="person-foto" style="background-image:url('img/angela.jpg')"></div>
-        <div class="person-nombre">María De Los Ángeles Rodríguez Bonseñor</div>
+        <div class="person-nombre">Mar&iacute;a De Los &Aacute;ngeles Rodr&iacute;guez Bonse&ntilde;or</div>
         <div class="person-cargo">Diputada por Valverde</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-detail">18,258 votos</div>
@@ -488,7 +386,7 @@
       <div class="person-card">
         <div class="person-demarcacion badge-diputado">Diputado</div>
         <div class="person-foto" style="background-image:url('img/valenzuela.jpg')"></div>
-        <div class="person-nombre">José Altagracia Valenzuela Arias</div>
+        <div class="person-nombre">Jos&eacute; Altagracia Valenzuela Arias</div>
         <div class="person-cargo">Diputado por Valverde</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-detail">15,033 votos</div>
@@ -496,34 +394,33 @@
       <div class="person-card">
         <div class="person-demarcacion badge-diputado">Diputado</div>
         <div class="person-foto" style="background-image:url('img/ruben.jpg')"></div>
-        <div class="person-nombre">Rubén Darío Peñalo Torres</div>
+        <div class="person-nombre">Rub&eacute;n Dar&iacute;o Pe&ntilde;alo Torres</div>
         <div class="person-cargo">Diputado por Valverde</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-detail">10,703 votos</div>
       </div>
     </div>
-
-    <!-- SÍNDICOS -->
-    <h3 class="est-subtitle"><i class="fa-solid fa-user-tie"></i> Alcaldías (Síndicos)</h3>
+    <!-- SINDICOS -->
+    <h3 class="est-subtitle"><i class="fa-solid fa-user-tie"></i> Alcald&iacute;as (S&iacute;ndicos)</h3>
     <div class="person-grid">
       <div class="person-card">
         <div class="person-demarcacion badge-municipio">Mao</div>
         <div class="person-foto" style="background-image:url('img/mao.png')"></div>
-        <div class="person-nombre">Yohendy Jiménez Bonilla</div>
+        <div class="person-nombre">Yohendy Jim&eacute;nez Bonilla</div>
         <div class="person-cargo">Alcalde de Mao</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-municipio">Esperanza</div>
         <div class="person-foto" style="background-image:url('img/esperanza.jpg')"></div>
-        <div class="person-nombre">Freddy de Jesús Rodríguez Jiménez</div>
+        <div class="person-nombre">Freddy de Jes&uacute;s Rodr&iacute;guez Jim&eacute;nez</div>
         <div class="person-cargo">Alcalde de Esperanza</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-municipio">L. Salada</div>
         <div class="person-foto" style="background-image:url('img/laguna.jpg')"></div>
-        <div class="person-nombre">Germán Damián Rodríguez Saldaña</div>
+        <div class="person-nombre">Germ&aacute;n Dami&aacute;n Rodr&iacute;guez Salda&ntilde;a</div>
         <div class="person-cargo">Alcalde de Laguna Salada</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
       </div>
@@ -538,35 +435,35 @@
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">Mao</div>
           <div class="person-foto" style="background-image:url('img/penalo.jpg')"></div>
-          <div class="person-nombre">José Miguel Peñalo Santana</div>
+          <div class="person-nombre">Jos&eacute; Miguel Pe&ntilde;alo Santana</div>
           <div class="person-cargo">Regidor</div>
           <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         </div>
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">Mao</div>
           <div class="person-foto" style="background-image:url('img/wilson.jpg')"></div>
-          <div class="person-nombre">Wilson Rafael Estévez Tavarez</div>
+          <div class="person-nombre">Wilson Rafael Est&eacute;vez Tavarez</div>
           <div class="person-cargo">Regidor</div>
           <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         </div>
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">Mao</div>
           <div class="person-foto" style="background-image:url('img/dolores.jpg')"></div>
-          <div class="person-nombre">Dolores Ananhi Rodríguez Contrera</div>
+          <div class="person-nombre">Dolores Ananhi Rodr&iacute;guez Contrera</div>
           <div class="person-cargo">Regidora</div>
           <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         </div>
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">Mao</div>
           <div class="person-foto" style="background-image:url('img/nestor.jpg')"></div>
-          <div class="person-nombre">Néstor Antonio Duran Rodríguez</div>
+          <div class="person-nombre">N&eacute;stor Antonio Duran Rodr&iacute;guez</div>
           <div class="person-cargo">Regidor</div>
           <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         </div>
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">Mao</div>
           <div class="person-foto" style="background-image:url('img/julio-wascar.jpg')"></div>
-          <div class="person-nombre">Julio Wascar García Rodríguez</div>
+          <div class="person-nombre">Julio Wascar Garc&iacute;a Rodr&iacute;guez</div>
           <div class="person-cargo">Regidor</div>
           <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         </div>
@@ -580,41 +477,40 @@
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">Mao</div>
           <div class="person-foto" style="background-image:url('img/diony.jpg')"></div>
-          <div class="person-nombre">Diony Miguel Gómez Collado</div>
+          <div class="person-nombre">Diony Miguel G&oacute;mez Collado</div>
           <div class="person-cargo">Regidor</div>
           <div class="person-partido"><img src="img/logo-pld.jpg" alt="PLD"> PLD</div>
         </div>
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">Mao</div>
           <div class="person-foto" style="background-image:url('img/juan-luis-gomez.jpg')"></div>
-          <div class="person-nombre">Juan Luis Gómez Familia</div>
+          <div class="person-nombre">Juan Luis G&oacute;mez Familia</div>
           <div class="person-cargo">Regidor</div>
           <div class="person-partido"><img src="img/logo-fp.jpg" alt="FP"> FP</div>
         </div>
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">Mao</div>
           <div class="person-foto" style="background-image:url('img/jose-luis.jpg')"></div>
-          <div class="person-nombre">José Luis Rodríguez Contreras</div>
+          <div class="person-nombre">Jos&eacute; Luis Rodr&iacute;guez Contreras</div>
           <div class="person-cargo">Regidor</div>
           <div class="person-partido"><img src="img/logo-prsc.png" alt="PASOVE"> PASOVE</div>
         </div>
       </div>
     </div>
-
     <div class="muni-group">
       <h4><i class="fa-solid fa-city"></i> Esperanza — Concejo de Regidores (9)</h4>
       <div class="person-grid">
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">Esperanza</div>
           <div class="person-foto" style="background-image:url('img/joel.jpg')"></div>
-          <div class="person-nombre">Joel Andrés Mendoza Pérez</div>
+          <div class="person-nombre">Joel Andr&eacute;s Mendoza P&eacute;rez</div>
           <div class="person-cargo">Regidor</div>
           <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         </div>
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">Esperanza</div>
           <div class="person-foto" style="background-image:url('img/wildamy.jpg')"></div>
-          <div class="person-nombre">Wildamy Gabriel Quiñones Moreta</div>
+          <div class="person-nombre">Wildamy Gabriel Qui&ntilde;ones Moreta</div>
           <div class="person-cargo">Regidor</div>
           <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         </div>
@@ -628,42 +524,42 @@
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">Esperanza</div>
           <div class="person-foto" style="background-image:url('img/confesor.jpg')"></div>
-          <div class="person-nombre">Confesor Contreras Alcántara</div>
+          <div class="person-nombre">Confesor Contreras Alc&aacute;ntara</div>
           <div class="person-cargo">Regidor</div>
           <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         </div>
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">Esperanza</div>
           <div class="person-foto" style="background-image:url('img/julio.jpg')"></div>
-          <div class="person-nombre">Julio Tavárez Álvarez</div>
+          <div class="person-nombre">Julio Tav&aacute;rez &Aacute;lvarez</div>
           <div class="person-cargo">Regidor</div>
           <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         </div>
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">Esperanza</div>
           <div class="person-foto" style="background-image:url('img/maria-garcia.jpg')"></div>
-          <div class="person-nombre">María Altagracia García Torres</div>
+          <div class="person-nombre">Mar&iacute;a Altagracia Garc&iacute;a Torres</div>
           <div class="person-cargo">Regidora</div>
           <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         </div>
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">Esperanza</div>
           <div class="person-foto" style="background-image:url('img/maria-elena.jpg')"></div>
-          <div class="person-nombre">María Elena Pérez Núñez</div>
+          <div class="person-nombre">Mar&iacute;a Elena P&eacute;rez N&uacute;&ntilde;ez</div>
           <div class="person-cargo">Vicepresidenta del Concejo</div>
           <div class="person-partido"><img src="img/logo-pld.jpg" alt="PLD"> PLD</div>
         </div>
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">Esperanza</div>
           <div class="person-foto" style="background-image:url('img/alexander.jpg')"></div>
-          <div class="person-nombre">José Alejandro Valdez Molina</div>
+          <div class="person-nombre">Jos&eacute; Alejandro Valdez Molina</div>
           <div class="person-cargo">Regidor</div>
           <div class="person-partido"><img src="img/logo-pld.jpg" alt="PLD"> PLD</div>
         </div>
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">Esperanza</div>
           <div class="person-foto" style="background-image:url('img/esmarlin.jpg')"></div>
-          <div class="person-nombre">Esmarlin Rodríguez Ulloa</div>
+          <div class="person-nombre">Esmarlin Rodr&iacute;guez Ulloa</div>
           <div class="person-cargo">Regidora</div>
           <div class="person-partido"><img src="img/logo-fp.jpg" alt="FP"> FP</div>
         </div>
@@ -676,7 +572,7 @@
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">L. Salada</div>
           <div class="person-foto" style="background-image:url('img/luis-acosta.jpg')"></div>
-          <div class="person-nombre">Luis Carlos Acosta García</div>
+          <div class="person-nombre">Luis Carlos Acosta Garc&iacute;a</div>
           <div class="person-cargo">Regidor</div>
           <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         </div>
@@ -690,27 +586,26 @@
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">L. Salada</div>
           <div class="person-foto" style="background-image:url('img/victor.jpg')"></div>
-          <div class="person-nombre">Víctor de Jesús Acosta</div>
+          <div class="person-nombre">V&iacute;ctor de Jes&uacute;s Acosta</div>
           <div class="person-cargo">Regidor</div>
           <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         </div>
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">L. Salada</div>
           <div class="person-foto" style="background-image:url('img/luisa.jpg')"></div>
-          <div class="person-nombre">María Luisa Pérez Novo</div>
+          <div class="person-nombre">Mar&iacute;a Luisa P&eacute;rez Novo</div>
           <div class="person-cargo">Regidora</div>
           <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         </div>
         <div class="person-card">
           <div class="person-demarcacion badge-municipio">L. Salada</div>
           <div class="person-foto" style="background-image:url('img/manuel-pena.jpg')"></div>
-          <div class="person-nombre">Manuel de Jesús Peña Ureña</div>
+          <div class="person-nombre">Manuel de Jes&uacute;s Pe&ntilde;a Ure&ntilde;a</div>
           <div class="person-cargo">Regidor</div>
           <div class="person-partido"><img src="img/logo-pld.jpg" alt="PLD"> PLD</div>
         </div>
       </div>
     </div>
-
     <!-- DISTRITOS -->
     <h3 class="est-subtitle"><i class="fa-solid fa-map-location-dot"></i> Distritos Municipales</h3>
     <div class="person-grid">
@@ -725,7 +620,7 @@
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Guatapanal</div>
         <div class="person-foto" style="background-image:url('img/trejo.jpg')"></div>
-        <div class="person-nombre">Dr. Herminio Chávez Trejo</div>
+        <div class="person-nombre">Dr. Herminio Ch&aacute;vez Trejo</div>
         <div class="person-cargo">Pte. Junta Distrital de Guatapanal</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-muni">Municipio: Mao</div>
@@ -733,15 +628,15 @@
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Jib-P.N.</div>
         <div class="person-foto" style="background-image:url('img/fernando.jpg')"></div>
-        <div class="person-nombre">Fernando Alfonso Rodríguez</div>
-        <div class="person-cargo">Pte. Junta Distrital de Jaibón-Pueblo Nuevo</div>
+        <div class="person-nombre">Fernando Alfonso Rodr&iacute;guez</div>
+        <div class="person-cargo">Pte. Junta Distrital de Jaib&oacute;n-Pueblo Nuevo</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-muni">Municipio: Mao</div>
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Boca Mao</div>
         <div class="person-foto" style="background-image:url('img/felix.jpg')"></div>
-        <div class="person-nombre">Félix Santos Rodríguez</div>
+        <div class="person-nombre">F&eacute;lix Santos Rodr&iacute;guez</div>
         <div class="person-cargo">Pte. Junta Distrital de Boca de Mao</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-muni">Municipio: Esperanza</div>
@@ -749,23 +644,23 @@
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Maizal</div>
         <div class="person-foto" style="background-image:url('img/jaime.jpg')"></div>
-        <div class="person-nombre">Jaime Sánchez</div>
+        <div class="person-nombre">Jaime S&aacute;nchez</div>
         <div class="person-cargo">Pte. Junta Distrital de Maizal</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-muni">Municipio: Esperanza</div>
       </div>
       <div class="person-card">
-        <div class="person-demarcacion badge-distrito">Jicomé</div>
+        <div class="person-demarcacion badge-distrito">Jicom&eacute;</div>
         <div class="person-foto" style="background-image:url('img/domingo.jpg')"></div>
         <div class="person-nombre">Domingo Antonio Ortega</div>
-        <div class="person-cargo">Pte. Junta Distrital de Jicomé</div>
+        <div class="person-cargo">Pte. Junta Distrital de Jicom&eacute;</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-muni">Municipio: Esperanza</div>
       </div>
       <div class="person-card">
         <div class="person-demarcacion badge-distrito">Paradero</div>
         <div class="person-foto" style="background-image:url('img/maximo.jpg')"></div>
-        <div class="person-nombre">Máximo Disla Polanco</div>
+        <div class="person-nombre">M&aacute;ximo Disla Polanco</div>
         <div class="person-cargo">Pte. Junta Distrital de Paradero</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-muni">Municipio: Esperanza</div>
@@ -779,10 +674,10 @@
         <div class="person-muni">Municipio: Laguna Salada</div>
       </div>
       <div class="person-card">
-        <div class="person-demarcacion badge-distrito">Jaibón</div>
+        <div class="person-demarcacion badge-distrito">Jaib&oacute;n</div>
         <div class="person-foto" style="background-image:url('img/riki.jpg')"></div>
         <div class="person-nombre">Ricki Ricardo Tejada Blanco</div>
-        <div class="person-cargo">Pte. Junta Distrital de Jaibón</div>
+        <div class="person-cargo">Pte. Junta Distrital de Jaib&oacute;n</div>
         <div class="person-partido"><img src="img/logo-prm.png" alt="PRM"> PRM</div>
         <div class="person-muni">Municipio: Laguna Salada</div>
       </div>
@@ -797,14 +692,13 @@
     </div>
   </div>
 </section>
-
-<!-- DASHBOARD Y TABLA DE INFORMACIÓN -->
+<!-- DASHBOARD Y TABLA DE INFORMACION -->
 <section class="section" id="informacion">
   <div class="container">
     <div class="section-label">Datos Electorales · Mandato 2024-2028</div>
-    <h2 class="section-title">Información de la <span class="accent">Representación</span></h2>
+    <h2 class="section-title">Informaci&oacute;n de la <span class="accent">Representaci&oacute;n</span></h2>
     <p class="dark-sub">
-      Resumen por partido, votos registrados y clasificación completa de cada autoridad de la provincia.
+      Resumen por partido, votos registrados y clasificaci&oacute;n completa de cada autoridad de la provincia.
     </p>
 
     <!-- KPIs POR PARTIDO -->
@@ -838,61 +732,60 @@
 
     <!-- INDICADORES DE VOTOS -->
     <div class="votes-card">
-      <h3><i class="fa-solid fa-chart-column"></i> Votos — Senaduría</h3>
+      <h3><i class="fa-solid fa-chart-column"></i> Votos — Senadur&iacute;a</h3>
       <div class="vote-row">
-        <span class="vote-name">Odalis Rodríguez (PRM)</span>
+        <span class="vote-name">Odalis Rodr&iacute;guez (PRM)</span>
         <div class="vote-track"><div class="vote-fill" style="width:63%"></div></div>
         <span class="vote-num">63.24%</span>
       </div>
-      <p class="vote-note">Porcentaje sobre votos válidos.</p>
+      <p class="vote-note">Porcentaje sobre v&aacute;lidos v&aacute;lidos.</p>
     </div>
 
     <div class="votes-card">
       <h3><i class="fa-solid fa-chart-column"></i> Votos — Diputaciones</h3>
       <div class="vote-row">
-        <span class="vote-name">María De Los Ángeles Rodríguez Bonseñor</span>
+        <span class="vote-name">Mar&iacute;a De Los &Aacute;ngeles Rodr&iacute;guez Bonse&ntilde;or</span>
         <div class="vote-track"><div class="vote-fill" style="width:100%"></div></div>
         <span class="vote-num">18,258</span>
       </div>
       <div class="vote-row">
-        <span class="vote-name">José Altagracia Valenzuela Arias</span>
+        <span class="vote-name">Jos&eacute; Altagracia Valenzuela Arias</span>
         <div class="vote-track"><div class="vote-fill" style="width:82%"></div></div>
         <span class="vote-num">15,033</span>
       </div>
       <div class="vote-row">
-        <span class="vote-name">Rubén Darío Peñalo Torres</span>
+        <span class="vote-name">Rub&eacute;n Dar&iacute;o Pe&ntilde;alo Torres</span>
         <div class="vote-track"><div class="vote-fill" style="width:59%"></div></div>
         <span class="vote-num">10,703</span>
       </div>
     </div>
 
     <div class="votes-card">
-      <h3><i class="fa-solid fa-chart-column"></i> Votos — Alcaldías</h3>
+      <h3><i class="fa-solid fa-chart-column"></i> Votos — Alcald&iacute;as</h3>
       <div class="vote-row">
-        <span class="vote-name">Yohendy Jiménez Bonilla — Mao (PRM)</span>
+        <span class="vote-name">Yohendy Jim&eacute;nez Bonilla — Mao (PRM)</span>
         <div class="vote-track"><div class="vote-fill" style="width:78%"></div></div>
         <span class="vote-num">15K–18K</span>
       </div>
-      <p class="vote-note">Mayoría calificada en el concejo. El PRM en Mao suele superar los 15,000–18,000 votos para alcalde y una cifra similar para la lista de regidores.</p>
+      <p class="vote-note">Mayor&iacute;a calificada en el concejo. El PRM en Mao suele superar los 15,000–18,000 votos para alcalde y una cifra similar para la lista de regidores.</p>
       <div class="vote-row">
-        <span class="vote-name">Freddy Rodríguez — Esperanza (PRM)</span>
+        <span class="vote-name">Freddy Rodr&iacute;guez — Esperanza (PRM)</span>
         <div class="vote-track"><div class="vote-fill" style="width:52%"></div></div>
         <span class="vote-num">50–55%</span>
       </div>
-      <p class="vote-note">Distribución municipal: PRM 50–55%, PLD 25–30%, FP 10–15% del total de votos válidos.</p>
+      <p class="vote-note">Distribuci&oacute;n municipal: PRM 50–55%, PLD 25–30%, FP 10–15% del total de votos v&aacute;lidos.</p>
       <div class="vote-row">
-        <span class="vote-name">Germán Damián Rodríguez Saldaña — Laguna Salada (PRM)</span>
+        <span class="vote-name">Germ&aacute;n Dami&aacute;n Rodr&iacute;guez Salda&ntilde;a — Laguna Salada (PRM)</span>
         <div class="vote-track"><div class="vote-fill" style="width:63%"></div></div>
         <span class="vote-num">&gt;60%</span>
       </div>
-      <p class="vote-note">PRM domina con margen amplio, obteniendo probablemente más del 60% de los votos para la lista de regidores.</p>
+      <p class="vote-note">PRM domina con margen amplio, obteniendo probablemente m&aacute;s del 60% de los votos para la lista de regidores.</p>
     </div>
-
     <div class="votes-card">
-      <h3><i class="fa-solid fa-chart-column"></i> Concejos de Regidores — Composición por Partido</h3>
+      <h3><i class="fa-solid fa-chart-column"></i> Concejos de Regidores — Composici&oacute;n por Partido</h3>
 
       <div class="conc-muni">
-        <div class="conc-head">Mao <span class="conc-total">9 escaños</span></div>
+        <div class="conc-head">Mao <span class="conc-total">9 esca&ntilde;os</span></div>
         <div class="conc-stack">
           <div class="conc-seg" style="width:56%;background:#02468c" title="PRM: 5"></div>
           <div class="conc-seg" style="width:22%;background:#812990" title="PLD: 2"></div>
@@ -908,7 +801,7 @@
       </div>
 
       <div class="conc-muni">
-        <div class="conc-head">Esperanza <span class="conc-total">9 escaños</span></div>
+        <div class="conc-head">Esperanza <span class="conc-total">9 esca&ntilde;os</span></div>
         <div class="conc-stack">
           <div class="conc-seg" style="width:67%;background:#02468c" title="PRM: 6"></div>
           <div class="conc-seg" style="width:22%;background:#812990" title="PLD: 2"></div>
@@ -922,7 +815,7 @@
       </div>
 
       <div class="conc-muni">
-        <div class="conc-head">Laguna Salada <span class="conc-total">5 escaños</span></div>
+        <div class="conc-head">Laguna Salada <span class="conc-total">5 esca&ntilde;os</span></div>
         <div class="conc-stack">
           <div class="conc-seg" style="width:80%;background:#02468c" title="PRM: 4"></div>
           <div class="conc-seg" style="width:20%;background:#812990" title="PLD: 1"></div>
@@ -939,187 +832,178 @@
     </p>
   </div>
 </section>
-
 <!-- FOOTER -->
 <footer class="footer">
   <div class="container">
-    <div class="footer-brand">SISTEPARD</div>
-    <div class="footer-sub">Sistema Electoral de Partidos RD</div>
-    <div class="footer-copy">&copy; 2026 SISTEPARD. Todos los derechos reservados.</div>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <div class="footer-brand-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <span>SISTEPARD</span>
+        </div>
+        <p class="footer-desc">Sistema Electoral Digital para partidos pol&iacute;ticos dominicanos. Gesti&oacute;n electoral segura y moderna.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Producto</h4>
+        <a href="index.html">Portal de Dirigentes</a>
+        <a href="index.html">Actas Electr&oacute;nicas</a>
+        <a href="index.html">Gesti&oacute;n Zonal</a>
+        <a href="index.html">Dashboard en Tiempo Real</a>
+      </div>
+      <div class="footer-col">
+        <h4>Plataforma</h4>
+        <a href="index.html">Seguridad</a>
+        <a href="index.html">Como Funciona</a>
+        <a href="index.html">Sobre el Creador</a>
+        <a href="index.html">Solicitar Demo</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <a href="mailto:info@sistepard.com" class="footer-contact-item">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+          info@sistepard.com
+        </a>
+        <a href="#" class="footer-contact-item" onclick="abrirPortalElectoral('registro');return false">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+          Solicitar Informaci&oacute;n
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">&copy; 2026 SISTEPARD. Todos los derechos reservados.</div>
+      <div class="footer-legal">
+        <a href="#">Pol&iacute;tica de Privacidad</a>
+        <a href="#">Pol&iacute;tica de Cookies</a>
+        <a href="#">T&eacute;rminos</a>
+      </div>
+    </div>
   </div>
 </footer>
-
-
-
 <!-- PORTAL ELECTORAL (overlay) -->
 <div id="portal-electoral">
   <button class="close-portal" onclick="cerrarPortalElectoral()"><i class="fa-solid fa-xmark"></i></button>
-  <div class="portal-elec-hero">
-    <div class="hero-circle"><img src="img/logo-pro.svg" alt="SISTEPARD" style="width:54px;height:auto;border-radius:50%;"></div>
-    <h1 id="portal-title">Portal Electoral SISTEPARD</h1>
-    <p>Provincia Valverde · República Dominicana 2026</p>
-  </div>
-  <div class="portal-elec-wrap">
-
-    <!-- STEP PORTAL -->
-    <div id="pe-step-portal" class="pe-step active">
-      <div class="pe-portal-top">
-        <button class="pe-btn pe-btn-azul" onclick="peIrStep('pe-step-cedula')">🔑 Iniciar</button>
-        <button class="pe-btn pe-btn-verde" onclick="peIrStep('pe-step-registro-rol')">📝 Registrarse</button>
-        <button class="pe-btn pe-btn-gris" onclick="peEntrarRol('admin')" style="flex:0 0 auto;padding:13px 16px"><i class="fa-solid fa-gear"></i></button>
+  <div class="pe-modal">
+    <!-- LADO IZQUIERDO: Branding -->
+    <div class="pe-left">
+      <div class="pe-left-logo">
+        <div class="pe-left-logo-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
+        <span>SISTEPARD</span>
       </div>
-      <div class="pe-portal-section">
-        <div class="pe-portal-section-title">Estructura del Partido</div>
-        <div class="pe-role-grid">
-          <div class="pe-role-card" onclick="peEntrarRol('dirigente')"><div class="rc-icon" style="background:linear-gradient(135deg,#dcfce7,#bbf7d0)">🤝</div><div class="rc-text"><div class="rc-title">Dirigente de Base</div><div class="rc-sub">Comité de base y estructura zonal</div></div><div class="rc-arrow">›</div></div>
-          <div class="pe-role-card" onclick="peEntrarRol('zona')"><div class="rc-icon" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">🏛️</div><div class="rc-text"><div class="rc-title">Portal Zonal</div><div class="rc-sub">Gestión de zona, dirigentes y planchas</div></div><div class="rc-arrow">›</div></div>
-          <div class="pe-role-card" onclick="peEntrarRol('delegado')"><div class="rc-icon" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8)">📋</div><div class="rc-text"><div class="rc-title">Delegado</div><div class="rc-sub">Mesas, actas y votantes del día</div></div><div class="rc-arrow">›</div></div>
-        </div>
-      </div>
-      <div class="pe-portal-section">
-        <div class="pe-portal-section-title">Candidaturas</div>
-        <div class="pe-role-grid">
-          <div class="pe-role-card" onclick="peEntrarRol('candidato')"><div class="rc-icon" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">🗳️</div><div class="rc-text"><div class="rc-title">Candidato / Pre-candidato</div><div class="rc-sub">Portal de candidatura y estructura</div></div><div class="rc-arrow">›</div></div>
-          <div class="pe-role-card" onclick="peEntrarRol('miembro')"><div class="rc-icon" style="background:linear-gradient(135deg,#f3e8ff,#e9d5ff)">👥</div><div class="rc-text"><div class="rc-title">Miembro de Estructura</div><div class="rc-sub">Parte de una estructura existente</div></div><div class="rc-arrow">›</div></div>
-          <div class="pe-role-card" onclick="peEntrarRol('coordinador')"><div class="rc-icon" style="background:linear-gradient(135deg,#fef3c7,#fde68a)">🔱</div><div class="rc-text"><div class="rc-title">Coordinador</div><div class="rc-sub">Coordinación de zona o candidatura</div></div><div class="rc-arrow">›</div></div>
-        </div>
-      </div>
-      <div style="text-align:center;margin-bottom:12px">
-        <button onclick="peIrStep('pe-step-recuperar')" style="background:none;border:none;color:#94a3b8;font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline">🔑 ¿Olvidaste tu PIN?</button>
+      <h2>Gestion electoral segura para el partido</h2>
+      <p>Plataforma integral de gestion politica con trazabilidad completa y herramientas disenadas para el terreno dominicano.</p>
+      <div class="pe-left-features">
+        <div class="pe-left-feat"><div class="pe-left-feat-icon">&#128737;</div><div class="pe-left-feat-text"><h4>Seguridad Empresarial</h4><p>Cifrado de extremo a extremo y autenticacion segura</p></div></div>
+        <div class="pe-left-feat"><div class="pe-left-feat-icon">&#128200;</div><div class="pe-left-feat-text"><h4>Datos en Tiempo Real</h4><p>Dashboard actualizado con resultados y avances</p></div></div>
+        <div class="pe-left-feat"><div class="pe-left-feat-icon">&#127758;</div><div class="pe-left-feat-text"><h4>Gestion Zonal</h4><p>Estructura completa por zona, municipio y sector</p></div></div>
       </div>
     </div>
-
-    <!-- STEP CEDULA -->
-    <div id="pe-step-cedula" class="pe-step">
-      <div class="pe-card">
-        <div class="pe-card-header"><h2 id="pe-ced-titulo">🔍 Identificación</h2><p id="pe-ced-sub">Ingresa tu cédula para continuar</p></div>
-        <div class="pe-card-body">
+    <!-- LADO DERECHO: Formulario -->
+    <div class="pe-right">
+      <!-- STEP: Login principal -->
+      <div id="pe-step-portal" class="pe-step active">
+        <h3>Iniciar Sesion</h3>
+        <p class="pe-subtitle">Bienvenido de vuelta. Ingresa tus credenciales.</p>
+        <div class="pe-social-btns">
+          <button class="pe-social-btn" onclick="authHelper.loginWithGoogle()"><svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Continuar con Google</button>
+        </div>
+        <div style="margin-bottom:20px"></div>
+        <div id="pe-login-form">
           <div class="pe-error-box" id="pe-err-cedula"></div>
-          <div class="pe-campo"><label>Cédula de identidad</label><input type="tel" id="pe-inp-cedula" placeholder="000-0000000-0" maxlength="13" oninput="peFmtCedula(this)" onkeyup="if(event.key==='Enter')peBuscarCedula()" style="font-family:monospace;letter-spacing:1px"></div>
-          <button class="pe-btn pe-btn-azul" onclick="peBuscarCedula()">Continuar →</button>
-          <button class="pe-btn pe-btn-gris" onclick="peIrStep('pe-step-portal')">← Volver al portal</button>
+          <div class="pe-campo"><label>Cedula de identidad</label><input type="tel" id="pe-inp-cedula" placeholder="000-0000000-0" maxlength="13" oninput="peFmtCedula(this)" onkeyup="if(event.key==='Enter')peBuscarCedula()" style="font-family:monospace;letter-spacing:1px"></div>
+          <div class="pe-campo"><label>Contrasena</label><input type="password" id="pe-inp-pass" placeholder="Tu contrasena" onkeyup="if(event.key==='Enter')peBuscarCedula()"></div>
+          <div class="pe-forgot"><a href="#" onclick="peIrStep('pe-step-recuperar');return false">Olvidaste tu contrasena?</a></div>
+          <button class="pe-btn pe-btn-primary" onclick="peBuscarCedula()">Continuar</button>
+        </div>
+        <div class="pe-switch">No tienes cuenta? <a href="#" onclick="peIrStep('pe-step-registro-rol');return false">Registrate</a></div>
+        <div class="pe-legal">Al continuar aceptas nuestros <a href="#">Terminos</a> y <a href="#">Politica de Privacidad</a>.</div>
+      </div>
+      <!-- STEP: Registro - seleccion de rol -->
+      <div id="pe-step-registro-rol" class="pe-step">
+        <h3>Crear Cuenta</h3>
+        <p class="pe-subtitle">En que rol quieres participar?</p>
+        <div class="pe-social-btns">
+          <button class="pe-social-btn" onclick="authHelper.loginWithGoogle()"><svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg> Registrarme con Google</button>
+        </div>
+        <div style="margin-bottom:20px"></div>
+        <div class="pe-reg-options">
+          <button class="pe-reg-opt" onclick="peSeleccionarRolReg('candidato',this)"><div class="ro-icon">&#128499;</div><div class="ro-text"><div class="ro-title">Candidato / Pre-candidato</div><div class="ro-desc">Postularme para un cargo electivo</div></div></button>
+          <button class="pe-reg-opt" onclick="peSeleccionarRolReg('dirigente',this)"><div class="ro-icon">&#129309;</div><div class="ro-text"><div class="ro-title">Dirigente de Base</div><div class="ro-desc">Liderar un comite de base</div></div></button>
+          <button class="pe-reg-opt" onclick="peSeleccionarRolReg('delegado',this)"><div class="ro-icon">&#128203;</div><div class="ro-text"><div class="ro-title">Delegado</div><div class="ro-desc">Mesas, actas y votantes del dia</div></div></button>
+        </div>
+        <div class="pe-switch" style="margin-top:16px">Ya tienes cuenta? <a href="#" onclick="peIrStep('pe-step-portal');return false">Iniciar sesion</a></div>
+      </div>
+      <!-- STEP: Registro - formulario -->
+      <div id="pe-step-registro" class="pe-step">
+        <h3 id="pe-reg-titulo">Registro</h3>
+        <p class="pe-subtitle" id="pe-reg-sub">Completa tu informacion</p>
+        <div class="pe-error-box" id="pe-err-reg"></div>
+        <div class="pe-campo"><label>Nombre completo</label><input type="text" id="pe-reg-nombre" placeholder="Tu nombre completo"></div>
+        <div class="pe-campo"><label>Cedula de identidad</label><input type="tel" id="pe-reg-cedula" placeholder="000-0000000-0" maxlength="13" oninput="peFmtCedula(this)" style="font-family:monospace;letter-spacing:1px"></div>
+        <div class="pe-campo" id="pe-reg-campo-municipio"><label>Municipio</label><select id="pe-reg-municipio" onchange="peCargarZonasReg()"><option value="">Selecciona municipio...</option><option value="MAO">Mao (Cabecera)</option><option value="ESPERANZA">Esperanza</option><option value="LAGUNA_SALADA">Laguna Salada</option><option value="AMINA">Amina (D.M.)</option><option value="GUATAPANAL">Guatapanal (D.M.)</option><option value="JAIBON">Jaibon (D.M.)</option><option value="POTRERO">Potrero (D.M.)</option></select></div>
+        <div class="pe-campo" id="pe-reg-campo-zona"><label>Zona Politica</label><select id="pe-reg-zona"><option value="">Primero selecciona municipio</option></select></div>
+        <div class="pe-campo" id="pe-reg-campo-sector" style="display:none"><label>Sector / Barrio</label><input type="text" id="pe-reg-sector" placeholder="Ej: Los Multis, El Centro..."></div>
+        <div id="pe-reg-campos-candidato" style="display:none"><div class="pe-campo"><label>Tipo</label><select id="pe-reg-tipo"><option value="precandidato">Pre-candidato</option><option value="candidato">Candidato inscrito</option></select></div><div class="pe-campo"><label>Cargo que busca</label><select id="pe-reg-cargo"><option value="">Selecciona cargo...</option><option value="SENADOR">Senador</option><option value="DIPUTADO">Diputado</option><option value="ALCALDE">Alcalde</option><option value="REGIDOR">Regidor</option><option value="DIRIGENTE_ZONAL">Dirigente Zonal</option></select></div></div>
+        <div id="pe-reg-campos-coordinador" style="display:none"><div class="pe-campo"><label>Candidato que apoyas</label><select id="pe-reg-candidato-apoyo"><option value="">Cargando candidatos...</option></select></div></div>
+        <div id="pe-reg-campos-miembro" style="display:none"><div class="pe-campo"><label>Estructura / Candidato a unirse</label><select id="pe-reg-estructura-miembro"><option value="">Cargando estructuras...</option></select></div><div class="pe-campo"><label>Quien te invito?</label><input type="tel" id="pe-reg-invitador" placeholder="Cedula del dirigente que te invita"></div></div>
+        <div class="pe-campo"><label>Telefono</label><input type="tel" id="pe-reg-telefono" placeholder="809-000-0000"></div>
+        <div class="pe-campo"><label>Email</label><input type="email" id="pe-reg-email" placeholder="tucorreo@email.com"></div>
+        <div class="pe-campo"><label>Contrasena</label><input type="password" id="pe-reg-pass" placeholder="Crea una contrasena segura"></div>
+        <div class="pe-campo"><label>Confirmar contrasena</label><input type="password" id="pe-reg-pass2" placeholder="Repite tu contrasena"></div>
+        <button class="pe-btn pe-btn-primary" onclick="peCompletarRegistro()">Registrarme</button>
+        <div class="pe-switch"><a href="#" onclick="peIrStep('pe-step-registro-rol');return false">Volver</a></div>
+        <div class="pe-legal">Al registrarte aceptas nuestros <a href="#">Terminos</a> y <a href="#">Politica de Privacidad</a>.</div>
+      </div>
+      <!-- STEP: PIN / password (kept for compatibility) -->
+      <div id="pe-step-pin" class="pe-step">
+        <h3>Verificacion</h3>
+        <p class="pe-subtitle" id="pe-pin-sub">Ingresa tu PIN de verificacion</p>
+        <div class="pe-error-box" id="pe-err-pin"></div>
+        <div class="pe-pin-row">
+          <input type="tel" maxlength="1" id="pe-p0" oninput="peMover(this,1)">
+          <input type="tel" maxlength="1" id="pe-p1" oninput="peMover(this,2)">
+          <input type="tel" maxlength="1" id="pe-p2" oninput="peMover(this,3)">
+          <input type="tel" maxlength="1" id="pe-p3" oninput="peMover(this,null)" onkeyup="if(event.key==='Enter')peVerificarPin()">
+        </div>
+        <button class="pe-btn pe-btn-primary" onclick="peVerificarPin()">Entrar</button>
+        <div class="pe-forgot"><a href="#" onclick="peIrStep('pe-step-recuperar');return false">Olvidaste tu contrasena?</a></div>
+        <div class="pe-switch"><a href="#" onclick="peIrStep('pe-step-portal');return false">Usar otra cuenta</a></div>
+      </div>
+      <!-- STEP: Destino post-login -->
+      <div id="pe-step-destino" class="pe-step">
+        <h3>Bienvenido</h3>
+        <p class="pe-subtitle" id="pe-destino-nombre">A donde quieres ir?</p>
+        <div class="pe-error-box" id="pe-err-destino"></div>
+        <div class="pe-role-grid">
+          <div class="pe-role-card" onclick="peIrA('perfil')"><div class="rc-icon">&#128100;</div><div class="rc-text"><div class="rc-title">Mi Perfil</div><div class="rc-sub">Ver y editar mi informacion personal</div></div><div class="rc-arrow">&#8250;</div></div>
+          <div class="pe-role-card" onclick="peIrA('candidatos')"><div class="rc-icon">&#128499;</div><div class="rc-text"><div class="rc-title">Candidatos</div><div class="rc-sub">Portal de candidaturas y estructura</div></div><div class="rc-arrow">&#8250;</div></div>
+          <div class="pe-role-card" onclick="peIrA('zona')"><div class="rc-icon">&#127963;</div><div class="rc-text"><div class="rc-title">Mi Zona</div><div class="rc-sub">Gestion zonal, dirigentes y planchas</div></div><div class="rc-arrow">&#8250;</div></div>
         </div>
       </div>
-    </div>
-
-    <!-- STEP PIN -->
-    <div id="pe-step-pin" class="pe-step">
-      <div class="pe-card">
-        <div class="pe-card-header"><h2>🔐 PIN de acceso</h2><p id="pe-pin-sub">Ingresa tu PIN de 4 dígitos</p></div>
-        <div class="pe-card-body">
-          <div class="pe-error-box" id="pe-err-pin"></div>
-          <div class="pe-pin-row">
-            <input type="tel" maxlength="1" id="pe-p0" oninput="peMover(this,1)">
-            <input type="tel" maxlength="1" id="pe-p1" oninput="peMover(this,2)">
-            <input type="tel" maxlength="1" id="pe-p2" oninput="peMover(this,3)">
-            <input type="tel" maxlength="1" id="pe-p3" oninput="peMover(this,null)" onkeyup="if(event.key==='Enter')peVerificarPin()">
-          </div>
-          <button class="pe-btn pe-btn-azul" onclick="peVerificarPin()">Entrar al sistema</button>
-          <div style="text-align:center;margin:4px 0 8px"><button onclick="peIrStep('pe-step-recuperar')" style="background:none;border:none;color:#94a3b8;font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline">¿Olvidaste tu PIN?</button></div>
-          <button class="pe-btn pe-btn-gris" onclick="peIrStep('pe-step-cedula')">← Cambiar cédula</button>
+      <!-- STEP: Recuperar contrasena -->
+      <div id="pe-step-recuperar" class="pe-step">
+        <h3>Recuperar Contrasena</h3>
+        <p class="pe-subtitle">Te enviaremos un codigo a tu email</p>
+        <div class="pe-error-box" id="pe-err-recuperar"></div>
+        <div id="pe-rec-email-box">
+          <div class="pe-campo"><label>Email registrado</label><input type="email" id="pe-rec-email" placeholder="tucorreo@email.com"></div>
+          <button class="pe-btn pe-btn-primary" onclick="peEnviarRecuperacion()">Enviar codigo</button>
         </div>
+        <div id="pe-rec-codigo-box" style="display:none">
+          <div class="pe-info-box">Codigo enviado. Revisa tu bandeja.</div>
+          <div class="pe-campo"><label>Codigo recibido</label><input type="tel" id="pe-rec-codigo" placeholder="000000" maxlength="6" style="font-size:22px;font-family:monospace;text-align:center;letter-spacing:6px"></div>
+          <div class="pe-campo"><label>Nueva contrasena</label><input type="password" id="pe-rec-pass" placeholder="Nueva contrasena"></div>
+          <button class="pe-btn pe-btn-primary" onclick="peConfirmarRecuperacion()">Cambiar contrasena</button>
+        </div>
+        <div class="pe-switch"><a href="#" onclick="peIrStep('pe-step-portal');return false">Volver al login</a></div>
       </div>
     </div>
-
-    <!-- STEP DESTINO DESPUÉS DE LOGIN -->
-    <div id="pe-step-destino" class="pe-step">
-      <div class="pe-card">
-        <div class="pe-card-header"><h2>👋 Bienvenido</h2><p id="pe-destino-nombre">¿A dónde quieres ir?</p></div>
-        <div class="pe-card-body">
-          <div class="pe-error-box" id="pe-err-destino"></div>
-          <div class="pe-role-grid">
-            <div class="pe-role-card" onclick="peIrA('perfil')"><div class="rc-icon" style="background:#dbeafe">👤</div><div class="rc-text"><div class="rc-title">Mi Perfil</div><div class="rc-sub">Ver y editar mi información personal</div></div><div class="rc-arrow">›</div></div>
-            <div class="pe-role-card" onclick="peIrA('candidatos')"><div class="rc-icon" style="background:#fef3c7">🗳️</div><div class="rc-text"><div class="rc-title">Candidatos</div><div class="rc-sub">Portal de candidaturas y estructura</div></div><div class="rc-arrow">›</div></div>
-            <div class="pe-role-card" onclick="peIrA('zona')"><div class="rc-icon" style="background:#dcfce7">🏛️</div><div class="rc-text"><div class="rc-title">Mi Zona</div><div class="rc-sub">Gestión zonal, dirigentes y planchas</div></div><div class="rc-arrow">›</div></div>
-          </div>
-          <div style="text-align:center;margin-top:8px">
-            <button onclick="cerrarPortalElectoral()" style="background:none;border:none;color:#94a3b8;font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline">Cerrar y volver al portal</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP CREAR PIN -->
-    <div id="pe-step-cambiar-pin" class="pe-step">
-      <div class="pe-card">
-        <div class="pe-card-header" style="background:linear-gradient(135deg,#92400e,#b45309)"><h2>🔑 Crear tu PIN</h2><p>Crea tu PIN personal de acceso</p></div>
-        <div class="pe-card-body">
-          <div class="pe-info-box">Crea un PIN de 4 dígitos para acceder al sistema.</div>
-          <div class="pe-error-box" id="pe-err-nuevo-pin"></div>
-          <div class="pe-campo"><label>Nuevo PIN</label><div class="pe-pin-row"><input type="tel" maxlength="1" id="pe-np0" oninput="peMoverN(this,1)"><input type="tel" maxlength="1" id="pe-np1" oninput="peMoverN(this,2)"><input type="tel" maxlength="1" id="pe-np2" oninput="peMoverN(this,3)"><input type="tel" maxlength="1" id="pe-np3" oninput="peMoverN(this,null)"></div></div>
-          <div class="pe-campo"><label>Confirmar PIN</label><div class="pe-pin-row"><input type="tel" maxlength="1" id="pe-np4" oninput="peMoverN(this,5)"><input type="tel" maxlength="1" id="pe-np5" oninput="peMoverN(this,6)"><input type="tel" maxlength="1" id="pe-np6" oninput="peMoverN(this,7)"><input type="tel" maxlength="1" id="pe-np7" oninput="peMoverN(this,null)"></div></div>
-          <button class="pe-btn pe-btn-verde" onclick="peGuardarNuevoPin()">✅ Guardar y entrar</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP RECUPERAR PIN -->
-    <div id="pe-step-recuperar" class="pe-step">
-      <div class="pe-card">
-        <div class="pe-card-header" style="background:linear-gradient(135deg,#7c3aed,#6d28d9)"><h2>🔑 Recuperar PIN</h2><p>Te enviaremos un código a tu email</p></div>
-        <div class="pe-card-body">
-          <div class="pe-error-box" id="pe-err-recuperar"></div>
-          <div id="pe-rec-email-box">
-            <div class="pe-info-box">Ingresa el email que registraste en tu cuenta.</div>
-            <div class="pe-campo"><label>Tu email</label><input type="email" id="pe-rec-email" placeholder="tucorreo@email.com"></div>
-            <button class="pe-btn pe-btn-azul" onclick="peEnviarRecuperacion()">📧 Enviar código</button>
-          </div>
-          <div id="pe-rec-codigo-box" style="display:none">
-            <div style="background:#f0fdf4;border:2px solid #bbf7d0;border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:#166534">✅ Código enviado. Revisa tu bandeja.</div>
-            <div class="pe-campo"><label>Código recibido</label><input type="tel" id="pe-rec-codigo" placeholder="000000" maxlength="6" style="font-size:22px;font-family:monospace;text-align:center;letter-spacing:6px"></div>
-            <div class="pe-campo"><label>Nuevo PIN</label><div class="pe-pin-row"><input type="tel" maxlength="1" id="pe-rp0"><input type="tel" maxlength="1" id="pe-rp1"><input type="tel" maxlength="1" id="pe-rp2"><input type="tel" maxlength="1" id="pe-rp3"></div></div>
-            <button class="pe-btn pe-btn-verde" onclick="peConfirmarRecuperacion()">✅ Cambiar PIN</button>
-          </div>
-          <button class="pe-btn pe-btn-gris" onclick="peIrStep('pe-step-portal')">← Volver al portal</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP REGISTRO ROL -->
-    <div id="pe-step-registro-rol" class="pe-step">
-      <div class="pe-card">
-        <div class="pe-card-header" style="background:linear-gradient(135deg,#16a34a,#15803d)"><h2>📝 Crear Cuenta</h2><p>¿En qué rol quieres participar?</p></div>
-        <div class="pe-card-body">
-          <div class="pe-reg-options">
-            <button class="pe-reg-opt" onclick="peSeleccionarRolReg('candidato',this)"><div class="ro-icon" style="background:#dbeafe">🗳️</div><div class="ro-text"><div class="ro-title">Candidato / Pre-candidato</div><div class="ro-desc">Postularme para un cargo electivo</div></div></button>
-            <button class="pe-reg-opt" onclick="peSeleccionarRolReg('dirigente',this)"><div class="ro-icon" style="background:#dcfce7">🤝</div><div class="ro-text"><div class="ro-title">Dirigente de Base</div><div class="ro-desc">Liderar un comité de base</div></div></button>
-            <button class="pe-reg-opt" onclick="peSeleccionarRolReg('delegado',this)"><div class="ro-icon" style="background:#fce7f3">📋</div><div class="ro-text"><div class="ro-title">Delegado</div><div class="ro-desc">Mesas, actas y votantes del día</div></div></button>
-          </div>
-          <button class="pe-btn pe-btn-gris" style="margin-top:10px" onclick="peIrStep('pe-step-portal')">← Volver</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP FORMULARIO REGISTRO -->
-    <div id="pe-step-registro" class="pe-step">
-      <div class="pe-card">
-        <div class="pe-card-header" style="background:linear-gradient(135deg,#16a34a,#15803d)"><h2 id="pe-reg-titulo">📝 Registro</h2><p id="pe-reg-sub">Completa tu información</p></div>
-        <div class="pe-card-body">
-          <div class="pe-error-box" id="pe-err-reg"></div>
-          <div class="pe-campo"><label>Nombre completo</label><input type="text" id="pe-reg-nombre" placeholder="Tu nombre completo"></div>
-          <div class="pe-campo"><label>Cédula de identidad</label><input type="tel" id="pe-reg-cedula" placeholder="000-0000000-0" maxlength="13" oninput="peFmtCedula(this)" style="font-family:monospace;letter-spacing:1px"></div>
-          <div class="pe-campo" id="pe-reg-campo-municipio"><label>Municipio</label><select id="pe-reg-municipio" onchange="peCargarZonasReg()"><option value="">Selecciona municipio...</option><option value="MAO">Mao (Cabecera)</option><option value="ESPERANZA">Esperanza</option><option value="LAGUNA_SALADA">Laguna Salada</option><option value="AMINA">Amina (D.M.)</option><option value="GUATAPANAL">Guatapanal (D.M.)</option><option value="JAIBON">Jaibón (D.M.)</option><option value="POTRERO">Potrero (D.M.)</option></select></div>
-          <div class="pe-campo" id="pe-reg-campo-zona"><label>Zona Política</label><select id="pe-reg-zona"><option value="">Primero selecciona municipio</option></select></div>
-          <div class="pe-campo" id="pe-reg-campo-sector" style="display:none"><label>Sector / Barrio</label><input type="text" id="pe-reg-sector" placeholder="Ej: Los Multis, El Centro..."></div>
-          <div id="pe-reg-campos-candidato" style="display:none"><div class="pe-campo"><label>Tipo</label><select id="pe-reg-tipo"><option value="precandidato">Pre-candidato</option><option value="candidato">Candidato inscrito</option></select></div><div class="pe-campo"><label>Cargo que busca</label><select id="pe-reg-cargo"><option value="">Selecciona cargo...</option><option value="SENADOR">Senador por Valverde</option><option value="DIPUTADO">Diputado Distrito Valverde</option><option value="ALCALDE">Alcalde</option><option value="REGIDOR">Regidor</option><option value="DIRIGENTE_ZONAL">Dirigente Zonal</option></select></div></div>
-          <div id="pe-reg-campos-coordinador" style="display:none"><div class="pe-campo"><label>Candidato que apoyas</label><select id="pe-reg-candidato-apoyo"><option value="">Cargando candidatos...</option></select></div></div>
-          <div id="pe-reg-campos-miembro" style="display:none"><div class="pe-campo"><label>Estructura / Candidato a unirse</label><select id="pe-reg-estructura-miembro"><option value="">Cargando estructuras...</option></select></div><div class="pe-campo"><label>¿Quién te invitó?</label><input type="tel" id="pe-reg-invitador" placeholder="Cédula del dirigente que te invita"></div></div>
-          <div class="pe-campo"><label>Teléfono</label><input type="tel" id="pe-reg-telefono" placeholder="809-000-0000"></div>
-          <div class="pe-campo"><label>Email (para recuperar PIN)</label><input type="email" id="pe-reg-email" placeholder="tucorreo@email.com"></div>
-          <div class="pe-campo"><label>Crear PIN (4 dígitos)</label><div class="pe-pin-row"><input type="tel" maxlength="1" id="pe-rpin0" oninput="peMoverR(this,1)"><input type="tel" maxlength="1" id="pe-rpin1" oninput="peMoverR(this,2)"><input type="tel" maxlength="1" id="pe-rpin2" oninput="peMoverR(this,3)"><input type="tel" maxlength="1" id="pe-rpin3" oninput="peMoverR(this,null)"></div></div>
-          <button class="pe-btn pe-btn-verde" onclick="peCompletarRegistro()">✅ Registrarme</button>
-          <button class="pe-btn pe-btn-gris" onclick="peIrStep('pe-step-registro-rol')">← Volver</button>
-        </div>
-      </div>
-    </div>
-
   </div>
 </div>
-
 <div id="toast" class="toast"></div>
-
 <script>
-// ═══════════ PORTAL PÚBLICO ═══════════
+// PORTAL PUBLICO
 function abrirPortalElectoral(modo) {
   document.getElementById('portal-electoral').classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -1127,30 +1011,19 @@ function abrirPortalElectoral(modo) {
     peIrStep('pe-step-registro-rol');
   } else {
     E.rolDeseado = null;
-    document.getElementById('pe-ced-titulo').textContent = '🔍 Identificación';
-    document.getElementById('pe-ced-sub').textContent = 'Ingresa tu cédula para continuar';
+    document.getElementById('pe-ced-titulo').textContent = '\uD83D\uDD0D Identificaci\u00f3n';
+    document.getElementById('pe-ced-sub').textContent = 'Ingresa tu c\u00e9dula para continuar';
     peIrStep('pe-step-cedula');
-    setTimeout(() => document.getElementById('pe-inp-cedula').focus(), 300);
+    setTimeout(function(){ document.getElementById('pe-inp-cedula').focus(); }, 300);
   }
 }
 function cerrarPortalElectoral() {
   document.getElementById('portal-electoral').classList.remove('active');
   document.body.style.overflow = '';
 }
-function toggleNavMenu() {
-  document.getElementById('nav-dropdown').classList.toggle('open');
-}
-function abrirModalMas() {
-  document.getElementById('modal-mas').classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-function cerrarModalMas() {
-  document.getElementById('modal-mas').classList.remove('active');
-  document.body.style.overflow = '';
-}
 
-// ═══════════ SUPABASE ═══════════
-let sb = _sb;
+// SUPABASE
+var sb = _sb;
 if (!sb && window.supabase) {
   sb = window.supabase.createClient(
     (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co',
@@ -1158,166 +1031,141 @@ if (!sb && window.supabase) {
   );
 }
 
-// ═══════════ ESTADO ═══════════
-let E = {
+// ESTADO
+var E = {
   cedula: null, cedFmt: null, nombre: null, foto: null,
   enPadron: false, esDirigente: false, rolSistema: null,
   zona: null, municipio: null,
   rolDeseado: null, accionPendiente: null
 };
 
-const ZONAS = {
+var ZONAS = {
   MAO: ['Zona A','Zona B','Zona C','Zona D','Zona E','Zona F'],
   ESPERANZA: ['Zona 1','Zona 2','Zona 3'],
-  LAGUNA_SALADA: ['Zona Única'], AMINA: ['Zona Única'],
-  GUATAPANAL: ['Zona Única'], JAIBON: ['Zona Única'], POTRERO: ['Zona Única']
+  LAGUNA_SALADA: ['Zona \u00danica'], AMINA: ['Zona \u00danica'],
+  GUATAPANAL: ['Zona \u00danica'], JAIBON: ['Zona \u00danica'], POTRERO: ['Zona \u00danica']
 };
 
-// ═══════════ NAVEGACIÓN ═══════════
+// NAVEGACION
 function peIrStep(id) {
-  document.querySelectorAll('.pe-step').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.pe-step').forEach(function(s){ s.classList.remove('active'); });
   document.getElementById(id).classList.add('active');
   document.querySelector('.portal-elec-wrap').scrollTop = 0;
 }
 
-// ═══════════ ENTRAR POR ROL ═══════════
+// ENTRAR POR ROL
 function peEntrarRol(rol) {
-  if (rol === 'admin') {
-    window.location.href = 'admin.html';
-    return;
-  }
+  if (rol === 'admin') { window.location.href = 'admin.html'; return; }
   E.rolDeseado = rol;
-  const titulos = {
-    candidato: '🗳️ Portal de Candidato', dirigente: '🤝 Portal de Dirigente',
-    coordinador: '🔱 Portal de Coordinador', miembro: '👥 Portal de Miembro',
-    zona: '🏛️ Portal Zonal', delegado: '📋 Portal de Delegado'
+  var titulos = {
+    candidato: '\uD83D\uDDF3 Portal de Candidato', dirigente: '\uD83E\uDD1D Portal de Dirigente',
+    coordinador: '\uD83D\uDD31 Portal de Coordinador', miembro: '\uD83D\uDC65 Portal de Miembro',
+    zona: '\uD83C\uDFDB\uFE0F Portal Zonal', delegado: '\uD83D\uDCCB Portal de Delegado'
   };
-  document.getElementById('pe-ced-titulo').textContent = titulos[rol] || '🔍 Identificación';
-  document.getElementById('pe-ced-sub').textContent = 'Identifícate con tu cédula';
+  document.getElementById('pe-ced-titulo').textContent = titulos[rol] || '\uD83D\uDD0D Identificaci\u00f3n';
+  document.getElementById('pe-ced-sub').textContent = 'Identif\u00edcate con tu c\u00e9dula';
   peIrStep('pe-step-cedula');
-  setTimeout(() => document.getElementById('pe-inp-cedula').focus(), 300);
+  setTimeout(function(){ document.getElementById('pe-inp-cedula').focus(); }, 300);
 }
-
-// ═══════════ BUSCAR CÉDULA ═══════════
+// BUSCAR CEDULA
 async function peBuscarCedula() {
-  const raw = document.getElementById('pe-inp-cedula').value;
-  const limpia = raw.replace(/\D/g, '');
-  if (limpia.length < 11) { peErr('pe-err-cedula', 'Ingresa tu cédula completa (11 dígitos)'); return; }
-  const cedFmt = limpia.slice(0,3)+'-'+limpia.slice(3,10)+'-'+limpia.slice(10);
+  var raw = document.getElementById('pe-inp-cedula').value;
+  var limpia = raw.replace(/\D/g, '');
+  if (limpia.length < 11) { peErr('pe-err-cedula', 'Ingresa tu c\u00e9dula completa (11 d\u00edgitos)'); return; }
+  var cedFmt = limpia.slice(0,3)+'-'+limpia.slice(3,10)+'-'+limpia.slice(10);
   E.cedula = limpia; E.cedFmt = cedFmt;
   peHide('pe-err-cedula');
   if (sb) {
     try {
-      const { data: pad } = await sb.rpc('lookup_cedula', { p_cedula: cedFmt });
+      var pad = (await sb.rpc('lookup_cedula', { p_cedula: cedFmt })).data;
       if (pad && pad.length > 0) { E.nombre = pad[0].nombre_completo; E.enPadron = true; }
-      const { data: padFoto } = await sb.from('padron_maestro')
-        .select('foto_url, foto_base64').eq('cedula', cedFmt).maybeSingle();
+      var padFoto = (await sb.from('padron_maestro').select('foto_url, foto_base64').eq('cedula', cedFmt).maybeSingle()).data;
       if (padFoto) { E.foto_url = padFoto.foto_url || null; E.foto = padFoto.foto_base64 || null; }
-      const { data: dir } = await sb.rpc('dirigente_por_cedula', { p_cedula: cedFmt });
+      var dir = (await sb.rpc('dirigente_por_cedula', { p_cedula: cedFmt })).data;
       if (dir && dir.length > 0) { E.esDirigente = true; E.nombre = E.nombre || dir[0].nombre; E.zona = dir[0].zona; E.municipio = dir[0].municipio; E.email = dir[0].email || null; }
-      const { data: usr } = await sb.from('usuarios_sistema').select('rol, zona, municipio, pin_cambiado, nombre').eq('cedula', cedFmt).eq('activo', true).maybeSingle();
+      var usr = (await sb.from('usuarios_sistema').select('rol, zona, municipio, pin_cambiado, nombre').eq('cedula', cedFmt).eq('activo', true).maybeSingle()).data;
       if (usr) { E.rolSistema = usr.rol; E.zona = usr.zona || E.zona; E.municipio = usr.municipio || E.municipio; E.nombre = E.nombre || usr.nombre; }
     } catch(e) { console.error(e); }
   }
-  if (!E.nombre) E.nombre = 'Militante · ' + cedFmt;
+  if (!E.nombre) E.nombre = 'Militante \u00b7 ' + cedFmt;
   peIrStep('pe-step-pin');
-  document.getElementById('pe-pin-sub').textContent = 'Hola ' + E.nombre.split(',')[0] + ' — ingresa tu PIN';
-  setTimeout(() => document.getElementById('pe-p0').focus(), 300);
+  document.getElementById('pe-pin-sub').textContent = 'Hola ' + E.nombre.split(',')[0] + ' \u2014 ingresa tu PIN';
+  setTimeout(function(){ document.getElementById('pe-p0').focus(); }, 300);
 }
 
-// ═══════════ VERIFICAR PIN ═══════════
+// VERIFICAR PIN
 async function peVerificarPin() {
-  const pin = ['pe-p0','pe-p1','pe-p2','pe-p3'].map(id => document.getElementById(id).value).join('');
-  if (pin.length < 4) { peErr('pe-err-pin', 'Ingresa los 4 dígitos'); return; }
+  var pin = ['pe-p0','pe-p1','pe-p2','pe-p3'].map(function(id){ return document.getElementById(id).value; }).join('');
+  if (pin.length < 4) { peErr('pe-err-pin', 'Ingresa los 4 d\u00edgitos'); return; }
   peHide('pe-err-pin');
   if (sb) {
     try {
-      const result = await window.authHelper.login(E.cedFmt, pin);
+      var result = await window.authHelper.login(E.cedFmt, pin);
       if (!result.ok) {
         peErr('pe-err-pin', result.error || 'PIN incorrecto o cuenta no registrada');
-        ['pe-p0','pe-p1','pe-p2','pe-p3'].forEach(id => document.getElementById(id).value = '');
+        ['pe-p0','pe-p1','pe-p2','pe-p3'].forEach(function(id){ document.getElementById(id).value = ''; });
         document.getElementById('pe-p0').focus();
         return;
       }
-      const authData = result;
-      const claims = authData.user || {};
-      const sess = {
-        cedula: E.cedFmt,
-        nombre: E.nombre,
-        zona: claims.zona || E.zona,
-        municipio: claims.municipio || E.municipio,
+      var authData = result;
+      var claims = authData.user || {};
+      var sess = {
+        cedula: E.cedFmt, nombre: E.nombre,
+        zona: claims.zona || E.zona, municipio: claims.municipio || E.municipio,
         rol: claims.role || E.rolSistema || 'dirigente_base',
         token: authData.session.access_token,
         auth_user_id: authData.user.id,
-        foto_url: E.foto_url || null,
-        foto_base64: E.foto || null
+        foto_url: E.foto_url || null, foto_base64: E.foto || null
       };
       peGuardarSesion(sess);
       peRedirigir(sess);
       return;
     } catch(e) {
       console.error('Auth error:', e);
-      peErr('pe-err-pin', 'Error de conexión');
+      peErr('pe-err-pin', 'Error de conexi\u00f3n');
       return;
     }
   }
   peGuardarSesion({ cedula: E.cedFmt, nombre: E.nombre, zona: E.zona, municipio: E.municipio, rol: E.rolSistema || 'dirigente_base', token: 'demo-'+Date.now(), foto_url: E.foto_url || null, foto_base64: E.foto || null });
   peRedirigir({ rol: E.rolSistema || 'dirigente_base' });
 }
-
-// ═══════════ GUARDAR NUEVO PIN ═══════════
+// GUARDAR NUEVO PIN
 async function peGuardarNuevoPin() {
-  const p1 = ['pe-np0','pe-np1','pe-np2','pe-np3'].map(id => document.getElementById(id).value).join('');
-  const p2 = ['pe-np4','pe-np5','pe-np6','pe-np7'].map(id => document.getElementById(id).value).join('');
+  var p1 = ['pe-np0','pe-np1','pe-np2','pe-np3'].map(function(id){ return document.getElementById(id).value; }).join('');
+  var p2 = ['pe-np4','pe-np5','pe-np6','pe-np7'].map(function(id){ return document.getElementById(id).value; }).join('');
   if (p1.length < 4) { peErr('pe-err-nuevo-pin', 'Ingresa tu nuevo PIN'); return; }
   if (p1 !== p2) { peErr('pe-err-nuevo-pin', 'Los PINs no coinciden'); return; }
-  const token = localStorage.getItem('prm_sesion') ? JSON.parse(localStorage.getItem('prm_sesion')).token : null;
-  if (!token) { peErr('pe-err-nuevo-pin', 'Sesión expirada'); return; }
-  const result = await window.authHelper.changePin(p1, token);
+  var token = localStorage.getItem('prm_sesion') ? JSON.parse(localStorage.getItem('prm_sesion')).token : null;
+  if (!token) { peErr('pe-err-nuevo-pin', 'Sesi\u00f3n expirada'); return; }
+  var result = await window.authHelper.changePin(p1, token);
   if (!result.ok) { peErr('pe-err-nuevo-pin', result.error || 'Error al guardar PIN'); return; }
-  peToast('✅ PIN guardado', 'ok');
-  setTimeout(() => peRedirigir({ rol: E.rolSistema }), 1000);
+  peToast('PIN guardado', 'ok');
+  setTimeout(function(){ peRedirigir({ rol: E.rolSistema }); }, 1000);
 }
 
-// ═══════════ REDIRECCIÓN ═══════════
+// REDIRECCION
 function peRedirigir(data) {
-  document.getElementById('pe-destino-nombre').textContent = 'Hola ' + (E.nombre || '').split(',')[0] + ' — ¿A dónde quieres ir?';
+  document.getElementById('pe-destino-nombre').textContent = 'Hola ' + (E.nombre || '').split(',')[0] + ' \u2014 \u00bfA d\u00f3nde quieres ir?';
   peIrStep('pe-step-destino');
 }
 
 function peIrA(destino) {
-  if (destino === 'perfil') {
-    window.location.href = 'dirigentes.html';
-  } else if (destino === 'candidatos') {
-    peAccederCandidato();
-  } else if (destino === 'zona') {
-    window.location.href = 'zonas.html';
-  }
+  if (destino === 'perfil') { window.location.href = 'dirigentes.html'; }
+  else if (destino === 'candidatos') { peAccederCandidato(); }
+  else if (destino === 'zona') { window.location.href = 'zonas.html'; }
 }
 
 async function peAccederCandidato() {
   if (!sb || !E.cedFmt) { window.location.href = 'candidato.html'; return; }
   try {
-    const { data: existente } = await sb.from('candidatos')
-      .select('id, tipo, nombre')
-      .eq('id', E.cedFmt)
-      .maybeSingle();
-
-    if (existente) {
-      peToast('Accediendo...', 'info');
-      setTimeout(() => { window.location.href = 'candidato.html'; }, 600);
-      return;
-    }
-
-    peErr('pe-err-destino', '⚠️ No estás registrado como candidato. Regístrate primero con el botón "Registrarse".');
-
-  } catch(e) {
-    console.error(e);
-    window.location.href = 'candidato.html';
-  }
+    var existente = (await sb.from('candidatos').select('id, tipo, nombre').eq('id', E.cedFmt).maybeSingle()).data;
+    if (existente) { peToast('Accediendo...', 'info'); setTimeout(function(){ window.location.href = 'candidato.html'; }, 600); return; }
+    peErr('pe-err-destino', '\u26a0\ufe0f No est\u00e1s registrado como candidato. Reg\u00edstrate primero con el bot\u00f3n "Registrarse".');
+  } catch(e) { console.error(e); window.location.href = 'candidato.html'; }
 }
+
 function peGetDestino(rol) {
-  const map = { ADMIN_SISTEMA: 'admin.html', super_admin: 'admin.html', dirigente_zonal: 'admin.html', admin: 'admin.html' };
+  var map = { ADMIN_SISTEMA: 'admin.html', super_admin: 'admin.html', dirigente_zonal: 'admin.html', admin: 'admin.html' };
   if (map[rol]) return map[rol];
   if (E.rolDeseado === 'candidato') return 'candidato.html';
   if (E.rolDeseado === 'delegado') return 'delegados.html';
@@ -1325,13 +1173,13 @@ function peGetDestino(rol) {
   return 'dirigentes.html';
 }
 
-// ═══════════ REGISTRO ═══════════
+// REGISTRO
 function peSeleccionarRolReg(rol, el) {
-  document.querySelectorAll('.pe-reg-opt').forEach(o => o.classList.remove('selected'));
+  document.querySelectorAll('.pe-reg-opt').forEach(function(o){ o.classList.remove('selected'); });
   el.classList.add('selected');
   E.rolDeseado = rol;
-  const titulos = { candidato: '🗳️ Registro de Candidato', dirigente: '🤝 Registro de Dirigente', delegado: '📋 Registro de Delegado' };
-  document.getElementById('pe-reg-titulo').textContent = titulos[rol] || '📝 Registro';
+  var titulos = { candidato: '\uD83D\uDDF3 Registro de Candidato', dirigente: '\uD83E\uDD1D Registro de Dirigente', delegado: '\uD83D\uDCCB Registro de Delegado' };
+  document.getElementById('pe-reg-titulo').textContent = titulos[rol] || '\uD83D\uDCDD Registro';
   document.getElementById('pe-reg-sub').textContent = 'Crea tu cuenta en el sistema';
   document.getElementById('pe-reg-campos-candidato').style.display = rol === 'candidato' ? 'block' : 'none';
   document.getElementById('pe-reg-campos-coordinador').style.display = 'none';
@@ -1342,139 +1190,122 @@ function peSeleccionarRolReg(rol, el) {
   if (rol === 'coordinador' || rol === 'miembro') peCargarCandidatosReg();
   peIrStep('pe-step-registro');
 }
-
 async function peCargarCandidatosReg() {
-  const sel = document.getElementById(E.rolDeseado === 'coordinador' ? 'pe-reg-candidato-apoyo' : 'pe-reg-estructura-miembro');
-  if (!sb) { sel.innerHTML = '<option value="">Sin conexión</option>'; return; }
-  const { data } = await sb.from('candidatos').select('id, nombre, cargo, tipo').eq('activo', true).order('nombre');
+  var sel = document.getElementById(E.rolDeseado === 'coordinador' ? 'pe-reg-candidato-apoyo' : 'pe-reg-estructura-miembro');
+  if (!sb) { sel.innerHTML = '<option value="">Sin conexi\u00f3n</option>'; return; }
+  var data = (await sb.from('candidatos').select('id, nombre, cargo, tipo').eq('activo', true).order('nombre')).data;
   sel.innerHTML = '<option value="">Selecciona...</option>';
-  (data || []).forEach(c => { const op = document.createElement('option'); op.value = c.id; op.textContent = c.nombre + ' — ' + c.cargo + ' (' + c.tipo + ')'; sel.appendChild(op); });
+  (data || []).forEach(function(c){ var op = document.createElement('option'); op.value = c.id; op.textContent = c.nombre + ' \u2014 ' + c.cargo + ' (' + c.tipo + ')'; sel.appendChild(op); });
 }
 
 async function peCompletarRegistro() {
-  const nombre = document.getElementById('pe-reg-nombre').value.trim();
-  const cedula = document.getElementById('pe-reg-cedula').value.replace(/\D/g, '');
-  const mun = document.getElementById('pe-reg-municipio').value;
-  const zona = document.getElementById('pe-reg-zona').value;
-  const sector = document.getElementById('pe-reg-sector').value.trim();
-  const tel = document.getElementById('pe-reg-telefono').value.trim();
-  const email = document.getElementById('pe-reg-email').value.trim();
-  const pin = ['pe-rpin0','pe-rpin1','pe-rpin2','pe-rpin3'].map(id => document.getElementById(id).value).join('');
+  var nombre = document.getElementById('pe-reg-nombre').value.trim();
+  var cedula = document.getElementById('pe-reg-cedula').value.replace(/\D/g, '');
+  var mun = document.getElementById('pe-reg-municipio').value;
+  var zona = document.getElementById('pe-reg-zona').value;
+  var sector = document.getElementById('pe-reg-sector').value.trim();
+  var tel = document.getElementById('pe-reg-telefono').value.trim();
+  var email = document.getElementById('pe-reg-email').value.trim();
+  var pin = ['pe-rpin0','pe-rpin1','pe-rpin2','pe-rpin3'].map(function(id){ return document.getElementById(id).value; }).join('');
   if (!nombre) { peErr('pe-err-reg', 'Ingresa tu nombre'); return; }
-  if (cedula.length < 11) { peErr('pe-err-reg', 'Ingresa tu cédula completa'); return; }
+  if (cedula.length < 11) { peErr('pe-err-reg', 'Ingresa tu c\u00e9dula completa'); return; }
   if (!mun && E.rolDeseado !== 'miembro') { peErr('pe-err-reg', 'Selecciona tu municipio'); return; }
   if (!zona && E.rolDeseado !== 'miembro') { peErr('pe-err-reg', 'Selecciona tu zona'); return; }
-  if (pin.length < 4) { peErr('pe-err-reg', 'Crea tu PIN de 4 dígitos'); return; }
-  const cedFmt = cedula.slice(0,3)+'-'+cedula.slice(3,10)+'-'+cedula.slice(10);
+  if (pin.length < 4) { peErr('pe-err-reg', 'Crea tu PIN de 4 d\u00edgitos'); return; }
+  var cedFmt = cedula.slice(0,3)+'-'+cedula.slice(3,10)+'-'+cedula.slice(10);
   if (sb) {
-    // Registro seguro via Edge Function (password construido server-side)
-    const result = await window.authHelper.register({
-      cedula: cedFmt, pin, nombre, telefono: tel, sector,
+    var result = await window.authHelper.register({
+      cedula: cedFmt, pin: pin, nombre: nombre, telefono: tel, sector: sector,
       zona: zona || null, municipio: mun || null,
     });
-    if (!result.ok) {
-      peErr('pe-err-reg', result.error || 'Error en el registro');
-      return;
-    }
+    if (!result.ok) { peErr('pe-err-reg', result.error || 'Error en el registro'); return; }
     if (E.rolDeseado === 'candidato') {
-      const tipo = document.getElementById('pe-reg-tipo').value;
-      const cargo = document.getElementById('pe-reg-cargo').value;
+      var tipo = document.getElementById('pe-reg-tipo').value;
+      var cargo = document.getElementById('pe-reg-cargo').value;
       if (!cargo) { peErr('pe-err-reg', 'Selecciona el cargo que buscas'); return; }
-      await sb.from('candidatos').insert({ id: cedFmt, nombre, cargo, tipo, activo: false });
+      await sb.from('candidatos').insert({ id: cedFmt, nombre: nombre, cargo: cargo, tipo: tipo, activo: false });
     }
   }
-  peToast('���� Solicitud enviada — pendiente de aprobación', 'info');
-  setTimeout(() => { E.rolDeseado = null; peIrStep('pe-step-cedula'); document.getElementById('pe-inp-cedula').value = ''; }, 1500);
+  peToast('Solicitud enviada \u2014 pendiente de aprobaci\u00f3n', 'info');
+  setTimeout(function(){ E.rolDeseado = null; peIrStep('pe-step-cedula'); document.getElementById('pe-inp-cedula').value = ''; }, 1500);
 }
 
-// ══════════════════════ VERIFICAR APROBACION ═══════════════════════
-async function peVerificarAprobacion(cedFmt) {
-  const { data } = await sb.from('dirigentes').select('activo').eq('cedula', cedFmt).maybeSingle();
-  return data?.activo === true;
-}
-
-// ══════════════════════════════ RECUPERAR PIN ══════════════════════════
+// RECUPERAR PIN
 async function peEnviarRecuperacion() {
-  const email = document.getElementById('pe-rec-email').value.trim();
+  var email = document.getElementById('pe-rec-email').value.trim();
   if (!email) { peErr('pe-err-recuperar', 'Ingresa tu email'); return; }
   if (sb) {
-    const { data: dir, error: dirErr } = await sb.rpc('recuperar_por_email', { p_email: email });
-    if (dirErr || !dir || dir.length === 0) { peErr('pe-err-recuperar', 'Este email no está registrado en el sistema'); return; }
-    const { error } = await sb.auth.signInWithOtp({
-      email: email,
-      options: { shouldCreateUser: true }
-    });
-    if (error) { peErr('pe-err-recuperar', 'No se pudo enviar el código: ' + error.message); return; }
+    var dir = (await sb.rpc('recuperar_por_email', { p_email: email })).data;
+    var dirErr = (await sb.rpc('recuperar_por_email', { p_email: email })).error;
+    if (dirErr || !dir || dir.length === 0) { peErr('pe-err-recuperar', 'Este email no est\u00e1 registrado en el sistema'); return; }
+    var error = (await sb.auth.signInWithOtp({ email: email, options: { shouldCreateUser: true } })).error;
+    if (error) { peErr('pe-err-recuperar', 'No se pudo enviar el c\u00f3digo: ' + error.message); return; }
   }
   document.getElementById('pe-rec-email-box').style.display = 'none';
   document.getElementById('pe-rec-codigo-box').style.display = 'block';
 }
+
 async function peConfirmarRecuperacion() {
-  const email = document.getElementById('pe-rec-email').value.trim();
-  const codigo = document.getElementById('pe-rec-codigo').value.trim();
-  const pin = ['pe-rp0','pe-rp1','pe-rp2','pe-rp3'].map(id => document.getElementById(id).value).join('');
-  if (codigo.length < 6) { peErr('pe-err-recuperar', 'Ingresa el código de 6 dígitos'); return; }
+  var email = document.getElementById('pe-rec-email').value.trim();
+  var codigo = document.getElementById('pe-rec-codigo').value.trim();
+  var pin = ['pe-rp0','pe-rp1','pe-rp2','pe-rp3'].map(function(id){ return document.getElementById(id).value; }).join('');
+  if (codigo.length < 6) { peErr('pe-err-recuperar', 'Ingresa el c\u00f3digo de 6 d\u00edgitos'); return; }
   if (pin.length < 4) { peErr('pe-err-recuperar', 'Ingresa tu nuevo PIN'); return; }
-if (sb) {
-    const result = await window.authHelper.recoverPin(email, codigo, pin, 'magiclink');
-    if (!result.ok) {
-      peErr('pe-err-recuperar', result.error || 'Error al actualizar PIN');
-      return;
-    }
+  if (sb) {
+    var result = await window.authHelper.recoverPin(email, codigo, pin, 'magiclink');
+    if (!result.ok) { peErr('pe-err-recuperar', result.error || 'Error al actualizar PIN'); return; }
     if (result.session) {
-      const claims = result.user || {};
-      const sess = {
-        cedula: claims.cedula || E.cedFmt,
-        nombre: E.nombre,
-        zona: claims.zona || E.zona,
-        municipio: claims.municipio || E.municipio,
+      var claims = result.user || {};
+      var sess = {
+        cedula: claims.cedula || E.cedFmt, nombre: E.nombre,
+        zona: claims.zona || E.zona, municipio: claims.municipio || E.municipio,
         rol: claims.role || 'dirigente_base',
         token: result.session.access_token,
-        auth_user_id: result.user?.id,
+        auth_user_id: result.user ? result.user.id : null,
       };
       peGuardarSesion(sess);
     }
-    if (result.user?.cedula) E.cedFmt = result.user.cedula;
+    if (result.user && result.user.cedula) E.cedFmt = result.user.cedula;
   }
-  peToast('✅ PIN actualizado', 'ok');
-  setTimeout(() => peIrStep('pe-step-portal'), 1500);
+  peToast('PIN actualizado', 'ok');
+  setTimeout(function(){ peIrStep('pe-step-portal'); }, 1500);
 }
-
-// ═══════════ SESIÓN ═══════════
+// SESION
 function peGuardarSesion(data) {
-  const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
+  var sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
   localStorage.setItem(sk, JSON.stringify({ cedula: data.cedula, nombre: data.nombre, zona: data.zona, municipio: data.municipio, rol: data.rol, token: data.token, auth_user_id: data.auth_user_id || null, foto_url: data.foto_url || null, foto_base64: data.foto_base64 || null, rolDeseado: E.rolDeseado || null, expires: Date.now() + 86400000 }));
   if (typeof auditLogger !== 'undefined' && _sb) {
     auditLogger.init(_sb, { cedula: data.cedula, nombre: data.nombre, rol: data.rol });
-    auditLogger.login(data.token?.startsWith('demo-') ? 'demo' : 'auth');
+    auditLogger.login(data.token && data.token.startsWith('demo-') ? 'demo' : 'auth');
   }
 }
 
-// ═══════════ ZONAS ═══════════
+// ZONAS
 function peCargarZonasReg() {
-  const mun = document.getElementById('pe-reg-municipio').value;
-  const sel = document.getElementById('pe-reg-zona');
+  var mun = document.getElementById('pe-reg-municipio').value;
+  var sel = document.getElementById('pe-reg-zona');
   sel.innerHTML = '<option value="">Selecciona zona...</option>';
-  if (ZONAS[mun]) ZONAS[mun].forEach(z => { const op = document.createElement('option'); op.value = z; op.textContent = z; sel.appendChild(op); });
+  if (ZONAS[mun]) ZONAS[mun].forEach(function(z){ var op = document.createElement('option'); op.value = z; op.textContent = z; sel.appendChild(op); });
 }
 
-// ═══════════ UTILS ═══════════
+// UTILS
 function peFmtCedula(input) {
-  let v = input.value.replace(/\D/g, '');
+  var v = input.value.replace(/\D/g, '');
   if (v.length > 11) v = v.slice(0, 11);
   if (v.length > 10) v = v.slice(0,3)+'-'+v.slice(3,10)+'-'+v.slice(10);
   else if (v.length > 3) v = v.slice(0,3)+'-'+v.slice(3);
   input.value = v;
 }
-function peMover(el, n) { if (el.value && n !== null) document.getElementById('pe-p'+n)?.focus(); }
-function peMoverN(el, n) { if (el.value && n !== null) { const ids=['pe-np0','pe-np1','pe-np2','pe-np3','pe-np4','pe-np5','pe-np6','pe-np7']; document.getElementById(ids[n])?.focus(); } }
-function peMoverR(el, n) { if (el.value && n !== null) document.getElementById('pe-rp'+n)?.focus(); }
-function peHashPin(pin) { let h=0; for(let i=0;i<pin.length;i++) h=Math.imul(31,h)+pin.charCodeAt(i)|0; return h.toString(36); }
-function peErr(id, msg) { const el=document.getElementById(id); if(el){el.textContent=msg;el.style.display='block';} }
-function peHide(id) { const el=document.getElementById(id); if(el) el.style.display='none'; }
-let _tt; function peToast(msg, tipo) { const el=document.getElementById('toast'); clearTimeout(_tt); el.textContent=msg; el.className='toast toast-'+tipo; el.style.display='block'; _tt=setTimeout(()=>el.style.display='none',3000); }
+function peMover(el, n) { if (el.value && n !== null) { var t=document.getElementById('pe-p'+n); if(t) t.focus(); } }
+function peMoverN(el, n) { if (el.value && n !== null) { var ids=['pe-np0','pe-np1','pe-np2','pe-np3','pe-np4','pe-np5','pe-np6','pe-np7']; var t=document.getElementById(ids[n]); if(t) t.focus(); } }
+function peMoverR(el, n) { if (el.value && n !== null) { var t=document.getElementById('pe-rp'+n); if(t) t.focus(); } }
+function peHashPin(pin) { var h=0; for(var i=0;i<pin.length;i++) h=Math.imul(31,h)+pin.charCodeAt(i)|0; return h.toString(36); }
+function peErr(id, msg) { var el=document.getElementById(id); if(el){el.textContent=msg;el.style.display='block';} }
+function peHide(id) { var el=document.getElementById(id); if(el) el.style.display='none'; }
+var _tt;
+function peToast(msg, tipo) { var el=document.getElementById('toast'); clearTimeout(_tt); el.textContent=msg; el.className='toast toast-'+tipo; el.style.display='block'; _tt=setTimeout(function(){ el.style.display='none'; },3000); }
 
-// Expose
+// EXPOSE
 window.abrirPortalElectoral = abrirPortalElectoral;
 window.cerrarPortalElectoral = cerrarPortalElectoral;
 window.peIrStep = peIrStep;
@@ -1493,31 +1324,65 @@ window.peFmtCedula = peFmtCedula;
 window.peMover = peMover;
 window.peMoverN = peMoverN;
 window.peMoverR = peMoverR;
-window.abrirModalMas = abrirModalMas;
-window.cerrarModalMas = cerrarModalMas;
 
-// Auto-abrir portal si llega con ?portal=1 (enlaces externos)
+// NEW INTERACTIVITY
+// Scroll handler for navbar
+window.addEventListener('scroll', function() {
+  var nav = document.getElementById('mainNav');
+  if (nav) {
+    if (window.scrollY > 40) { nav.classList.add('scrolled'); }
+    else { nav.classList.remove('scrolled'); }
+  }
+}, { passive: true });
+
+// Click-outside handler for mas dropdown
+document.addEventListener('mousedown', function(e) {
+  var dropdown = document.getElementById('masDropdown');
+  if (dropdown && !dropdown.contains(e.target)) {
+    var menu = document.getElementById('masMenu');
+    if (menu) menu.classList.remove('open');
+    var btn = dropdown.querySelector('.mas-btn');
+    if (btn) btn.classList.remove('open');
+  }
+});
+
+// Toggle mas menu
+function toggleMasMenu() {
+  var menu = document.getElementById('masMenu');
+  var btn = document.querySelector('.mas-btn');
+  if (menu) menu.classList.toggle('open');
+  if (btn) btn.classList.toggle('open');
+}
+window.toggleMasMenu = toggleMasMenu;
+
+// Mobile menu toggle
+function toggleMobileMenu() {
+  var menu = document.getElementById('mobileMenu');
+  if (menu) menu.classList.toggle('open');
+}
+window.toggleMobileMenu = toggleMobileMenu;
+
+// SCROLL REVEAL
+function initScrollReveal() {
+  var reveals = document.querySelectorAll('.reveal');
+  if (!reveals.length) return;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.06, rootMargin: '0px 0px -80px 0px' });
+  reveals.forEach(function(el) { obs.observe(el); });
+}
+
+// AUTO-LOGIN / LOGOUT
 window.addEventListener('DOMContentLoaded', function() {
-  const params = new URLSearchParams(window.location.search);
+  initScrollReveal();
+  var params = new URLSearchParams(window.location.search);
   if (params.get('portal') === '1') abrirPortalElectoral(params.get('registro') === '1' ? 'registro' : undefined);
 });
 </script>
-
-<!-- MODAL "MÁS" -->
-<div class="modal-mas-overlay" id="modal-mas" onclick="if(event.target===this)cerrarModalMas()">
-  <div class="modal-mas">
-    <button class="modal-mas-close" onclick="cerrarModalMas()" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
-    <h3>Explora SISTEPARD</h3>
-    <a href="index.html" class="modal-mas-item">
-      <div class="mm-icon"><i class="fa-solid fa-house"></i></div>
-      <div class="mm-text"><h4>Inicio</h4><p>Portada y plataforma</p></div>
-    </a>
-    <a href="geografia.html" class="modal-mas-item">
-      <div class="mm-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-      <div class="mm-text"><h4>Geografía</h4><p>Municipios y estructura territorial</p></div>
-    </a>
-  </div>
-</div>
-
 </body>
 </html>

@@ -6,6 +6,25 @@
 
 window.authHelper = {
   /**
+   * Login con Google OAuth via Supabase
+   * @returns {Promise<void>}
+   */
+  async loginWithGoogle() {
+    try {
+      const config = window.SUPABASE_CONFIG;
+      if (!config || !_sb) return alert('Configuración no disponible');
+      const { error } = await _sb.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin + window.location.pathname
+        }
+      });
+      if (error) alert('Error: ' + error.message);
+    } catch (err) {
+      alert('Error de conexión');
+    }
+  },
+  /**
    * Login seguro — envía PIN al backend, el backend construye el password
    * @param {string} cedula - Cédula del usuario
    * @param {string} pin - PIN de 4-6 dígitos
