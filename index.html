@@ -1182,14 +1182,7 @@ function peIrA(destino) {
         }
       } catch(e) {}
     }
-    if (!E.cedFmt) {
-      E.rolDeseado = 'dirigente';
-      document.getElementById('pe-ced-titulo').textContent = '🤝 Identifícate';
-      document.getElementById('pe-ced-sub').textContent = 'Necesitamos tu cédula para acceder a tu perfil';
-      peIrStep('pe-step-cedula');
-      setTimeout(() => document.getElementById('pe-inp-cedula').focus(), 300);
-      return;
-    }
+    // Siempre ir a dirigentes.html — allá se resuelve la cédula por email si hace falta
     window.location.href = 'dirigentes.html';
   } else if (destino === 'candidatos') {
     peAccederCandidato();

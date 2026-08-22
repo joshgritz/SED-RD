@@ -2564,10 +2564,17 @@ window.addEventListener('DOMContentLoaded', async function() {
     try {
       const { data: existingSession } = await sb.auth.getSession();
       if (!existingSession?.session) {
-        await sb.auth.setSession({
-          access_token: sesionGuardada.token,
-          refresh_token: sesionGuardada.refresh_token || ''
-        });
+        if (sesionGuardada.refresh_token) {
+          await sb.auth.setSession({
+            access_token: sesionGuardada.token,
+            refresh_token: sesionGuardada.refresh_token
+          });
+        } else {
+          await sb.auth.setSession({
+            access_token: sesionGuardada.token,
+            refresh_token: ''
+          });
+        }
       }
     } catch(e) { console.warn('[AUTH] setSession fallback failed:', e); }
   }
