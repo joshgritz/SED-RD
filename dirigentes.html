@@ -56,8 +56,8 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
   overflow: hidden; border: 2px solid var(--accent-2);
 }
 .sidebar-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-.sidebar-nombre { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.2; }
-.sidebar-rol { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.sidebar-nombre { font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.2; }
+.sidebar-rol { font-size: 13px; color: var(--muted); margin-top: 2px; }
 .sidebar-nav { flex: 1; padding: 12px 0; overflow-y: auto; }
 .nav-group-heading {
   font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase;
@@ -65,7 +65,7 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 }
 .nav-item {
   display: flex; align-items: center; gap: 12px; padding: 10px 20px;
-  cursor: pointer; transition: all 0.15s; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.15s; font-size: 15px; font-weight: 600;
   color: var(--muted); text-decoration: none; border-left: 3px solid transparent;
 }
 .nav-item:hover { background: var(--bg); color: var(--text); }
@@ -76,7 +76,7 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .nav-item .nav-icon { font-size: 18px; width: 22px; text-align: center; }
 .nav-item .nav-badge {
   margin-left: auto; background: var(--accent); color: white;
-  font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 10px;
+  font-size: 12px; font-weight: 800; padding: 2px 8px; border-radius: 10px;
 }
 .sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--border); }
 .sidebar-footer .nav-item { padding: 10px 0; border-left: none; color: #ef4444; }
@@ -90,7 +90,7 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
   padding: 14px 24px; display: flex; align-items: center; justify-content: space-between;
   position: sticky; top: 0; z-index: 50;
 }
-.topbar-breadcrumb { font-size: 13px; color: var(--muted); font-weight: 600; }
+.topbar-breadcrumb { font-size: 15px; color: var(--muted); font-weight: 600; }
 .topbar-breadcrumb span { color: var(--text); font-weight: 800; }
 .topbar-logout {
   background: none; border: 1px solid var(--border); border-radius: 8px;
@@ -130,14 +130,14 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
   box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 16px;
   border: 1px solid var(--border);
 }
-.card-title { font-size: 13px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
+.card-title { font-size: 15px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
 
 /* ── INPUTS ── */
 .campo { margin-bottom: 14px; }
-.campo label { display: block; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+.campo label { display: block; font-size: 13px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
 .campo input, .campo select {
   width: 100%; padding: 13px 16px; border: 2px solid #e2e8f0; border-radius: 12px;
-  font-size: 16px; outline: none; transition: border 0.2s; background: white;
+  font-size: 17px; outline: none; transition: border 0.2s; background: white;
   font-family: inherit;
 }
 .campo input:focus, .campo select:focus { border-color: var(--azul); }
@@ -151,7 +151,7 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 /* ── BOTONES ── */
 .btn {
   width: 100%; padding: 15px; border: none; border-radius: 14px;
-  font-size: 15px; font-weight: 800; cursor: pointer; transition: all 0.15s;
+  font-size: 17px; font-weight: 800; cursor: pointer; transition: all 0.15s;
   margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 8px;
   touch-action: manipulation;
 }
@@ -162,7 +162,7 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .btn-gris  { background: #e2e8f0; color: #475569; }
 .btn-oro   { background: var(--oro); color: white; }
 .btn-sm {
-  padding: 10px 16px; font-size: 13px; border-radius: 10px;
+  padding: 10px 16px; font-size: 15px; border-radius: 10px;
   border: none; cursor: pointer; font-weight: 700; touch-action: manipulation;
 }
 
@@ -193,9 +193,9 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .menu-card.rojo  { border-color: var(--rojo); }
 .menu-card.verde { border-color: var(--verde); }
 .menu-card.oro   { border-color: var(--oro); }
-.menu-card .mc-icon { font-size: 32px; margin-bottom: 8px; }
-.menu-card .mc-label { font-size: 12px; font-weight: 800; color: var(--texto); line-height: 1.3; }
-.menu-card .mc-sub { font-size: 10px; color: #94a3b8; margin-top: 3px; }
+.menu-card .mc-icon { font-size: 36px; margin-bottom: 8px; }
+.menu-card .mc-label { font-size: 15px; font-weight: 800; color: var(--texto); line-height: 1.3; }
+.menu-card .mc-sub { font-size: 12px; color: #94a3b8; margin-top: 3px; }
 
 /* ── MIEMBRO ITEM ── */
 .miembro-item {
@@ -204,8 +204,8 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 }
 .miembro-num { width: 28px; height: 28px; background: var(--azul); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; flex-shrink: 0; }
 .miembro-data { flex: 1; }
-.miembro-nombre { font-size: 13px; font-weight: 700; }
-.miembro-cedula { font-size: 11px; color: #94a3b8; font-family: monospace; }
+.miembro-nombre { font-size: 15px; font-weight: 700; }
+.miembro-cedula { font-size: 13px; color: #94a3b8; font-family: monospace; }
 .miembro-del { background: none; border: none; color: #ef4444; font-size: 18px; cursor: pointer; padding: 4px; touch-action: manipulation; }
 
 /* ── BARRA PROGRESO ── */
@@ -213,7 +213,7 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .barra-fill { height: 100%; border-radius: 999px; background: var(--verde); transition: width 0.4s; }
 
 /* ── BADGE ── */
-.badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 800; }
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
 .badge-verde { background: #dcfce7; color: #166534; }
 .badge-azul  { background: #dbeafe; color: #1e40af; }
 .badge-rojo  { background: #fee2e2; color: #991b1b; }
@@ -228,13 +228,13 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .estructura-item:active { transform: scale(0.98); }
 .estructura-item.activa { border-color: var(--verde); background: #f0fdf4; }
 .ei-top { display: flex; justify-content: space-between; align-items: center; }
-.ei-nombre { font-size: 14px; font-weight: 800; }
-.ei-cargo  { font-size: 11px; color: #64748b; margin-top: 2px; }
+.ei-nombre { font-size: 16px; font-weight: 800; }
+.ei-cargo  { font-size: 13px; color: #64748b; margin-top: 2px; }
 
 /* ── ALERTA ── */
 .alerta {
   position: fixed; bottom: 20px; left: 16px; right: 16px; max-width: 440px; margin: 0 auto;
-  padding: 14px 18px; border-radius: 14px; font-size: 14px; font-weight: 700;
+  padding: 14px 18px; border-radius: 14px; font-size: 16px; font-weight: 700;
   z-index: 9999; animation: slideUp 0.3s ease; text-align: center;
 }
 @keyframes slideUp { from { transform: translateY(20px); opacity:0; } to { transform: translateY(0); opacity:1; } }
@@ -310,32 +310,22 @@ window.initGoogleMaps = function() {
 <div id="p-dashboard" class="pantalla activa">
 
     <!-- Bienvenida -->
-    <h2 id="dash-bienvenida" style="font-size:20px;font-weight:800;margin-bottom:2px">—</h2>
-    <p id="dash-subtitulo" style="font-size:12px;color:var(--muted);margin-bottom:14px">—</p>
-
-    <!-- Tarjeta perfil -->
-    <div class="perfil-card">
-      <div class="perfil-foto" id="dash-foto">👤</div>
-      <div>
-        <div class="perfil-nombre" id="dash-nombre">—</div>
-        <div class="perfil-cedula" id="dash-cedula">—</div>
-        <div class="perfil-zona" id="dash-zona">—</div>
-      </div>
-    </div>
+    <h2 id="dash-bienvenida" style="font-size:26px;font-weight:800;margin-bottom:4px">—</h2>
+    <p id="dash-subtitulo" style="font-size:15px;color:var(--muted);margin-bottom:18px">—</p>
 
     <!-- Estadísticas rápidas -->
     <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:16px">
-      <div class="card" style="padding:12px; text-align:center; margin:0">
-        <div id="dash-comite-count" style="font-size:24px; font-weight:900; color:var(--azul)">0</div>
-        <div style="font-size:10px; color:#94a3b8; font-weight:700">COMITÉ</div>
+      <div class="card" style="padding:14px; text-align:center; margin:0">
+        <div id="dash-comite-count" style="font-size:28px; font-weight:900; color:var(--azul)">0</div>
+        <div style="font-size:13px; color:#94a3b8; font-weight:700">COMITÉ</div>
       </div>
-      <div class="card" style="padding:12px; text-align:center; margin:0">
-        <div id="dash-estructura-badge" style="font-size:20px">—</div>
-        <div style="font-size:10px; color:#94a3b8; font-weight:700">ESTRUCTURA</div>
+      <div class="card" style="padding:14px; text-align:center; margin:0">
+        <div id="dash-estructura-badge" style="font-size:22px">—</div>
+        <div style="font-size:13px; color:#94a3b8; font-weight:700">ESTRUCTURA</div>
       </div>
-      <div class="card" style="padding:12px; text-align:center; margin:0">
-        <div id="dash-estatus-badge" style="font-size:11px; font-weight:800; color:var(--verde)">ACTIVO</div>
-        <div style="font-size:10px; color:#94a3b8; font-weight:700; margin-top:2px">ESTATUS</div>
+      <div class="card" style="padding:14px; text-align:center; margin:0">
+        <div id="dash-estatus-badge" style="font-size:13px; font-weight:800; color:var(--verde)">ACTIVO</div>
+        <div style="font-size:13px; color:#94a3b8; font-weight:700; margin-top:2px">ESTATUS</div>
       </div>
     </div>
 
@@ -355,9 +345,9 @@ window.initGoogleMaps = function() {
 
     <!-- Alerta estatutaria si comité incompleto -->
     <div id="dash-alerta-comite" style="display:none; background:#fef3c7; border:2px solid #fcd34d; border-radius:14px; padding:14px; margin-bottom:16px">
-      <div style="font-weight:800; font-size:13px; color:#92400e">⚠️ Comité de Base Incompleto</div>
-      <div style="font-size:12px; color:#b45309; margin-top:4px">Según el Art. 89 de los Estatutos necesitas mínimo 10 miembros en tu comité de base.</div>
-      <button class="btn btn-oro" style="margin-top:10px; margin-bottom:0" onclick="irA('p-comite')">Completar ahora →</button>
+      <div style="font-weight:800; font-size:16px; color:#92400e">⚠️ Comité de Base Incompleto</div>
+      <div style="font-size:14px; color:#b45309; margin-top:4px">Según el Art. 89 de los Estatutos necesitas mínimo 10 miembros en tu comité de base.</div>
+      <button class="btn btn-oro" style="margin-top:10px; margin-bottom:0; font-size:17px" onclick="irA('p-comite')">Completar ahora →</button>
     </div>
 
 </div>
@@ -366,8 +356,8 @@ window.initGoogleMaps = function() {
      PANTALLA 4: COMITÉ DE BASE
 ════════════════════════════════════════ -->
 <div id="p-comite" class="pantalla">
-  <h2 style="font-size:20px;font-weight:800;margin-bottom:4px">👥 Mi Comité de Base</h2>
-  <p style="font-size:12px;color:var(--muted);margin-bottom:16px">Solo tú puedes ver esta información</p>
+  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">👥 Mi Comité de Base</h2>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:16px">Solo tú puedes ver esta información</p>
 
     <!-- Progreso -->
     <div class="card mt16">
@@ -418,8 +408,8 @@ window.initGoogleMaps = function() {
      PANTALLA 5: MI ESTRUCTURA
 ════════════════════════════════════════ -->
 <div id="p-estructura" class="pantalla">
-  <h2 style="font-size:20px;font-weight:800;margin-bottom:4px">🏛️ Mi Estructura</h2>
-  <p style="font-size:12px;color:var(--muted);margin-bottom:16px">Candidatos y organizaciones</p>
+  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">🏛️ Mi Estructura</h2>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:16px">Candidatos y organizaciones</p>
 
     <!-- Estructura actual -->
     <div class="card mt16">
@@ -448,8 +438,8 @@ window.initGoogleMaps = function() {
      PANTALLA 6: MI ZONA
 ════════════════════════════════════════ -->
 <div id="p-zona" class="pantalla">
-  <h2 style="font-size:20px;font-weight:800;margin-bottom:4px">📍 Mi Zona</h2>
-  <p id="zona-header-sub" style="font-size:12px;color:var(--muted);margin-bottom:16px"></p>
+  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">📍 Mi Zona</h2>
+  <p id="zona-header-sub" style="font-size:14px;color:var(--muted);margin-bottom:16px"></p>
     <div class="card mt16">
       <div class="card-title">Información de tu Zona</div>
       <div id="zona-info"></div>
@@ -465,8 +455,8 @@ window.initGoogleMaps = function() {
      PANTALLA: MI UBICACIÓN
 ════════════════════════════════════════ -->
 <div id="p-mapa" class="pantalla">
-  <h2 style="font-size:20px;font-weight:800;margin-bottom:4px">📌 Mi Ubicación</h2>
-  <p style="font-size:12px;color:var(--muted);margin-bottom:16px">El presidente verá este punto en su mapa</p>
+  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">📌 Mi Ubicación</h2>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:16px">El presidente verá este punto en su mapa</p>
 
     <!-- Instrucción -->
     <div style="background:#eff6ff; border:2px solid #bfdbfe; border-radius:14px; padding:14px; margin-top:16px; margin-bottom:16px">
@@ -513,8 +503,8 @@ window.initGoogleMaps = function() {
      PANTALLA: ESTRATEGIA ELECTORAL
 ════════════════════════════════════════ -->
 <div id="p-estrategia" class="pantalla">
-  <h2 style="font-size:20px;font-weight:800;margin-bottom:4px">🗺️ Estrategia Electoral</h2>
-  <p id="est-subtitulo" style="font-size:12px;color:var(--muted);margin-bottom:16px">Mi Comité · Distribución</p>
+  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">🗺️ Estrategia Electoral</h2>
+  <p id="est-subtitulo" style="font-size:14px;color:var(--muted);margin-bottom:16px">Mi Comité · Distribución</p>
 
     <!-- Resumen general -->
     <div class="card mt16">
@@ -561,8 +551,8 @@ window.initGoogleMaps = function() {
      PANTALLA 7: MI PERFIL
 ════════════════════════════════════════ -->
 <div id="p-perfil" class="pantalla">
-  <h2 style="font-size:20px;font-weight:800;margin-bottom:4px">⚙️ Mi Perfil</h2>
-  <p style="font-size:12px;color:var(--muted);margin-bottom:16px">Configuración de tu cuenta</p>
+  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">⚙️ Mi Perfil</h2>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:16px">Configuración de tu cuenta</p>
     <div class="card mt16">
       <div class="card-title">Mis Datos</div>
       <div id="perfil-datos"></div>
@@ -1423,7 +1413,7 @@ async function editarMiembro(cedula) {
 
         <!-- Botón guardar -->
         <button onclick="guardarEdicionMiembro('${cedula}')"
-          style="padding:14px;background:var(--color-primary);color:white;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
+          style="padding:14px;background:var(--color-primary);color:white;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
           💾 Guardar cambios
         </button>
 
@@ -2002,6 +1992,38 @@ async function actualizarPerfil() {
   renderPerfil();
 }
 
+async function subirFotoPerfil(input) {
+  const file = input.files?.[0];
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) { alerta('La imagen debe ser menor a 2MB', 'error'); return; }
+  try {
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+      const base64 = e.target.result;
+      sesion.foto_base64 = base64;
+      sesion.foto_url = null;
+
+      if (sb && sesion.cedula) {
+        const cedLimpia = sesion.cedula.replace(/\D/g,'');
+        const cedFmt = cedLimpia.length === 11
+          ? cedLimpia.slice(0,3)+'-'+cedLimpia.slice(3,10)+'-'+cedLimpia.slice(10)
+          : sesion.cedula;
+        const { error } = await sb.from('dirigentes')
+          .update({ foto_base64: base64, foto_url: null })
+          .eq('cedula', cedFmt);
+        if (error) { alerta('Error guardando foto: ' + error.message, 'error'); return; }
+      }
+      guardarSesionLocal(sesion);
+      alerta('✅ Foto actualizada', 'ok');
+      renderPerfil();
+      actualizarDashboard();
+    };
+    reader.readAsDataURL(file);
+  } catch(err) {
+    alerta('Error procesando imagen', 'error');
+  }
+}
+
 function renderPerfil() {
   if (!sesion) return;
 
@@ -2044,6 +2066,13 @@ function renderPerfil() {
       <!-- Foto centrada -->
       <div style="text-align:center; padding:16px 0 8px">
         ${fotoHtml}
+        <div style="margin-top:12px">
+          <input type="file" id="foto-input-perfil" accept="image/*" style="display:none" onchange="subirFotoPerfil(this)">
+          <button onclick="document.getElementById('foto-input-perfil').click()"
+            style="padding:8px 20px;background:var(--accent);color:white;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:6px">
+            📷 Cambiar foto
+          </button>
+        </div>
         <div style="margin-top:10px; display:flex; gap:6px; justify-content:center; flex-wrap:wrap">
           ${cargoHtml}
         </div>
@@ -2051,35 +2080,35 @@ function renderPerfil() {
 
       <!-- Nombre y cédula (solo lectura) -->
       <div style="padding:12px; background:#f8fafc; border-radius:10px">
-        <div style="font-size:10px; color:#94a3b8; font-weight:800; text-transform:uppercase">Nombre completo</div>
-        <div style="font-size:15px; font-weight:800; margin-top:4px">${sesion.nombre}</div>
+        <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">Nombre completo</div>
+        <div style="font-size:18px; font-weight:800; margin-top:4px">${sesion.nombre}</div>
       </div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
         <div style="padding:12px; background:#f8fafc; border-radius:10px">
-          <div style="font-size:10px; color:#94a3b8; font-weight:800; text-transform:uppercase">Cédula</div>
-          <div style="font-size:13px; font-family:monospace; font-weight:700; margin-top:4px">${sesion.cedula}</div>
+          <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">Cédula</div>
+          <div style="font-size:15px; font-family:monospace; font-weight:700; margin-top:4px">${sesion.cedula}</div>
         </div>
         <div style="padding:12px; background:#f8fafc; border-radius:10px">
-          <div style="font-size:10px; color:#94a3b8; font-weight:800; text-transform:uppercase">Edad</div>
-          <div style="font-size:15px; font-weight:800; margin-top:4px; color:${edadStr==='—'?'#94a3b8':'#1e293b'}">${edadStr}</div>
+          <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">Edad</div>
+          <div style="font-size:18px; font-weight:800; margin-top:4px; color:${edadStr==='—'?'#94a3b8':'#1e293b'}">${edadStr}</div>
         </div>
       </div>
 
       <!-- Zona y municipio (solo lectura) -->
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
         <div style="padding:12px; background:#f8fafc; border-radius:10px">
-          <div style="font-size:10px; color:#94a3b8; font-weight:800; text-transform:uppercase">Zona</div>
-          <div style="font-size:14px; font-weight:800; margin-top:4px">${sesion.zona || '—'}</div>
+          <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">Zona</div>
+          <div style="font-size:16px; font-weight:800; margin-top:4px">${sesion.zona || '—'}</div>
         </div>
         <div style="padding:12px; background:#f8fafc; border-radius:10px">
-          <div style="font-size:10px; color:#94a3b8; font-weight:800; text-transform:uppercase">Municipio</div>
-          <div style="font-size:14px; font-weight:800; margin-top:4px">${sesion.municipio || '—'}</div>
+          <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">Municipio</div>
+          <div style="font-size:16px; font-weight:800; margin-top:4px">${sesion.municipio || '—'}</div>
         </div>
       </div>
 
       <!-- Plancha -->
       <div style="padding:12px; background:#f8fafc; border-radius:10px">
-        <div style="font-size:10px; color:#94a3b8; font-weight:800; text-transform:uppercase; margin-bottom:6px">Plancha / Estructura</div>
+        <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase; margin-bottom:6px">Plancha / Estructura</div>
         ${planchaHtml}
       </div>
 
@@ -2087,14 +2116,14 @@ function renderPerfil() {
       <!-- Fecha nacimiento y género -->
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
         <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-          <div style="font-size:10px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Fecha Nacimiento</div>
+          <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Fecha Nacimiento</div>
           <input id="edit-fnac" type="date" value="${sesion.fecha_nacimiento || ''}"
-            style="width:100%;border:2px solid #dbeafe;border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none;background:white">
+            style="width:100%;border:2px solid #dbeafe;border-radius:8px;padding:8px 12px;font-size:15px;font-family:inherit;outline:none;background:white">
         </div>
         <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-          <div style="font-size:10px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Género</div>
+          <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Género</div>
           <select id="edit-sexo"
-            style="width:100%;border:2px solid #dbeafe;border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none;background:white">
+            style="width:100%;border:2px solid #dbeafe;border-radius:8px;padding:8px 12px;font-size:15px;font-family:inherit;outline:none;background:white">
             <option value="">—</option>
             <option value="M" ${sesion.sexo==='M'?'selected':''}>♂ Masculino</option>
             <option value="F" ${sesion.sexo==='F'?'selected':''}>♀ Femenino</option>
@@ -2104,40 +2133,40 @@ function renderPerfil() {
 
       <!-- Teléfono -->
       <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-        <div style="font-size:10px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Teléfono</div>
+        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Teléfono</div>
         <input id="edit-telefono" type="tel" value="${sesion.telefono || ''}" placeholder="809-000-0000"
-          style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:white">
+          style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:16px;font-family:inherit;outline:none;background:white">
       </div>
 
       <!-- Email -->
       <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-        <div style="font-size:10px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Email</div>
+        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Email</div>
         <input id="edit-email" type="email" value="${sesion.email || ''}" placeholder="tucorreo@email.com"
-          style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:white">
+          style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:16px;font-family:inherit;outline:none;background:white">
       </div>
 
       <!-- Sector -->
       <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-        <div style="font-size:10px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Sector / Barrio</div>
+        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Sector / Barrio</div>
         <input id="edit-sector" type="text" value="${sesion.sector || ''}" placeholder="Ej: Los Multis, El Centro..."
-          style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:white">
+          style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:16px;font-family:inherit;outline:none;background:white">
       </div>
 
       <!-- Dirigente desde -->
       <div style="padding:12px; background:#f8fafc; border-radius:10px">
-        <div style="font-size:10px; color:#94a3b8; font-weight:800; text-transform:uppercase">Dirigente desde</div>
-        <div style="font-size:13px; font-weight:700; margin-top:4px">${desde}</div>
+        <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">Dirigente desde</div>
+        <div style="font-size:15px; font-weight:700; margin-top:4px">${desde}</div>
       </div>
 
       <!-- Botón guardar -->
       <button onclick="actualizarPerfil()"
-        style="padding:14px;background:var(--color-primary);color:white;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
+        style="padding:14px;background:var(--color-primary);color:white;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
         💾 Guardar cambios
       </button>
 
       <!-- Botón ver ubicación -->
       <button onclick="irA('p-mapa')"
-        style="padding:12px;background:#0ea5e9;color:white;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
+        style="padding:12px;background:#0ea5e9;color:white;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
         📌 Ver / Editar mi ubicación en el mapa
       </button>
 
