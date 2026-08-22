@@ -17,7 +17,7 @@ function initSb() {
   if (!_sb && window.supabase) {
     _sb = window.supabase.createClient(
       (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co',
-      (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
+      (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlsaXZqYWlleGZxcGlvcXJvemxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MDM3MDIsImV4cCI6MjA4OTA3OTcwMn0.roSS80657SVesSk2EbyPueXEQK-4REG2raXWcbGRNU4'
     );
   }
   return _sb;
@@ -204,7 +204,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:#1e293
 <script>
 let sb = initSb();
 if (!sb && window.supabase) {
-  sb = window.supabase.createClient((window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co', (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW');
+  sb = window.supabase.createClient((window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co', (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlsaXZqYWlleGZxcGlvcXJvemxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MDM3MDIsImV4cCI6MjA4OTA3OTcwMn0.roSS80657SVesSk2EbyPueXEQK-4REG2raXWcbGRNU4');
 }
 
 let sesion = null;

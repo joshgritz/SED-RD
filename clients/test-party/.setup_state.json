@@ -1,0 +1,23 @@
+{
+  "client_id": "test-party",
+  "started_at": "2026-08-10T22:55:56.218Z",
+  "current_step": 14,
+  "completed_steps": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    8,
+    9,
+    10,
+    12,
+    13,
+    4,
+    7,
+    11,
+    14
+  ],
+  "failed_step": null,
+  "error": null
+}

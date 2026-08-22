@@ -6,5 +6,5 @@
 
 window.SUPABASE_CONFIG = Object.freeze({
   URL: 'https://ilivjaiexfqpioqrozlf.supabase.co',
-  ANON_KEY: 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW'
+  ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlsaXZqYWlleGZxcGlvcXJvemxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MDM3MDIsImV4cCI6MjA4OTA3OTcwMn0.roSS80657SVesSk2EbyPueXEQK-4REG2raXWcbGRNU4'
 });

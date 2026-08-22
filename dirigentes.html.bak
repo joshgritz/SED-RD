@@ -12,132 +12,60 @@
 <script src="js/audit.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+  #mapa-dirigente { height: 320px; border-radius: 14px; overflow: hidden; z-index: 1; }
+  .leaflet-popup-content { font-family: 'Segoe UI', sans-serif; }
 :root {
-  --bg: #e9ecf3;
-  --surface: #ffffff;
-  --surface-2: #dde2ed;
-  --border: rgba(0,30,80,0.10);
-  --text: #0a1128;
-  --muted: #4a5568;
-  --accent: #4f7df5;
-  --accent-2: #a78bfa;
-  --azul: #4f7df5;
-  --azul2: #3b6ad9;
-  --rojo: #C8102E;
-  --oro: #F5A623;
+  --azul: var(--color-primary, #003087);
+  --azul2: #1a4fa8;
+  --rojo: var(--color-secondary, #C8102E);
+  --oro: var(--color-accent, #F5A623);
   --verde: #16a34a;
-  --gris: #e9ecf3;
-  --texto: #0a1128;
+  --gris: #f0f4f8;
+  --texto: #1e293b;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--gris); color: var(--texto); min-height: 100vh; }
 
 /* ── PANTALLAS ── */
-.pantalla { display: none; }
+.pantalla { display: none; min-height: 100vh; }
 .pantalla.activa { display: block; }
 
-/* ── APP LAYOUT ── */
-.app-layout { display: flex; min-height: 100vh; }
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, var(--azul), #001a4d);
+  color: white; padding: 20px 20px 24px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.header::after {
+  content: ''; position: absolute; bottom: -30px; right: -30px;
+  width: 120px; height: 120px; background: rgba(200,16,46,0.2); border-radius: 50%;
+}
+.header .logo {
+  width: 56px; height: 56px; background: white; border-radius: 50%;
+  margin: 0 auto 12px; display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 900; color: var(--rojo);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25); position: relative; z-index:1;
+}
+.header h1 { font-size: 20px; font-weight: 900; position: relative; z-index:1; }
+.header p  { font-size: 12px; opacity: 0.7; margin-top: 3px; position: relative; z-index:1; }
 
-/* ── SIDEBAR ── */
-.sidebar {
-  width: 260px; background: var(--surface); border-right: 1px solid var(--border);
-  display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0;
-  z-index: 100; transition: transform 0.3s ease;
-}
-.sidebar-header { padding: 24px 20px; border-bottom: 1px solid var(--border); }
-.sidebar-user { display: flex; align-items: center; gap: 12px; }
-.sidebar-avatar {
-  width: 44px; height: 44px; border-radius: 50%; background: var(--accent);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px; font-weight: 800; color: white; flex-shrink: 0;
-  overflow: hidden; border: 2px solid var(--accent-2);
-}
-.sidebar-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-.sidebar-nombre { font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.2; }
-.sidebar-rol { font-size: 13px; color: var(--muted); margin-top: 2px; }
-.sidebar-nav { flex: 1; padding: 12px 0; overflow-y: auto; }
-.nav-group-heading {
-  font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase;
-  letter-spacing: 0.8px; padding: 16px 20px 6px;
-}
-.nav-item {
-  display: flex; align-items: center; gap: 12px; padding: 10px 20px;
-  cursor: pointer; transition: all 0.15s; font-size: 15px; font-weight: 600;
-  color: var(--muted); text-decoration: none; border-left: 3px solid transparent;
-}
-.nav-item:hover { background: var(--bg); color: var(--text); }
-.nav-item.active {
-  background: rgba(79,125,245,0.08); color: var(--accent);
-  border-left-color: var(--accent); font-weight: 700;
-}
-.nav-item .nav-icon { font-size: 18px; width: 22px; text-align: center; }
-.nav-item .nav-badge {
-  margin-left: auto; background: var(--accent); color: white;
-  font-size: 12px; font-weight: 800; padding: 2px 8px; border-radius: 10px;
-}
-.sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--border); }
-.sidebar-footer .nav-item { padding: 10px 0; border-left: none; color: #ef4444; }
-
-/* ── MAIN CONTENT ── */
-.main-content { flex: 1; margin-left: 260px; min-height: 100vh; display: flex; flex-direction: column; }
-
-/* ── TOPBAR ── */
-.topbar {
-  background: var(--surface); border-bottom: 1px solid var(--border);
-  padding: 14px 24px; display: flex; align-items: center; justify-content: space-between;
-  position: sticky; top: 0; z-index: 50;
-}
-.topbar-breadcrumb { font-size: 15px; color: var(--muted); font-weight: 600; }
-.topbar-breadcrumb span { color: var(--text); font-weight: 800; }
-.topbar-logout {
-  background: none; border: 1px solid var(--border); border-radius: 8px;
-  padding: 6px 14px; font-size: 12px; font-weight: 700; color: var(--muted);
-  cursor: pointer; transition: all 0.15s;
-}
-.topbar-logout:hover { background: #fee2e2; color: #dc2626; border-color: #fecaca; }
-
-/* ── CONTENT AREA ── */
-.content-area { padding: 24px; flex: 1; }
-
-/* ── BURGER / MOBILE ── */
-.burger-btn {
-  display: none; position: fixed; top: 12px; left: 12px; z-index: 150;
-  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
-  width: 40px; height: 40px; font-size: 20px; cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-.sidebar-overlay {
-  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4);
-  z-index: 99;
-}
-.sidebar-overlay.open { display: block; }
-
-@media (max-width: 768px) {
-  .sidebar { transform: translateX(-100%); }
-  .sidebar.open { transform: translateX(0); }
-  .main-content { margin-left: 0; }
-  .burger-btn { display: flex; align-items: center; justify-content: center; }
-  .topbar { padding-left: 60px; }
-  .content-area { padding: 16px; }
-}
+/* ── CONTENEDOR ── */
+.wrap { padding: 20px 16px; max-width: 480px; margin: 0 auto; }
 
 /* ── CARD ── */
 .card {
-  background: var(--surface); border-radius: 16px; padding: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 16px;
-  border: 1px solid var(--border);
+  background: white; border-radius: 16px; padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 16px;
 }
-.card-title { font-size: 15px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
+.card-title { font-size: 13px; font-weight: 800; color: var(--azul); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
 
 /* ── INPUTS ── */
 .campo { margin-bottom: 14px; }
-.campo label { display: block; font-size: 13px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+.campo label { display: block; font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
 .campo input, .campo select {
   width: 100%; padding: 13px 16px; border: 2px solid #e2e8f0; border-radius: 12px;
-  font-size: 17px; outline: none; transition: border 0.2s; background: white;
+  font-size: 16px; outline: none; transition: border 0.2s; background: white;
   font-family: inherit;
 }
 .campo input:focus, .campo select:focus { border-color: var(--azul); }
@@ -151,7 +79,7 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 /* ── BOTONES ── */
 .btn {
   width: 100%; padding: 15px; border: none; border-radius: 14px;
-  font-size: 17px; font-weight: 800; cursor: pointer; transition: all 0.15s;
+  font-size: 15px; font-weight: 800; cursor: pointer; transition: all 0.15s;
   margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 8px;
   touch-action: manipulation;
 }
@@ -162,7 +90,7 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .btn-gris  { background: #e2e8f0; color: #475569; }
 .btn-oro   { background: var(--oro); color: white; }
 .btn-sm {
-  padding: 10px 16px; font-size: 15px; border-radius: 10px;
+  padding: 10px 16px; font-size: 13px; border-radius: 10px;
   border: none; cursor: pointer; font-weight: 700; touch-action: manipulation;
 }
 
@@ -193,9 +121,9 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .menu-card.rojo  { border-color: var(--rojo); }
 .menu-card.verde { border-color: var(--verde); }
 .menu-card.oro   { border-color: var(--oro); }
-.menu-card .mc-icon { font-size: 36px; margin-bottom: 8px; }
-.menu-card .mc-label { font-size: 15px; font-weight: 800; color: var(--texto); line-height: 1.3; }
-.menu-card .mc-sub { font-size: 12px; color: #94a3b8; margin-top: 3px; }
+.menu-card .mc-icon { font-size: 32px; margin-bottom: 8px; }
+.menu-card .mc-label { font-size: 12px; font-weight: 800; color: var(--texto); line-height: 1.3; }
+.menu-card .mc-sub { font-size: 10px; color: #94a3b8; margin-top: 3px; }
 
 /* ── MIEMBRO ITEM ── */
 .miembro-item {
@@ -204,8 +132,8 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 }
 .miembro-num { width: 28px; height: 28px; background: var(--azul); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; flex-shrink: 0; }
 .miembro-data { flex: 1; }
-.miembro-nombre { font-size: 15px; font-weight: 700; }
-.miembro-cedula { font-size: 13px; color: #94a3b8; font-family: monospace; }
+.miembro-nombre { font-size: 13px; font-weight: 700; }
+.miembro-cedula { font-size: 11px; color: #94a3b8; font-family: monospace; }
 .miembro-del { background: none; border: none; color: #ef4444; font-size: 18px; cursor: pointer; padding: 4px; touch-action: manipulation; }
 
 /* ── BARRA PROGRESO ── */
@@ -213,7 +141,7 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .barra-fill { height: 100%; border-radius: 999px; background: var(--verde); transition: width 0.4s; }
 
 /* ── BADGE ── */
-.badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 800; }
 .badge-verde { background: #dcfce7; color: #166534; }
 .badge-azul  { background: #dbeafe; color: #1e40af; }
 .badge-rojo  { background: #fee2e2; color: #991b1b; }
@@ -228,13 +156,13 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .estructura-item:active { transform: scale(0.98); }
 .estructura-item.activa { border-color: var(--verde); background: #f0fdf4; }
 .ei-top { display: flex; justify-content: space-between; align-items: center; }
-.ei-nombre { font-size: 16px; font-weight: 800; }
-.ei-cargo  { font-size: 13px; color: #64748b; margin-top: 2px; }
+.ei-nombre { font-size: 14px; font-weight: 800; }
+.ei-cargo  { font-size: 11px; color: #64748b; margin-top: 2px; }
 
 /* ── ALERTA ── */
 .alerta {
   position: fixed; bottom: 20px; left: 16px; right: 16px; max-width: 440px; margin: 0 auto;
-  padding: 14px 18px; border-radius: 14px; font-size: 16px; font-weight: 700;
+  padding: 14px 18px; border-radius: 14px; font-size: 14px; font-weight: 700;
   z-index: 9999; animation: slideUp 0.3s ease; text-align: center;
 }
 @keyframes slideUp { from { transform: translateY(20px); opacity:0; } to { transform: translateY(0); opacity:1; } }
@@ -242,9 +170,12 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .alerta-error { background: #dc2626; color: white; }
 .alerta-info  { background: var(--azul); color: white; }
 
-/* ── MAP ── */
-#mapa-dirigente { height: 340px; border-radius: 14px; overflow: hidden; z-index: 1; }
-.leaflet-popup-content { font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif; }
+/* ── NAV BACK ── */
+.nav-back {
+  display: flex; align-items: center; gap: 10px; padding: 14px 16px;
+  background: rgba(0,0,0,0.15); cursor: pointer; touch-action: manipulation;
+}
+.nav-back span { font-size: 14px; font-weight: 700; color: white; }
 
 /* ── SEPARADOR ── */
 .sep { height: 1px; background: #e2e8f0; margin: 16px 0; }
@@ -252,6 +183,9 @@ body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif; back
 .texto-muted  { color: #94a3b8; font-size: 13px; }
 .mt8 { margin-top: 8px; }
 .mt16 { margin-top: 16px; }
+</style>
+<style>
+  #mapa-dirigente { height: 340px; border-radius: 14px; overflow: hidden; z-index: 1; }
 </style>
 <script>
 window.initGoogleMaps = function() {
@@ -266,66 +200,44 @@ window.initGoogleMaps = function() {
 </head>
 <body>
 
-<button class="burger-btn" onclick="toggleSidebar()">☰</button>
-<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
-
-<div class="app-layout">
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <div class="sidebar-user">
-        <div class="sidebar-avatar" id="sidebar-avatar"></div>
-        <div>
-          <div class="sidebar-nombre" id="sidebar-nombre">—</div>
-          <div class="sidebar-rol" id="sidebar-rol">Dirigente</div>
-        </div>
-      </div>
-    </div>
-    <nav class="sidebar-nav">
-      <div class="nav-group-heading">Principal</div>
-      <a class="nav-item active" data-screen="p-dashboard" onclick="irA('p-dashboard')"><span class="nav-icon">📊</span> Dashboard</a>
-      <a class="nav-item" data-screen="p-comite" onclick="irA('p-comite')"><span class="nav-icon">👥</span> Mi Comité <span class="nav-badge" id="sidebar-comite-count">0</span></a>
-      <a class="nav-item" data-screen="p-estructura" onclick="irA('p-estructura')"><span class="nav-icon">🏛️</span> Estructura</a>
-      <div class="nav-group-heading">Territorio</div>
-      <a class="nav-item" data-screen="p-zona" onclick="irA('p-zona')"><span class="nav-icon">📍</span> Mi Zona</a>
-      <a class="nav-item" data-screen="p-mapa" onclick="irA('p-mapa')"><span class="nav-icon">📌</span> Mi Ubicación</a>
-      <a class="nav-item" data-screen="p-estrategia" onclick="irA('p-estrategia')"><span class="nav-icon">🗺️</span> Estrategia</a>
-      <div class="nav-group-heading">Cuenta</div>
-      <a class="nav-item" data-screen="p-perfil" onclick="irA('p-perfil')"><span class="nav-icon">⚙️</span> Mi Perfil</a>
-    </nav>
-    <div class="sidebar-footer">
-      <a class="nav-item" onclick="cerrarSesion()"><span class="nav-icon">🔒</span> Cerrar Sesión</a>
-    </div>
-  </aside>
-
-  <div class="main-content">
-    <div class="topbar">
-      <div class="topbar-breadcrumb">SISTEPARD / <span id="topbar-title">Dashboard</span></div>
-      <button class="topbar-logout" onclick="cerrarSesion()">🔒 Salir</button>
-    </div>
-    <div class="content-area">
-
 <!-- ════════════════════════════════════════
      PANTALLA: DASHBOARD DIRIGENTE
 ════════════════════════════════════════ -->
 <div id="p-dashboard" class="pantalla activa">
+  <div class="header">
+    <div style="display:flex; justify-content:space-between; align-items:center; position:relative; z-index:1">
+      <span style="font-size:12px; opacity:0.6">Portal Dirigentes</span>
+      <button class="btn-sm btn-gris" style="background:rgba(255,255,255,0.2); color:white; font-size:11px" onclick="cerrarSesion()">Salir 🔒</button>
+    </div>
+    <div style="width:48px;height:48px;background:var(--color-primary, #003087);border-radius:50%;border:3px solid var(--color-secondary, #C8102E);display:flex;align-items:center;justify-content:center;margin:8px auto 10px;box-shadow:0 2px 8px rgba(0,0,0,0.3)"><span style="font-family:Arial Black,sans-serif;font-weight:900;font-size:12px;color:white;letter-spacing:1px" id="dash-logo-text"></span></div>
+    <h1 id="dash-bienvenida">¡Bienvenido!</h1>
+    <p id="dash-subtitulo"></p>
+  </div>
+  <div class="wrap">
 
-    <!-- Bienvenida -->
-    <h2 id="dash-bienvenida" style="font-size:26px;font-weight:800;margin-bottom:4px">—</h2>
-    <p id="dash-subtitulo" style="font-size:15px;color:var(--muted);margin-bottom:18px">—</p>
+    <!-- Tarjeta perfil -->
+    <div class="perfil-card mt16">
+      <div class="perfil-foto" id="dash-foto">👤</div>
+      <div>
+        <div class="perfil-nombre" id="dash-nombre">—</div>
+        <div class="perfil-cedula" id="dash-cedula">—</div>
+        <div class="perfil-zona" id="dash-zona">—</div>
+      </div>
+    </div>
 
     <!-- Estadísticas rápidas -->
     <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:16px">
-      <div class="card" style="padding:14px; text-align:center; margin:0">
-        <div id="dash-comite-count" style="font-size:28px; font-weight:900; color:var(--azul)">0</div>
-        <div style="font-size:13px; color:#94a3b8; font-weight:700">COMITÉ</div>
+      <div class="card" style="padding:12px; text-align:center; margin:0">
+        <div id="dash-comite-count" style="font-size:24px; font-weight:900; color:var(--azul)">0</div>
+        <div style="font-size:10px; color:#94a3b8; font-weight:700">COMITÉ</div>
       </div>
-      <div class="card" style="padding:14px; text-align:center; margin:0">
-        <div id="dash-estructura-badge" style="font-size:22px">—</div>
-        <div style="font-size:13px; color:#94a3b8; font-weight:700">ESTRUCTURA</div>
+      <div class="card" style="padding:12px; text-align:center; margin:0">
+        <div id="dash-estructura-badge" style="font-size:20px">—</div>
+        <div style="font-size:10px; color:#94a3b8; font-weight:700">ESTRUCTURA</div>
       </div>
-      <div class="card" style="padding:14px; text-align:center; margin:0">
-        <div id="dash-estatus-badge" style="font-size:13px; font-weight:800; color:var(--verde)">ACTIVO</div>
-        <div style="font-size:13px; color:#94a3b8; font-weight:700; margin-top:2px">ESTATUS</div>
+      <div class="card" style="padding:12px; text-align:center; margin:0">
+        <div id="dash-estatus-badge" style="font-size:11px; font-weight:800; color:var(--verde)">ACTIVO</div>
+        <div style="font-size:10px; color:#94a3b8; font-weight:700; margin-top:2px">ESTATUS</div>
       </div>
     </div>
 
@@ -345,19 +257,26 @@ window.initGoogleMaps = function() {
 
     <!-- Alerta estatutaria si comité incompleto -->
     <div id="dash-alerta-comite" style="display:none; background:#fef3c7; border:2px solid #fcd34d; border-radius:14px; padding:14px; margin-bottom:16px">
-      <div style="font-weight:800; font-size:16px; color:#92400e">⚠️ Comité de Base Incompleto</div>
-      <div style="font-size:14px; color:#b45309; margin-top:4px">Según el Art. 89 de los Estatutos necesitas mínimo 10 miembros en tu comité de base.</div>
-      <button class="btn btn-oro" style="margin-top:10px; margin-bottom:0; font-size:17px" onclick="irA('p-comite')">Completar ahora →</button>
+      <div style="font-weight:800; font-size:13px; color:#92400e">⚠️ Comité de Base Incompleto</div>
+      <div style="font-size:12px; color:#b45309; margin-top:4px">Según el Art. 89 de los Estatutos necesitas mínimo 10 miembros en tu comité de base.</div>
+      <button class="btn btn-oro" style="margin-top:10px; margin-bottom:0" onclick="irA('p-comite')">Completar ahora →</button>
     </div>
 
+  </div>
 </div>
 
 <!-- ════════════════════════════════════════
      PANTALLA 4: COMITÉ DE BASE
 ════════════════════════════════════════ -->
 <div id="p-comite" class="pantalla">
-  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">👥 Mi Comité de Base</h2>
-  <p style="font-size:14px;color:var(--muted);margin-bottom:16px">Solo tú puedes ver esta información</p>
+  <div class="header">
+    <div class="nav-back" onclick="irA('p-dashboard')"><span>← Dashboard</span></div>
+    <div style="padding: 8px 20px 4px; position:relative; z-index:1">
+      <h1>👥 Mi Comité de Base</h1>
+      <p>Solo tú puedes ver esta información</p>
+    </div>
+  </div>
+  <div class="wrap">
 
     <!-- Progreso -->
     <div class="card mt16">
@@ -402,14 +321,21 @@ window.initGoogleMaps = function() {
       </div>
     </div>
 
+  </div>
 </div>
 
 <!-- ════════════════════════════════════════
      PANTALLA 5: MI ESTRUCTURA
 ════════════════════════════════════════ -->
 <div id="p-estructura" class="pantalla">
-  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">🏛️ Mi Estructura</h2>
-  <p style="font-size:14px;color:var(--muted);margin-bottom:16px">Candidatos y organizaciones</p>
+  <div class="header">
+    <div class="nav-back" onclick="irA('p-dashboard')"><span>← Dashboard</span></div>
+    <div style="padding: 8px 20px 4px; position:relative; z-index:1">
+      <h1>🏛️ Mi Estructura</h1>
+      <p>Candidatos y organizaciones</p>
+    </div>
+  </div>
+  <div class="wrap">
 
     <!-- Estructura actual -->
     <div class="card mt16">
@@ -432,14 +358,21 @@ window.initGoogleMaps = function() {
       <div id="precandidatos-lista"></div>
     </div>
 
+  </div>
 </div>
 
 <!-- ════════════════════════════════════════
      PANTALLA 6: MI ZONA
 ════════════════════════════════════════ -->
 <div id="p-zona" class="pantalla">
-  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">📍 Mi Zona</h2>
-  <p id="zona-header-sub" style="font-size:14px;color:var(--muted);margin-bottom:16px"></p>
+  <div class="header">
+    <div class="nav-back" onclick="irA('p-dashboard')"><span>← Dashboard</span></div>
+    <div style="padding: 8px 20px 4px; position:relative; z-index:1">
+      <h1>📍 Mi Zona</h1>
+      <p id="zona-header-sub"></p>
+    </div>
+  </div>
+  <div class="wrap">
     <div class="card mt16">
       <div class="card-title">Información de tu Zona</div>
       <div id="zona-info"></div>
@@ -448,15 +381,21 @@ window.initGoogleMaps = function() {
       <div class="card-title">👥 Dirigentes en tu Zona</div>
       <div id="zona-dirigentes"></div>
     </div>
-
+  </div>
 </div>
 
 <!-- ════════════════════════════════════════
      PANTALLA: MI UBICACIÓN
 ════════════════════════════════════════ -->
 <div id="p-mapa" class="pantalla">
-  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">📌 Mi Ubicación</h2>
-  <p style="font-size:14px;color:var(--muted);margin-bottom:16px">El presidente verá este punto en su mapa</p>
+  <div class="header">
+    <div class="nav-back" onclick="irA('p-dashboard')"><span>← Dashboard</span></div>
+    <div style="padding:8px 20px 4px; position:relative; z-index:1">
+      <h1>📌 Mi Ubicación</h1>
+      <p>El presidente verá este punto en su mapa</p>
+    </div>
+  </div>
+  <div class="wrap">
 
     <!-- Instrucción -->
     <div style="background:#eff6ff; border:2px solid #bfdbfe; border-radius:14px; padding:14px; margin-top:16px; margin-bottom:16px">
@@ -497,14 +436,21 @@ window.initGoogleMaps = function() {
       <button class="btn btn-gris" onclick="irA('p-dashboard')">← Volver</button>
     </div>
 
+  </div>
 </div>
 
 <!-- ════════════════════════════════════════
      PANTALLA: ESTRATEGIA ELECTORAL
 ════════════════════════════════════════ -->
 <div id="p-estrategia" class="pantalla">
-  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">🗺️ Estrategia Electoral</h2>
-  <p id="est-subtitulo" style="font-size:14px;color:var(--muted);margin-bottom:16px">Mi Comité · Distribución</p>
+  <div class="header">
+    <div class="nav-back" onclick="irA('p-dashboard')"><span>← Dashboard</span></div>
+    <div style="padding: 8px 20px 4px; position:relative; z-index:1">
+      <h1>🗺️ Estrategia Electoral</h1>
+      <p id="est-subtitulo">Mi Comité · Distribución</p>
+    </div>
+  </div>
+  <div class="wrap">
 
     <!-- Resumen general -->
     <div class="card mt16">
@@ -545,14 +491,21 @@ window.initGoogleMaps = function() {
       <div id="est-lista-mapa"></div>
     </div>
 
+  </div>
 </div>
 
 <!-- ════════════════════════════════════════
      PANTALLA 7: MI PERFIL
 ════════════════════════════════════════ -->
 <div id="p-perfil" class="pantalla">
-  <h2 style="font-size:24px;font-weight:800;margin-bottom:6px">⚙️ Mi Perfil</h2>
-  <p style="font-size:14px;color:var(--muted);margin-bottom:16px">Configuración de tu cuenta</p>
+  <div class="header">
+    <div class="nav-back" onclick="irA('p-dashboard')"><span>← Dashboard</span></div>
+    <div style="padding: 8px 20px 4px; position:relative; z-index:1">
+      <h1>⚙️ Mi Perfil</h1>
+      <p>Configuración de tu cuenta</p>
+    </div>
+  </div>
+  <div class="wrap">
     <div class="card mt16">
       <div class="card-title">Mis Datos</div>
       <div id="perfil-datos"></div>
@@ -580,11 +533,8 @@ window.initGoogleMaps = function() {
       <button class="btn btn-azul" onclick="cambiarPin()">Actualizar PIN</button>
     </div>
     <button class="btn btn-rojo" onclick="cerrarSesion()">🔒 Cerrar Sesión</button>
-
-  </div> <!-- /p-perfil -->
-    </div> <!-- /content-area -->
-  </div> <!-- /main-content -->
-</div> <!-- /app-layout -->
+  </div>
+</div>
 
 <!-- Contenedor de alertas -->
 <div id="alertas-box"></div>
@@ -594,7 +544,7 @@ window.initGoogleMaps = function() {
 // SUPABASE CONFIG
 // ══════════════════════════════════════════════════════
     const SUPA_URL = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.URL) || 'https://ilivjaiexfqpioqrozlf.supabase.co';
-    const SUPA_KEY = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlsaXZqYWlleGZxcGlvcXJvemxmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MDM3MDIsImV4cCI6MjA4OTA3OTcwMn0.roSS80657SVesSk2EbyPueXEQK-4REG2raXWcbGRNU4';
+    const SUPA_KEY = (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.ANON_KEY) || 'sb_publishable_eB0cnaHRLh4tjAavfiwIjg_DreuwecW';
 let sb = null;
 
 function initSupabase() {
@@ -656,33 +606,6 @@ function hashPin(pin) {
 async function cargarDatosCompletos() {
   if (!sesion || !sb) return;
   try {
-    // Si cedula es null (login con Google sin identificación), buscar por email
-    if (!sesion.cedula) {
-      try {
-        const { data: authData } = await sb.auth.getUser();
-        const email = authData?.user?.email;
-        if (email) {
-          const { data: dirByEmail } = await sb.from('dirigentes')
-            .select('cedula, nombre_completo, foto_url, foto_base64, sector, telefono, email, latitud, longitud, ubicacion_nombre')
-            .eq('email', email).maybeSingle();
-          if (dirByEmail) {
-            sesion.cedula = dirByEmail.cedula;
-            sesion.nombre = sesion.nombre || dirByEmail.nombre_completo;
-            sesion.foto_url = dirByEmail.foto_url || null;
-            sesion.foto_base64 = dirByEmail.foto_base64 || null;
-            sesion.sector = dirByEmail.sector;
-            sesion.telefono = dirByEmail.telefono;
-            sesion.email = dirByEmail.email;
-            sesion.latitud = dirByEmail.latitud;
-            sesion.longitud = dirByEmail.longitud;
-            sesion.ubicacion_nombre = dirByEmail.ubicacion_nombre;
-            guardarSesionLocal(sesion);
-          }
-        }
-      } catch(e) { console.warn('Lookup por email falló:', e); }
-    }
-    if (!sesion.cedula) return;
-
     // Cargar datos completos del dirigente
     const cedLimpiaLoad = sesion.cedula.replace(/\D/g,'');
     const cedFmtLoad = cedLimpiaLoad.length === 11
@@ -757,7 +680,7 @@ async function cargarDatosCompletos() {
 
 // Guardar token de sesión localmente
 function guardarSesionLocal(datos) {
-  const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
+  const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion';
   localStorage.setItem(sk, JSON.stringify({
     cedula:  datos.cedula,
     token:   datos.token,
@@ -766,21 +689,15 @@ function guardarSesionLocal(datos) {
     municipio: datos.municipio,
     sector:  datos.sector,
     telefono: datos.telefono,
-    email:   datos.email || null,
     foto_url: datos.foto_url || null,
     foto_base64: datos.foto_base64 || null,
-    sexo:    datos.sexo || null,
-    fecha_nacimiento: datos.fecha_nacimiento || null,
-    latitud: datos.latitud || null,
-    longitud: datos.longitud || null,
-    ubicacion_nombre: datos.ubicacion_nombre || null,
     expires: Date.now() + (24 * 60 * 60 * 1000)
   }));
 }
 
 function cargarSesionLocal() {
   try {
-    const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion';
+    const sk = (typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion';
     const raw = localStorage.getItem(sk);
     if (!raw) return null;
     const s = JSON.parse(raw);
@@ -835,19 +752,6 @@ function irA(pantalla) {
   document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
   const el = document.getElementById(pantalla);
   if (el) { el.classList.add('activa'); window.scrollTo(0,0); }
-
-  // Update sidebar active state
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.querySelector('[data-screen="'+pantalla+'"]')?.classList.add('active');
-
-  // Update topbar title
-  const screenNames = { 'p-dashboard':'Dashboard', 'p-comite':'Mi Comité', 'p-estructura':'Mi Estructura', 'p-zona':'Mi Zona', 'p-mapa':'Mi Ubicación', 'p-estrategia':'Estrategia', 'p-perfil':'Mi Perfil' };
-  const topbarTitle = document.getElementById('topbar-title');
-  if (topbarTitle) topbarTitle.textContent = screenNames[pantalla] || pantalla;
-
-  // Close mobile sidebar
-  document.getElementById('sidebar')?.classList.remove('open');
-  document.getElementById('sidebar-overlay')?.classList.remove('open');
 
   // Acciones al entrar
   if (pantalla === 'p-dashboard')  actualizarDashboard();
@@ -1067,22 +971,6 @@ function actualizarDashboard() {
   document.getElementById('dash-nombre').textContent = sesion.nombre;
   document.getElementById('dash-cedula').textContent = sesion.cedula;
   document.getElementById('dash-zona').textContent = sesion.zona + ' — ' + sesion.municipio;
-
-  // Update sidebar
-  document.getElementById('sidebar-nombre').textContent = getNombreCorto(sesion.nombre);
-  document.getElementById('sidebar-comite-count').textContent = (sesion.comite||[]).length;
-
-  // Update sidebar avatar
-  const sidebarAvatar = document.getElementById('sidebar-avatar');
-  if (sesion.foto_url || sesion.foto_base64) {
-    const img = document.createElement('img');
-    img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%';
-    sidebarAvatar.innerHTML = '';
-    sidebarAvatar.appendChild(img);
-    renderFotoAsync(sb, img, sesion.foto_url, sesion.foto_base64);
-  } else {
-    sidebarAvatar.textContent = (sesion.nombre || '??').slice(0,2).toUpperCase();
-  }
 
   // Renderizar foto
   const fotoEl = document.getElementById('dash-foto');
@@ -1446,7 +1334,7 @@ async function editarMiembro(cedula) {
 
         <!-- Botón guardar -->
         <button onclick="guardarEdicionMiembro('${cedula}')"
-          style="padding:14px;background:var(--color-primary);color:white;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
+          style="padding:14px;background:var(--color-primary);color:white;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
           💾 Guardar cambios
         </button>
 
@@ -2025,38 +1913,6 @@ async function actualizarPerfil() {
   renderPerfil();
 }
 
-async function subirFotoPerfil(input) {
-  const file = input.files?.[0];
-  if (!file) return;
-  if (file.size > 2 * 1024 * 1024) { alerta('La imagen debe ser menor a 2MB', 'error'); return; }
-  try {
-    const reader = new FileReader();
-    reader.onload = async function(e) {
-      const base64 = e.target.result;
-      sesion.foto_base64 = base64;
-      sesion.foto_url = null;
-
-      if (sb && sesion.cedula) {
-        const cedLimpia = sesion.cedula.replace(/\D/g,'');
-        const cedFmt = cedLimpia.length === 11
-          ? cedLimpia.slice(0,3)+'-'+cedLimpia.slice(3,10)+'-'+cedLimpia.slice(10)
-          : sesion.cedula;
-        const { error } = await sb.from('dirigentes')
-          .update({ foto_base64: base64, foto_url: null })
-          .eq('cedula', cedFmt);
-        if (error) { alerta('Error guardando foto: ' + error.message, 'error'); return; }
-      }
-      guardarSesionLocal(sesion);
-      alerta('✅ Foto actualizada', 'ok');
-      renderPerfil();
-      actualizarDashboard();
-    };
-    reader.readAsDataURL(file);
-  } catch(err) {
-    alerta('Error procesando imagen', 'error');
-  }
-}
-
 function renderPerfil() {
   if (!sesion) return;
 
@@ -2099,13 +1955,6 @@ function renderPerfil() {
       <!-- Foto centrada -->
       <div style="text-align:center; padding:16px 0 8px">
         ${fotoHtml}
-        <div style="margin-top:12px">
-          <input type="file" id="foto-input-perfil" accept="image/*" style="display:none" onchange="subirFotoPerfil(this)">
-          <button onclick="document.getElementById('foto-input-perfil').click()"
-            style="padding:8px 20px;background:var(--accent);color:white;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:6px">
-            📷 Cambiar foto
-          </button>
-        </div>
         <div style="margin-top:10px; display:flex; gap:6px; justify-content:center; flex-wrap:wrap">
           ${cargoHtml}
         </div>
@@ -2113,35 +1962,35 @@ function renderPerfil() {
 
       <!-- Nombre y cédula (solo lectura) -->
       <div style="padding:12px; background:#f8fafc; border-radius:10px">
-        <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">Nombre completo</div>
-        <div style="font-size:18px; font-weight:800; margin-top:4px">${sesion.nombre}</div>
+        <div style="font-size:10px; color:#94a3b8; font-weight:800; text-transform:uppercase">Nombre completo</div>
+        <div style="font-size:15px; font-weight:800; margin-top:4px">${sesion.nombre}</div>
       </div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
         <div style="padding:12px; background:#f8fafc; border-radius:10px">
-          <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">Cédula</div>
-          <div style="font-size:15px; font-family:monospace; font-weight:700; margin-top:4px">${sesion.cedula}</div>
+          <div style="font-size:10px; color:#94a3b8; font-weight:800; text-transform:uppercase">Cédula</div>
+          <div style="font-size:13px; font-family:monospace; font-weight:700; margin-top:4px">${sesion.cedula}</div>
         </div>
         <div style="padding:12px; background:#f8fafc; border-radius:10px">
-          <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">Edad</div>
-          <div style="font-size:18px; font-weight:800; margin-top:4px; color:${edadStr==='—'?'#94a3b8':'#1e293b'}">${edadStr}</div>
+          <div style="font-size:10px; color:#94a3b8; font-weight:800; text-transform:uppercase">Edad</div>
+          <div style="font-size:15px; font-weight:800; margin-top:4px; color:${edadStr==='—'?'#94a3b8':'#1e293b'}">${edadStr}</div>
         </div>
       </div>
 
       <!-- Zona y municipio (solo lectura) -->
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
         <div style="padding:12px; background:#f8fafc; border-radius:10px">
-          <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">Zona</div>
-          <div style="font-size:16px; font-weight:800; margin-top:4px">${sesion.zona || '—'}</div>
+          <div style="font-size:10px; color:#94a3b8; font-weight:800; text-transform:uppercase">Zona</div>
+          <div style="font-size:14px; font-weight:800; margin-top:4px">${sesion.zona || '—'}</div>
         </div>
         <div style="padding:12px; background:#f8fafc; border-radius:10px">
-          <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">Municipio</div>
-          <div style="font-size:16px; font-weight:800; margin-top:4px">${sesion.municipio || '—'}</div>
+          <div style="font-size:10px; color:#94a3b8; font-weight:800; text-transform:uppercase">Municipio</div>
+          <div style="font-size:14px; font-weight:800; margin-top:4px">${sesion.municipio || '—'}</div>
         </div>
       </div>
 
       <!-- Plancha -->
       <div style="padding:12px; background:#f8fafc; border-radius:10px">
-        <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase; margin-bottom:6px">Plancha / Estructura</div>
+        <div style="font-size:10px; color:#94a3b8; font-weight:800; text-transform:uppercase; margin-bottom:6px">Plancha / Estructura</div>
         ${planchaHtml}
       </div>
 
@@ -2149,14 +1998,14 @@ function renderPerfil() {
       <!-- Fecha nacimiento y género -->
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
         <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-          <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Fecha Nacimiento</div>
+          <div style="font-size:10px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Fecha Nacimiento</div>
           <input id="edit-fnac" type="date" value="${sesion.fecha_nacimiento || ''}"
-            style="width:100%;border:2px solid #dbeafe;border-radius:8px;padding:8px 12px;font-size:15px;font-family:inherit;outline:none;background:white">
+            style="width:100%;border:2px solid #dbeafe;border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none;background:white">
         </div>
         <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-          <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Género</div>
+          <div style="font-size:10px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Género</div>
           <select id="edit-sexo"
-            style="width:100%;border:2px solid #dbeafe;border-radius:8px;padding:8px 12px;font-size:15px;font-family:inherit;outline:none;background:white">
+            style="width:100%;border:2px solid #dbeafe;border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit;outline:none;background:white">
             <option value="">—</option>
             <option value="M" ${sesion.sexo==='M'?'selected':''}>♂ Masculino</option>
             <option value="F" ${sesion.sexo==='F'?'selected':''}>♀ Femenino</option>
@@ -2166,40 +2015,40 @@ function renderPerfil() {
 
       <!-- Teléfono -->
       <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Teléfono</div>
+        <div style="font-size:10px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Teléfono</div>
         <input id="edit-telefono" type="tel" value="${sesion.telefono || ''}" placeholder="809-000-0000"
-          style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:16px;font-family:inherit;outline:none;background:white">
+          style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:white">
       </div>
 
       <!-- Email -->
       <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Email</div>
+        <div style="font-size:10px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Email</div>
         <input id="edit-email" type="email" value="${sesion.email || ''}" placeholder="tucorreo@email.com"
-          style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:16px;font-family:inherit;outline:none;background:white">
+          style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:white">
       </div>
 
       <!-- Sector -->
       <div style="padding:12px; background:#eff6ff; border-radius:10px; border:2px solid #bfdbfe">
-        <div style="font-size:13px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Sector / Barrio</div>
+        <div style="font-size:10px; color:#1d4ed8; font-weight:800; text-transform:uppercase; margin-bottom:6px">✏️ Sector / Barrio</div>
         <input id="edit-sector" type="text" value="${sesion.sector || ''}" placeholder="Ej: Los Multis, El Centro..."
-          style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:16px;font-family:inherit;outline:none;background:white">
+          style="width:100%;padding:10px 14px;border:2px solid #dbeafe;border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:white">
       </div>
 
       <!-- Dirigente desde -->
       <div style="padding:12px; background:#f8fafc; border-radius:10px">
-        <div style="font-size:13px; color:#94a3b8; font-weight:800; text-transform:uppercase">Dirigente desde</div>
-        <div style="font-size:15px; font-weight:700; margin-top:4px">${desde}</div>
+        <div style="font-size:10px; color:#94a3b8; font-weight:800; text-transform:uppercase">Dirigente desde</div>
+        <div style="font-size:13px; font-weight:700; margin-top:4px">${desde}</div>
       </div>
 
       <!-- Botón guardar -->
       <button onclick="actualizarPerfil()"
-        style="padding:14px;background:var(--color-primary);color:white;border:none;border-radius:12px;font-size:17px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
+        style="padding:14px;background:var(--color-primary);color:white;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
         💾 Guardar cambios
       </button>
 
       <!-- Botón ver ubicación -->
       <button onclick="irA('p-mapa')"
-        style="padding:12px;background:#0ea5e9;color:white;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
+        style="padding:12px;background:#0ea5e9;color:white;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;touch-action:manipulation;width:100%">
         📌 Ver / Editar mi ubicación en el mapa
       </button>
 
@@ -2241,7 +2090,7 @@ async function cerrarSesion() {
       .update({ session_token: null, session_expires: null })
       .eq('cedula', sesion.cedula);
   }
-  localStorage.removeItem((typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'prm_sesion');
+  localStorage.removeItem((typeof configLoader !== 'undefined' && configLoader.storageKey) ? configLoader.storageKey('sesion') : 'app_sesion');
   sesion = null;
   window.location.href = 'index.html?from=logout';
 }
@@ -2579,11 +2428,6 @@ window.addEventListener('DOMContentLoaded', async function() {
   window.moverPinCambio       = moverPinCambio;
   window.formatCedula         = formatCedula;
 });
-
-function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('sidebar-overlay').classList.toggle('open');
-}
 </script>
 
 <style id="pracaf-css">
