@@ -980,9 +980,7 @@ function abrirPortalElectoral(modo) {
     peIrStep('pe-step-registro-rol');
   } else {
     E.rolDeseado = null;
-    document.getElementById('pe-ced-titulo').textContent = '\uD83D\uDD0D Identificacion';
-    document.getElementById('pe-ced-sub').textContent = 'Ingresa tu cedula para continuar';
-    peIrStep('pe-step-cedula');
+    peIrStep('pe-step-portal');
     setTimeout(() => document.getElementById('pe-inp-cedula').focus(), 300);
   }
 }
@@ -1068,14 +1066,7 @@ function peEntrarRol(rol) {
     return;
   }
   E.rolDeseado = rol;
-  const titulos = {
-    candidato: '\uD83D\uDDF3 Portal de Candidato', dirigente: '\uD83E\uDD1D Portal de Dirigente',
-    coordinador: '\uD83D\uDD31 Portal de Coordinador', miembro: '\uD83D\uDC65 Portal de Miembro',
-    zona: '\uD83C\uDFDB\uFE0F Portal Zonal', delegado: '\uD83D\uDCCB Portal de Delegado'
-  };
-  document.getElementById('pe-ced-titulo').textContent = titulos[rol] || '\uD83D\uDD0D Identificacion';
-  document.getElementById('pe-ced-sub').textContent = 'Identificate con tu cedula';
-  peIrStep('pe-step-cedula');
+  peIrStep('pe-step-portal');
   setTimeout(() => document.getElementById('pe-inp-cedula').focus(), 300);
 }
 
@@ -1277,7 +1268,7 @@ async function peCompletarRegistro() {
     }
   }
   peToast('Solicitud enviada \u2014 pendiente de aprobacion', 'info');
-  setTimeout(() => { E.rolDeseado = null; peIrStep('pe-step-cedula'); document.getElementById('pe-inp-cedula').value = ''; }, 1500);
+  setTimeout(() => { E.rolDeseado = null; peIrStep('pe-step-portal'); document.getElementById('pe-inp-cedula').value = ''; }, 1500);
 }
 
 
